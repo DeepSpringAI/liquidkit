@@ -716,6 +716,366 @@ a:hover { text-decoration: underline; }
 .dash-welcome h1 { margin: 16px 0 6px; font-size: 32px; }
 .dash-welcome p { margin: 0; color: var(--lk-fg-muted); }
 
+/* ========================================================================== */
+/* iOS / macOS 26 showcase scenes                                             */
+/* ========================================================================== */
+.scene-ios {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background:
+    radial-gradient(60% 50% at 25% 8%, rgba(91, 140, 255, 0.28), transparent 60%),
+    radial-gradient(55% 55% at 85% 92%, rgba(190, 80, 255, 0.24), transparent 60%),
+    var(--lk-bg);
+}
+.scene-mac {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(70% 60% at 50% 0%, rgba(91, 140, 255, 0.22), transparent 65%),
+    radial-gradient(50% 55% at 90% 100%, rgba(40, 200, 180, 0.18), transparent 60%),
+    var(--lk-bg);
+}
+
+/* ---- iOS Settings ---- */
+.ios-settings { padding: 6px 0 40px; }
+.ios-profile .lk-listrow__leading {
+  width: 58px;
+  height: 58px;
+  border-radius: 999px;
+}
+.ios-profile.lk-listrow { padding-block: 11px; }
+
+/* ---- iOS Control Center ---- */
+.cc-wallpaper {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(155deg, #ff8a5b 0%, #c44be0 45%, #3a6cf6 100%);
+}
+.cc {
+  height: 100%;
+  padding: 64px 14px 40px;
+  background: rgba(8, 6, 16, 0.32);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+.cc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 70px;
+  gap: 12px;
+  grid-template-areas:
+    'conn conn bright vol'
+    'conn conn bright vol'
+    'music music music music'
+    't1 t2 t3 t4';
+}
+.cc-conn { grid-area: conn; }
+.cc-bright { grid-area: bright; }
+.cc-vol { grid-area: vol; }
+.cc-music { grid-area: music; }
+.cc-t1 { grid-area: t1; }
+.cc-t2 { grid-area: t2; }
+.cc-t3 { grid-area: t3; }
+.cc-t4 { grid-area: t4; }
+
+.cc-conn .lk-glass__content,
+.cc-music .lk-glass__content,
+.cc-bright .lk-glass__content,
+.cc-vol .lk-glass__content {
+  width: 100%;
+  height: 100%;
+}
+.cc-conn__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+}
+.cc-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background var(--lk-duration-fast) var(--lk-ease),
+    transform var(--lk-press-duration) var(--lk-spring);
+}
+.cc-toggle:active { transform: scale(0.92); }
+
+.cc-bright,
+.cc-vol {
+  position: relative;
+  overflow: hidden;
+}
+.cc-vslider__fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.92);
+  z-index: 0;
+}
+.cc-vslider__icon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.cc-music .lk-glass__content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+}
+.cc-music__art {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  background: linear-gradient(140deg, #5b8cff, #bf5af2);
+}
+.cc-music__meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin-right: auto;
+}
+.cc-music__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cc-music__artist {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.cc-music__controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.cc-music__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+}
+.cc-music__btn:active { background: rgba(255, 255, 255, 0.16); }
+
+.cc-round {
+  justify-self: center;
+  align-self: center;
+  width: 62px !important;
+  height: 62px;
+  color: #fff;
+}
+.cc-round .lk-glass__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- iOS Lock Screen ---- */
+.lock-wallpaper {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(120% 75% at 50% 8%, #4a3a86 0%, #1a1340 48%, #05050f 100%);
+}
+.lock {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 66px 16px 14px;
+  color: #fff;
+}
+.lock__head { text-align: center; }
+.lock__lock {
+  display: inline-flex;
+  opacity: 0.8;
+  margin-bottom: 14px;
+}
+.lock__date {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 0.92;
+  margin-bottom: 2px;
+}
+.lock__time {
+  display: block;
+  font-size: 82px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.lock__notifs {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.lock-notif .lk-glass__content {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 12px;
+  width: 100%;
+}
+.lock-notif__icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: #fff;
+}
+.lock-notif__main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.lock-notif__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.lock-notif__title {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lock-notif__time {
+  flex: 0 0 auto;
+  font-size: 12px;
+  opacity: 0.6;
+}
+.lock-notif__body {
+  font-size: 14px;
+  opacity: 0.88;
+  line-height: 1.35;
+}
+.lock__actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 22px 28px 4px;
+}
+.lock__action {
+  width: 54px !important;
+  height: 54px;
+  color: #fff;
+}
+.lock__action .lk-glass__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- macOS Settings ---- */
+.mac-source {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mac-source__search { padding: 0 2px 10px; }
+.mac-source__title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--lk-label-tertiary);
+  padding: 14px 8px 4px;
+}
+.mac-nav {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 5px 8px;
+  border: 0;
+  background: transparent;
+  border-radius: 7px;
+  color: var(--lk-label);
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--lk-duration-fast) var(--lk-ease);
+}
+.mac-nav:hover { background: var(--lk-fill-quaternary); }
+.mac-nav.is-active { background: var(--lk-accent); color: #fff; }
+.mac-nav__icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  color: #fff;
+}
+.mac-nav.is-active .mac-nav__icon { background: rgba(255, 255, 255, 0.24) !important; }
+.mac-nav__label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mac-pane {
+  padding: 22px 26px 36px;
+  max-width: 720px;
+}
+.mac-pane__title {
+  margin: 0 0 18px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--lk-label);
+}
+.mac-slider {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
 /* --------------------------------------------------------------- responsive */
 
 @media (max-width: 960px) {

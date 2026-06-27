@@ -29,6 +29,12 @@
   width: 100%;
   overflow: hidden; /* clip separators & press highlight to the radius */
 }
+/* the glass surface is inline-flex by default — make it block-level so an
+   inset (width:auto) surface fills its container minus margins instead of
+   shrink-wrapping to the widest row. */
+.lk-list__surface.lk-glass {
+  display: flex;
+}
 .lk-list__surface .lk-glass__content {
   width: 100%;
 }

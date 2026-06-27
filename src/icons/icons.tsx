@@ -214,3 +214,73 @@ export const MoonIcon = createIcon(
   <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" fill="currentColor" stroke="none" />,
   'MoonIcon',
 )
+
+// Device / connectivity (iOS & macOS showcases)
+export const WifiIcon = createIcon(
+  <>
+    <path d="M4.5 9.5a12 12 0 0 1 15 0" />
+    <path d="M7.5 13a7.5 7.5 0 0 1 9 0" />
+    <path d="M10.5 16.5a3 3 0 0 1 3 0" />
+    <path d="M12 20h.01" />
+  </>,
+  'WifiIcon',
+)
+export const BluetoothIcon = createIcon(
+  <path d="m7 7.5 10 9-5 4V3l5 4-10 9" />,
+  'BluetoothIcon',
+)
+export const AirplaneIcon = createIcon(
+  <path
+    d="M12 3c.6 0 1 .8 1 1.8v4.9l8 4.6v1.9l-8-2.3v4.4l2 1.3v1.5l-3-.9-3 .9v-1.5l2-1.3v-4.4l-8 2.3v-1.9l8-4.6V4.8C11 3.8 11.4 3 12 3z"
+    fill="currentColor"
+    stroke="none"
+  />,
+  'AirplaneIcon',
+)
+export const CameraIcon = createIcon(
+  <>
+    <path d="M4 7h3l1.8-2.2h6.4L17 7h3a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z" />
+    <circle cx="12" cy="13" r="3.4" />
+  </>,
+  'CameraIcon',
+)
+export const FlashlightIcon = createIcon(
+  <>
+    <path d="M7 3h10l-1.4 5.2a2 2 0 0 0-.6 1.4V20a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2V9.6a2 2 0 0 0-.6-1.4z" />
+    <path d="M8 6.5h8" />
+  </>,
+  'FlashlightIcon',
+)
+export const MusicIcon = createIcon(
+  <>
+    <circle cx="6" cy="18" r="3" />
+    <circle cx="17" cy="16" r="3" />
+    <path d="M9 18V5l11-2v13" />
+  </>,
+  'MusicIcon',
+)
+export const BatteryIcon = createIcon(
+  <>
+    <rect x="2" y="8" width="16" height="8" rx="2.5" />
+    <path d="M20.5 11v2" />
+    <rect x="4" y="10" width="10" height="4" rx="1" fill="currentColor" stroke="none" />
+  </>,
+  'BatteryIcon',
+)
+export const SignalIcon = createIcon(
+  <>
+    <rect x="2" y="15" width="3" height="5" rx="1" fill="currentColor" stroke="none" />
+    <rect x="8" y="11" width="3" height="9" rx="1" fill="currentColor" stroke="none" />
+    <rect x="14" y="7" width="3" height="13" rx="1" fill="currentColor" stroke="none" />
+    <rect x="20" y="3" width="3" height="17" rx="1" fill="currentColor" stroke="none" />
+  </>,
+  'SignalIcon',
+)
+export const VolumeIcon = createIcon(
+  <>
+    <path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor" />
+    <path d="M16.5 9a3.5 3.5 0 0 1 0 6" />
+    <path d="M19 6.5a7 7 0 0 1 0 11" />
+  </>,
+  'VolumeIcon',
+)

@@ -1,13 +1,21 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import {
+  AirplaneIcon,
   ArrowUpRightIcon,
+  Avatar,
+  BellIcon,
+  BluetoothIcon,
   Button,
+  CameraIcon,
   Card,
   ChatIcon,
+  ClockIcon,
   CodeIcon,
   CommandBar,
+  cx,
   DashboardShell,
   Dock,
+  FlashlightIcon,
   GlassIcon,
   GlobeIcon,
   GridIcon,
@@ -16,15 +24,31 @@ import {
   ImageIcon,
   LandingHero,
   LiquidGlass,
+  List,
+  ListRow,
+  LockIcon,
+  MacWindow,
+  MoonIcon,
   NavBar,
+  NavigationBar,
+  PhoneFrame,
   PlayIcon,
   PlusIcon,
   PricingPage,
+  SearchField,
+  Select,
   SendIcon,
+  SettingsIcon,
+  SignalIcon,
+  Slider,
   SparkleIcon,
+  SunIcon,
+  Switch,
   ThemeToggle,
   VideoIcon,
+  VolumeIcon,
   WaitlistPage,
+  WifiIcon,
 } from 'liquidkit'
 
 export function LandingScene() {
@@ -186,6 +210,336 @@ export function DashboardScene() {
   )
 }
 
+/* ============================================================================
+   iOS 26 — Settings (grouped list inside an iPhone frame)
+   ========================================================================== */
+export function SettingsScene() {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [airplane, setAirplane] = useState(false)
+  const [wifi, setWifi] = useState(true)
+
+  return (
+    <div className="scene-ios">
+      <PhoneFrame contentRef={scrollRef}>
+        <NavigationBar
+          title="Settings"
+          scrollTarget={scrollRef}
+          collapseAt={6}
+          style={{ paddingTop: 44, position: 'sticky', top: 0, zIndex: 5 }}
+          search={<SearchField placeholder="Search" />}
+        />
+        <div className="ios-settings">
+          <List>
+            <ListRow
+              className="ios-profile"
+              leading={<Avatar name="Hamid Zargham" size={58} />}
+              title="Hamidreza Zargham"
+              subtitle="Apple Account, iCloud, and more"
+              onClick={() => {}}
+            />
+          </List>
+
+          <List>
+            <ListRow
+              leading={<AirplaneIcon />}
+              leadingFill="var(--lk-system-orange)"
+              title="Airplane Mode"
+              trailing={<Switch checked={airplane} onChange={setAirplane} />}
+            />
+            <ListRow
+              leading={<WifiIcon />}
+              leadingFill="var(--lk-system-blue)"
+              title="Wi-Fi"
+              detail={wifi ? 'Aurora' : 'Off'}
+              onClick={() => setWifi((v) => !v)}
+            />
+            <ListRow
+              leading={<BluetoothIcon />}
+              leadingFill="var(--lk-system-blue)"
+              title="Bluetooth"
+              detail="On"
+              onClick={() => {}}
+            />
+            <ListRow
+              leading={<SignalIcon />}
+              leadingFill="var(--lk-system-green)"
+              title="Cellular"
+              onClick={() => {}}
+            />
+          </List>
+
+          <List>
+            <ListRow leading={<BellIcon />} leadingFill="var(--lk-system-red)" title="Notifications" onClick={() => {}} />
+            <ListRow leading={<VolumeIcon />} leadingFill="var(--lk-system-pink)" title="Sounds & Haptics" onClick={() => {}} />
+            <ListRow leading={<MoonIcon />} leadingFill="var(--lk-system-indigo)" title="Focus" onClick={() => {}} />
+            <ListRow leading={<ClockIcon />} leadingFill="var(--lk-system-indigo)" title="Screen Time" onClick={() => {}} />
+          </List>
+
+          <List>
+            <ListRow leading={<SettingsIcon />} leadingFill="var(--lk-system-gray)" title="General" onClick={() => {}} />
+            <ListRow leading={<GridIcon />} leadingFill="var(--lk-system-blue)" title="Control Center" onClick={() => {}} />
+            <ListRow leading={<SunIcon />} leadingFill="var(--lk-system-blue)" title="Display & Brightness" onClick={() => {}} />
+            <ListRow leading={<ImageIcon />} leadingFill="var(--lk-system-teal)" title="Wallpaper" onClick={() => {}} />
+          </List>
+        </div>
+      </PhoneFrame>
+    </div>
+  )
+}
+
+/* ============================================================================
+   iOS 26 — Control Center (glass modules over a wallpaper)
+   ========================================================================== */
+const PrevGlyph = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M18 6.5v11L9.5 12zM8 6h-2v12h2z" />
+  </svg>
+)
+const PlayGlyph = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M8 5.5v13l11-6.5z" />
+  </svg>
+)
+const NextGlyph = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M6 6.5v11L14.5 12zM16 6h2v12h-2z" />
+  </svg>
+)
+
+function CCToggle({
+  icon,
+  on,
+  color,
+  label,
+  onClick,
+}: {
+  icon: React.ReactNode
+  on: boolean
+  color: string
+  label: string
+  onClick: () => void
+}) {
+  return (
+    <button
+      type="button"
+      className={cx('cc-toggle', on && 'is-on')}
+      style={on ? { background: color, borderColor: color } : undefined}
+      aria-pressed={on}
+      aria-label={label}
+      onClick={onClick}
+    >
+      {icon}
+    </button>
+  )
+}
+
+export function ControlCenterScene() {
+  const [air, setAir] = useState(false)
+  const [cell, setCell] = useState(true)
+  const [wifi, setWifi] = useState(true)
+  const [bt, setBt] = useState(true)
+
+  return (
+    <div className="scene-ios scene-ios--cc">
+      <PhoneFrame statusBar="light" scroll={false} background={<div className="cc-wallpaper" />}>
+        <div className="cc">
+          <div className="cc-grid">
+            <LiquidGlass radius={30} elevation={2} tint="dark" className="cc-conn">
+              <div className="cc-conn__grid">
+                <CCToggle icon={<AirplaneIcon size={22} />} on={air} color="var(--lk-system-orange)" label="Airplane Mode" onClick={() => setAir((v) => !v)} />
+                <CCToggle icon={<SignalIcon size={22} />} on={cell} color="var(--lk-system-green)" label="Cellular" onClick={() => setCell((v) => !v)} />
+                <CCToggle icon={<WifiIcon size={22} />} on={wifi} color="var(--lk-system-blue)" label="Wi-Fi" onClick={() => setWifi((v) => !v)} />
+                <CCToggle icon={<BluetoothIcon size={22} />} on={bt} color="var(--lk-system-blue)" label="Bluetooth" onClick={() => setBt((v) => !v)} />
+              </div>
+            </LiquidGlass>
+
+            <LiquidGlass radius={26} elevation={2} tint="dark" className="cc-bright">
+              <span className="cc-vslider__fill" style={{ height: '76%' }} />
+              <span className="cc-vslider__icon"><SunIcon size={22} /></span>
+            </LiquidGlass>
+            <LiquidGlass radius={26} elevation={2} tint="dark" className="cc-vol">
+              <span className="cc-vslider__fill" style={{ height: '54%' }} />
+              <span className="cc-vslider__icon"><VolumeIcon size={22} /></span>
+            </LiquidGlass>
+
+            <LiquidGlass radius={26} elevation={2} tint="dark" className="cc-music">
+              <span className="cc-music__art" aria-hidden="true" />
+              <span className="cc-music__meta">
+                <span className="cc-music__title">Liquid Dreams</span>
+                <span className="cc-music__artist">Aurora Waves</span>
+              </span>
+              <span className="cc-music__controls">
+                <button type="button" className="cc-music__btn" aria-label="Previous"><PrevGlyph /></button>
+                <button type="button" className="cc-music__btn" aria-label="Play"><PlayGlyph /></button>
+                <button type="button" className="cc-music__btn" aria-label="Next"><NextGlyph /></button>
+              </span>
+            </LiquidGlass>
+
+            <LiquidGlass as="button" radius={999} elevation={2} tint="dark" interactive className="cc-round cc-t1" aria-label="Flashlight"><FlashlightIcon size={24} /></LiquidGlass>
+            <LiquidGlass as="button" radius={999} elevation={2} tint="dark" interactive className="cc-round cc-t2" aria-label="Focus"><MoonIcon size={24} /></LiquidGlass>
+            <LiquidGlass as="button" radius={999} elevation={2} tint="dark" interactive className="cc-round cc-t3" aria-label="Timer"><ClockIcon size={24} /></LiquidGlass>
+            <LiquidGlass as="button" radius={999} elevation={2} tint="dark" interactive className="cc-round cc-t4" aria-label="Camera"><CameraIcon size={24} /></LiquidGlass>
+          </div>
+        </div>
+      </PhoneFrame>
+    </div>
+  )
+}
+
+/* ============================================================================
+   iOS 26 — Lock Screen (clock + glass notifications over a wallpaper)
+   ========================================================================== */
+function LockNotif({
+  icon,
+  appColor,
+  title,
+  time,
+  body,
+}: {
+  icon: React.ReactNode
+  appColor: string
+  title: string
+  time: string
+  body: string
+}) {
+  return (
+    <LiquidGlass radius={22} elevation={1} tint="dark" className="lock-notif">
+      <span className="lock-notif__icon" style={{ background: appColor }}>{icon}</span>
+      <span className="lock-notif__main">
+        <span className="lock-notif__top">
+          <span className="lock-notif__title">{title}</span>
+          <span className="lock-notif__time">{time}</span>
+        </span>
+        <span className="lock-notif__body">{body}</span>
+      </span>
+    </LiquidGlass>
+  )
+}
+
+export function LockScreenScene() {
+  return (
+    <div className="scene-ios scene-ios--lock">
+      <PhoneFrame statusBar="light" scroll={false} background={<div className="lock-wallpaper" />}>
+        <div className="lock">
+          <div className="lock__head">
+            <span className="lock__lock"><LockIcon size={15} /></span>
+            <span className="lock__date">Friday, June 27</span>
+            <span className="lock__time">9:41</span>
+          </div>
+
+          <div className="lock__notifs">
+            <LockNotif icon={<ChatIcon size={18} />} appColor="var(--lk-system-green)" title="Aurora" time="now" body="See you at the studio in 10 minutes!" />
+            <LockNotif icon={<ClockIcon size={18} />} appColor="var(--lk-system-red)" title="Calendar · Design Review" time="9:30" body="Liquid Glass components walkthrough" />
+          </div>
+
+          <div className="lock__actions">
+            <LiquidGlass as="button" radius={999} elevation={2} tint="dark" interactive className="lock__action" aria-label="Flashlight"><FlashlightIcon size={22} /></LiquidGlass>
+            <LiquidGlass as="button" radius={999} elevation={2} tint="dark" interactive className="lock__action" aria-label="Camera"><CameraIcon size={22} /></LiquidGlass>
+          </div>
+        </div>
+      </PhoneFrame>
+    </div>
+  )
+}
+
+/* ============================================================================
+   macOS 26 — System Settings window (source list + grouped panes)
+   ========================================================================== */
+function MacNavRow({
+  id,
+  icon,
+  label,
+  fill,
+  active,
+  onSelect,
+}: {
+  id: string
+  icon: React.ReactNode
+  label: string
+  fill: string
+  active: boolean
+  onSelect: (id: string) => void
+}) {
+  return (
+    <button type="button" className={cx('mac-nav', active && 'is-active')} onClick={() => onSelect(id)}>
+      <span className="mac-nav__icon" style={{ background: fill }}>{icon}</span>
+      <span className="mac-nav__label">{label}</span>
+    </button>
+  )
+}
+
+export function MacScene() {
+  const [section, setSection] = useState('sound')
+  const [volume, setVolume] = useState(72)
+  const [balance, setBalance] = useState(50)
+  const [mute, setMute] = useState(false)
+
+  return (
+    <div className="scene-mac">
+      <MacWindow
+        title="Sound"
+        width={960}
+        height={620}
+        sidebarWidth={230}
+        sidebar={
+          <div className="mac-source">
+            <div className="mac-source__search">
+              <SearchField placeholder="Search" />
+            </div>
+            <MacNavRow id="general" icon={<SettingsIcon size={15} />} label="General" fill="var(--lk-system-gray)" active={section === 'general'} onSelect={setSection} />
+            <MacNavRow id="appearance" icon={<SparkleIcon size={15} />} label="Appearance" fill="var(--lk-system-indigo)" active={section === 'appearance'} onSelect={setSection} />
+            <MacNavRow id="wifi" icon={<WifiIcon size={15} />} label="Wi-Fi" fill="var(--lk-system-blue)" active={section === 'wifi'} onSelect={setSection} />
+            <MacNavRow id="bluetooth" icon={<BluetoothIcon size={15} />} label="Bluetooth" fill="var(--lk-system-blue)" active={section === 'bluetooth'} onSelect={setSection} />
+            <div className="mac-source__title">Hardware</div>
+            <MacNavRow id="sound" icon={<VolumeIcon size={15} />} label="Sound" fill="var(--lk-system-pink)" active={section === 'sound'} onSelect={setSection} />
+            <MacNavRow id="displays" icon={<SunIcon size={15} />} label="Displays" fill="var(--lk-system-blue)" active={section === 'displays'} onSelect={setSection} />
+            <MacNavRow id="camera" icon={<CameraIcon size={15} />} label="Camera" fill="var(--lk-system-gray)" active={section === 'camera'} onSelect={setSection} />
+          </div>
+        }
+      >
+        <div className="mac-pane">
+          <h2 className="mac-pane__title">Sound</h2>
+
+          <List header="Output">
+            <ListRow
+              title="Output volume"
+              trailing={
+                <span className="mac-slider">
+                  <VolumeIcon size={16} style={{ opacity: 0.45 }} />
+                  <Slider value={volume} onChange={setVolume} aria-label="Output volume" style={{ width: 200 }} />
+                </span>
+              }
+            />
+            <ListRow
+              title="Balance"
+              trailing={<Slider value={balance} onChange={setBalance} aria-label="Balance" style={{ width: 200 }} />}
+            />
+            <ListRow title="Mute" trailing={<Switch checked={mute} onChange={setMute} />} />
+          </List>
+
+          <List header="Sound Effects">
+            <ListRow
+              title="Alert sound"
+              trailing={
+                <Select
+                  defaultValue="boop"
+                  options={[
+                    { value: 'boop', label: 'Boop' },
+                    { value: 'sonar', label: 'Sonar' },
+                    { value: 'submarine', label: 'Submarine' },
+                  ]}
+                />
+              }
+            />
+            <ListRow title="Play sound on startup" trailing={<Switch defaultChecked />} />
+            <ListRow title="Play user-interface sound effects" trailing={<Switch defaultChecked />} />
+          </List>
+        </div>
+      </MacWindow>
+    </div>
+  )
+}
+
 export interface SceneMeta {
   slug: string
   name: string
@@ -198,6 +552,10 @@ export const scenes: SceneMeta[] = [
   { slug: 'waitlist', name: 'Waitlist Page', description: 'A centered waitlist capture with a glass card, email field, socials and a watermark.', Component: WaitlistScene },
   { slug: 'pricing', name: 'Pricing Page', description: 'A three-tier pricing layout with a billing toggle and a highlighted popular plan.', Component: PricingScene },
   { slug: 'dashboard', name: 'Dashboard Shell', description: 'An app shell with a glass sidebar, top nav, command bar and feature cards.', Component: DashboardScene },
+  { slug: 'ios-settings', name: 'iOS Settings', description: 'A grouped iOS 26 Settings screen — large-title nav, search and inset lists — inside an iPhone frame.', Component: SettingsScene },
+  { slug: 'control-center', name: 'iOS Control Center', description: 'Liquid Glass Control Center modules — connectivity, media, brightness and volume — over a wallpaper.', Component: ControlCenterScene },
+  { slug: 'lock-screen', name: 'iOS Lock Screen', description: 'An iOS 26 Lock Screen with the big clock, glass notifications and flashlight / camera actions.', Component: LockScreenScene },
+  { slug: 'mac-settings', name: 'macOS Settings', description: 'A macOS 26 System Settings window — translucent chrome, source list and grouped panes with live controls.', Component: MacScene },
 ]
 
 export const sceneMap = Object.fromEntries(scenes.map((s) => [s.slug, s]))
