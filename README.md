@@ -37,6 +37,18 @@ import 'liquidkit/styles.css'
 
 ---
 
+## Documentation
+
+The docs site is itself built with LiquidKit. Run it locally:
+
+```bash
+npm run dev      # http://localhost:5174
+```
+
+It has per-component pages with **live examples**, copy-paste snippets and prop tables; guides for **Installation**, **Theming** and **The Glass Engine**; a searchable component index; an icon gallery; and full-screen, live previews of every template — all in light & dark.
+
+---
+
 ## Browser support
 
 The refraction engine uses `backdrop-filter: url(#…)` with SVG `feDisplacementMap`.
@@ -119,13 +131,23 @@ Every component composes this primitive. Use it directly for custom surfaces.
 
 ## Components
 
-**Primitives** — `LiquidGlass`, `Button`, `IconButton`, `Card`, `Switch`, `ThemeToggle`
+25 components, all composing the `<LiquidGlass>` primitive:
 
-**Navigation & input** — `NavBar`, `Dock`, `Toolbar`, `Input`, `CommandBar`
+**Primitives** — `LiquidGlass`, `Card`
 
-**Data** — `ChartCard`, `StatTile`, `PricingCard`
+**Actions** — `Button`, `IconButton`, `Switch`, `ThemeToggle`, `Slider`, `Tabs`, `Select`
 
-**Icons** — 30+ stroke icons (`HomeIcon`, `SearchIcon`, `PlayIcon`, …), the `createIcon()` factory, and `GlassIcon` (renders any icon inside a refractive glass tile).
+**Inputs** — `Input`, `CommandBar`
+
+**Data display** — `Badge`, `Avatar` (+ `AvatarGroup`), `Progress`, `Tooltip`, `ChartCard`, `StatTile`, `PricingCard`
+
+**Navigation** — `NavBar`, `Dock`, `Toolbar`
+
+**Overlays** — `Modal`
+
+`Button` and `IconButton` accept an `as` prop, so they render as a link (`as="a"`) or any element while keeping the glass styling.
+
+**Icons** — 34 stroke icons (`HomeIcon`, `SearchIcon`, `PlayIcon`, …), the `createIcon()` factory, and `GlassIcon` (renders any icon inside a refractive glass tile).
 
 **Templates** — full, prop-driven screens: `LandingHero`, `WaitlistPage`, `PricingPage`, `DashboardShell`.
 
@@ -146,13 +168,14 @@ import { PricingPage } from 'liquidkit'
 ## Development
 
 ```bash
-npm run dev        # showcase playground (http://localhost:5174)
+npm run dev        # docs site (http://localhost:5174)
 npm run build      # build the library to dist/ (ESM + CJS + types + CSS)
+npm run build:docs # build the docs site to dist-site/
 npm run typecheck  # tsc --noEmit
 npm test           # vitest
 ```
 
-The playground (`/playground`) renders every component over a busy backdrop in both themes. Append `#landing`, `#waitlist`, `#pricing`, or `#dashboard` to preview the templates.
+The docs site lives in `/docs` and dogfoods the library — it renders every component over a refractive backdrop in both themes, with live template previews at `#/preview/landing`, `#/preview/waitlist`, `#/preview/pricing` and `#/preview/dashboard`.
 
 ---
 

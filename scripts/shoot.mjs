@@ -1,12 +1,19 @@
-// Screenshot the playground in dark + light to verify the glass renders.
-// Usage: node scripts/shoot.mjs [url] [outDir]
+// Screenshot the docs site to verify the glass renders in dark + light.
+// Usage: node scripts/shoot.mjs [baseUrl] [outDir]
+//   PW_FULL=1      full-page captures
+//   PW_ROUTES=a,b  comma-separated hash routes ('' = home)
+//   PW_THEMES=dark,light
 import { chromium } from 'playwright'
 import { existsSync } from 'node:fs'
 
-const url = process.argv[2] || 'http://localhost:5174'
+const base = (process.argv[2] || 'http://localhost:5174').replace(/\/$/, '')
 const outDir = process.argv[3] || '.shots'
 
-// Pick a cached browser build if the bundled revision isn't present.
+const routes = (process.env.PW_ROUTES ??
+  ',components/button,components/liquid-glass,guide/glass-engine,icons,templates').split(',')
+const themes = (process.env.PW_THEMES ?? 'dark,light').split(',')
+const fullPage = process.env.PW_FULL === '1'
+
 const candidates = [
   process.env.PW_CHROME,
   '/home/agent/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome',
@@ -16,24 +23,30 @@ const candidates = [
 const executablePath = candidates.find((p) => existsSync(p))
 
 const browser = await chromium.launch(executablePath ? { executablePath } : {})
-const page = await browser.newPage({
-  viewport: { width: 1280, height: 880 },
-  deviceScaleFactor: 2,
-})
-await page.goto(url, { waitUntil: 'networkidle' })
-await page.waitForTimeout(900)
 
-const fullPage = process.env.PW_FULL === '1'
-await page.screenshot({ path: `${outDir}/dark.png`, fullPage })
-console.log(`wrote ${outDir}/dark.png`)
+for (const theme of themes) {
+  const context = await browser.newContext({
+    viewport: { width: 1280, height: 900 },
+    deviceScaleFactor: 2,
+  })
+  // Pin the docs theme deterministically before any script runs.
+  await context.addInitScript((t) => {
+    try {
+      localStorage.setItem('lk-docs-theme', t)
+    } catch {}
+  }, theme)
+  const page = await context.newPage()
 
-// Flip to light via the header theme toggle.
-const toggle = page.locator('.stage__top .lk-switch__control')
-if (await toggle.count()) {
-  await toggle.click()
-  await page.waitForTimeout(700)
-  await page.screenshot({ path: `${outDir}/light.png`, fullPage })
-  console.log(`wrote ${outDir}/light.png`)
+  for (const route of routes) {
+    const url = `${base}/#/${route}`
+    await page.goto(url, { waitUntil: 'networkidle' })
+    await page.waitForTimeout(700)
+    const name = route === '' ? 'home' : route.replace(/\//g, '-')
+    const file = `${outDir}/${name}.${theme}.png`
+    await page.screenshot({ path: file, fullPage })
+    console.log(`wrote ${file}`)
+  }
+  await context.close()
 }
 
 await browser.close()

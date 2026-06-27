@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import type { AllHTMLAttributes, ElementType, ReactNode } from 'react'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { cx } from '../../utils/cx'
 import './Button.css'
@@ -7,7 +7,9 @@ import './Button.css'
 export type ButtonVariant = 'glass' | 'accent' | 'ghost'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends Omit<AllHTMLAttributes<HTMLElement>, 'as' | 'size'> {
+  /** Element/component to render as (e.g. 'a' for a link button). @default 'button' */
+  as?: ElementType
   /** @default 'glass' */
   variant?: ButtonVariant
   /** @default 'md' */
@@ -33,6 +35,7 @@ const RADIUS: Record<ButtonSize, number> = { sm: 12, md: 16, lg: 20 }
 /** A glass button. Supports icons, sizes, pill/icon-only shapes and a glow ring. */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {
+    as: Comp = 'button',
     variant = 'glass',
     size = 'md',
     pill = false,
@@ -45,7 +48,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     dispersion,
     className,
     children,
-    type = 'button',
+    type,
     ...rest
   },
   ref,
@@ -67,19 +70,21 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     className,
   )
 
+  // `type` only applies to a real <button>.
+  const typeAttr = Comp === 'button' ? { type: type ?? 'button' } : {}
+
   if (variant === 'ghost') {
     return (
-      <button ref={ref} type={type} className={cx(classes, 'lk-btn--ghost')} {...rest}>
+      <Comp ref={ref as never} className={cx(classes, 'lk-btn--ghost')} {...typeAttr} {...rest}>
         {inner}
-      </button>
+      </Comp>
     )
   }
 
   return (
     <LiquidGlass
-      as="button"
+      as={Comp}
       ref={ref as never}
-      type={type}
       interactive
       pill={pill}
       radius={RADIUS[size]}
@@ -87,6 +92,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       refraction={refraction}
       dispersion={dispersion}
       className={cx(classes, `lk-btn--${variant}`)}
+      {...typeAttr}
       {...rest}
     >
       {inner}
