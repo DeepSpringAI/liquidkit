@@ -4,7 +4,8 @@
    data-theme is set we follow the OS via prefers-color-scheme.
    ========================================================================== */
 
-:root {
+:root,
+[data-theme="light"] {
   /* ---- typography ---- */
   --lk-font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text",
     "SF Pro Display", system-ui, "Segoe UI", Roboto, Helvetica, Arial,
