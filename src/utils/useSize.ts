@@ -7,8 +7,9 @@ export interface Size {
 
 /**
  * Observe an element's size. Returns the latest size and a callback ref to
- * attach to the element. Size is rounded to whole pixels to keep the glass
- * filter cache from thrashing on sub-pixel layout shifts.
+ * attach to the element. Size is rounded to whole pixels and changes within a
+ * 1px dead-band are ignored, to keep the glass filter cache from thrashing on
+ * sub-pixel layout shifts (which can otherwise drive an infinite resize loop).
  */
 export function useSize<T extends HTMLElement = HTMLElement>(): [
   Size | null,
@@ -21,9 +22,16 @@ export function useSize<T extends HTMLElement = HTMLElement>(): [
     observer.current?.disconnect()
     if (!node || typeof ResizeObserver === 'undefined') return
 
+    // Ignore ±1px jitter. Applying the glass backdrop-filter can nudge layout
+    // by a sub-pixel amount that flips the rounded size between two adjacent
+    // integers; without a dead-band that oscillation drives an infinite
+    // ResizeObserver → setState → re-render loop. Genuine resizes (≥2px) apply.
+    const EPSILON = 1
     const measure = (w: number, h: number) => {
       setSize((prev) =>
-        prev && prev.width === w && prev.height === h ? prev : { width: w, height: h },
+        prev && Math.abs(prev.width - w) <= EPSILON && Math.abs(prev.height - h) <= EPSILON
+          ? prev
+          : { width: w, height: h },
       )
     }
 

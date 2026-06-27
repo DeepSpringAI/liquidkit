@@ -42,7 +42,7 @@ import 'liquidkit/styles.css'
 The docs site is itself built with LiquidKit. Run it locally:
 
 ```bash
-npm run dev      # http://localhost:5174
+npm run dev      # http://localhost:5173
 ```
 
 It has per-component pages with **live examples**, copy-paste snippets and prop tables; guides for **Installation**, **Theming** and **The Glass Engine**; a searchable component index; an icon gallery; and full-screen, live previews of every template — all in light & dark.
@@ -168,7 +168,7 @@ import { PricingPage } from 'liquidkit'
 ## Development
 
 ```bash
-npm run dev        # docs site (http://localhost:5174)
+npm run dev        # docs site (http://localhost:5173)
 npm run build      # build the library to dist/ (ESM + CJS + types + CSS)
 npm run build:docs # build the docs site to dist-site/
 npm run typecheck  # tsc --noEmit
