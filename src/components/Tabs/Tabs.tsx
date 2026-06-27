@@ -68,7 +68,10 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
         role="tablist"
         style={{ '--lk-tabs-count': items.length } as CSSProperties}
       >
-        <span className="lk-tabs__indicator" style={{ transform: `translateX(${idx * 100}%)` }} />
+        <span
+          className="lk-tabs__indicator"
+          style={{ '--lk-tabs-x': `${idx * 100}%` } as CSSProperties}
+        />
         {items.map((it) => (
           <button
             key={it.id}

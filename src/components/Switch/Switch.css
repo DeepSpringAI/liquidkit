@@ -38,7 +38,7 @@
   position: absolute;
   top: 4px;
   bottom: 4px;
-  left: 4px;
+  inset-inline-start: 4px;
   aspect-ratio: 1;
   display: flex;
   align-items: center;
@@ -75,6 +75,18 @@
 }
 .lk-switch--lg[data-checked='true'] .lk-switch__thumb {
   transform: translateX(28px);
+}
+
+/* RTL: the thumb is anchored to the inline-start edge, so it must travel the
+   opposite physical direction when checked. translateX is not direction-aware. */
+[dir='rtl'] .lk-switch--sm[data-checked='true'] .lk-switch__thumb {
+  transform: translateX(-18px);
+}
+[dir='rtl'] .lk-switch--md[data-checked='true'] .lk-switch__thumb {
+  transform: translateX(-22px);
+}
+[dir='rtl'] .lk-switch--lg[data-checked='true'] .lk-switch__thumb {
+  transform: translateX(-28px);
 }
 
 /* glowing accent ring when on */

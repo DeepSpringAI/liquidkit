@@ -37,16 +37,15 @@
 }
 .lk-popover__panel--bottom.lk-popover__panel--align-start,
 .lk-popover__panel--top.lk-popover__panel--align-start {
-  left: 0;
+  inset-inline-start: 0;
 }
 .lk-popover__panel--bottom.lk-popover__panel--align-end,
 .lk-popover__panel--top.lk-popover__panel--align-end {
-  right: 0;
+  inset-inline-end: 0;
 }
 .lk-popover__panel--bottom.lk-popover__panel--align-center,
 .lk-popover__panel--top.lk-popover__panel--align-center {
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   margin-inline: auto;
   width: max-content;
 }

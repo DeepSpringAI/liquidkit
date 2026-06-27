@@ -20,8 +20,7 @@
 }
 .lk-list--inset .lk-list__header,
 .lk-list--inset .lk-list__footer {
-  padding-left: 32px;
-  padding-right: 32px;
+  padding-inline: 32px;
 }
 
 /* ---- the surface ---- */
@@ -69,7 +68,7 @@
   background: transparent;
   color: var(--lk-label);
   font: inherit;
-  text-align: left;
+  text-align: start;
   text-decoration: none;
 }
 a.lk-listrow,
@@ -94,14 +93,14 @@ button.lk-listrow {
 .lk-listrow:not(:last-child)::after {
   content: '';
   position: absolute;
-  left: 16px;
-  right: 0;
+  inset-inline-start: 16px;
+  inset-inline-end: 0;
   bottom: 0;
   height: 1px;
   background: var(--lk-separator);
 }
 .lk-listrow--has-leading:not(:last-child)::after {
-  left: 57px; /* 16 padding + 29 tile + 12 gap */
+  inset-inline-start: 57px; /* 16 padding + 29 tile + 12 gap */
 }
 
 /* leading icon tile */
@@ -161,6 +160,11 @@ button.lk-listrow {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  margin-left: -2px;
+  margin-inline-start: -2px;
   color: var(--lk-label-tertiary);
+}
+/* The disclosure chevron is a directional glyph — flip it to point the other
+   way in RTL (it sits on the inline-end edge in both directions). */
+[dir='rtl'] .lk-listrow__chevron {
+  transform: scaleX(-1);
 }

@@ -32,7 +32,7 @@
 
 .lk-avatar__status {
   position: absolute;
-  right: 0;
+  inset-inline-end: 0;
   bottom: 0;
   width: 28%;
   height: 28%;
@@ -58,12 +58,12 @@
   display: inline-flex;
 }
 .lk-avatargroup > * {
-  margin-left: -12px;
+  margin-inline-start: -12px;
   border-radius: 50%;
   box-shadow: 0 0 0 2px var(--lk-bg);
 }
 .lk-avatargroup > *:first-child {
-  margin-left: 0;
+  margin-inline-start: 0;
 }
 .lk-avatargroup__more .lk-avatar__inner {
   background: var(--lk-glass-tint-strong);

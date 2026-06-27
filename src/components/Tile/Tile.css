@@ -1,5 +1,5 @@
 .lk-tile {
-  text-align: left;
+  text-align: start;
 }
 .lk-tile .lk-glass__content {
   display: flex;

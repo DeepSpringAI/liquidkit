@@ -16,14 +16,20 @@
   position: absolute;
   top: 4px;
   bottom: 4px;
-  left: 4px;
+  inset-inline-start: 4px;
   width: calc((100% - 8px) / var(--lk-tabs-count, 1));
   border-radius: var(--lk-radius-full);
   background: var(--lk-glass-tint-strong);
   box-shadow:
     inset 0 1px 0 var(--lk-glass-highlight),
     var(--lk-shadow-1);
+  /* JS sets --lk-tabs-x to (activeIndex * 100%); CSS owns the sign so the
+     indicator travels toward the inline-end in RTL (translateX isn't logical). */
+  transform: translateX(var(--lk-tabs-x, 0));
   transition: transform var(--lk-duration) var(--lk-ease);
+}
+[dir='rtl'] .lk-tabs__indicator {
+  transform: translateX(calc(-1 * var(--lk-tabs-x, 0)));
 }
 
 .lk-tabs__tab {

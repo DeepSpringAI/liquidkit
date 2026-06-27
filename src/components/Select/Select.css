@@ -51,7 +51,7 @@
 .lk-select__menu {
   position: absolute;
   top: calc(100% + 8px);
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   z-index: 60;
   animation: lk-pop var(--lk-spring-duration-sm) var(--lk-spring-snappy);
@@ -74,7 +74,7 @@
   background: transparent;
   color: var(--lk-fg);
   font: inherit;
-  text-align: left;
+  text-align: start;
   cursor: pointer;
   border-radius: 10px;
 }
