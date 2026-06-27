@@ -1,10 +1,13 @@
 import { forwardRef, useEffect, useId, useRef, useState } from 'react'
 import type { HTMLAttributes, KeyboardEvent, ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { ChevronDownIcon, CheckIcon } from '../../icons/icons'
 import { cx } from '../../utils/cx'
 import { mergeRefs } from '../../utils/mergeRefs'
 import { moveListFocus } from '../../utils/moveListFocus'
+import { useThemedPortal } from '../../utils/useThemedPortal'
+import { useAnchoredPosition } from '../../utils/useAnchoredPosition'
 import './Select.css'
 
 export interface SelectOption {
@@ -46,11 +49,25 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(function Select(
   const panelRef = useRef<HTMLDivElement>(null)
   const listboxId = useId()
   const selected = options.find((o) => o.value === v)
+  const container = useThemedPortal()
+  const posStyle = useAnchoredPosition(triggerRef, panelRef, open, {
+    placement: 'bottom-start',
+    gap: 8,
+    matchWidth: true,
+  })
 
   useEffect(() => {
     if (!open) return
     const onDoc = (e: globalThis.MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false)
+      const t = e.target as Node
+      if (
+        rootRef.current &&
+        !rootRef.current.contains(t) &&
+        panelRef.current &&
+        !panelRef.current.contains(t)
+      ) {
+        setOpen(false)
+      }
     }
     const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -116,32 +133,36 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(function Select(
         </span>
         <ChevronDownIcon size={18} className={cx('lk-select__chevron', open && 'is-open')} />
       </button>
-      {open && (
-        <LiquidGlass
-          ref={panelRef as never}
-          radius={16}
-          elevation={3}
-          sheen={false}
-          className="lk-select__menu"
-          role="listbox"
-          id={listboxId}
-          onKeyDown={onPanelKeyDown}
-        >
-          {options.map((o) => (
-            <button
-              key={o.value}
-              type="button"
-              role="option"
-              aria-selected={o.value === v}
-              className={cx('lk-select__option', o.value === v && 'is-selected')}
-              onClick={() => choose(o.value)}
-            >
-              <span>{o.label}</span>
-              {o.value === v && <CheckIcon size={16} />}
-            </button>
-          ))}
-        </LiquidGlass>
-      )}
+      {open &&
+        container &&
+        createPortal(
+          <LiquidGlass
+            ref={panelRef as never}
+            radius={16}
+            elevation={3}
+            sheen={false}
+            className="lk-select__menu"
+            style={{ ...posStyle, width: 'auto' }}
+            role="listbox"
+            id={listboxId}
+            onKeyDown={onPanelKeyDown}
+          >
+            {options.map((o) => (
+              <button
+                key={o.value}
+                type="button"
+                role="option"
+                aria-selected={o.value === v}
+                className={cx('lk-select__option', o.value === v && 'is-selected')}
+                onClick={() => choose(o.value)}
+              >
+                <span>{o.label}</span>
+                {o.value === v && <CheckIcon size={16} />}
+              </button>
+            ))}
+          </LiquidGlass>,
+          container,
+        )}
     </div>
   )
 })

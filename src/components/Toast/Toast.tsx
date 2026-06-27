@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { CloseIcon } from '../../icons'
 import { cx } from '../../utils/cx'
+import { useThemedPortal } from '../../utils/useThemedPortal'
 import './Toast.css'
 
 export type ToastVariant = 'glass' | 'success' | 'error' | 'accent'
@@ -52,6 +53,7 @@ export function useToast(): ToastApi {
 export function ToastProvider({ children, placement = 'bottom', max = 4 }: ToastProviderProps) {
   const [items, setItems] = useState<ToastItem[]>([])
   const seq = useRef(0)
+  const container = useThemedPortal()
 
   const dismiss = useCallback((id: string) => {
     setItems((xs) => xs.filter((t) => t.id !== id))
@@ -69,7 +71,7 @@ export function ToastProvider({ children, placement = 'bottom', max = 4 }: Toast
   return (
     <ToastContext.Provider value={{ toast, dismiss }}>
       {children}
-      {typeof document !== 'undefined' &&
+      {container &&
         createPortal(
           <div
             className={cx('lk-toasts', `lk-toasts--${placement}`)}
@@ -80,7 +82,7 @@ export function ToastProvider({ children, placement = 'bottom', max = 4 }: Toast
               <ToastCard key={t.id} item={t} dismiss={dismiss} />
             ))}
           </div>,
-          document.body,
+          container,
         )}
     </ToastContext.Provider>
   )

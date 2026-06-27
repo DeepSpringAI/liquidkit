@@ -1,10 +1,13 @@
 import { cloneElement, forwardRef, isValidElement, useEffect, useRef, useState } from 'react'
 import type { HTMLAttributes, KeyboardEvent, MouseEvent, ReactElement, ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { CheckIcon } from '../../icons'
 import { cx } from '../../utils/cx'
 import { mergeRefs } from '../../utils/mergeRefs'
 import { moveListFocus } from '../../utils/moveListFocus'
+import { useThemedPortal } from '../../utils/useThemedPortal'
+import { useAnchoredPosition } from '../../utils/useAnchoredPosition'
 import './Menu.css'
 
 export type MenuItem =
@@ -39,11 +42,21 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
+  const container = useThemedPortal()
+  const posStyle = useAnchoredPosition(rootRef, panelRef, open, { placement })
 
   useEffect(() => {
     if (!open) return
     const onDoc = (e: globalThis.MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false)
+      const t = e.target as Node
+      if (
+        rootRef.current &&
+        !rootRef.current.contains(t) &&
+        panelRef.current &&
+        !panelRef.current.contains(t)
+      ) {
+        setOpen(false)
+      }
     }
     const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -94,37 +107,41 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(
   return (
     <div className={cx('lk-menu', className)} ref={mergeRefs(rootRef, ref)} {...rest}>
       {triggerEl}
-      {open && (
-        <LiquidGlass
-          ref={panelRef as never}
-          radius={14}
-          elevation={3}
-          sheen={false}
-          className={cx('lk-menu__panel', `lk-menu__panel--${placement}`)}
-          role="menu"
-          onKeyDown={onPanelKeyDown}
-        >
-          {items.map((it, i) =>
-            'divider' in it ? (
-              <span key={`d${i}`} className="lk-menu__divider" role="separator" />
-            ) : (
-              <button
-                key={it.id}
-                type="button"
-                role={it.checked != null ? 'menuitemcheckbox' : 'menuitem'}
-                aria-checked={it.checked != null ? !!it.checked : undefined}
-                disabled={it.disabled}
-                className={cx('lk-menu__item', it.destructive && 'is-destructive')}
-                onClick={() => select(it)}
-              >
-                {it.icon != null && <span className="lk-menu__icon">{it.icon}</span>}
-                <span className="lk-menu__label">{it.label}</span>
-                {it.checked && <CheckIcon size={16} className="lk-menu__check" />}
-              </button>
-            ),
-          )}
-        </LiquidGlass>
-      )}
+      {open &&
+        container &&
+        createPortal(
+          <LiquidGlass
+            ref={panelRef as never}
+            radius={14}
+            elevation={3}
+            sheen={false}
+            className={cx('lk-menu__panel', `lk-menu__panel--${placement}`)}
+            style={posStyle}
+            role="menu"
+            onKeyDown={onPanelKeyDown}
+          >
+            {items.map((it, i) =>
+              'divider' in it ? (
+                <span key={`d${i}`} className="lk-menu__divider" role="separator" />
+              ) : (
+                <button
+                  key={it.id}
+                  type="button"
+                  role={it.checked != null ? 'menuitemcheckbox' : 'menuitem'}
+                  aria-checked={it.checked != null ? !!it.checked : undefined}
+                  disabled={it.disabled}
+                  className={cx('lk-menu__item', it.destructive && 'is-destructive')}
+                  onClick={() => select(it)}
+                >
+                  {it.icon != null && <span className="lk-menu__icon">{it.icon}</span>}
+                  <span className="lk-menu__label">{it.label}</span>
+                  {it.checked && <CheckIcon size={16} className="lk-menu__check" />}
+                </button>
+              ),
+            )}
+          </LiquidGlass>,
+          container,
+        )}
     </div>
   )
 })

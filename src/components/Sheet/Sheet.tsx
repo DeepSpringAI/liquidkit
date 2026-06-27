@@ -10,6 +10,7 @@ import { LiquidGlass } from '../../core/LiquidGlass'
 import { cx } from '../../utils/cx'
 import { mergeRefs } from '../../utils/mergeRefs'
 import { useFocusTrap } from '../../utils/useFocusTrap'
+import { useThemedPortal } from '../../utils/useThemedPortal'
 import './Sheet.css'
 
 export type Detent = number | 'medium' | 'large'
@@ -60,6 +61,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(function Sheet(
   const drag = useRef<{ startY: number; startH: number } | null>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
+  const container = useThemedPortal()
   useFocusTrap(panelRef, open)
 
   const resolved = useMemo(
@@ -87,7 +89,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(function Sheet(
     }
   }, [open, onClose, defaultDetent])
 
-  if (!open || typeof document === 'undefined') return null
+  if (!open || !container) return null
 
   const onPointerDown = (e: ReactPointerEvent) => {
     drag.current = { startY: e.clientY, startH: height }
@@ -162,6 +164,6 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(function Sheet(
         {footer != null && <div className="lk-sheet__footer">{footer}</div>}
       </LiquidGlass>
     </div>,
-    document.body,
+    container,
   )
 })

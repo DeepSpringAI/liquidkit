@@ -1,5 +1,7 @@
-.lk-stat {
-  display: inline-flex;
+/* Block-level so the tile fills its grid cell instead of shrink-wrapping
+   (LiquidGlass is inline-flex by default). */
+.lk-stat.lk-glass {
+  display: flex;
 }
 .lk-stat .lk-glass__content {
   width: 100%;

@@ -7,6 +7,7 @@ import { CloseIcon } from '../../icons/icons'
 import { cx } from '../../utils/cx'
 import { mergeRefs } from '../../utils/mergeRefs'
 import { useFocusTrap } from '../../utils/useFocusTrap'
+import { useThemedPortal } from '../../utils/useThemedPortal'
 import './Modal.css'
 
 const SIZES: Record<string, number> = { sm: 380, md: 520, lg: 720 }
@@ -40,6 +41,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
 ) {
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
+  const container = useThemedPortal()
   useFocusTrap(panelRef, open)
 
   useEffect(() => {
@@ -56,7 +58,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
     }
   }, [open, onClose])
 
-  if (!open || typeof document === 'undefined') return null
+  if (!open || !container) return null
   const width = typeof size === 'number' ? size : SIZES[size]
 
   return createPortal(
@@ -98,6 +100,6 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
         {footer && <div className="lk-modal__footer">{footer}</div>}
       </LiquidGlass>
     </div>,
-    document.body,
+    container,
   )
 })
