@@ -39,6 +39,19 @@ import {
   DashboardShell,
   WaitlistPage,
 } from 'liquidkit'
+import {
+  Avatar,
+  AvatarGroup,
+  Badge,
+  BellIcon,
+  Modal,
+  Progress,
+  Select,
+  SettingsIcon,
+  Slider,
+  Tabs,
+  Tooltip,
+} from 'liquidkit'
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -52,6 +65,10 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Gallery() {
   const [wifi, setWifi] = useState(true)
   const [nav, setNav] = useState('home')
+  const [tab, setTab] = useState('overview')
+  const [fruit, setFruit] = useState('apple')
+  const [vol, setVol] = useState(60)
+  const [modalOpen, setModalOpen] = useState(false)
 
   return (
     <div className="stage">
@@ -132,6 +149,69 @@ function Gallery() {
         />
         <StatTile glow accent="#3b82f6" label="AMZN" value="$1.8B vol" delta="2.4%" direction="up" />
         <StatTile glow accent="#8b5cff" label="GOOG" value="$2.9B vol" delta="1.1%" direction="down" />
+      </Section>
+
+      <Section title="Badges, avatars & status">
+        <Badge variant="accent" dot>Live</Badge>
+        <Badge variant="success">Active</Badge>
+        <Badge variant="warning">Beta</Badge>
+        <Badge variant="danger" dot>Down</Badge>
+        <Badge variant="glass">v0.2</Badge>
+        <Avatar name="Hamid Z" status="online" ring />
+        <Avatar name="Ada Lovelace" status="busy" />
+        <AvatarGroup max={3}>
+          <Avatar name="A B" />
+          <Avatar name="C D" />
+          <Avatar name="E F" />
+          <Avatar name="G H" />
+          <Avatar name="I J" />
+        </AvatarGroup>
+      </Section>
+
+      <Section title="Progress & slider">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, width: 240 }}>
+          <Progress value={72} glow aria-label="Loading" />
+          <Slider value={vol} onChange={setVol} aria-label="Volume" />
+        </div>
+        <Progress variant="ring" value={vol} showValue glow size={84} />
+      </Section>
+
+      <Section title="Tabs, select, tooltip & modal">
+        <Tabs
+          value={tab}
+          onChange={setTab}
+          items={[
+            { id: 'overview', label: 'Overview' },
+            { id: 'activity', label: 'Activity', icon: <BellIcon /> },
+            { id: 'settings', label: 'Settings', icon: <SettingsIcon /> },
+          ]}
+        />
+        <Select
+          value={fruit}
+          onChange={setFruit}
+          options={[
+            { value: 'apple', label: 'Apple' },
+            { value: 'banana', label: 'Banana' },
+            { value: 'cherry', label: 'Cherry' },
+          ]}
+        />
+        <Tooltip content="Frosted glass tooltip">
+          <Button variant="ghost">Hover me</Button>
+        </Tooltip>
+        <Button onClick={() => setModalOpen(true)}>Open modal</Button>
+        <Modal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          title="Liquid Glass dialog"
+          footer={
+            <>
+              <Button variant="ghost" onClick={() => setModalOpen(false)}>Cancel</Button>
+              <Button variant="accent" onClick={() => setModalOpen(false)}>Confirm</Button>
+            </>
+          }
+        >
+          A portal-rendered glass modal with a blurred scrim, Escape-to-close and scroll lock.
+        </Modal>
       </Section>
 
       <p className="links">

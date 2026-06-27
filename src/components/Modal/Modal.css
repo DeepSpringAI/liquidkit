@@ -1,0 +1,67 @@
+.lk-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.lk-modal__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: lk-fade var(--lk-duration) var(--lk-ease);
+}
+
+.lk-modal__panel {
+  position: relative;
+  max-width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: lk-pop var(--lk-duration) var(--lk-ease);
+}
+.lk-modal__panel .lk-glass__content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+}
+
+.lk-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 22px 0;
+}
+.lk-modal__title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--lk-fg);
+}
+.lk-modal__body {
+  padding: 14px 22px;
+  overflow: auto;
+  color: var(--lk-fg-muted);
+  line-height: 1.55;
+}
+.lk-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 6px 22px 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lk-modal__scrim,
+  .lk-modal__panel {
+    animation: none;
+  }
+}

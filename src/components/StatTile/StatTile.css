@@ -66,7 +66,11 @@
     ),
     var(--lk-glass-tint);
 }
-.lk-stat--glow .lk-stat__value,
+/* keep text theme-aware so it stays legible on light frosted tiles too */
 .lk-stat--glow .lk-stat__label {
+  color: var(--lk-fg);
+}
+[data-theme='dark'] .lk-stat--glow .lk-stat__value,
+[data-theme='dark'] .lk-stat--glow .lk-stat__label {
   color: #fff;
 }

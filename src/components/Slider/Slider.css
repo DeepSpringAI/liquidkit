@@ -1,0 +1,46 @@
+.lk-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 220px;
+  height: 8px;
+  border-radius: var(--lk-radius-full);
+  background: linear-gradient(
+    90deg,
+    var(--lk-accent) var(--lk-slider-pct, 50%),
+    var(--lk-glass-tint-strong) var(--lk-slider-pct, 50%)
+  );
+  outline: none;
+  cursor: pointer;
+}
+.lk-slider:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.lk-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffffff, #e7ebf2);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+}
+.lk-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffffff, #e7ebf2);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+}
+.lk-slider:focus-visible {
+  outline: 2px solid var(--lk-accent);
+  outline-offset: 4px;
+}

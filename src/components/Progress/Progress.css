@@ -1,0 +1,47 @@
+.lk-progress {
+  width: 220px;
+  border-radius: var(--lk-radius-full);
+  background: var(--lk-glass-tint-strong);
+  overflow: hidden;
+}
+.lk-progress__fill {
+  height: 100%;
+  border-radius: var(--lk-radius-full);
+  background: var(--lk-progress-accent, var(--lk-accent));
+  transition: width var(--lk-duration) var(--lk-ease);
+}
+.lk-progress.is-glow .lk-progress__fill {
+  box-shadow: 0 0 12px var(--lk-progress-accent, var(--lk-accent));
+}
+
+.lk-progress-ring {
+  position: relative;
+  display: inline-flex;
+}
+.lk-progress-ring__track {
+  stroke: var(--lk-glass-tint-strong);
+}
+.lk-progress-ring__fill {
+  stroke: var(--lk-progress-accent, var(--lk-accent));
+  transition: stroke-dashoffset var(--lk-duration-slow) var(--lk-ease);
+}
+.lk-progress-ring.is-glow .lk-progress-ring__fill {
+  filter: drop-shadow(0 0 6px var(--lk-progress-accent, var(--lk-accent)));
+}
+.lk-progress-ring__label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--lk-fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lk-progress__fill,
+  .lk-progress-ring__fill {
+    transition: none;
+  }
+}

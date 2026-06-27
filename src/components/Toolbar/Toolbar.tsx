@@ -25,47 +25,55 @@ export interface ToolbarProps {
   tint?: GlassTint
   /** @default 2 */
   elevation?: 0 | 1 | 2 | 3
+  /** Render the glass container. Set false when embedding inside another surface. @default true */
+  glass?: boolean
   className?: string
 }
 
 /** A horizontal floating glass toolbar with optional glowing primary action. */
 export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
-  { items, glow = true, tint = 'auto', elevation = 2, className },
+  { items, glow = true, tint = 'auto', elevation = 2, glass = true, className },
   ref,
 ) {
-  return (
-    <LiquidGlass
-      ref={ref as never}
-      pill
-      tint={tint}
-      elevation={elevation}
-      className={cx('lk-toolbar', className)}
-    >
-      <div className="lk-toolbar__items">
-        {items.map((it) => (
-          <button
-            key={it.id}
-            type="button"
-            className={cx(
-              'lk-toolbar__item',
-              it.primary && 'lk-toolbar__item--primary',
-              it.primary && glow && 'lk-toolbar__item--glow',
-              it.active && 'is-active',
-            )}
-            aria-label={it.label}
-            aria-pressed={it.active}
-            title={it.label}
-            onClick={it.onClick}
-          >
-            <span className="lk-toolbar__icon">{it.icon}</span>
-            {it.dropdown && (
-              <span className="lk-toolbar__chevron">
-                <ChevronDownIcon size={14} />
-              </span>
-            )}
-          </button>
-        ))}
+  const itemsEl = (
+    <div className="lk-toolbar__items">
+      {items.map((it) => (
+        <button
+          key={it.id}
+          type="button"
+          className={cx(
+            'lk-toolbar__item',
+            it.primary && 'lk-toolbar__item--primary',
+            it.primary && glow && 'lk-toolbar__item--glow',
+            it.active && 'is-active',
+          )}
+          aria-label={it.label}
+          aria-pressed={it.active}
+          title={it.label}
+          onClick={it.onClick}
+        >
+          <span className="lk-toolbar__icon">{it.icon}</span>
+          {it.dropdown && (
+            <span className="lk-toolbar__chevron">
+              <ChevronDownIcon size={14} />
+            </span>
+          )}
+        </button>
+      ))}
+    </div>
+  )
+
+  if (!glass) {
+    return (
+      <div ref={ref} className={cx('lk-toolbar', 'lk-toolbar--bare', className)}>
+        {itemsEl}
       </div>
+    )
+  }
+
+  return (
+    <LiquidGlass ref={ref as never} pill tint={tint} elevation={elevation} className={cx('lk-toolbar', className)}>
+      {itemsEl}
     </LiquidGlass>
   )
 })

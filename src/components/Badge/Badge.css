@@ -1,0 +1,54 @@
+.lk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: var(--lk-radius-full);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.lk-badge--sm {
+  padding: 3px 8px;
+  font-size: 11px;
+}
+.lk-badge--md {
+  padding: 5px 11px;
+  font-size: 12px;
+}
+
+.lk-badge--glass {
+  background: var(--lk-glass-tint-strong);
+  color: var(--lk-fg);
+  border-color: var(--lk-glass-border-soft);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.lk-badge--neutral {
+  background: var(--lk-glass-border-soft);
+  color: var(--lk-fg-muted);
+}
+.lk-badge--accent {
+  background: var(--lk-accent-soft);
+  color: var(--lk-accent);
+}
+.lk-badge--success {
+  background: color-mix(in srgb, var(--lk-success) 18%, transparent);
+  color: var(--lk-success);
+}
+.lk-badge--warning {
+  background: color-mix(in srgb, var(--lk-warning) 18%, transparent);
+  color: var(--lk-warning);
+}
+.lk-badge--danger {
+  background: color-mix(in srgb, var(--lk-danger) 18%, transparent);
+  color: var(--lk-danger);
+}
+
+.lk-badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
