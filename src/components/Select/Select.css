@@ -54,7 +54,7 @@
   left: 0;
   width: 100%;
   z-index: 60;
-  animation: lk-pop var(--lk-duration-fast) var(--lk-ease);
+  animation: lk-pop var(--lk-spring-duration-sm) var(--lk-spring-snappy);
 }
 .lk-select__menu .lk-glass__content {
   display: flex;

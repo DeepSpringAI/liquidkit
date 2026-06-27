@@ -23,7 +23,7 @@
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  animation: lk-pop var(--lk-duration) var(--lk-ease);
+  animation: lk-pop var(--lk-spring-duration) var(--lk-spring-bounce);
 }
 .lk-modal__panel .lk-glass__content {
   display: flex;

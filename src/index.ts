@@ -1,5 +1,6 @@
 import './styles/tokens.css'
 import './styles/system.css'
+import './styles/motion.css'
 import './styles/base.css'
 
 // Core engine
@@ -84,3 +85,10 @@ export { cx } from './utils/cx'
 export { mergeRefs } from './utils/mergeRefs'
 export { useSize } from './utils/useSize'
 export type { Size } from './utils/useSize'
+export { useReducedMotion } from './utils/useReducedMotion'
+export { useScrollDirection } from './utils/useScrollDirection'
+export type {
+  ScrollDirection,
+  ScrollDirectionState,
+  UseScrollDirectionOptions,
+} from './utils/useScrollDirection'

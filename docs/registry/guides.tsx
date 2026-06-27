@@ -262,5 +262,85 @@ const engine: GuideDoc = {
   ),
 }
 
-export const guides: GuideDoc[] = [introduction, installation, theming, engine]
+/* --------------------------------------------------------------- Motion */
+
+const motion: GuideDoc = {
+  slug: 'motion',
+  title: 'Motion',
+  summary:
+    'Real spring physics — overshoot and settle — exposed as CSS easings, plus drop-in press, lift and morph behaviors.',
+  content: (
+    <>
+      <p>
+        iOS 26 and macOS 26 don’t ease — they <em>spring</em>. LiquidKit ships three spring curves
+        sampled from a damped harmonic oscillator and exposed as CSS{' '}
+        <a href="https://developer.mozilla.org/docs/Web/CSS/easing-function#linear_easing_function" target="_blank" rel="noreferrer">
+          <code>linear()</code>
+        </a>{' '}
+        easings, so every interaction overshoots a touch and settles — the way a physical control
+        does. Drop them anywhere you’d put a <code>cubic-bezier</code>.
+      </p>
+
+      <div className="doc-stage-inline" style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
+        <Button variant="accent">Press me</Button>
+        <LiquidGlass className="lk-lift" radius={18} style={{ padding: '16px 20px' }}>
+          <code>.lk-lift</code>
+        </LiquidGlass>
+        <Badge variant="accent" className="lk-spring-in">.lk-spring-in</Badge>
+      </div>
+
+      <h2>Spring easings</h2>
+      <ul className="doc-list">
+        <li><code>--lk-spring</code> — gentle, ~3% overshoot. Lifts, reveals &amp; morphs (the default).</li>
+        <li><code>--lk-spring-snappy</code> — ~8% overshoot. Press-back, toggles &amp; dropdowns.</li>
+        <li><code>--lk-spring-bounce</code> — ~16% overshoot. Entrances &amp; the “gel” pop.</li>
+        <li><code>--lk-spring-smooth</code> — no overshoot; a critically-damped ease.</li>
+      </ul>
+      <CodeBlock lang="css" code={`.thing {
+  transition: transform var(--lk-spring-duration) var(--lk-spring);
+}`} />
+
+      <h2>Press, lift &amp; morph</h2>
+      <p>
+        Three composable utility classes carry the Apple control feel. The{' '}
+        <a href="#/components/liquid-glass">LiquidGlass</a> <code>interactive</code> prop already
+        applies lift + press, so <a href="#/components/button">Button</a> and friends are tactile out
+        of the box.
+      </p>
+      <CodeBlock lang="html" code={`<button class="lk-press">snaps down, springs back</button>
+<div class="lk-lift">floats up on hover, squishes on click</div>
+<div class="lk-morph">width / height / radius animate fluidly</div>
+<div class="lk-spring-in">gel-like entrance on mount</div>`} />
+      <ul className="doc-list">
+        <li><code>.lk-press</code> — snaps down fast on <code>:active</code>, springs back with a tactile overshoot.</li>
+        <li><code>.lk-lift</code> — floats up on hover; presses in on click.</li>
+        <li><code>.lk-morph</code> — set a new width, height or <code>border-radius</code> and it springs to it — the Liquid Glass “reflow”.</li>
+        <li><code>.lk-spring-in</code> — a bouncy scale + fade entrance.</li>
+      </ul>
+
+      <h2>Hooks</h2>
+      <p>
+        Two hooks bring the same physics into JS. <code>useScrollDirection</code> is the primitive
+        behind scroll-reactive chrome — a tab bar that condenses as you scroll down and expands when
+        you scroll up or reach the top.
+      </p>
+      <CodeBlock code={`import { useReducedMotion, useScrollDirection } from 'liquidkit'
+
+function Chrome() {
+  const reduced = useReducedMotion()
+  const { direction, atTop } = useScrollDirection()
+  const condensed = direction === 'down' && !atTop
+  // …shrink the bar when condensed
+}`} />
+
+      <div className="doc-callout">
+        <strong>Reduced motion.</strong> Every spring respects{' '}
+        <code>prefers-reduced-motion</code> and collapses to an instant state change.{' '}
+        <code>useReducedMotion()</code> lets you mirror that in your own JS animations.
+      </div>
+    </>
+  ),
+}
+
+export const guides: GuideDoc[] = [introduction, installation, theming, engine, motion]
 export const guideMap = Object.fromEntries(guides.map((g) => [g.slug, g]))

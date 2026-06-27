@@ -50,7 +50,7 @@
     0 2px 6px rgba(0, 0, 0, 0.35),
     inset 0 1px 1px rgba(255, 255, 255, 0.9);
   transition:
-    transform var(--lk-duration) var(--lk-ease),
+    transform var(--lk-spring-duration-sm) var(--lk-spring-snappy),
     box-shadow var(--lk-duration) var(--lk-ease);
   z-index: 1;
 }

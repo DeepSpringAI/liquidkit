@@ -1,0 +1,120 @@
+/* ============================================================================
+   LiquidKit — Liquid motion system (iOS 26 / macOS 26)
+   Real spring physics via the CSS linear() easing function — overshoot and
+   settle, not flat easing. Curves are sampled from a damped harmonic
+   oscillator (x'' + 2ζωx' + ω²x = 0) at three damping ratios. Plus the
+   composable press / lift / morph behaviors every Apple control shares.
+   linear() is supported in all Chromium, Safari 17.4+, and Firefox 112+;
+   older engines fall back to the linear() final value (a graceful ease).
+   ========================================================================== */
+
+:root {
+  /* ---- spring easings (ζ = damping ratio) ---- */
+  /* gentle — 3% overshoot, the default for lifts, reveals & morphs */
+  --lk-spring: linear(
+    0, 0.0139, 0.0508, 0.1047, 0.1701, 0.2428 10.4%, 0.3191, 0.3963, 0.4719,
+    0.5445, 0.6127 20.8%, 0.6757, 0.7331, 0.7845, 0.83, 0.8697 31.3%, 0.9039,
+    0.9328, 0.957, 0.9768, 0.9928 41.7%, 1.0053, 1.0148, 1.0218, 1.0266,
+    1.0296 52.1%, 1.0312, 1.0315, 1.031, 1.0297, 1.028 62.5%, 1.0258, 1.0235,
+    1.0211, 1.0187, 1.0163 72.9%, 1.014, 1.0119, 1.0099, 1.0082, 1.0066 83.3%,
+    1.0052, 1.0039, 1.0029, 1.002, 1.0013 93.8%, 1.0006, 1.0002, 0.9998
+  );
+  /* snappy — 8% overshoot, for tactile press-back & toggles */
+  --lk-spring-snappy: linear(
+    0, 0.0228, 0.0827, 0.1681, 0.2691, 0.3774 10.4%, 0.4866, 0.5918, 0.6892,
+    0.7766, 0.8525 20.8%, 0.9165, 0.9686, 1.0094, 1.0399, 1.0613 31.3%, 1.0748,
+    1.0818, 1.0835, 1.0812, 1.0759 41.7%, 1.0685, 1.06, 1.0509, 1.0418,
+    1.0331 52.1%, 1.025, 1.0178, 1.0116, 1.0064, 1.0022 62.5%, 0.9989, 0.9964,
+    0.9947, 0.9937, 0.9931 72.9%, 0.993, 0.9933, 0.9937, 0.9944, 0.9951 83.3%,
+    0.9958, 0.9966, 0.9973, 0.998, 0.9986 93.8%, 0.9991, 0.9995, 0.9999
+  );
+  /* bounce — 16% overshoot, playful entrances & the "gel" pop */
+  --lk-spring-bounce: linear(
+    0, 0.0344, 0.1239, 0.2495, 0.3942, 0.5439 10.4%, 0.6876, 0.8172, 0.9277,
+    1.0164, 1.0827 20.8%, 1.1276, 1.1533, 1.1628, 1.1593, 1.1462 31.3%, 1.1266,
+    1.1034, 1.079, 1.0553, 1.0336 41.7%, 1.015, 0.9998, 0.9883, 0.9803,
+    0.9756 52.1%, 0.9736, 0.9738, 0.9757, 0.9787, 0.9824 62.5%, 0.9864, 0.9903,
+    0.9939, 0.997, 0.9996 72.9%, 1.0016, 1.003, 1.0039, 1.0043, 1.0043 83.3%,
+    1.004, 1.0036, 1.003, 1.0023, 1.0017 93.8%, 1.0011, 1.0006, 1.0001
+  );
+  /* smooth — critically-damped feel, no overshoot (alias of the base ease) */
+  --lk-spring-smooth: var(--lk-ease);
+
+  /* ---- spring durations ---- */
+  --lk-spring-duration: 0.52s; /* lifts, morphs, reveals      */
+  --lk-spring-duration-sm: 0.36s; /* press-back, small toggles */
+  --lk-press-duration: 90ms; /* the squish *down* (snaps fast) */
+
+  /* ---- interaction magnitudes ---- */
+  --lk-lift: -2px; /* hover-lift translateY        */
+  --lk-press-scale: 0.96; /* press-squish scale           */
+}
+
+/* --------------------------------------------------------------- behaviors */
+
+/* Press-squish: snaps down fast, springs back with a tactile overshoot.
+   The fast snap lives on :active; the springy return uses the base curve. */
+.lk-press {
+  transition: transform var(--lk-spring-duration-sm) var(--lk-spring-snappy);
+}
+.lk-press:active {
+  transform: scale(var(--lk-press-scale));
+  transition-duration: var(--lk-press-duration);
+}
+
+/* Hover-lift: floats up on hover, presses back in on click. */
+.lk-lift {
+  transition:
+    transform var(--lk-spring-duration) var(--lk-spring),
+    box-shadow var(--lk-spring-duration) var(--lk-spring);
+}
+.lk-lift:hover {
+  transform: translateY(var(--lk-lift));
+}
+.lk-lift:active {
+  transform: translateY(0) scale(var(--lk-press-scale));
+  transition-duration: var(--lk-press-duration);
+}
+
+/* Morph: smoothly animate size & shape changes — the Liquid Glass "reflow".
+   Set width/height/border-radius and they spring to the new value. */
+.lk-morph {
+  transition:
+    width var(--lk-spring-duration) var(--lk-spring),
+    height var(--lk-spring-duration) var(--lk-spring),
+    border-radius var(--lk-spring-duration) var(--lk-spring),
+    transform var(--lk-spring-duration) var(--lk-spring);
+}
+
+/* --------------------------------------------------------------- keyframes */
+
+/* Springy entrance — scale + fade, settling with a gel-like overshoot. */
+@keyframes lk-spring-in {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.lk-spring-in {
+  animation: lk-spring-in var(--lk-spring-duration) var(--lk-spring-bounce) both;
+}
+
+/* --------------------------------------------------------- reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .lk-press,
+  .lk-lift,
+  .lk-morph {
+    transition: none;
+  }
+  .lk-press:active,
+  .lk-lift:active {
+    transform: none;
+  }
+  .lk-spring-in {
+    animation: lk-fade var(--lk-duration) both;
+  }
+}
