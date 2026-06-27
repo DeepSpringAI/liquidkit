@@ -13,11 +13,14 @@ import {
   List,
   ListRow,
   Switch,
+  Table,
+  Tile,
   HeartIcon,
   GlobeIcon,
   BellIcon,
   MoonIcon,
   SparkleIcon,
+  SendIcon,
 } from 'liquidkit'
 import type { ComponentDoc } from '../types'
 
@@ -432,5 +435,128 @@ export const listDoc: ComponentDoc = {
         { name: 'as', type: 'ElementType', description: 'Override the rendered element.' },
       ],
     },
+  ],
+}
+
+/* ----------------------------------------------------------------- Table */
+
+interface Member {
+  name: string
+  role: string
+  status: 'Active' | 'Away'
+}
+const TABLE_ROWS: Member[] = [
+  { name: 'Aria Montgomery', role: 'Design', status: 'Active' },
+  { name: 'Ben Carter', role: 'Engineering', status: 'Active' },
+  { name: 'Chloe Diaz', role: 'Product', status: 'Away' },
+]
+
+export const tableDoc: ComponentDoc = {
+  slug: 'table',
+  name: 'Table',
+  category: 'Data Display',
+  summary:
+    'A data table on a glass surface — custom cell renderers, per-column alignment, optional zebra striping and row hover.',
+  importLine: "import { Table } from 'liquidkit'",
+  examples: [
+    {
+      title: 'Team table',
+      wide: true,
+      demo: (
+        <div style={{ width: '100%', maxWidth: 480, margin: '0 auto' }}>
+          <Table
+            data={TABLE_ROWS}
+            columns={[
+              { key: 'name', header: 'Name' },
+              { key: 'role', header: 'Role' },
+              {
+                key: 'status',
+                header: 'Status',
+                align: 'right',
+                render: (r: Member) => (
+                  <Badge dot variant={r.status === 'Active' ? 'success' : 'warning'}>{r.status}</Badge>
+                ),
+              },
+            ]}
+          />
+        </div>
+      ),
+      code: `<Table
+  data={members}
+  columns={[
+    { key: 'name', header: 'Name' },
+    { key: 'role', header: 'Role' },
+    {
+      key: 'status',
+      header: 'Status',
+      align: 'right',
+      render: (r) => <Badge dot variant={r.status === 'Active' ? 'success' : 'warning'}>{r.status}</Badge>,
+    },
+  ]}
+/>`,
+    },
+  ],
+  props: [
+    { name: 'columns', type: 'TableColumn<T>[]', required: true, description: '{ key, header, align?, width?, render? }.' },
+    { name: 'data', type: 'T[]', required: true, description: 'Row objects.' },
+    { name: 'rowKey', type: '(row, i) => string', description: 'Stable row key; defaults to the index.' },
+    { name: 'striped', type: 'boolean', default: 'false', description: 'Zebra striping.' },
+    { name: 'hover', type: 'boolean', default: 'true', description: 'Highlight rows on hover.' },
+    { name: 'glass', type: 'boolean', default: 'true', description: 'Glass surface; false for an opaque card.' },
+  ],
+}
+
+/* ------------------------------------------------------------------ Tile */
+
+function TileDemo() {
+  const [wifi, setWifi] = useState(true)
+  const [bt, setBt] = useState(true)
+  const [air, setAir] = useState(false)
+  const [low, setLow] = useState(false)
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 120px)', gap: 14 }}>
+      <Tile icon={<GlobeIcon />} label="Wi-Fi" detail={wifi ? 'GlassNet' : 'Off'} active={wifi} activeColor="var(--lk-system-blue)" onClick={() => setWifi((v) => !v)} size={120} />
+      <Tile icon={<SparkleIcon />} label="Bluetooth" detail={bt ? 'On' : 'Off'} active={bt} activeColor="var(--lk-system-blue)" onClick={() => setBt((v) => !v)} size={120} />
+      <Tile icon={<SendIcon />} label="Airplane" detail={air ? 'On' : 'Off'} active={air} activeColor="var(--lk-system-orange)" onClick={() => setAir((v) => !v)} size={120} />
+      <Tile icon={<MoonIcon />} label="Low Power" detail={low ? 'On' : 'Off'} active={low} activeColor="var(--lk-system-yellow)" onClick={() => setLow((v) => !v)} size={120} />
+    </div>
+  )
+}
+
+export const tileDoc: ComponentDoc = {
+  slug: 'tile',
+  name: 'Tile',
+  category: 'Data Display',
+  summary:
+    'The iOS Control Center tile — a glass square with an icon badge and label that toggles on/off, the badge filling with a system color when active.',
+  importLine: "import { Tile } from 'liquidkit'",
+  examples: [
+    {
+      title: 'Control Center toggles',
+      demo: <TileDemo />,
+      code: `function Controls() {
+  const [wifi, setWifi] = useState(true)
+  return (
+    <Tile
+      icon={<GlobeIcon />}
+      label="Wi-Fi"
+      detail={wifi ? 'GlassNet' : 'Off'}
+      active={wifi}
+      activeColor="var(--lk-system-blue)"
+      onClick={() => setWifi((v) => !v)}
+      size={120}
+    />
+  )
+}`,
+    },
+  ],
+  props: [
+    { name: 'icon', type: 'ReactNode', description: 'Icon shown in the badge.' },
+    { name: 'label', type: 'ReactNode', description: 'Primary label.' },
+    { name: 'detail', type: 'ReactNode', description: 'Secondary line under the label.' },
+    { name: 'active', type: 'boolean', default: 'false', description: 'On state — fills the icon badge.' },
+    { name: 'activeColor', type: 'string', default: 'var(--lk-accent)', description: 'Badge fill color when active.' },
+    { name: 'onClick', type: '() => void', description: 'Makes the tile a toggle button.' },
+    { name: 'size', type: 'number', description: 'Square size in px.' },
   ],
 }

@@ -4,6 +4,7 @@ import {
   Toolbar,
   NavBar,
   TabBar,
+  Sidebar,
   Button,
   HomeIcon,
   SearchIcon,
@@ -14,6 +15,9 @@ import {
   EditIcon,
   ImageIcon,
   SparkleIcon,
+  FolderIcon,
+  HashIcon,
+  ClockIcon,
 } from 'liquidkit'
 import type { ComponentDoc } from '../types'
 
@@ -92,6 +96,82 @@ export const dockDoc: ComponentDoc = {
     { name: 'tint', type: 'GlassTint', default: "'auto'", description: 'Surface tint.' },
     { name: 'elevation', type: '0 | 1 | 2 | 3', default: '2', description: 'Drop-shadow depth.' },
     { name: 'glass', type: 'boolean', default: 'true', description: 'Render the glass container. Set false when embedding.' },
+  ],
+}
+
+/* --------------------------------------------------------------- Sidebar */
+
+function SidebarDemo() {
+  const [active, setActive] = useState('all')
+  return (
+    <Sidebar
+      activeId={active}
+      onSelect={setActive}
+      style={{ height: 360 }}
+      header={<strong style={{ fontSize: 15, padding: '0 4px' }}>◇ Mail</strong>}
+      sections={[
+        {
+          items: [
+            { id: 'all', icon: <FolderIcon />, label: 'All Inboxes', badge: '128' },
+            { id: 'unread', icon: <BellIcon />, label: 'Unread', badge: '9' },
+            { id: 'flagged', icon: <SparkleIcon />, label: 'Flagged' },
+          ],
+        },
+        {
+          title: 'Mailboxes',
+          items: [
+            { id: 'work', icon: <HashIcon />, label: 'Work' },
+            { id: 'personal', icon: <HomeIcon />, label: 'Personal' },
+            { id: 'later', icon: <ClockIcon />, label: 'Read Later' },
+          ],
+        },
+      ]}
+    />
+  )
+}
+
+export const sidebarDoc: ComponentDoc = {
+  slug: 'sidebar',
+  name: 'Sidebar',
+  category: 'Navigation',
+  summary:
+    'The macOS source-list sidebar — sectioned navigation with icons, badges, an accent selection, and header / footer slots.',
+  importLine: "import { Sidebar } from 'liquidkit'",
+  examples: [
+    {
+      title: 'Source list',
+      demo: <SidebarDemo />,
+      code: `function Nav() {
+  const [active, setActive] = useState('all')
+  return (
+    <Sidebar
+      activeId={active}
+      onSelect={setActive}
+      header={<strong>◇ Mail</strong>}
+      sections={[
+        { items: [
+          { id: 'all', icon: <FolderIcon />, label: 'All Inboxes', badge: '128' },
+          { id: 'unread', icon: <BellIcon />, label: 'Unread', badge: '9' },
+        ] },
+        { title: 'Mailboxes', items: [
+          { id: 'work', icon: <HashIcon />, label: 'Work' },
+          { id: 'personal', icon: <HomeIcon />, label: 'Personal' },
+        ] },
+      ]}
+    />
+  )
+}`,
+    },
+  ],
+  props: [
+    { name: 'sections', type: 'SidebarSection[]', required: true, description: '{ title?, items: SidebarItem[] }. Items: { id, label, icon?, badge?, href?, onClick? }.' },
+    { name: 'activeId', type: 'string', description: 'Currently selected item id.' },
+    { name: 'onSelect', type: '(id: string) => void', description: 'Fires when an item is chosen.' },
+    { name: 'header', type: 'ReactNode', description: 'Pinned above the nav.' },
+    { name: 'footer', type: 'ReactNode', description: 'Pinned to the bottom.' },
+    { name: 'width', type: 'number', default: '248', description: 'Sidebar width in px.' },
+    { name: 'tint', type: 'GlassTint', default: "'auto'", description: 'Surface tint.' },
+    { name: 'glass', type: 'boolean', default: 'true', description: 'Glass surface; false for an opaque sidebar.' },
   ],
 }
 

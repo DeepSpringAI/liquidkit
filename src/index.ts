@@ -86,6 +86,12 @@ export { List, ListRow } from './components/List/List'
 export type { ListProps, ListRowProps } from './components/List/List'
 export { TabBar } from './components/TabBar/TabBar'
 export type { TabBarProps, TabBarItem } from './components/TabBar/TabBar'
+export { Sidebar } from './components/Sidebar/Sidebar'
+export type { SidebarProps, SidebarItem, SidebarSection } from './components/Sidebar/Sidebar'
+export { Table } from './components/Table/Table'
+export type { TableProps, TableColumn } from './components/Table/Table'
+export { Tile } from './components/Tile/Tile'
+export type { TileProps } from './components/Tile/Tile'
 
 // Templates
 export * from './templates'

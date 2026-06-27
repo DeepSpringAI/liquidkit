@@ -19,8 +19,10 @@ import {
   statTileDoc,
   pricingCardDoc,
   listDoc,
+  tableDoc,
+  tileDoc,
 } from './components/data'
-import { dockDoc, toolbarDoc, navBarDoc, tabBarDoc } from './components/navigation'
+import { dockDoc, toolbarDoc, navBarDoc, tabBarDoc, sidebarDoc } from './components/navigation'
 import { modalDoc, sheetDoc, menuDoc, popoverDoc, toastDoc } from './components/overlays'
 import { guides } from './guides'
 
@@ -50,8 +52,11 @@ export const componentDocs: ComponentDoc[] = [
   statTileDoc,
   pricingCardDoc,
   listDoc,
+  tableDoc,
+  tileDoc,
   // Navigation
   tabBarDoc,
+  sidebarDoc,
   dockDoc,
   toolbarDoc,
   navBarDoc,
