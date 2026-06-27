@@ -1,0 +1,56 @@
+name: Deploy docs
+
+# Builds the showcase playground and publishes it to GitHub Pages.
+#
+# Currently MANUAL-ONLY (workflow_dispatch) because Pages is not enabled on this
+# repo — GitHub Pages requires either a public repo or a paid plan for private
+# repos. To turn on automatic deploys:
+#   1. Make the repo public, OR upgrade to a plan that supports Pages on private
+#      repos.
+#   2. Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
+#   3. Add a push trigger here so docs publish on every merge to main:
+#        on:
+#          push:
+#            branches: [main]
+#          workflow_dispatch:
+#   4. Set "homepage" in package.json to https://<owner>.github.io/liquidkit/
+#      and re-add the docs badge to README.md.
+on:
+  workflow_dispatch:
+
+# Allow the deploy job to publish to Pages via OIDC.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One concurrent deploy; let an in-flight run finish rather than cancelling it.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      # Pages serves the project site under /<repo>/, so build with that base.
+      - run: npm run build:docs -- --base=/liquidkit/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist-site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
