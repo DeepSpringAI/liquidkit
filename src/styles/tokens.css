@@ -1,0 +1,148 @@
+/* ============================================================================
+   LiquidKit — design tokens
+   Light is the :root default; [data-theme="dark"] overrides. When no explicit
+   data-theme is set we follow the OS via prefers-color-scheme.
+   ========================================================================== */
+
+:root {
+  /* ---- typography ---- */
+  --lk-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  --lk-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  /* ---- radii ---- */
+  --lk-radius-xs: 8px;
+  --lk-radius-sm: 12px;
+  --lk-radius-md: 16px;
+  --lk-radius-lg: 22px;
+  --lk-radius-xl: 30px;
+  --lk-radius-2xl: 40px;
+  --lk-radius-full: 999px;
+
+  /* ---- spacing scale ---- */
+  --lk-space-1: 4px;
+  --lk-space-2: 8px;
+  --lk-space-3: 12px;
+  --lk-space-4: 16px;
+  --lk-space-5: 20px;
+  --lk-space-6: 24px;
+  --lk-space-8: 32px;
+  --lk-space-10: 40px;
+  --lk-space-12: 48px;
+
+  /* ---- motion ---- */
+  --lk-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --lk-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --lk-duration-fast: 140ms;
+  --lk-duration: 240ms;
+  --lk-duration-slow: 420ms;
+
+  /* ---- glass material knobs (engine reads these) ---- */
+  --lk-glass-blur: 8px; /* backdrop blur radius */
+  --lk-glass-saturate: 1.7; /* saturation boost on refracted content */
+  --lk-glass-brightness: 1.05;
+  --lk-refract: 46; /* feDisplacementMap scale (refraction strength) */
+  --lk-refract-bezel: 14px; /* width of the refracting edge band */
+  --lk-dispersion: 5; /* chromatic aberration split (0 disables) */
+
+  /* ============ LIGHT THEME (default) ============ */
+  --lk-bg: #e9edf4;
+  --lk-bg-elev: #f3f6fb;
+  --lk-fg: #0c0e14;
+  --lk-fg-muted: rgba(12, 14, 20, 0.62);
+  --lk-fg-subtle: rgba(12, 14, 20, 0.42);
+
+  --lk-accent: #2f6bff;
+  --lk-accent-fg: #ffffff;
+  --lk-accent-soft: rgba(47, 107, 255, 0.16);
+
+  --lk-success: #1faa5a;
+  --lk-warning: #e6952a;
+  --lk-danger: #e5484d;
+
+  /* glass surface composition */
+  --lk-glass-tint: rgba(255, 255, 255, 0.45);
+  --lk-glass-tint-strong: rgba(255, 255, 255, 0.62);
+  --lk-glass-border: rgba(255, 255, 255, 0.7);
+  --lk-glass-border-soft: rgba(255, 255, 255, 0.4);
+  --lk-glass-highlight: rgba(255, 255, 255, 0.95);
+  --lk-glass-inner-shadow: rgba(20, 30, 60, 0.12);
+
+  /* drop shadows for floating glass */
+  --lk-shadow-1: 0 1px 2px rgba(20, 30, 60, 0.1),
+    0 2px 6px rgba(20, 30, 60, 0.08);
+  --lk-shadow-2: 0 6px 16px rgba(20, 30, 60, 0.14),
+    0 2px 6px rgba(20, 30, 60, 0.1);
+  --lk-shadow-3: 0 18px 50px rgba(20, 30, 60, 0.22),
+    0 8px 18px rgba(20, 30, 60, 0.12);
+
+  color-scheme: light;
+}
+
+/* ============ DARK THEME ============ */
+[data-theme="dark"] {
+  --lk-bg: #07080c;
+  --lk-bg-elev: #0f1118;
+  --lk-fg: #f4f7fb;
+  --lk-fg-muted: rgba(244, 247, 251, 0.64);
+  --lk-fg-subtle: rgba(244, 247, 251, 0.4);
+
+  --lk-accent: #5b8cff;
+  --lk-accent-fg: #ffffff;
+  --lk-accent-soft: rgba(91, 140, 255, 0.22);
+
+  --lk-success: #34d27b;
+  --lk-warning: #f3b14b;
+  --lk-danger: #ff5a5f;
+
+  --lk-glass-tint: rgba(255, 255, 255, 0.1);
+  --lk-glass-tint-strong: rgba(255, 255, 255, 0.16);
+  --lk-glass-border: rgba(255, 255, 255, 0.22);
+  --lk-glass-border-soft: rgba(255, 255, 255, 0.1);
+  --lk-glass-highlight: rgba(255, 255, 255, 0.75);
+  --lk-glass-inner-shadow: rgba(0, 0, 0, 0.55);
+
+  --lk-glass-saturate: 1.8;
+  --lk-glass-brightness: 1.12;
+
+  --lk-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-2: 0 8px 24px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-3: 0 24px 64px rgba(0, 0, 0, 0.65), 0 10px 24px rgba(0, 0, 0, 0.45);
+
+  color-scheme: dark;
+}
+
+/* Follow the OS when the app hasn't pinned a theme */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --lk-bg: #07080c;
+    --lk-bg-elev: #0f1118;
+    --lk-fg: #f4f7fb;
+    --lk-fg-muted: rgba(244, 247, 251, 0.64);
+    --lk-fg-subtle: rgba(244, 247, 251, 0.4);
+
+    --lk-accent: #5b8cff;
+    --lk-accent-soft: rgba(91, 140, 255, 0.22);
+
+    --lk-success: #34d27b;
+    --lk-warning: #f3b14b;
+    --lk-danger: #ff5a5f;
+
+    --lk-glass-tint: rgba(255, 255, 255, 0.1);
+    --lk-glass-tint-strong: rgba(255, 255, 255, 0.16);
+    --lk-glass-border: rgba(255, 255, 255, 0.22);
+    --lk-glass-border-soft: rgba(255, 255, 255, 0.1);
+    --lk-glass-highlight: rgba(255, 255, 255, 0.75);
+    --lk-glass-inner-shadow: rgba(0, 0, 0, 0.55);
+    --lk-glass-saturate: 1.8;
+    --lk-glass-brightness: 1.12;
+
+    --lk-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+    --lk-shadow-2: 0 8px 24px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+    --lk-shadow-3: 0 24px 64px rgba(0, 0, 0, 0.65),
+      0 10px 24px rgba(0, 0, 0, 0.45);
+
+    color-scheme: dark;
+  }
+}

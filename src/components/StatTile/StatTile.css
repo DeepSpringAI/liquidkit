@@ -1,0 +1,72 @@
+.lk-stat {
+  display: inline-flex;
+}
+.lk-stat .lk-glass__content {
+  width: 100%;
+  height: 100%;
+}
+
+.lk-stat__inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 20px;
+  gap: 8px;
+}
+
+.lk-stat__value {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--lk-fg);
+}
+
+.lk-stat__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.lk-stat__label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--lk-fg-muted);
+}
+.lk-stat__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.lk-stat__delta--up {
+  color: var(--lk-success);
+}
+.lk-stat__delta--down {
+  color: var(--lk-danger);
+}
+.lk-stat__arrow {
+  font-size: 9px;
+}
+
+/* glowing variant */
+.lk-stat--glow {
+  box-shadow:
+    0 0 44px -6px var(--lk-stat-accent),
+    var(--lk-shadow-2);
+}
+.lk-stat--glow .lk-glass__tint {
+  background:
+    radial-gradient(
+      130% 120% at 50% 125%,
+      color-mix(in srgb, var(--lk-stat-accent) 60%, transparent),
+      transparent 72%
+    ),
+    var(--lk-glass-tint);
+}
+.lk-stat--glow .lk-stat__value,
+.lk-stat--glow .lk-stat__label {
+  color: #fff;
+}

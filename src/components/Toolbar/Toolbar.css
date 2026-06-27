@@ -1,0 +1,76 @@
+.lk-toolbar .lk-glass__content {
+  display: flex;
+  width: 100%;
+}
+
+.lk-toolbar__items {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+}
+
+.lk-toolbar__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 44px;
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  color: var(--lk-fg-muted);
+  cursor: pointer;
+  border-radius: var(--lk-radius-md);
+  transition:
+    color var(--lk-duration) var(--lk-ease),
+    background var(--lk-duration) var(--lk-ease);
+}
+.lk-toolbar__item:hover {
+  color: var(--lk-fg);
+  background: var(--lk-glass-border-soft);
+}
+.lk-toolbar__item.is-active {
+  color: var(--lk-fg);
+  background: var(--lk-glass-tint-strong);
+}
+.lk-toolbar__item:focus-visible {
+  outline: 2px solid var(--lk-accent);
+  outline-offset: 2px;
+}
+
+.lk-toolbar__icon {
+  display: inline-flex;
+}
+.lk-toolbar__icon svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+.lk-toolbar__chevron {
+  display: inline-flex;
+  opacity: 0.7;
+}
+
+/* primary accent action (e.g. the glowing play button) */
+.lk-toolbar__item--primary {
+  width: 44px;
+  padding: 0;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--lk-accent-fg);
+  background:
+    radial-gradient(120% 120% at 30% 25%, rgba(255, 255, 255, 0.5), transparent 55%),
+    var(--lk-accent);
+}
+.lk-toolbar__item--primary:hover {
+  color: var(--lk-accent-fg);
+  background:
+    radial-gradient(120% 120% at 30% 25%, rgba(255, 255, 255, 0.6), transparent 55%),
+    var(--lk-accent);
+}
+.lk-toolbar__item--glow {
+  box-shadow:
+    0 0 18px 1px var(--lk-accent),
+    inset 0 1px 1px rgba(255, 255, 255, 0.45);
+}

@@ -1,0 +1,232 @@
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.lk-root {
+  min-height: 100vh;
+  background-color: var(--lk-bg);
+}
+
+/* A busy, colorful backdrop so refraction/dispersion is clearly visible. */
+.stage {
+  position: relative;
+  min-height: 100vh;
+  padding: 48px clamp(20px, 6vw, 96px);
+  background-image:
+    radial-gradient(40% 55% at 18% 22%, rgba(91, 140, 255, 0.65), transparent 60%),
+    radial-gradient(45% 45% at 82% 18%, rgba(190, 80, 255, 0.6), transparent 60%),
+    radial-gradient(50% 50% at 75% 85%, rgba(255, 120, 60, 0.55), transparent 60%),
+    radial-gradient(45% 55% at 25% 88%, rgba(40, 220, 180, 0.5), transparent 60%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.05) 0 2px,
+      transparent 2px 22px
+    );
+  background-attachment: fixed;
+}
+
+.stage__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 56px;
+}
+
+.stage__top h1 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  color: var(--lk-fg);
+}
+
+.stage__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+.demo-card {
+  width: 320px;
+}
+.demo-card__body {
+  padding: 28px;
+}
+.demo-eyebrow {
+  margin: 0 0 6px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lk-fg-subtle);
+}
+.demo-card h2 {
+  margin: 0 0 10px;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+}
+.demo-muted {
+  margin: 0;
+  color: var(--lk-fg-muted);
+  line-height: 1.5;
+}
+
+.demo-btn {
+  padding: 16px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--lk-fg);
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+}
+
+.demo-chip {
+  padding: 14px 20px;
+  font-size: 13px;
+  color: var(--lk-fg);
+}
+
+.demo-themebtn {
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--lk-fg);
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+}
+
+/* ---- refraction diagnostic lab (#lab) ---- */
+.lab {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lab__pattern {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-conic-gradient(#000 0% 25%, #fff 0% 50%) 0 0 / 54px 54px,
+    repeating-linear-gradient(90deg, rgba(255,0,0,0.0) 0 26px, rgba(255,0,0,0.9) 26px 28px);
+}
+.lab__row {
+  position: relative;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+.lab__glass {
+  width: 260px;
+  height: 260px;
+}
+.lab__pill {
+  width: 360px;
+  height: 96px;
+}
+
+/* ---- component gallery ---- */
+.sec {
+  margin-bottom: 44px;
+}
+.sec__title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--lk-fg-subtle);
+  margin: 0 0 18px;
+}
+.sec__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  align-items: center;
+}
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lk-fg-subtle);
+}
+.card-title {
+  margin: 0 0 8px;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+.muted {
+  margin: 0;
+  color: var(--lk-fg-muted);
+  line-height: 1.5;
+}
+.chip {
+  padding: 14px 20px;
+  font-size: 13px;
+  color: var(--lk-fg);
+}
+
+/* ---- template scene helpers ---- */
+.links {
+  margin-top: 40px;
+  color: var(--lk-fg-muted);
+  font-size: 14px;
+}
+.links a {
+  color: var(--lk-accent);
+  text-decoration: none;
+}
+.feat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px;
+}
+.feat__icon {
+  color: var(--lk-fg);
+}
+.feat__icon svg {
+  width: 22px;
+  height: 22px;
+}
+.feat > svg {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  color: var(--lk-fg-subtle);
+}
+.feat__title {
+  margin: 10px 0 0;
+  font-size: 16px;
+}
+.feat__desc {
+  margin: 0;
+  color: var(--lk-fg-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.dash-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 32px 0 24px;
+}
+.dash-welcome h1 {
+  margin: 16px 0 0;
+  font-size: 34px;
+  letter-spacing: -0.02em;
+}
+.dash-welcome p {
+  margin: 6px 0 0;
+  color: var(--lk-fg-muted);
+  font-size: 18px;
+}

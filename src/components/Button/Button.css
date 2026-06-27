@@ -1,0 +1,119 @@
+.lk-btn {
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  color: var(--lk-fg);
+  cursor: pointer;
+}
+
+.lk-btn__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+}
+
+.lk-btn__label {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.lk-btn__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.lk-btn__icon svg {
+  display: block;
+  width: 1.15em;
+  height: 1.15em;
+}
+
+/* sizes */
+.lk-btn--sm .lk-btn__inner {
+  padding: 8px 14px;
+  font-size: 13px;
+}
+.lk-btn--md .lk-btn__inner {
+  padding: 12px 20px;
+  font-size: 15px;
+}
+.lk-btn--lg .lk-btn__inner {
+  padding: 15px 26px;
+  font-size: 16px;
+}
+
+/* icon-only (square / circular with `pill`) */
+.lk-btn--icon.lk-btn--sm .lk-btn__inner {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+.lk-btn--icon.lk-btn--md .lk-btn__inner {
+  width: 46px;
+  height: 46px;
+  padding: 0;
+}
+.lk-btn--icon.lk-btn--lg .lk-btn__inner {
+  width: 56px;
+  height: 56px;
+  padding: 0;
+}
+.lk-btn--icon .lk-btn__icon svg {
+  width: 1.4em;
+  height: 1.4em;
+}
+
+/* block */
+.lk-btn--block {
+  display: flex;
+  width: 100%;
+}
+
+/* ghost */
+.lk-btn--ghost {
+  border-radius: var(--lk-radius-md);
+  color: var(--lk-fg-muted);
+  transition:
+    color var(--lk-duration) var(--lk-ease),
+    background var(--lk-duration) var(--lk-ease);
+}
+.lk-btn--ghost:hover {
+  color: var(--lk-fg);
+  background: var(--lk-glass-border-soft);
+}
+.lk-btn--ghost:focus-visible {
+  outline: 2px solid var(--lk-accent);
+  outline-offset: 2px;
+}
+
+/* chromatic glow ring */
+.lk-btn--glow::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    #ff4d6d,
+    #ffd24d,
+    #4dff9e,
+    #4dd2ff,
+    #8b5cff,
+    #ff4dd2,
+    #ff4d6d
+  );
+  filter: blur(7px) saturate(1.4);
+  opacity: 0.85;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.lk-btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

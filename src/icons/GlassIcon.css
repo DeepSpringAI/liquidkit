@@ -1,0 +1,25 @@
+.lk-glassicon {
+  display: inline-flex;
+}
+
+.lk-glassicon .lk-glass__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.lk-glassicon__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--lk-fg);
+}
+
+.lk-glassicon__icon svg {
+  width: 46%;
+  height: 46%;
+}

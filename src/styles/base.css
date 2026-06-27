@@ -1,0 +1,15 @@
+/* Minimal, scoped base styles. Only elements under `.lk-root` are affected. */
+
+.lk-root {
+  font-family: var(--lk-font-sans);
+  color: var(--lk-fg);
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.lk-root *,
+.lk-root *::before,
+.lk-root *::after {
+  box-sizing: border-box;
+}

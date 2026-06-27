@@ -1,0 +1,122 @@
+.lk-glass {
+  position: relative;
+  display: inline-flex;
+  isolation: isolate;
+  border-radius: var(--lk-radius-lg);
+  color: var(--lk-fg);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lk-glass[data-elevation='0'] {
+  box-shadow: none;
+}
+.lk-glass[data-elevation='1'] {
+  box-shadow: var(--lk-shadow-1);
+}
+.lk-glass[data-elevation='2'] {
+  box-shadow: var(--lk-shadow-2);
+}
+.lk-glass[data-elevation='3'] {
+  box-shadow: var(--lk-shadow-3);
+}
+
+.lk-glass__refraction,
+.lk-glass__tint,
+.lk-glass__bevel,
+.lk-glass__sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* refraction + frosting layer */
+.lk-glass__refraction {
+  z-index: 0;
+  backdrop-filter: blur(var(--lk-glass-blur)) saturate(var(--lk-glass-saturate));
+  -webkit-backdrop-filter: blur(var(--lk-glass-blur)) saturate(var(--lk-glass-saturate));
+}
+
+/* color tint */
+.lk-glass__tint {
+  z-index: 1;
+  background: var(--lk-glass-tint);
+}
+.lk-glass[data-tint='clear'] .lk-glass__tint {
+  background: transparent;
+}
+.lk-glass[data-tint='light'] .lk-glass__tint {
+  background: rgba(255, 255, 255, 0.5);
+}
+.lk-glass[data-tint='dark'] .lk-glass__tint {
+  background: rgba(8, 10, 18, 0.42);
+}
+.lk-glass[data-tint='accent'] .lk-glass__tint {
+  background: var(--lk-accent-soft);
+}
+
+/* specular bevel: bright top edge, soft inner shading, hairline border */
+.lk-glass__bevel {
+  z-index: 2;
+  border: 1px solid var(--lk-glass-border-soft);
+  box-shadow:
+    inset 0 1px 0 0 var(--lk-glass-highlight),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 14px 26px -18px var(--lk-glass-highlight),
+    inset 0 -10px 22px -14px var(--lk-glass-inner-shadow);
+}
+
+/* glossy diagonal streak */
+.lk-glass__sheen {
+  z-index: 3;
+  background: linear-gradient(
+    128deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.08) 16%,
+    rgba(255, 255, 255, 0) 36%,
+    rgba(255, 255, 255, 0) 68%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  opacity: 0.7;
+  mix-blend-mode: screen;
+}
+
+.lk-glass__content {
+  position: relative;
+  z-index: 4;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* interactive affordance */
+.lk-glass--interactive {
+  cursor: pointer;
+  transition:
+    transform var(--lk-duration) var(--lk-ease),
+    box-shadow var(--lk-duration) var(--lk-ease);
+}
+.lk-glass--interactive:hover {
+  transform: translateY(-1px);
+}
+.lk-glass--interactive:active {
+  transform: translateY(0) scale(0.985);
+}
+.lk-glass--interactive:focus-visible {
+  outline: 2px solid var(--lk-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lk-glass--interactive {
+    transition: none;
+  }
+}
+
+/* Fallback when backdrop-filter isn't supported: lean on a denser tint. */
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
+  .lk-glass__tint {
+    background: var(--lk-glass-tint-strong);
+  }
+}

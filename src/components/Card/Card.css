@@ -1,0 +1,17 @@
+.lk-card {
+  display: flex;
+}
+
+.lk-card .lk-glass__content {
+  width: 100%;
+}
+
+.lk-card--pad-sm {
+  padding: 16px;
+}
+.lk-card--pad-md {
+  padding: 24px;
+}
+.lk-card--pad-lg {
+  padding: 32px;
+}

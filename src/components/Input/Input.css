@@ -1,0 +1,59 @@
+.lk-input {
+  display: inline-flex;
+  width: 260px;
+}
+
+.lk-input .lk-glass__content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0 14px;
+}
+
+.lk-input__field {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: var(--lk-fg);
+  font: inherit;
+}
+.lk-input__field::placeholder {
+  color: var(--lk-fg-subtle);
+}
+
+.lk-input--sm .lk-input__field {
+  padding: 9px 0;
+  font-size: 13px;
+}
+.lk-input--md .lk-input__field {
+  padding: 12px 0;
+  font-size: 15px;
+}
+.lk-input--lg .lk-input__field {
+  padding: 16px 0;
+  font-size: 16px;
+}
+
+.lk-input__icon {
+  display: inline-flex;
+  color: var(--lk-fg-subtle);
+  flex: 0 0 auto;
+}
+.lk-input__icon svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.lk-input:focus-within {
+  outline: 2px solid var(--lk-accent);
+  outline-offset: 1px;
+}
+
+.lk-input.is-disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}

@@ -1,0 +1,48 @@
+.lk-chartcard {
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+}
+.lk-chartcard .lk-glass__content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.lk-chartcard__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.lk-chartcard__title {
+  margin: 0;
+  font-size: 14px;
+  color: var(--lk-fg-muted);
+}
+.lk-chartcard__value {
+  margin: 2px 0 0;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--lk-fg);
+}
+
+.lk-chartcard__chart {
+  width: 100%;
+  display: block;
+  margin: 8px 0;
+  overflow: visible;
+}
+.lk-chartcard__line {
+  filter: drop-shadow(0 3px 10px rgba(255, 90, 80, 0.55));
+}
+
+.lk-chartcard__labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--lk-fg-subtle);
+  font-weight: 600;
+}

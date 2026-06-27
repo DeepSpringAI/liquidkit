@@ -1,0 +1,95 @@
+import { forwardRef } from 'react'
+import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import { LiquidGlass } from '../../core/LiquidGlass'
+import { cx } from '../../utils/cx'
+import './Button.css'
+
+export type ButtonVariant = 'glass' | 'accent' | 'ghost'
+export type ButtonSize = 'sm' | 'md' | 'lg'
+
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** @default 'glass' */
+  variant?: ButtonVariant
+  /** @default 'md' */
+  size?: ButtonSize
+  /** Fully rounded pill. */
+  pill?: boolean
+  /** Square/circular icon-only button. */
+  iconOnly?: boolean
+  /** Chromatic glow ring behind the button (the "Liquid Home" look). */
+  glow?: boolean
+  /** Stretch to fill the container width. */
+  block?: boolean
+  leftIcon?: ReactNode
+  rightIcon?: ReactNode
+  /** Refraction strength override. */
+  refraction?: number
+  /** Chromatic dispersion override. */
+  dispersion?: number
+}
+
+const RADIUS: Record<ButtonSize, number> = { sm: 12, md: 16, lg: 20 }
+
+/** A glass button. Supports icons, sizes, pill/icon-only shapes and a glow ring. */
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  {
+    variant = 'glass',
+    size = 'md',
+    pill = false,
+    iconOnly = false,
+    glow = false,
+    block = false,
+    leftIcon,
+    rightIcon,
+    refraction,
+    dispersion,
+    className,
+    children,
+    type = 'button',
+    ...rest
+  },
+  ref,
+) {
+  const inner = (
+    <span className="lk-btn__inner">
+      {leftIcon && <span className="lk-btn__icon">{leftIcon}</span>}
+      {children != null && <span className="lk-btn__label">{children}</span>}
+      {rightIcon && <span className="lk-btn__icon">{rightIcon}</span>}
+    </span>
+  )
+
+  const classes = cx(
+    'lk-btn',
+    `lk-btn--${size}`,
+    iconOnly && 'lk-btn--icon',
+    block && 'lk-btn--block',
+    glow && 'lk-btn--glow',
+    className,
+  )
+
+  if (variant === 'ghost') {
+    return (
+      <button ref={ref} type={type} className={cx(classes, 'lk-btn--ghost')} {...rest}>
+        {inner}
+      </button>
+    )
+  }
+
+  return (
+    <LiquidGlass
+      as="button"
+      ref={ref as never}
+      type={type}
+      interactive
+      pill={pill}
+      radius={RADIUS[size]}
+      tint={variant === 'accent' ? 'accent' : 'auto'}
+      refraction={refraction}
+      dispersion={dispersion}
+      className={cx(classes, `lk-btn--${variant}`)}
+      {...rest}
+    >
+      {inner}
+    </LiquidGlass>
+  )
+})

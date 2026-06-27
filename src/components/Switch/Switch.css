@@ -1,0 +1,117 @@
+.lk-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lk-switch__control {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.lk-switch--sm .lk-switch__control {
+  width: 46px;
+  height: 28px;
+}
+.lk-switch--md .lk-switch__control {
+  width: 56px;
+  height: 34px;
+}
+.lk-switch--lg .lk-switch__control {
+  width: 68px;
+  height: 40px;
+}
+
+.lk-switch__track {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: filter var(--lk-duration) var(--lk-ease);
+}
+
+.lk-switch__thumb {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #3a3f4a;
+  background: linear-gradient(180deg, #ffffff, #e7ebf2);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  transition:
+    transform var(--lk-duration) var(--lk-ease),
+    box-shadow var(--lk-duration) var(--lk-ease);
+  z-index: 1;
+}
+
+.lk-switch__thumb-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58%;
+  height: 58%;
+}
+.lk-switch__thumb-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.lk-switch--sm[data-checked='true'] .lk-switch__thumb {
+  transform: translateX(18px);
+}
+.lk-switch--md[data-checked='true'] .lk-switch__thumb {
+  transform: translateX(22px);
+}
+.lk-switch--lg[data-checked='true'] .lk-switch__thumb {
+  transform: translateX(28px);
+}
+
+/* glowing accent ring when on */
+.lk-switch__thumb--glow {
+  --lk-switch-glow: 0 0 0 transparent;
+}
+.lk-switch[data-checked='true'] .lk-switch__thumb--glow {
+  box-shadow:
+    0 0 16px 2px var(--lk-accent),
+    0 0 6px 0 var(--lk-accent),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+.lk-switch__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--lk-fg);
+  cursor: pointer;
+  user-select: none;
+}
+
+.lk-switch[data-disabled] {
+  opacity: 0.5;
+}
+.lk-switch[data-disabled] .lk-switch__control,
+.lk-switch[data-disabled] .lk-switch__label {
+  cursor: not-allowed;
+}
+
+.lk-switch__control:focus-visible {
+  outline: 2px solid var(--lk-accent);
+  outline-offset: 3px;
+  border-radius: var(--lk-radius-full);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lk-switch__thumb {
+    transition: none;
+  }
+}

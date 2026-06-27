@@ -1,0 +1,252 @@
+/* ============================================================================
+   LiquidKit page templates — shared layout + per-template styling.
+   ========================================================================== */
+
+.lk-tpl {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  font-family: var(--lk-font-sans);
+  color: var(--lk-fg);
+  box-sizing: border-box;
+}
+.lk-tpl *,
+.lk-tpl *::before,
+.lk-tpl *::after {
+  box-sizing: border-box;
+}
+
+/* default gradient + background slot sit behind content (negative z so we
+   don't have to force position:relative on every content child). */
+.lk-tpl::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+.lk-tpl__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.lk-tpl__bg > * {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Landing hero ---------- */
+.lk-landing::before {
+  background:
+    radial-gradient(60% 55% at 50% -5%, rgba(91, 140, 255, 0.4), transparent 70%),
+    radial-gradient(45% 45% at 85% 25%, rgba(190, 80, 255, 0.32), transparent 70%),
+    radial-gradient(40% 40% at 12% 75%, rgba(40, 220, 180, 0.22), transparent 70%),
+    var(--lk-bg);
+}
+.lk-landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+}
+.lk-landing__nav {
+  width: 100%;
+  max-width: 1100px;
+  padding-top: 8px;
+}
+.lk-landing__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 840px;
+  padding: 64px 0;
+}
+.lk-landing__eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lk-fg-subtle);
+  margin-bottom: 20px;
+}
+.lk-landing__title {
+  margin: 0 0 20px;
+  font-size: clamp(40px, 7vw, 84px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+.lk-landing__subtitle {
+  margin: 0 0 36px;
+  max-width: 560px;
+  font-size: clamp(16px, 2vw, 20px);
+  line-height: 1.5;
+  color: var(--lk-fg-muted);
+}
+.lk-landing__actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ---------- Waitlist ---------- */
+.lk-waitlist::before {
+  background:
+    radial-gradient(60% 60% at 50% 38%, rgba(255, 120, 60, 0.3), transparent 70%),
+    radial-gradient(42% 42% at 82% 72%, rgba(255, 80, 120, 0.22), transparent 70%),
+    var(--lk-bg);
+}
+.lk-waitlist {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.lk-waitlist__watermark {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3%;
+  text-align: center;
+  font-size: clamp(80px, 20vw, 260px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--lk-fg);
+  opacity: 0.05;
+  pointer-events: none;
+  user-select: none;
+}
+.lk-waitlist__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 540px;
+}
+.lk-waitlist__badge {
+  margin-bottom: 18px;
+}
+.lk-waitlist__title {
+  margin: 0 0 24px;
+  font-size: clamp(36px, 6vw, 68px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.lk-waitlist__card {
+  width: 100%;
+}
+.lk-waitlist__subtitle {
+  margin: 0 0 20px;
+  color: var(--lk-fg-muted);
+  line-height: 1.5;
+}
+.lk-waitlist__form {
+  display: flex;
+  gap: 10px;
+}
+.lk-waitlist__input {
+  flex: 1 1 auto;
+  width: auto;
+}
+.lk-waitlist__socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  justify-content: center;
+}
+
+/* ---------- Pricing page ---------- */
+.lk-pricingpage::before {
+  background:
+    radial-gradient(50% 50% at 72% 18%, rgba(91, 140, 255, 0.32), transparent 70%),
+    radial-gradient(42% 50% at 18% 62%, rgba(140, 90, 255, 0.28), transparent 70%),
+    var(--lk-bg);
+}
+.lk-pricingpage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 24px 64px;
+}
+.lk-pricingpage__nav {
+  width: 100%;
+  max-width: 1100px;
+}
+.lk-pricingpage__head {
+  text-align: center;
+  padding: 56px 0 40px;
+}
+.lk-pricingpage__title {
+  margin: 0;
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.lk-pricingpage__subtitle {
+  margin: 14px 0 0;
+  font-size: 18px;
+  color: var(--lk-fg-muted);
+}
+.lk-pricingpage__billing {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+.lk-pricingpage__grid {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* ---------- Dashboard shell ---------- */
+.lk-dash::before {
+  background:
+    radial-gradient(55% 60% at 82% -5%, rgba(91, 140, 255, 0.18), transparent 70%),
+    var(--lk-bg);
+}
+.lk-dash {
+  display: flex;
+  gap: 18px;
+  padding: 18px;
+}
+.lk-dash__sidebar {
+  flex-grow: 0;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+.lk-dash__sidebar .lk-glass__content {
+  width: 100%;
+}
+.lk-dash__sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  height: 100%;
+}
+.lk-dash__main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+.lk-dash__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.lk-dash__content {
+  flex: 1;
+}

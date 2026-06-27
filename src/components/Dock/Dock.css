@@ -1,0 +1,82 @@
+.lk-dock .lk-glass__content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.lk-dock__items {
+  display: flex;
+  gap: 6px;
+  padding: 8px;
+}
+.lk-dock[data-orientation='vertical'] .lk-dock__items {
+  flex-direction: column;
+}
+
+.lk-dock__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--lk-fg-muted);
+  cursor: pointer;
+  border-radius: 50%;
+  text-decoration: none;
+  transition:
+    color var(--lk-duration) var(--lk-ease),
+    background var(--lk-duration) var(--lk-ease);
+}
+
+.lk-dock--sm .lk-dock__item {
+  width: 38px;
+  height: 38px;
+}
+.lk-dock--md .lk-dock__item {
+  width: 46px;
+  height: 46px;
+}
+.lk-dock--lg .lk-dock__item {
+  width: 54px;
+  height: 54px;
+}
+
+.lk-dock__item:hover {
+  color: var(--lk-fg);
+  background: var(--lk-glass-border-soft);
+}
+.lk-dock__item.is-active {
+  color: var(--lk-fg);
+  background: var(--lk-glass-tint-strong);
+  box-shadow: inset 0 1px 0 var(--lk-glass-highlight);
+}
+.lk-dock__item:focus-visible {
+  outline: 2px solid var(--lk-accent);
+  outline-offset: 2px;
+}
+
+.lk-dock__icon {
+  display: flex;
+}
+.lk-dock__icon svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+.lk-dock--sm .lk-dock__icon svg {
+  width: 19px;
+  height: 19px;
+}
+.lk-dock--lg .lk-dock__icon svg {
+  width: 25px;
+  height: 25px;
+}
+
+/* bare (no glass container) — for embedding inside another surface */
+.lk-dock--bare {
+  display: inline-flex;
+}
+.lk-dock--bare .lk-dock__items {
+  padding: 0;
+}
