@@ -9,7 +9,7 @@ import {
   tabsDoc,
   selectDoc,
 } from './components/actions'
-import { inputDoc, commandBarDoc } from './components/inputs'
+import { inputDoc, searchFieldDoc, stepperDoc, commandBarDoc } from './components/inputs'
 import {
   badgeDoc,
   avatarDoc,
@@ -38,6 +38,8 @@ export const componentDocs: ComponentDoc[] = [
   selectDoc,
   // Inputs
   inputDoc,
+  searchFieldDoc,
+  stepperDoc,
   commandBarDoc,
   // Data Display
   badgeDoc,

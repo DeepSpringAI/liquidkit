@@ -1,0 +1,107 @@
+.lk-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.lk-search__field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0 10px;
+  background: var(--lk-fill-tertiary);
+  border-radius: var(--lk-radius-field);
+  transition: background var(--lk-duration) var(--lk-ease);
+}
+.lk-search__field:focus-within {
+  background: var(--lk-fill-secondary);
+  outline: 2px solid var(--lk-accent);
+  outline-offset: 1px;
+}
+
+.lk-search--sm .lk-search__field {
+  height: 32px;
+  border-radius: 10px;
+}
+.lk-search--md .lk-search__field {
+  height: 38px;
+}
+.lk-search--lg .lk-search__field {
+  height: 44px;
+}
+
+.lk-search__icon {
+  flex: 0 0 auto;
+  display: flex;
+  color: var(--lk-label-secondary);
+}
+.lk-search__icon svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+.lk-search__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--lk-label);
+  font: inherit;
+  font-size: 17px;
+  outline: none;
+}
+.lk-search--sm .lk-search__input {
+  font-size: 15px;
+}
+.lk-search__input::placeholder {
+  color: var(--lk-label-tertiary);
+}
+/* hide the native search decorations — we render our own clear button */
+.lk-search__input::-webkit-search-cancel-button,
+.lk-search__input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.lk-search__clear {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--lk-label-tertiary);
+  color: var(--lk-bg-elev);
+  cursor: pointer;
+}
+.lk-search__clear svg {
+  width: 12px;
+  height: 12px;
+  stroke-width: 3;
+}
+
+.lk-search__cancel {
+  flex: 0 0 auto;
+  padding: 0 2px;
+  border: 0;
+  background: transparent;
+  color: var(--lk-accent);
+  font: inherit;
+  font-size: 17px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.lk-search__cancel:focus-visible {
+  outline: 2px solid var(--lk-accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}

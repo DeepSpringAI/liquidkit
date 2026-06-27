@@ -2,6 +2,8 @@ import { useState } from 'react'
 import {
   Input,
   CommandBar,
+  SearchField,
+  Stepper,
   Button,
   IconButton,
   SearchIcon,
@@ -57,6 +59,101 @@ export const inputDoc: ComponentDoc = {
     { name: 'inputSize', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Control size.' },
     { name: 'pill', type: 'boolean', default: 'false', description: 'Fully rounded.' },
     { name: '...input', type: 'InputHTMLAttributes', description: 'All native <input> attributes except size.' },
+  ],
+}
+
+/* ----------------------------------------------------------- SearchField */
+
+function SearchFieldDemo() {
+  const [q, setQ] = useState('')
+  return (
+    <div style={{ width: '100%', maxWidth: 420, margin: '0 auto' }}>
+      <SearchField value={q} onChange={setQ} cancelable placeholder="Search" />
+    </div>
+  )
+}
+
+export const searchFieldDoc: ComponentDoc = {
+  slug: 'search-field',
+  name: 'SearchField',
+  category: 'Inputs',
+  summary:
+    'The iOS search bar — a rounded fill with a leading magnifier, a clear (×) button, and an optional Cancel action that appears on focus.',
+  importLine: "import { SearchField } from 'liquidkit'",
+  examples: [
+    {
+      title: 'Search bar',
+      wide: true,
+      demo: <SearchFieldDemo />,
+      code: `function Bar() {
+  const [q, setQ] = useState('')
+  return <SearchField value={q} onChange={setQ} cancelable />
+}`,
+    },
+    {
+      title: 'Sizes',
+      wide: true,
+      demo: (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: 320, margin: '0 auto' }}>
+          <SearchField size="sm" placeholder="Small" />
+          <SearchField size="md" placeholder="Medium" />
+          <SearchField size="lg" placeholder="Large" />
+        </div>
+      ),
+      code: `<SearchField size="sm" />
+<SearchField size="md" />
+<SearchField size="lg" />`,
+    },
+  ],
+  props: [
+    { name: 'value / defaultValue', type: 'string', description: 'Controlled / uncontrolled text.' },
+    { name: 'onChange', type: '(value: string) => void', description: 'Fires on every keystroke.' },
+    { name: 'onClear', type: '() => void', description: 'Fires when the clear button is pressed.' },
+    { name: 'cancelable', type: 'boolean', default: 'false', description: 'Reveal a Cancel button while focused or non-empty.' },
+    { name: 'onCancel', type: '() => void', description: 'Fires when Cancel is pressed.' },
+    { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Control size.' },
+    { name: '...input', type: 'InputHTMLAttributes', description: 'All native <input> attributes except size/value.' },
+  ],
+}
+
+/* --------------------------------------------------------------- Stepper */
+
+function StepperDemo() {
+  const [qty, setQty] = useState(2)
+  return <Stepper value={qty} onChange={setQty} min={1} max={9} showValue aria-label="Quantity" />
+}
+
+export const stepperDoc: ComponentDoc = {
+  slug: 'stepper',
+  name: 'Stepper',
+  category: 'Inputs',
+  summary: 'The iOS −/+ stepper, optionally showing the current value. Clamps to min / max and steps by step.',
+  importLine: "import { Stepper } from 'liquidkit'",
+  examples: [
+    {
+      title: 'With value',
+      demo: <StepperDemo />,
+      code: `function Qty() {
+  const [qty, setQty] = useState(2)
+  return <Stepper value={qty} onChange={setQty} min={1} max={9} showValue />
+}`,
+    },
+    {
+      title: 'Compact',
+      description: 'Without showValue it is the classic UIStepper — just the two buttons.',
+      demo: <Stepper defaultValue={3} min={0} max={10} aria-label="Count" />,
+      code: `<Stepper defaultValue={3} min={0} max={10} />`,
+    },
+  ],
+  props: [
+    { name: 'value / defaultValue', type: 'number', description: 'Controlled / uncontrolled value.' },
+    { name: 'onChange', type: '(value: number) => void', description: 'Fires when the value changes.' },
+    { name: 'min', type: 'number', default: '0', description: 'Lower bound.' },
+    { name: 'max', type: 'number', default: 'Infinity', description: 'Upper bound.' },
+    { name: 'step', type: 'number', default: '1', description: 'Increment.' },
+    { name: 'showValue', type: 'boolean', default: 'false', description: 'Show the current value between the buttons.' },
+    { name: 'formatValue', type: '(v: number) => ReactNode', description: 'Format the displayed value.' },
+    { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Control size.' },
   ],
 }
 
