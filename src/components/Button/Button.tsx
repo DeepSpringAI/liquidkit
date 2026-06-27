@@ -75,7 +75,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
 
   if (variant === 'ghost') {
     return (
-      <Comp ref={ref as never} className={cx(classes, 'lk-btn--ghost', 'lk-press')} {...typeAttr} {...rest}>
+      <Comp
+        ref={ref as never}
+        className={cx(classes, 'lk-btn--ghost', 'lk-press')}
+        {...typeAttr}
+        {...rest}
+      >
         {inner}
       </Comp>
     )

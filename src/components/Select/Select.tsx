@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
-import type { ReactNode } from 'react'
+import { forwardRef, useEffect, useId, useRef, useState } from 'react'
+import type { HTMLAttributes, KeyboardEvent, ReactNode } from 'react'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { ChevronDownIcon, CheckIcon } from '../../icons/icons'
 import { cx } from '../../utils/cx'
+import { mergeRefs } from '../../utils/mergeRefs'
+import { moveListFocus } from '../../utils/moveListFocus'
 import './Select.css'
 
 export interface SelectOption {
@@ -10,40 +12,51 @@ export interface SelectOption {
   label: ReactNode
 }
 
-export interface SelectProps {
+export interface SelectProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   options: SelectOption[]
   value?: string
   defaultValue?: string
   onChange?: (value: string) => void
   placeholder?: ReactNode
   disabled?: boolean
-  className?: string
 }
 
+const OPTION_SELECTOR = '[role="option"]'
+
 /** A glass select / dropdown menu. */
-export function Select({
-  options,
-  value,
-  defaultValue,
-  onChange,
-  placeholder = 'Select…',
-  disabled = false,
-  className,
-}: SelectProps) {
+export const Select = forwardRef<HTMLDivElement, SelectProps>(function Select(
+  {
+    options,
+    value,
+    defaultValue,
+    onChange,
+    placeholder = 'Select…',
+    disabled = false,
+    className,
+    ...rest
+  },
+  ref,
+) {
   const controlled = value != null
   const [internal, setInternal] = useState(defaultValue)
   const v = controlled ? value : internal
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
+  const listboxId = useId()
   const selected = options.find((o) => o.value === v)
 
   useEffect(() => {
     if (!open) return
-    const onDoc = (e: MouseEvent) => {
+    const onDoc = (e: globalThis.MouseEvent) => {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false)
     }
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false)
+    const onKey = (e: globalThis.KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false)
+        triggerRef.current?.focus()
+      }
     }
     document.addEventListener('mousedown', onDoc)
     document.addEventListener('keydown', onKey)
@@ -53,21 +66,50 @@ export function Select({
     }
   }, [open])
 
+  // Move focus into the listbox (selected option first) when it opens.
+  useEffect(() => {
+    if (!open) return
+    const panel = panelRef.current
+    if (!panel) return
+    const target =
+      panel.querySelector<HTMLElement>(`${OPTION_SELECTOR}[aria-selected="true"]`) ??
+      panel.querySelector<HTMLElement>(OPTION_SELECTOR)
+    target?.focus()
+  }, [open])
+
   const choose = (val: string) => {
     if (!controlled) setInternal(val)
     onChange?.(val)
     setOpen(false)
+    triggerRef.current?.focus()
+  }
+
+  const onTriggerKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+    if (
+      !open &&
+      (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter' || e.key === ' ')
+    ) {
+      e.preventDefault()
+      setOpen(true)
+    }
+  }
+
+  const onPanelKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (moveListFocus(panelRef.current, e.key, OPTION_SELECTOR)) e.preventDefault()
   }
 
   return (
-    <div className={cx('lk-select', className)} ref={rootRef}>
+    <div className={cx('lk-select', className)} ref={mergeRefs(rootRef, ref)} {...rest}>
       <button
+        ref={triggerRef}
         type="button"
         className="lk-select__trigger"
         disabled={disabled}
         aria-haspopup="listbox"
         aria-expanded={open}
+        aria-controls={open ? listboxId : undefined}
         onClick={() => setOpen((o) => !o)}
+        onKeyDown={onTriggerKeyDown}
       >
         <span className={cx('lk-select__value', !selected && 'is-placeholder')}>
           {selected ? selected.label : placeholder}
@@ -75,7 +117,16 @@ export function Select({
         <ChevronDownIcon size={18} className={cx('lk-select__chevron', open && 'is-open')} />
       </button>
       {open && (
-        <LiquidGlass radius={16} elevation={3} sheen={false} className="lk-select__menu" role="listbox">
+        <LiquidGlass
+          ref={panelRef as never}
+          radius={16}
+          elevation={3}
+          sheen={false}
+          className="lk-select__menu"
+          role="listbox"
+          id={listboxId}
+          onKeyDown={onPanelKeyDown}
+        >
           {options.map((o) => (
             <button
               key={o.value}
@@ -93,4 +144,4 @@ export function Select({
       )}
     </div>
   )
-}
+})

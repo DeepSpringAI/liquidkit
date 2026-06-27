@@ -18,12 +18,22 @@ export function PropsTable({ props }: { props: PropDef[] }) {
             <tr key={p.name}>
               <td>
                 <code className="doc-props__name">{p.name}</code>
-                {p.required && <span className="doc-props__req" title="Required">*</span>}
+                {p.required && (
+                  <span className="doc-props__req" title="Required">
+                    *
+                  </span>
+                )}
               </td>
               <td>
                 <code className="doc-props__type">{p.type}</code>
               </td>
-              <td>{p.default ? <code className="doc-props__def">{p.default}</code> : <span className="doc-props__dash">—</span>}</td>
+              <td>
+                {p.default ? (
+                  <code className="doc-props__def">{p.default}</code>
+                ) : (
+                  <span className="doc-props__dash">—</span>
+                )}
+              </td>
               <td>{p.description}</td>
             </tr>
           ))}

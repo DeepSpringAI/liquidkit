@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react'
+import type { HTMLAttributes, ReactNode } from 'react'
 import { LiquidGlass, type GlassTint } from '../../core/LiquidGlass'
 import { cx } from '../../utils/cx'
 import './Table.css'
@@ -13,7 +13,7 @@ export interface TableColumn<T> {
   render?: (row: T, index: number) => ReactNode
 }
 
-export interface TableProps<T> {
+export interface TableProps<T> extends HTMLAttributes<HTMLDivElement> {
   columns: TableColumn<T>[]
   data: T[]
   /** Stable row key. Defaults to the row index. */
@@ -26,8 +26,6 @@ export interface TableProps<T> {
   hover?: boolean
   /** @default 'auto' */
   tint?: GlassTint
-  className?: string
-  style?: CSSProperties
 }
 
 /** A data table on a glass surface, with custom renderers and per-column alignment. */
@@ -41,6 +39,7 @@ export function Table<T>({
   tint = 'auto',
   className,
   style,
+  ...rest
 }: TableProps<T>) {
   const table = (
     <table className={cx('lk-table', striped && 'lk-table--striped', hover && 'lk-table--hover')}>
@@ -58,7 +57,9 @@ export function Table<T>({
           <tr key={rowKey ? rowKey(row, i) : i}>
             {columns.map((c) => (
               <td key={c.key} style={{ textAlign: c.align ?? 'left' }}>
-                {c.render ? c.render(row, i) : ((row as Record<string, unknown>)[c.key] as ReactNode)}
+                {c.render
+                  ? c.render(row, i)
+                  : ((row as Record<string, unknown>)[c.key] as ReactNode)}
               </td>
             ))}
           </tr>
@@ -69,7 +70,11 @@ export function Table<T>({
 
   if (!glass) {
     return (
-      <div className={cx('lk-table-wrap', 'lk-table-wrap--bare', className)} style={style}>
+      <div
+        className={cx('lk-table-wrap', 'lk-table-wrap--bare', className)}
+        style={style}
+        {...rest}
+      >
         {table}
       </div>
     )
@@ -81,6 +86,7 @@ export function Table<T>({
       tint={tint}
       sheen={false}
       elevation={1}
+      {...rest}
       className={cx('lk-table-wrap', className)}
       style={style}
     >

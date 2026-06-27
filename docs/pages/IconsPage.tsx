@@ -94,7 +94,8 @@ export function IconsPage() {
         <h1>Icons</h1>
         <p className="doc-page__lead">
           {ICONS.length} stroke icons, sized on a 24&times;24 grid. They inherit{' '}
-          <code>currentColor</code> and accept a <code>size</code> prop. Click any tile to copy its tag.
+          <code>currentColor</code> and accept a <code>size</code> prop. Click any tile to copy its
+          tag.
         </p>
       </header>
 

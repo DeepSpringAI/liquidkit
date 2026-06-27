@@ -1,0 +1,7 @@
+dist
+dist-site
+coverage
+node_modules
+.shots
+.claude
+*.md

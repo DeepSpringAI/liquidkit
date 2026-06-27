@@ -1,8 +1,4 @@
-import {
-  glassFilterKey,
-  glassFilterMarkup,
-  type GlassFilterParams,
-} from './displacement'
+import { glassFilterKey, glassFilterMarkup, type GlassFilterParams } from './displacement'
 
 /* ============================================================================
    A process-wide registry of <filter> elements. Many glass components share

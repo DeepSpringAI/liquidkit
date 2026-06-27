@@ -28,7 +28,9 @@ export function Home() {
     <div className="home">
       <section className="home-hero">
         <div className="home-hero__copy">
-          <Badge variant="accent" dot>v0.1 · React + TypeScript</Badge>
+          <Badge variant="accent" dot>
+            v0.1 · React + TypeScript
+          </Badge>
           <h1>
             Interfaces that <span className="home-grad">bend light</span>
           </h1>
@@ -37,7 +39,14 @@ export function Home() {
             refracted, not just blurred. Light &amp; dark, ~13&nbsp;kB, zero runtime dependencies.
           </p>
           <div className="home-hero__cta">
-            <Button as="a" href="#/guide/installation" size="lg" variant="accent" pill rightIcon={<ArrowRightIcon />}>
+            <Button
+              as="a"
+              href="#/guide/installation"
+              size="lg"
+              variant="accent"
+              pill
+              rightIcon={<ArrowRightIcon />}
+            >
               Get started
             </Button>
             <Button as="a" href="#/components/liquid-glass" size="lg" pill>
@@ -68,23 +77,37 @@ export function Home() {
       </section>
 
       <section className="home-features">
-        <Feature icon={<CubeIcon />} title="True refraction" desc="SVG displacement bends the live page at every edge, with an optional chromatic fringe — not a flat blur." />
-        <Feature icon={<SunIcon />} title="Light & dark, designed" desc="Both themes are first-class and token-driven. Re-theme the whole kit with a handful of CSS variables." />
-        <Feature icon={<SparkleIcon />} title="25 components + templates" desc="Buttons to dashboards, four full-page layouts, 34 icons — all composing one glass primitive." />
+        <Feature
+          icon={<CubeIcon />}
+          title="True refraction"
+          desc="SVG displacement bends the live page at every edge, with an optional chromatic fringe — not a flat blur."
+        />
+        <Feature
+          icon={<SunIcon />}
+          title="Light & dark, designed"
+          desc="Both themes are first-class and token-driven. Re-theme the whole kit with a handful of CSS variables."
+        />
+        <Feature
+          icon={<SparkleIcon />}
+          title="25 components + templates"
+          desc="Buttons to dashboards, four full-page layouts, 34 icons — all composing one glass primitive."
+        />
       </section>
 
       <section className="home-install">
         <div>
           <h2>Up and running in seconds</h2>
           <p>Install, import the stylesheet, wrap your app. That's it.</p>
-          <Button as="a" href="#/guide/installation" variant="ghost" rightIcon={<ArrowUpRightIcon size={18} />}>
+          <Button
+            as="a"
+            href="#/guide/installation"
+            variant="ghost"
+            rightIcon={<ArrowUpRightIcon size={18} />}
+          >
             Read the guide
           </Button>
         </div>
-        <CodeBlock
-          code={`npm install liquidkit`}
-          lang="bash"
-        />
+        <CodeBlock code={`npm install liquidkit`} lang="bash" />
         <CodeBlock
           code={`import 'liquidkit/styles.css'
 import { ThemeProvider, Button } from 'liquidkit'

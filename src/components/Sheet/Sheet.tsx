@@ -1,13 +1,20 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import type { CSSProperties, PointerEvent as ReactPointerEvent, ReactNode } from 'react'
+import { forwardRef, useEffect, useId, useMemo, useRef, useState } from 'react'
+import type {
+  CSSProperties,
+  HTMLAttributes,
+  PointerEvent as ReactPointerEvent,
+  ReactNode,
+} from 'react'
 import { createPortal } from 'react-dom'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { cx } from '../../utils/cx'
+import { mergeRefs } from '../../utils/mergeRefs'
+import { useFocusTrap } from '../../utils/useFocusTrap'
 import './Sheet.css'
 
 export type Detent = number | 'medium' | 'large'
 
-export interface SheetProps {
+export interface SheetProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   open: boolean
   onClose?: () => void
   title?: ReactNode
@@ -21,7 +28,6 @@ export interface SheetProps {
   closeOnBackdrop?: boolean
   /** Show the drag handle (and allow dragging between detents). @default true */
   grabber?: boolean
-  className?: string
 }
 
 function resolveDetent(d: Detent, vh: number): number {
@@ -31,22 +37,30 @@ function resolveDetent(d: Detent, vh: number): number {
 }
 
 /** The iOS sheet: a bottom panel that springs up and snaps between detents. */
-export function Sheet({
-  open,
-  onClose,
-  title,
-  children,
-  footer,
-  detents = ['medium', 'large'],
-  defaultDetent = 0,
-  closeOnBackdrop = true,
-  grabber = true,
-  className,
-}: SheetProps) {
+export const Sheet = forwardRef<HTMLDivElement, SheetProps>(function Sheet(
+  {
+    open,
+    onClose,
+    title,
+    children,
+    footer,
+    detents = ['medium', 'large'],
+    defaultDetent = 0,
+    closeOnBackdrop = true,
+    grabber = true,
+    className,
+    style,
+    ...rest
+  },
+  ref,
+) {
   const [vh, setVh] = useState(() => (typeof window !== 'undefined' ? window.innerHeight : 800))
   const [detentIdx, setDetentIdx] = useState(defaultDetent)
   const [dragH, setDragH] = useState<number | null>(null)
   const drag = useRef<{ startY: number; startH: number } | null>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
+  const titleId = useId()
+  useFocusTrap(panelRef, open)
 
   const resolved = useMemo(
     () => detents.map((d) => resolveDetent(d, vh)).sort((a, b) => a - b),
@@ -107,19 +121,29 @@ export function Sheet({
 
   return createPortal(
     <div className="lk-sheet">
-      <div className="lk-sheet__scrim" onClick={closeOnBackdrop ? onClose : undefined} />
+      {/* Backdrop is a pointer affordance only; keyboard users dismiss via Esc. */}
+      <div
+        className="lk-sheet__scrim"
+        aria-hidden="true"
+        onClick={closeOnBackdrop ? onClose : undefined}
+      />
       <LiquidGlass
+        ref={mergeRefs(panelRef, ref) as never}
         elevation={3}
         sheen={false}
+        {...rest}
         className={cx('lk-sheet__panel', dragH != null && 'is-dragging', className)}
         style={
           {
             height,
             borderRadius: 'var(--lk-radius-sheet) var(--lk-radius-sheet) 0 0',
+            ...style,
           } as CSSProperties
         }
         role="dialog"
         aria-modal="true"
+        aria-labelledby={title != null ? titleId : undefined}
+        tabIndex={-1}
       >
         <div
           className="lk-sheet__grabarea"
@@ -128,7 +152,11 @@ export function Sheet({
           onPointerUp={grabber ? onPointerUp : undefined}
         >
           {grabber && <span className="lk-sheet__grabber" />}
-          {title != null && <h3 className="lk-sheet__title">{title}</h3>}
+          {title != null && (
+            <h3 className="lk-sheet__title" id={titleId}>
+              {title}
+            </h3>
+          )}
         </div>
         <div className="lk-sheet__body">{children}</div>
         {footer != null && <div className="lk-sheet__footer">{footer}</div>}
@@ -136,4 +164,4 @@ export function Sheet({
     </div>,
     document.body,
   )
-}
+})

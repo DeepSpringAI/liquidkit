@@ -1,8 +1,10 @@
-import { cloneElement, isValidElement, useEffect, useRef, useState } from 'react'
-import type { MouseEvent, ReactElement, ReactNode } from 'react'
+import { cloneElement, forwardRef, isValidElement, useEffect, useRef, useState } from 'react'
+import type { HTMLAttributes, KeyboardEvent, MouseEvent, ReactElement, ReactNode } from 'react'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { CheckIcon } from '../../icons'
 import { cx } from '../../utils/cx'
+import { mergeRefs } from '../../utils/mergeRefs'
+import { moveListFocus } from '../../utils/moveListFocus'
 import './Menu.css'
 
 export type MenuItem =
@@ -19,34 +21,48 @@ export type MenuItem =
 
 export type MenuPlacement = 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end'
 
-export interface MenuProps {
+export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
   /** The element that opens the menu. Its onClick is wrapped automatically. */
   trigger: ReactNode
   items: MenuItem[]
   /** @default 'bottom-start' */
   placement?: MenuPlacement
-  className?: string
 }
 
+const ITEM_SELECTOR = '[role="menuitem"],[role="menuitemcheckbox"]'
+
 /** A dropdown action menu (also a context menu) anchored to its trigger. */
-export function Menu({ trigger, items, placement = 'bottom-start', className }: MenuProps) {
+export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(
+  { trigger, items, placement = 'bottom-start', className, ...rest },
+  ref,
+) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!open) return
-    const onDoc = (e: MouseEvent | globalThis.MouseEvent) => {
+    const onDoc = (e: globalThis.MouseEvent) => {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false)
     }
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false)
+    const onKey = (e: globalThis.KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false)
+        ;(rootRef.current?.firstElementChild as HTMLElement | null)?.focus?.()
+      }
     }
-    document.addEventListener('mousedown', onDoc as EventListener)
+    document.addEventListener('mousedown', onDoc)
     document.addEventListener('keydown', onKey)
     return () => {
-      document.removeEventListener('mousedown', onDoc as EventListener)
+      document.removeEventListener('mousedown', onDoc)
       document.removeEventListener('keydown', onKey)
     }
+  }, [open])
+
+  // Move focus into the menu when it opens.
+  useEffect(() => {
+    if (!open) return
+    panelRef.current?.querySelector<HTMLElement>(`${ITEM_SELECTOR}:not([disabled])`)?.focus()
   }, [open])
 
   const triggerEl = isValidElement(trigger) ? (
@@ -68,18 +84,25 @@ export function Menu({ trigger, items, placement = 'bottom-start', className }: 
     if (it.disabled) return
     it.onSelect?.()
     setOpen(false)
+    ;(rootRef.current?.firstElementChild as HTMLElement | null)?.focus?.()
+  }
+
+  const onPanelKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (moveListFocus(panelRef.current, e.key, ITEM_SELECTOR)) e.preventDefault()
   }
 
   return (
-    <div className={cx('lk-menu', className)} ref={rootRef}>
+    <div className={cx('lk-menu', className)} ref={mergeRefs(rootRef, ref)} {...rest}>
       {triggerEl}
       {open && (
         <LiquidGlass
+          ref={panelRef as never}
           radius={14}
           elevation={3}
           sheen={false}
           className={cx('lk-menu__panel', `lk-menu__panel--${placement}`)}
           role="menu"
+          onKeyDown={onPanelKeyDown}
         >
           {items.map((it, i) =>
             'divider' in it ? (
@@ -88,7 +111,8 @@ export function Menu({ trigger, items, placement = 'bottom-start', className }: 
               <button
                 key={it.id}
                 type="button"
-                role="menuitem"
+                role={it.checked != null ? 'menuitemcheckbox' : 'menuitem'}
+                aria-checked={it.checked != null ? !!it.checked : undefined}
                 disabled={it.disabled}
                 className={cx('lk-menu__item', it.destructive && 'is-destructive')}
                 onClick={() => select(it)}
@@ -103,4 +127,4 @@ export function Menu({ trigger, items, placement = 'bottom-start', className }: 
       )}
     </div>
   )
-}
+})

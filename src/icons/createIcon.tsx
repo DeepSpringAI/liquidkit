@@ -8,10 +8,7 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'children'> {
 
 /** Build a 24×24 stroke icon component from path nodes. */
 export function createIcon(node: ReactNode, displayName: string) {
-  const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
-    { size = 24, ...props },
-    ref,
-  ) {
+  const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon({ size = 24, ...props }, ref) {
     return (
       <svg
         ref={ref}

@@ -3,7 +3,16 @@ import { CheckIcon } from 'liquidkit'
 import { Highlighted } from './highlight'
 
 const CopyIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <rect x="9" y="9" width="11" height="11" rx="2.5" />
     <path d="M5 15V6a2 2 0 0 1 2-2h8" />
   </svg>

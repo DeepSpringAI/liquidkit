@@ -22,7 +22,19 @@ export interface ProgressProps {
 
 /** A glass progress indicator — linear bar or circular ring. */
 export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progress(
-  { value, max = 100, variant = 'bar', size, thickness = 8, showValue = false, accent, glow = false, className, style, ...aria },
+  {
+    value,
+    max = 100,
+    variant = 'bar',
+    size,
+    thickness = 8,
+    showValue = false,
+    accent,
+    glow = false,
+    className,
+    style,
+    ...aria
+  },
   ref,
 ) {
   const pct = Math.max(0, Math.min(1, value / max))
@@ -45,7 +57,14 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progr
         {...aria}
       >
         <svg width={d} height={d} viewBox={`0 0 ${d} ${d}`}>
-          <circle className="lk-progress-ring__track" cx={d / 2} cy={d / 2} r={r} strokeWidth={thickness} fill="none" />
+          <circle
+            className="lk-progress-ring__track"
+            cx={d / 2}
+            cy={d / 2}
+            r={r}
+            strokeWidth={thickness}
+            fill="none"
+          />
           <circle
             className="lk-progress-ring__fill"
             cx={d / 2}

@@ -1,13 +1,14 @@
-import { cloneElement, isValidElement, useEffect, useRef, useState } from 'react'
-import type { CSSProperties, MouseEvent, ReactElement, ReactNode } from 'react'
+import { cloneElement, forwardRef, isValidElement, useEffect, useRef, useState } from 'react'
+import type { CSSProperties, HTMLAttributes, MouseEvent, ReactElement, ReactNode } from 'react'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { cx } from '../../utils/cx'
+import { mergeRefs } from '../../utils/mergeRefs'
 import './Popover.css'
 
 export type PopoverPlacement = 'top' | 'bottom' | 'left' | 'right'
 export type PopoverAlign = 'start' | 'center' | 'end'
 
-export interface PopoverProps {
+export interface PopoverProps extends HTMLAttributes<HTMLDivElement> {
   /** The element that opens the popover. Its onClick is wrapped automatically. */
   trigger: ReactNode
   children: ReactNode
@@ -21,20 +22,23 @@ export interface PopoverProps {
   openOnHover?: boolean
   /** Fixed panel width in px. */
   width?: number
-  className?: string
 }
 
 /** A floating glass panel with an arrow, anchored to its trigger. */
-export function Popover({
-  trigger,
-  children,
-  placement = 'bottom',
-  align = 'center',
-  arrow = true,
-  openOnHover = false,
-  width,
-  className,
-}: PopoverProps) {
+export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover(
+  {
+    trigger,
+    children,
+    placement = 'bottom',
+    align = 'center',
+    arrow = true,
+    openOnHover = false,
+    width,
+    className,
+    ...rest
+  },
+  ref,
+) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
 
@@ -82,7 +86,12 @@ export function Popover({
   )
 
   return (
-    <div className={cx('lk-popover', className)} ref={rootRef} {...hoverProps}>
+    <div
+      className={cx('lk-popover', className)}
+      ref={mergeRefs(rootRef, ref)}
+      {...rest}
+      {...hoverProps}
+    >
       {triggerEl}
       {open && (
         <LiquidGlass
@@ -96,10 +105,15 @@ export function Popover({
           style={width ? ({ width } as CSSProperties) : undefined}
           role="dialog"
         >
-          {arrow && <span className={cx('lk-popover__arrow', `lk-popover__arrow--${placement}`)} aria-hidden="true" />}
+          {arrow && (
+            <span
+              className={cx('lk-popover__arrow', `lk-popover__arrow--${placement}`)}
+              aria-hidden="true"
+            />
+          )}
           <div className="lk-popover__content">{children}</div>
         </LiquidGlass>
       )}
     </div>
   )
-}
+})

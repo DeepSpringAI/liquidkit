@@ -24,7 +24,19 @@ export interface TileProps {
 
 /** The iOS Control Center tile: an icon badge with a label, toggled on/off. */
 export const Tile = forwardRef<HTMLElement, TileProps>(function Tile(
-  { icon, label, detail, active = false, activeColor = 'var(--lk-accent)', onClick, size, as, className, style, children },
+  {
+    icon,
+    label,
+    detail,
+    active = false,
+    activeColor = 'var(--lk-accent)',
+    onClick,
+    size,
+    as,
+    className,
+    style,
+    children,
+  },
   ref,
 ) {
   const Comp: ElementType = as ?? (onClick ? 'button' : 'div')

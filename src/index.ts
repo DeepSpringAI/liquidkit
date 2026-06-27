@@ -7,19 +7,9 @@ import './styles/base.css'
 export { LiquidGlass } from './core/LiquidGlass'
 export type { LiquidGlassProps, GlassTint, GlassMaterial } from './core/LiquidGlass'
 export { useGlassFilter } from './core/useGlassFilter'
-export type {
-  UseGlassFilterOptions,
-  UseGlassFilterResult,
-} from './core/useGlassFilter'
-export {
-  displacementMapDataUri,
-  glassFilterMarkup,
-  glassFilterKey,
-} from './core/displacement'
-export type {
-  GlassFilterParams,
-  DisplacementMapOptions,
-} from './core/displacement'
+export type { UseGlassFilterOptions, UseGlassFilterResult } from './core/useGlassFilter'
+export { displacementMapDataUri, glassFilterMarkup, glassFilterKey } from './core/displacement'
+export type { GlassFilterParams, DisplacementMapOptions } from './core/displacement'
 
 // Components
 export { Button } from './components/Button/Button'

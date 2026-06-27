@@ -47,7 +47,9 @@ export const buttonDoc: ComponentDoc = {
           <Button size="sm">Small</Button>
           <Button size="md">Medium</Button>
           <Button size="lg">Large</Button>
-          <Button pill variant="accent">Pill</Button>
+          <Button pill variant="accent">
+            Pill
+          </Button>
         </div>
       ),
       code: `<Button size="sm">Small</Button>
@@ -61,8 +63,12 @@ export const buttonDoc: ComponentDoc = {
       demo: (
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
           <Button leftIcon={<PlusIcon size={18} />}>New</Button>
-          <Button rightIcon={<ArrowRightIcon size={18} />} variant="accent">Continue</Button>
-          <Button glow variant="accent" leftIcon={<HeartIcon size={18} />}>Glow</Button>
+          <Button rightIcon={<ArrowRightIcon size={18} />} variant="accent">
+            Continue
+          </Button>
+          <Button glow variant="accent" leftIcon={<HeartIcon size={18} />}>
+            Glow
+          </Button>
         </div>
       ),
       code: `<Button leftIcon={<PlusIcon />}>New</Button>
@@ -71,18 +77,47 @@ export const buttonDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'as', type: 'ElementType', default: "'button'", description: "Element to render as, e.g. 'a' for a link button." },
-    { name: 'variant', type: "'glass' | 'accent' | 'ghost'", default: "'glass'", description: 'Visual style.' },
+    {
+      name: 'as',
+      type: 'ElementType',
+      default: "'button'",
+      description: "Element to render as, e.g. 'a' for a link button.",
+    },
+    {
+      name: 'variant',
+      type: "'glass' | 'accent' | 'ghost'",
+      default: "'glass'",
+      description: 'Visual style.',
+    },
     { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Control size.' },
     { name: 'pill', type: 'boolean', default: 'false', description: 'Fully rounded pill.' },
-    { name: 'iconOnly', type: 'boolean', default: 'false', description: 'Square / circular icon-only button.' },
-    { name: 'glow', type: 'boolean', default: 'false', description: 'Chromatic glow ring behind the button.' },
-    { name: 'block', type: 'boolean', default: 'false', description: 'Stretch to fill the container width.' },
+    {
+      name: 'iconOnly',
+      type: 'boolean',
+      default: 'false',
+      description: 'Square / circular icon-only button.',
+    },
+    {
+      name: 'glow',
+      type: 'boolean',
+      default: 'false',
+      description: 'Chromatic glow ring behind the button.',
+    },
+    {
+      name: 'block',
+      type: 'boolean',
+      default: 'false',
+      description: 'Stretch to fill the container width.',
+    },
     { name: 'leftIcon', type: 'ReactNode', description: 'Icon before the label.' },
     { name: 'rightIcon', type: 'ReactNode', description: 'Icon after the label.' },
     { name: 'refraction', type: 'number', description: 'Refraction strength override.' },
     { name: 'dispersion', type: 'number', description: 'Chromatic dispersion override.' },
-    { name: '...button', type: 'ButtonHTMLAttributes', description: 'All native <button> attributes (onClick, disabled, …).' },
+    {
+      name: '...button',
+      type: 'ButtonHTMLAttributes',
+      description: 'All native <button> attributes (onClick, disabled, …).',
+    },
   ],
 }
 
@@ -99,10 +134,18 @@ export const iconButtonDoc: ComponentDoc = {
       title: 'Icon buttons',
       demo: (
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <IconButton aria-label="Search"><SearchIcon /></IconButton>
-          <IconButton aria-label="Notifications"><BellIcon /></IconButton>
-          <IconButton aria-label="Like" variant="accent" glow><HeartIcon /></IconButton>
-          <IconButton aria-label="Settings" size="lg"><SettingsIcon /></IconButton>
+          <IconButton aria-label="Search">
+            <SearchIcon />
+          </IconButton>
+          <IconButton aria-label="Notifications">
+            <BellIcon />
+          </IconButton>
+          <IconButton aria-label="Like" variant="accent" glow>
+            <HeartIcon />
+          </IconButton>
+          <IconButton aria-label="Settings" size="lg">
+            <SettingsIcon />
+          </IconButton>
         </div>
       ),
       code: `<IconButton aria-label="Search"><SearchIcon /></IconButton>
@@ -111,10 +154,19 @@ export const iconButtonDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'aria-label', type: 'string', required: true, description: 'Names the action for screen readers.' },
+    {
+      name: 'aria-label',
+      type: 'string',
+      required: true,
+      description: 'Names the action for screen readers.',
+    },
     { name: 'children', type: 'ReactNode', required: true, description: 'The icon to render.' },
     { name: 'pill', type: 'boolean', default: 'true', description: 'Circular shape.' },
-    { name: '...Button', type: '—', description: 'All Button props except iconOnly / leftIcon / rightIcon.' },
+    {
+      name: '...Button',
+      type: '—',
+      description: 'All Button props except iconOnly / leftIcon / rightIcon.',
+    },
   ],
 }
 
@@ -127,7 +179,13 @@ function SwitchDemo() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <Switch checked={wifi} onChange={setWifi} label="Wi-Fi" />
       <Switch checked={bt} onChange={setBt} label="Bluetooth" />
-      <Switch defaultChecked glow iconOn={<CheckIcon size={12} />} iconOff={<CloseIcon size={12} />} label="With glow + icons" />
+      <Switch
+        defaultChecked
+        glow
+        iconOn={<CheckIcon size={12} />}
+        iconOff={<CloseIcon size={12} />}
+        label="With glow + icons"
+      />
       <Switch disabled label="Disabled" />
     </div>
   )
@@ -176,7 +234,12 @@ export const switchDoc: ComponentDoc = {
     { name: 'label', type: 'ReactNode', description: 'Text rendered next to the control.' },
     { name: 'iconOn', type: 'ReactNode', description: 'Icon inside the thumb when on.' },
     { name: 'iconOff', type: 'ReactNode', description: 'Icon inside the thumb when off.' },
-    { name: 'glow', type: 'boolean', default: 'false', description: 'Accent glow around the thumb when on.' },
+    {
+      name: 'glow',
+      type: 'boolean',
+      default: 'false',
+      description: 'Accent glow around the thumb when on.',
+    },
     { name: 'disabled', type: 'boolean', default: 'false', description: 'Disable interaction.' },
   ],
 }
@@ -202,8 +265,17 @@ export const themeToggleDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'glow', type: 'boolean', default: 'true', description: 'Accent glow around the thumb.' },
-    { name: '...Switch', type: '—', description: 'All Switch props except checked / onChange / iconOn / iconOff.' },
+    {
+      name: 'glow',
+      type: 'boolean',
+      default: 'true',
+      description: 'Accent glow around the thumb.',
+    },
+    {
+      name: '...Switch',
+      type: '—',
+      description: 'All Switch props except checked / onChange / iconOn / iconOff.',
+    },
   ],
 }
 
@@ -299,7 +371,12 @@ export const tabsDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'items', type: 'TabItem[]', required: true, description: 'Tabs: { id, label, icon? }.' },
+    {
+      name: 'items',
+      type: 'TabItem[]',
+      required: true,
+      description: 'Tabs: { id, label, icon? }.',
+    },
     { name: 'value', type: 'string', description: 'Controlled active id.' },
     { name: 'defaultValue', type: 'string', description: 'Uncontrolled initial id.' },
     { name: 'onChange', type: '(id: string) => void', description: 'Fires on tab change.' },
@@ -352,11 +429,21 @@ export const selectDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'options', type: 'SelectOption[]', required: true, description: 'Options: { value, label }.' },
+    {
+      name: 'options',
+      type: 'SelectOption[]',
+      required: true,
+      description: 'Options: { value, label }.',
+    },
     { name: 'value', type: 'string', description: 'Controlled value.' },
     { name: 'defaultValue', type: 'string', description: 'Uncontrolled initial value.' },
     { name: 'onChange', type: '(value: string) => void', description: 'Fires on selection.' },
-    { name: 'placeholder', type: 'ReactNode', default: "'Select…'", description: 'Shown when nothing is selected.' },
+    {
+      name: 'placeholder',
+      type: 'ReactNode',
+      default: "'Select…'",
+      description: 'Shown when nothing is selected.',
+    },
     { name: 'disabled', type: 'boolean', default: 'false', description: 'Disable the trigger.' },
   ],
 }

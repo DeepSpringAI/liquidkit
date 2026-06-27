@@ -88,7 +88,12 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(functi
           {...rest}
         />
         {hasValue && (
-          <button type="button" className="lk-search__clear" aria-label="Clear search" onClick={clear}>
+          <button
+            type="button"
+            className="lk-search__clear"
+            aria-label="Clear search"
+            onClick={clear}
+          >
             <CloseIcon />
           </button>
         )}

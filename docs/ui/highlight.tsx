@@ -1,14 +1,6 @@
 import { Fragment } from 'react'
 
-type TokenType =
-  | 'comment'
-  | 'string'
-  | 'keyword'
-  | 'type'
-  | 'ident'
-  | 'number'
-  | 'punct'
-  | 'text'
+type TokenType = 'comment' | 'string' | 'keyword' | 'type' | 'ident' | 'number' | 'punct' | 'text'
 
 interface Token {
   type: TokenType

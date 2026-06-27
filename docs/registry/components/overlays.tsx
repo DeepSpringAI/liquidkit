@@ -21,15 +21,21 @@ function ModalDemo() {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <Button variant="accent" onClick={() => setOpen(true)}>Open modal</Button>
+      <Button variant="accent" onClick={() => setOpen(true)}>
+        Open modal
+      </Button>
       <Modal
         open={open}
         onClose={() => setOpen(false)}
         title="Liquid Glass dialog"
         footer={
           <>
-            <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
-            <Button variant="accent" onClick={() => setOpen(false)}>Confirm</Button>
+            <Button variant="ghost" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="accent" onClick={() => setOpen(false)}>
+              Confirm
+            </Button>
           </>
         }
       >
@@ -75,12 +81,26 @@ export const modalDoc: ComponentDoc = {
   ],
   props: [
     { name: 'open', type: 'boolean', required: true, description: 'Whether the modal is shown.' },
-    { name: 'onClose', type: '() => void', description: 'Fires on Escape, backdrop click or close button.' },
+    {
+      name: 'onClose',
+      type: '() => void',
+      description: 'Fires on Escape, backdrop click or close button.',
+    },
     { name: 'title', type: 'ReactNode', description: 'Header title.' },
     { name: 'children', type: 'ReactNode', required: true, description: 'Body content.' },
     { name: 'footer', type: 'ReactNode', description: 'Footer actions slot.' },
-    { name: 'size', type: "'sm' | 'md' | 'lg' | number", default: "'md'", description: 'Max width preset or px.' },
-    { name: 'closeOnBackdrop', type: 'boolean', default: 'true', description: 'Close when the scrim is clicked.' },
+    {
+      name: 'size',
+      type: "'sm' | 'md' | 'lg' | number",
+      default: "'md'",
+      description: 'Max width preset or px.',
+    },
+    {
+      name: 'closeOnBackdrop',
+      type: 'boolean',
+      default: 'true',
+      description: 'Close when the scrim is clicked.',
+    },
   ],
 }
 
@@ -90,13 +110,19 @@ function SheetDemo() {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <Button variant="accent" onClick={() => setOpen(true)}>Open sheet</Button>
+      <Button variant="accent" onClick={() => setOpen(true)}>
+        Open sheet
+      </Button>
       <Sheet
         open={open}
         onClose={() => setOpen(false)}
         title="Liquid Glass sheet"
         detents={['medium', 'large']}
-        footer={<Button block variant="accent" onClick={() => setOpen(false)}>Done</Button>}
+        footer={
+          <Button block variant="accent" onClick={() => setOpen(false)}>
+            Done
+          </Button>
+        }
       >
         <p style={{ marginTop: 0 }}>
           Drag the grabber to snap between the medium and large detents, or pull down past the
@@ -143,14 +169,28 @@ export const sheetDoc: ComponentDoc = {
   ],
   props: [
     { name: 'open', type: 'boolean', required: true, description: 'Whether the sheet is shown.' },
-    { name: 'onClose', type: '() => void', description: 'Fires on Escape, scrim tap or pull-to-dismiss.' },
+    {
+      name: 'onClose',
+      type: '() => void',
+      description: 'Fires on Escape, scrim tap or pull-to-dismiss.',
+    },
     { name: 'title', type: 'ReactNode', description: 'Header title beside the grabber.' },
     { name: 'children', type: 'ReactNode', required: true, description: 'Body content (scrolls).' },
     { name: 'footer', type: 'ReactNode', description: 'Pinned footer slot.' },
-    { name: 'detents', type: "Array<number | 'medium' | 'large'>", default: "['medium','large']", description: 'Snap heights; ≤1 = viewport fraction, >1 = px.' },
+    {
+      name: 'detents',
+      type: "Array<number | 'medium' | 'large'>",
+      default: "['medium','large']",
+      description: 'Snap heights; ≤1 = viewport fraction, >1 = px.',
+    },
     { name: 'defaultDetent', type: 'number', default: '0', description: 'Initial detent index.' },
     { name: 'grabber', type: 'boolean', default: 'true', description: 'Show the drag handle.' },
-    { name: 'closeOnBackdrop', type: 'boolean', default: 'true', description: 'Close when the scrim is tapped.' },
+    {
+      name: 'closeOnBackdrop',
+      type: 'boolean',
+      default: 'true',
+      description: 'Close when the scrim is tapped.',
+    },
   ],
 }
 
@@ -169,7 +209,11 @@ export const menuDoc: ComponentDoc = {
       overflow: true,
       demo: (
         <Menu
-          trigger={<IconButton aria-label="More actions"><EllipsisIcon /></IconButton>}
+          trigger={
+            <IconButton aria-label="More actions">
+              <EllipsisIcon />
+            </IconButton>
+          }
           items={[
             { id: 'edit', label: 'Edit', icon: <EditIcon /> },
             { id: 'dupe', label: 'Duplicate', icon: <CubeIcon /> },
@@ -195,9 +239,25 @@ export const menuDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'trigger', type: 'ReactNode', required: true, description: 'Element that opens the menu; its onClick is wrapped.' },
-    { name: 'items', type: 'MenuItem[]', required: true, description: '{ id, label, icon?, checked?, destructive?, disabled?, onSelect? } or { divider: true }.' },
-    { name: 'placement', type: "'bottom-start' | 'bottom-end' | 'top-start' | 'top-end'", default: "'bottom-start'", description: 'Where the menu opens.' },
+    {
+      name: 'trigger',
+      type: 'ReactNode',
+      required: true,
+      description: 'Element that opens the menu; its onClick is wrapped.',
+    },
+    {
+      name: 'items',
+      type: 'MenuItem[]',
+      required: true,
+      description:
+        '{ id, label, icon?, checked?, destructive?, disabled?, onSelect? } or { divider: true }.',
+    },
+    {
+      name: 'placement',
+      type: "'bottom-start' | 'bottom-end' | 'top-start' | 'top-end'",
+      default: "'bottom-start'",
+      description: 'Where the menu opens.',
+    },
   ],
 }
 
@@ -215,10 +275,7 @@ export const popoverDoc: ComponentDoc = {
       title: 'Anchored panel',
       overflow: true,
       demo: (
-        <Popover
-          trigger={<Button variant="glass">Quick look</Button>}
-          placement="bottom"
-        >
+        <Popover trigger={<Button variant="glass">Quick look</Button>} placement="bottom">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 200 }}>
             <strong>LiquidKit</strong>
             <span style={{ opacity: 0.7, fontSize: 13 }}>
@@ -234,12 +291,32 @@ export const popoverDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'trigger', type: 'ReactNode', required: true, description: 'Element that opens the popover.' },
+    {
+      name: 'trigger',
+      type: 'ReactNode',
+      required: true,
+      description: 'Element that opens the popover.',
+    },
     { name: 'children', type: 'ReactNode', required: true, description: 'Panel content.' },
-    { name: 'placement', type: "'top' | 'bottom' | 'left' | 'right'", default: "'bottom'", description: 'Side the panel opens on.' },
-    { name: 'align', type: "'start' | 'center' | 'end'", default: "'center'", description: 'Cross-axis alignment (top/bottom).' },
+    {
+      name: 'placement',
+      type: "'top' | 'bottom' | 'left' | 'right'",
+      default: "'bottom'",
+      description: 'Side the panel opens on.',
+    },
+    {
+      name: 'align',
+      type: "'start' | 'center' | 'end'",
+      default: "'center'",
+      description: 'Cross-axis alignment (top/bottom).',
+    },
     { name: 'arrow', type: 'boolean', default: 'true', description: 'Show the arrow pointer.' },
-    { name: 'openOnHover', type: 'boolean', default: 'false', description: 'Open on hover instead of click.' },
+    {
+      name: 'openOnHover',
+      type: 'boolean',
+      default: 'false',
+      description: 'Open on hover instead of click.',
+    },
     { name: 'width', type: 'number', description: 'Fixed panel width in px.' },
   ],
 }
@@ -253,7 +330,12 @@ function ToastButtons() {
       <Button
         variant="accent"
         onClick={() =>
-          toast({ title: 'Saved', description: 'Your changes are live.', variant: 'success', icon: <CheckIcon /> })
+          toast({
+            title: 'Saved',
+            description: 'Your changes are live.',
+            variant: 'success',
+            icon: <CheckIcon />,
+          })
         }
       >
         Success toast
@@ -318,13 +400,41 @@ function Page() {
     },
   ],
   props: [
-    { name: 'ToastProvider · placement', type: "'top' | 'bottom'", default: "'bottom'", description: 'Where toasts stack.' },
-    { name: 'ToastProvider · max', type: 'number', default: '4', description: 'Max simultaneously visible.' },
-    { name: 'toast(options)', type: '(ToastOptions) => string', description: 'Show a toast; returns its id.' },
-    { name: 'options.title / description', type: 'ReactNode', description: 'Primary and secondary text.' },
+    {
+      name: 'ToastProvider · placement',
+      type: "'top' | 'bottom'",
+      default: "'bottom'",
+      description: 'Where toasts stack.',
+    },
+    {
+      name: 'ToastProvider · max',
+      type: 'number',
+      default: '4',
+      description: 'Max simultaneously visible.',
+    },
+    {
+      name: 'toast(options)',
+      type: '(ToastOptions) => string',
+      description: 'Show a toast; returns its id.',
+    },
+    {
+      name: 'options.title / description',
+      type: 'ReactNode',
+      description: 'Primary and secondary text.',
+    },
     { name: 'options.icon', type: 'ReactNode', description: 'Leading icon.' },
-    { name: 'options.variant', type: "'glass' | 'success' | 'error' | 'accent'", default: "'glass'", description: 'Accent color of the icon.' },
-    { name: 'options.duration', type: 'number', default: '4000', description: 'ms before auto-dismiss; 0 keeps it.' },
+    {
+      name: 'options.variant',
+      type: "'glass' | 'success' | 'error' | 'accent'",
+      default: "'glass'",
+      description: 'Accent color of the icon.',
+    },
+    {
+      name: 'options.duration',
+      type: 'number',
+      default: '4000',
+      description: 'ms before auto-dismiss; 0 keeps it.',
+    },
     { name: 'options.action', type: '{ label, onClick }', description: 'Inline action button.' },
     { name: 'dismiss(id)', type: '(id: string) => void', description: 'Dismiss a toast manually.' },
   ],

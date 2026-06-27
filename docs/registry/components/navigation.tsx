@@ -92,14 +92,33 @@ export const dockDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'items', type: 'DockItem[]', required: true, description: 'Items: { id, icon, label?, href?, onClick? }.' },
+    {
+      name: 'items',
+      type: 'DockItem[]',
+      required: true,
+      description: 'Items: { id, icon, label?, href?, onClick? }.',
+    },
     { name: 'activeId', type: 'string', description: 'Currently active item id.' },
-    { name: 'onSelect', type: '(id: string) => void', description: 'Fires when an item is chosen.' },
-    { name: 'orientation', type: "'vertical' | 'horizontal'", default: "'vertical'", description: 'Layout direction.' },
+    {
+      name: 'onSelect',
+      type: '(id: string) => void',
+      description: 'Fires when an item is chosen.',
+    },
+    {
+      name: 'orientation',
+      type: "'vertical' | 'horizontal'",
+      default: "'vertical'",
+      description: 'Layout direction.',
+    },
     { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Icon size.' },
     { name: 'tint', type: 'GlassTint', default: "'auto'", description: 'Surface tint.' },
     { name: 'elevation', type: '0 | 1 | 2 | 3', default: '2', description: 'Drop-shadow depth.' },
-    { name: 'glass', type: 'boolean', default: 'true', description: 'Render the glass container. Set false when embedding.' },
+    {
+      name: 'glass',
+      type: 'boolean',
+      default: 'true',
+      description: 'Render the glass container. Set false when embedding.',
+    },
   ],
 }
 
@@ -168,14 +187,29 @@ export const sidebarDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'sections', type: 'SidebarSection[]', required: true, description: '{ title?, items: SidebarItem[] }. Items: { id, label, icon?, badge?, href?, onClick? }.' },
+    {
+      name: 'sections',
+      type: 'SidebarSection[]',
+      required: true,
+      description:
+        '{ title?, items: SidebarItem[] }. Items: { id, label, icon?, badge?, href?, onClick? }.',
+    },
     { name: 'activeId', type: 'string', description: 'Currently selected item id.' },
-    { name: 'onSelect', type: '(id: string) => void', description: 'Fires when an item is chosen.' },
+    {
+      name: 'onSelect',
+      type: '(id: string) => void',
+      description: 'Fires when an item is chosen.',
+    },
     { name: 'header', type: 'ReactNode', description: 'Pinned above the nav.' },
     { name: 'footer', type: 'ReactNode', description: 'Pinned to the bottom.' },
     { name: 'width', type: 'number', default: '248', description: 'Sidebar width in px.' },
     { name: 'tint', type: 'GlassTint', default: "'auto'", description: 'Surface tint.' },
-    { name: 'glass', type: 'boolean', default: 'true', description: 'Glass surface; false for an opaque sidebar.' },
+    {
+      name: 'glass',
+      type: 'boolean',
+      default: 'true',
+      description: 'Glass surface; false for an opaque sidebar.',
+    },
   ],
 }
 
@@ -201,13 +235,19 @@ function NavigationBarDemo() {
           <NavigationBar
             title="Settings"
             scrollTarget={scrollRef}
-            trailing={<IconButton aria-label="Add" size="sm"><PlusIcon /></IconButton>}
+            trailing={
+              <IconButton aria-label="Add" size="sm">
+                <PlusIcon />
+              </IconButton>
+            }
             search={<SearchField placeholder="Search" />}
           />
         </div>
         <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
           {Array.from({ length: 14 }).map((_, i) => (
-            <Card key={i} padding="sm">Item {i + 1}</Card>
+            <Card key={i} padding="sm">
+              Item {i + 1}
+            </Card>
           ))}
         </div>
       </div>
@@ -225,7 +265,8 @@ export const navigationBarDoc: ComponentDoc = {
   examples: [
     {
       title: 'Large title (scroll to collapse)',
-      description: 'Scroll inside the frame — the large title shrinks into the inline title and a hairline appears.',
+      description:
+        'Scroll inside the frame — the large title shrinks into the inline title and a hairline appears.',
       demo: <NavigationBarDemo />,
       code: `function Screen() {
   const scrollRef = useRef(null)
@@ -246,13 +287,36 @@ export const navigationBarDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'title', type: 'ReactNode', required: true, description: 'The title (shown large, then inline).' },
-    { name: 'largeTitle', type: 'boolean', default: 'true', description: 'Collapsing large title; false for an inline-only bar.' },
+    {
+      name: 'title',
+      type: 'ReactNode',
+      required: true,
+      description: 'The title (shown large, then inline).',
+    },
+    {
+      name: 'largeTitle',
+      type: 'boolean',
+      default: 'true',
+      description: 'Collapsing large title; false for an inline-only bar.',
+    },
     { name: 'leading', type: 'ReactNode', description: 'Leading content (e.g. a back button).' },
     { name: 'trailing', type: 'ReactNode', description: 'Trailing actions.' },
-    { name: 'search', type: 'ReactNode', description: 'A row under the title — typically a SearchField.' },
-    { name: 'collapseAt', type: 'number', default: '8', description: 'scrollY past which the large title collapses.' },
-    { name: 'scrollTarget', type: 'RefObject<HTMLElement>', description: 'Scroll container to react to; defaults to the window.' },
+    {
+      name: 'search',
+      type: 'ReactNode',
+      description: 'A row under the title — typically a SearchField.',
+    },
+    {
+      name: 'collapseAt',
+      type: 'number',
+      default: '8',
+      description: 'scrollY past which the large title collapses.',
+    },
+    {
+      name: 'scrollTarget',
+      type: 'RefObject<HTMLElement>',
+      description: 'Scroll container to react to; defaults to the window.',
+    },
     { name: 'tint', type: 'GlassTint', default: "'auto'", description: 'Surface tint.' },
   ],
 }
@@ -322,11 +386,30 @@ export const tabBarDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'items', type: 'TabBarItem[]', required: true, description: 'Items: { id, icon, label?, badge? }.' },
-    { name: 'value / defaultValue', type: 'string', description: 'Controlled / uncontrolled active id.' },
+    {
+      name: 'items',
+      type: 'TabBarItem[]',
+      required: true,
+      description: 'Items: { id, icon, label?, badge? }.',
+    },
+    {
+      name: 'value / defaultValue',
+      type: 'string',
+      description: 'Controlled / uncontrolled active id.',
+    },
     { name: 'onChange', type: '(id: string) => void', description: 'Fires when a tab is chosen.' },
-    { name: 'condense', type: 'boolean', default: 'false', description: 'Collapse labels & shrink when scrolling down.' },
-    { name: 'floating', type: 'boolean', default: 'true', description: 'Floating capsule vs. an edge-to-edge bar.' },
+    {
+      name: 'condense',
+      type: 'boolean',
+      default: 'false',
+      description: 'Collapse labels & shrink when scrolling down.',
+    },
+    {
+      name: 'floating',
+      type: 'boolean',
+      default: 'true',
+      description: 'Floating capsule vs. an edge-to-edge bar.',
+    },
     { name: 'tint', type: 'GlassTint', default: "'auto'", description: 'Surface tint.' },
     { name: 'elevation', type: '0 | 1 | 2 | 3', default: '3', description: 'Drop-shadow depth.' },
   ],
@@ -364,11 +447,21 @@ export const toolbarDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'items', type: 'ToolbarItem[]', required: true, description: 'Items: { id, icon, label?, primary?, dropdown?, active?, onClick? }.' },
+    {
+      name: 'items',
+      type: 'ToolbarItem[]',
+      required: true,
+      description: 'Items: { id, icon, label?, primary?, dropdown?, active?, onClick? }.',
+    },
     { name: 'glow', type: 'boolean', default: 'true', description: 'Glow ring on primary items.' },
     { name: 'tint', type: 'GlassTint', default: "'auto'", description: 'Surface tint.' },
     { name: 'elevation', type: '0 | 1 | 2 | 3', default: '2', description: 'Drop-shadow depth.' },
-    { name: 'glass', type: 'boolean', default: 'true', description: 'Render the glass container. Set false when embedding.' },
+    {
+      name: 'glass',
+      type: 'boolean',
+      default: 'true',
+      description: 'Render the glass container. Set false when embedding.',
+    },
   ],
 }
 
@@ -393,7 +486,11 @@ export const navBarDoc: ComponentDoc = {
             { label: 'Components' },
             { label: 'Pricing' },
           ]}
-          actions={<Button size="sm" variant="accent">Sign in</Button>}
+          actions={
+            <Button size="sm" variant="accent">
+              Sign in
+            </Button>
+          }
         />
       ),
       code: `<NavBar
@@ -409,7 +506,11 @@ export const navBarDoc: ComponentDoc = {
   ],
   props: [
     { name: 'brand', type: 'ReactNode', description: 'Left-aligned brand / logo.' },
-    { name: 'links', type: 'NavLink[]', description: 'Links: { label, href?, active?, onClick? }.' },
+    {
+      name: 'links',
+      type: 'NavLink[]',
+      description: 'Links: { label, href?, active?, onClick? }.',
+    },
     { name: 'actions', type: 'ReactNode', description: 'Right-aligned actions slot.' },
     { name: 'pill', type: 'boolean', default: 'true', description: 'Pill shape.' },
   ],

@@ -1,5 +1,10 @@
 # LiquidKit
 
+[![CI](https://github.com/hamidrezazargham/liquidkit/actions/workflows/ci.yml/badge.svg)](https://github.com/hamidrezazargham/liquidkit/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+![Types included](https://img.shields.io/badge/types-included-blue)
+![Zero runtime deps](https://img.shields.io/badge/runtime%20deps-0-brightgreen)
+
 > A React + TypeScript **Liquid Glass** UI library — real edge refraction, chromatic dispersion, specular bevels, and first-class light & dark themes.
 
 LiquidKit isn't "glassmorphism" (a blur and a border). Every surface runs a real-time **SVG displacement engine** that bends the content behind it like actual glass, with optional chromatic dispersion for that rainbow edge fringe. It gracefully degrades to a frosted blur where the engine isn't supported.
@@ -34,6 +39,8 @@ Import the stylesheet once (it ships the design tokens + component CSS):
 ```ts
 import 'liquidkit/styles.css'
 ```
+
+**Next.js / React Server Components.** The library is shipped as a client module (`"use client"`), so you can import components directly into App Router pages — render them inside client components as usual. Import `liquidkit/styles.css` once in your root layout.
 
 ---
 
@@ -131,25 +138,25 @@ Every component composes this primitive. Use it directly for custom surfaces.
 
 ## Components
 
-25 components, all composing the `<LiquidGlass>` primitive:
+35+ components across six categories, all composing the `<LiquidGlass>` primitive:
 
 **Primitives** — `LiquidGlass`, `Card`
 
 **Actions** — `Button`, `IconButton`, `Switch`, `ThemeToggle`, `Slider`, `Tabs`, `Select`
 
-**Inputs** — `Input`, `CommandBar`
+**Inputs** — `Input`, `SearchField`, `Stepper`, `CommandBar`
 
-**Data display** — `Badge`, `Avatar` (+ `AvatarGroup`), `Progress`, `Tooltip`, `ChartCard`, `StatTile`, `PricingCard`
+**Data display** — `Badge`, `Avatar` (+ `AvatarGroup`), `Progress`, `Tooltip`, `ChartCard`, `StatTile`, `PricingCard`, `List` (+ `ListRow`), `Table`, `Tile`
 
-**Navigation** — `NavBar`, `Dock`, `Toolbar`
+**Navigation** — `NavBar`, `Dock`, `Toolbar`, `TabBar`, `Sidebar`, `NavigationBar`
 
-**Overlays** — `Modal`
+**Overlays** — `Modal`, `Sheet`, `Menu`, `Popover`, `Toast` (+ `ToastProvider` / `useToast`)
 
-`Button` and `IconButton` accept an `as` prop, so they render as a link (`as="a"`) or any element while keeping the glass styling.
+`Button` and `IconButton` accept an `as` prop, so they render as a link (`as="a"`) or any element while keeping the glass styling. Every component forwards `ref` and arbitrary DOM props (`id`, `data-*`, `aria-*`, handlers) to its root element.
 
-**Icons** — 34 stroke icons (`HomeIcon`, `SearchIcon`, `PlayIcon`, …), the `createIcon()` factory, and `GlassIcon` (renders any icon inside a refractive glass tile).
+**Icons** — 45 stroke icons (`HomeIcon`, `SearchIcon`, `PlayIcon`, …), the `createIcon()` factory, and `GlassIcon` (renders any icon inside a refractive glass tile).
 
-**Templates** — full, prop-driven screens: `LandingHero`, `WaitlistPage`, `PricingPage`, `DashboardShell`.
+**Templates** — full, prop-driven screens: `LandingHero`, `WaitlistPage`, `PricingPage`, `DashboardShell`, plus device frames `PhoneFrame` (iOS) and `MacWindow` (macOS) for mocking app screens.
 
 ```tsx
 import { PricingPage } from 'liquidkit'
@@ -165,17 +172,29 @@ import { PricingPage } from 'liquidkit'
 
 ---
 
+## Accessibility
+
+- **Keyboard** — `Tabs` / `TabBar` move with arrow keys + Home/End (roving tabindex); `Menu` / `Select` open into the list and navigate with arrows, Home/End and Esc; `Switch`, `Slider` and steppers use native controls.
+- **Focus management** — `Modal` and `Sheet` trap focus, set initial focus and restore it to the trigger on close; they're labelled via `aria-labelledby` and dismiss on Esc.
+- **ARIA** — correct roles throughout (`dialog`, `menu` / `menuitemcheckbox`, `listbox` / `option`, `tablist` / `tab`, `switch`); `Toast` announces politely, and errors assertively (`role="alert"`).
+- **Motion & focus rings** — all motion respects `prefers-reduced-motion`, and interactive surfaces show a visible focus ring.
+
+---
+
 ## Development
 
 ```bash
-npm run dev        # docs site (http://localhost:5173)
-npm run build      # build the library to dist/ (ESM + CJS + types + CSS)
-npm run build:docs # build the docs site to dist-site/
-npm run typecheck  # tsc --noEmit
-npm test           # vitest
+npm run dev          # docs site (http://localhost:5173)
+npm run build        # build the library to dist/ (ESM + CJS + types + CSS)
+npm run build:docs   # build the docs site to dist-site/
+npm run typecheck    # tsc --noEmit
+npm test             # vitest
+npm run test:coverage
+npm run lint         # eslint (incl. react-hooks + jsx-a11y)
+npm run format       # prettier --write
 ```
 
-The docs site lives in `/docs` and dogfoods the library — it renders every component over a refractive backdrop in both themes, with live template previews at `#/preview/landing`, `#/preview/waitlist`, `#/preview/pricing` and `#/preview/dashboard`.
+The docs site lives in `/docs` and dogfoods the library — it renders every component over a refractive backdrop in both themes, with live template previews at `#/preview/landing`, `#/preview/waitlist`, `#/preview/pricing`, `#/preview/dashboard`, `#/preview/ios-settings`, `#/preview/control-center`, `#/preview/lock-screen` and `#/preview/mac-settings`.
 
 ---
 

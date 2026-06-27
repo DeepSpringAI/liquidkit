@@ -6,7 +6,7 @@
    ========================================================================== */
 
 :root,
-[data-theme="light"] {
+[data-theme='light'] {
   /* ---- system colors (iOS light) ---- */
   --lk-system-blue: #007aff;
   --lk-system-green: #34c759;

@@ -3,13 +3,7 @@ import type { HTMLAttributes } from 'react'
 import { cx } from '../../utils/cx'
 import './Badge.css'
 
-export type BadgeVariant =
-  | 'glass'
-  | 'neutral'
-  | 'accent'
-  | 'success'
-  | 'warning'
-  | 'danger'
+export type BadgeVariant = 'glass' | 'neutral' | 'accent' | 'success' | 'warning' | 'danger'
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   /** @default 'glass' */

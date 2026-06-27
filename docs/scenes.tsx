@@ -63,14 +63,24 @@ export function LandingScene() {
       navActions={
         <>
           <ThemeToggle size="sm" />
-          <Button variant="accent" pill>Download</Button>
+          <Button variant="accent" pill>
+            Download
+          </Button>
         </>
       }
       eyebrow="Liquid glass, natively"
       title="Build interfaces that bend light"
       subtitle="A React component library with true refraction, chromatic dispersion, and first-class light & dark themes."
-      primaryAction={<Button size="lg" variant="accent" pill rightIcon={<ArrowUpRightIcon />}>Get started</Button>}
-      secondaryAction={<Button size="lg" pill leftIcon={<PlayIcon />}>Watch demo</Button>}
+      primaryAction={
+        <Button size="lg" variant="accent" pill rightIcon={<ArrowUpRightIcon />}>
+          Get started
+        </Button>
+      }
+      secondaryAction={
+        <Button size="lg" pill leftIcon={<PlayIcon />}>
+          Watch demo
+        </Button>
+      }
     />
   )
 }
@@ -78,7 +88,11 @@ export function LandingScene() {
 export function WaitlistScene() {
   return (
     <WaitlistPage
-      badge={<LiquidGlass pill style={{ padding: '6px 14px', fontSize: 13 }}>✦ Waitlist</LiquidGlass>}
+      badge={
+        <LiquidGlass pill style={{ padding: '6px 14px', fontSize: 13 }}>
+          ✦ Waitlist
+        </LiquidGlass>
+      }
       title="Coming soon!"
       subtitle="Sign up for our newsletter to receive the latest updates and insights straight to your inbox."
       placeholder="Enter email"
@@ -86,9 +100,15 @@ export function WaitlistScene() {
       watermark="Waitlist"
       socials={
         <>
-          <IconButton aria-label="X"><HashIcon /></IconButton>
-          <IconButton aria-label="Chat"><ChatIcon /></IconButton>
-          <IconButton aria-label="Photos"><ImageIcon /></IconButton>
+          <IconButton aria-label="X">
+            <HashIcon />
+          </IconButton>
+          <IconButton aria-label="Chat">
+            <ChatIcon />
+          </IconButton>
+          <IconButton aria-label="Photos">
+            <ImageIcon />
+          </IconButton>
         </>
       }
     />
@@ -105,7 +125,11 @@ export function PricingScene() {
         { label: 'Pricing', href: '#', active: true },
         { label: 'FAQ', href: '#' },
       ]}
-      navActions={<Button variant="accent" pill>Download</Button>}
+      navActions={
+        <Button variant="accent" pill>
+          Download
+        </Button>
+      }
       title="Pricing"
       subtitle="Start free. Upgrade when you grow."
       billing={{ yearly, onChange: setYearly, label: 'Yearly' }}
@@ -114,7 +138,12 @@ export function PricingScene() {
           name: 'Free',
           price: '$0',
           description: 'For creators taking their first steps.',
-          features: ['Up to 3 projects', 'Export up to 1080p', 'Basic editing tools', { text: 'Team collaboration', included: false }],
+          features: [
+            'Up to 3 projects',
+            'Export up to 1080p',
+            'Basic editing tools',
+            { text: 'Team collaboration', included: false },
+          ],
           ctaLabel: 'Choose plan',
         },
         {
@@ -129,7 +158,12 @@ export function PricingScene() {
           name: 'Pro',
           price: yearly ? '$16' : '$20',
           description: 'For studios and agencies.',
-          features: ['Unlimited projects', 'Export 8K + animations', 'AI content tools', 'Custom branding'],
+          features: [
+            'Unlimited projects',
+            'Export 8K + animations',
+            'AI content tools',
+            'Custom branding',
+          ],
           ctaLabel: 'Choose plan',
         },
       ]}
@@ -137,7 +171,15 @@ export function PricingScene() {
   )
 }
 
-function FeatureCard({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
+function FeatureCard({
+  icon,
+  title,
+  desc,
+}: {
+  icon: React.ReactNode
+  title: string
+  desc: string
+}) {
   return (
     <Card radius={22} style={{ flex: 1, minWidth: 200 }}>
       <div className="feat">
@@ -156,14 +198,19 @@ export function DashboardScene() {
     <DashboardShell
       header={
         <>
-          <NavBar brand={<>✦ Syntrix</>} links={[{ label: 'Dashboard', active: true }, { label: 'Settings' }, { label: 'Help' }]} />
+          <NavBar
+            brand={<>✦ Syntrix</>}
+            links={[{ label: 'Dashboard', active: true }, { label: 'Settings' }, { label: 'Help' }]}
+          />
           <ThemeToggle />
         </>
       }
       sidebar={
         <>
           <div style={{ fontWeight: 700, fontSize: 18, padding: '4px 8px 12px' }}>✦ Syntrix</div>
-          <Button block leftIcon={<PlusIcon />} variant="accent">New chat</Button>
+          <Button block leftIcon={<PlusIcon />} variant="accent">
+            New chat
+          </Button>
           <div style={{ height: 12 }} />
           <Dock
             orientation="vertical"
@@ -180,31 +227,59 @@ export function DashboardScene() {
           <div style={{ flex: 1 }} />
           <Card radius={18} padding="sm">
             <p style={{ margin: '0 0 8px', fontWeight: 600 }}>Upgrade to Pro</p>
-            <Button block size="sm" variant="accent">Upgrade now</Button>
+            <Button block size="sm" variant="accent">
+              Upgrade now
+            </Button>
           </Card>
         </>
       }
     >
       <div className="dash-welcome">
-        <GlassIcon size={72} tint="accent"><SparkleIcon /></GlassIcon>
+        <GlassIcon size={72} tint="accent">
+          <SparkleIcon />
+        </GlassIcon>
         <h1>Welcome back</h1>
         <p>Bring your ideas to life today</p>
       </div>
       <CommandBar
         placeholder="Ask me anything…"
-        leading={<IconButton aria-label="Add" size="sm"><PlusIcon /></IconButton>}
-        trailing={<IconButton aria-label="Send" size="sm" variant="accent"><SendIcon /></IconButton>}
+        leading={
+          <IconButton aria-label="Add" size="sm">
+            <PlusIcon />
+          </IconButton>
+        }
+        trailing={
+          <IconButton aria-label="Send" size="sm" variant="accent">
+            <SendIcon />
+          </IconButton>
+        }
         footer={
           <>
-            <Button size="sm" variant="ghost" leftIcon={<SparkleIcon />}>Tools</Button>
-            <Button size="sm" variant="ghost" leftIcon={<GlobeIcon />}>Deep think</Button>
+            <Button size="sm" variant="ghost" leftIcon={<SparkleIcon />}>
+              Tools
+            </Button>
+            <Button size="sm" variant="ghost" leftIcon={<GlobeIcon />}>
+              Deep think
+            </Button>
           </>
         }
       />
       <div style={{ display: 'flex', gap: 16, marginTop: 18, flexWrap: 'wrap' }}>
-        <FeatureCard icon={<ImageIcon />} title="Image Generator" desc="Turn ideas into stunning visuals." />
-        <FeatureCard icon={<VideoIcon />} title="Video Generator" desc="Create cinematic videos from prompts." />
-        <FeatureCard icon={<CodeIcon />} title="Dev Assistant" desc="Accelerate development with AI." />
+        <FeatureCard
+          icon={<ImageIcon />}
+          title="Image Generator"
+          desc="Turn ideas into stunning visuals."
+        />
+        <FeatureCard
+          icon={<VideoIcon />}
+          title="Video Generator"
+          desc="Create cinematic videos from prompts."
+        />
+        <FeatureCard
+          icon={<CodeIcon />}
+          title="Dev Assistant"
+          desc="Accelerate development with AI."
+        />
       </div>
     </DashboardShell>
   )
@@ -269,17 +344,57 @@ export function SettingsScene() {
           </List>
 
           <List>
-            <ListRow leading={<BellIcon />} leadingFill="var(--lk-system-red)" title="Notifications" onClick={() => {}} />
-            <ListRow leading={<VolumeIcon />} leadingFill="var(--lk-system-pink)" title="Sounds & Haptics" onClick={() => {}} />
-            <ListRow leading={<MoonIcon />} leadingFill="var(--lk-system-indigo)" title="Focus" onClick={() => {}} />
-            <ListRow leading={<ClockIcon />} leadingFill="var(--lk-system-indigo)" title="Screen Time" onClick={() => {}} />
+            <ListRow
+              leading={<BellIcon />}
+              leadingFill="var(--lk-system-red)"
+              title="Notifications"
+              onClick={() => {}}
+            />
+            <ListRow
+              leading={<VolumeIcon />}
+              leadingFill="var(--lk-system-pink)"
+              title="Sounds & Haptics"
+              onClick={() => {}}
+            />
+            <ListRow
+              leading={<MoonIcon />}
+              leadingFill="var(--lk-system-indigo)"
+              title="Focus"
+              onClick={() => {}}
+            />
+            <ListRow
+              leading={<ClockIcon />}
+              leadingFill="var(--lk-system-indigo)"
+              title="Screen Time"
+              onClick={() => {}}
+            />
           </List>
 
           <List>
-            <ListRow leading={<SettingsIcon />} leadingFill="var(--lk-system-gray)" title="General" onClick={() => {}} />
-            <ListRow leading={<GridIcon />} leadingFill="var(--lk-system-blue)" title="Control Center" onClick={() => {}} />
-            <ListRow leading={<SunIcon />} leadingFill="var(--lk-system-blue)" title="Display & Brightness" onClick={() => {}} />
-            <ListRow leading={<ImageIcon />} leadingFill="var(--lk-system-teal)" title="Wallpaper" onClick={() => {}} />
+            <ListRow
+              leading={<SettingsIcon />}
+              leadingFill="var(--lk-system-gray)"
+              title="General"
+              onClick={() => {}}
+            />
+            <ListRow
+              leading={<GridIcon />}
+              leadingFill="var(--lk-system-blue)"
+              title="Control Center"
+              onClick={() => {}}
+            />
+            <ListRow
+              leading={<SunIcon />}
+              leadingFill="var(--lk-system-blue)"
+              title="Display & Brightness"
+              onClick={() => {}}
+            />
+            <ListRow
+              leading={<ImageIcon />}
+              leadingFill="var(--lk-system-teal)"
+              title="Wallpaper"
+              onClick={() => {}}
+            />
           </List>
         </div>
       </PhoneFrame>
@@ -346,20 +461,48 @@ export function ControlCenterScene() {
           <div className="cc-grid">
             <LiquidGlass radius={30} elevation={2} tint="dark" className="cc-conn">
               <div className="cc-conn__grid">
-                <CCToggle icon={<AirplaneIcon size={22} />} on={air} color="var(--lk-system-orange)" label="Airplane Mode" onClick={() => setAir((v) => !v)} />
-                <CCToggle icon={<SignalIcon size={22} />} on={cell} color="var(--lk-system-green)" label="Cellular" onClick={() => setCell((v) => !v)} />
-                <CCToggle icon={<WifiIcon size={22} />} on={wifi} color="var(--lk-system-blue)" label="Wi-Fi" onClick={() => setWifi((v) => !v)} />
-                <CCToggle icon={<BluetoothIcon size={22} />} on={bt} color="var(--lk-system-blue)" label="Bluetooth" onClick={() => setBt((v) => !v)} />
+                <CCToggle
+                  icon={<AirplaneIcon size={22} />}
+                  on={air}
+                  color="var(--lk-system-orange)"
+                  label="Airplane Mode"
+                  onClick={() => setAir((v) => !v)}
+                />
+                <CCToggle
+                  icon={<SignalIcon size={22} />}
+                  on={cell}
+                  color="var(--lk-system-green)"
+                  label="Cellular"
+                  onClick={() => setCell((v) => !v)}
+                />
+                <CCToggle
+                  icon={<WifiIcon size={22} />}
+                  on={wifi}
+                  color="var(--lk-system-blue)"
+                  label="Wi-Fi"
+                  onClick={() => setWifi((v) => !v)}
+                />
+                <CCToggle
+                  icon={<BluetoothIcon size={22} />}
+                  on={bt}
+                  color="var(--lk-system-blue)"
+                  label="Bluetooth"
+                  onClick={() => setBt((v) => !v)}
+                />
               </div>
             </LiquidGlass>
 
             <LiquidGlass radius={26} elevation={2} tint="dark" className="cc-bright">
               <span className="cc-vslider__fill" style={{ height: '76%' }} />
-              <span className="cc-vslider__icon"><SunIcon size={22} /></span>
+              <span className="cc-vslider__icon">
+                <SunIcon size={22} />
+              </span>
             </LiquidGlass>
             <LiquidGlass radius={26} elevation={2} tint="dark" className="cc-vol">
               <span className="cc-vslider__fill" style={{ height: '54%' }} />
-              <span className="cc-vslider__icon"><VolumeIcon size={22} /></span>
+              <span className="cc-vslider__icon">
+                <VolumeIcon size={22} />
+              </span>
             </LiquidGlass>
 
             <LiquidGlass radius={26} elevation={2} tint="dark" className="cc-music">
@@ -369,16 +512,62 @@ export function ControlCenterScene() {
                 <span className="cc-music__artist">Aurora Waves</span>
               </span>
               <span className="cc-music__controls">
-                <button type="button" className="cc-music__btn" aria-label="Previous"><PrevGlyph /></button>
-                <button type="button" className="cc-music__btn" aria-label="Play"><PlayGlyph /></button>
-                <button type="button" className="cc-music__btn" aria-label="Next"><NextGlyph /></button>
+                <button type="button" className="cc-music__btn" aria-label="Previous">
+                  <PrevGlyph />
+                </button>
+                <button type="button" className="cc-music__btn" aria-label="Play">
+                  <PlayGlyph />
+                </button>
+                <button type="button" className="cc-music__btn" aria-label="Next">
+                  <NextGlyph />
+                </button>
               </span>
             </LiquidGlass>
 
-            <LiquidGlass as="button" radius={999} elevation={2} tint="dark" interactive className="cc-round cc-t1" aria-label="Flashlight"><FlashlightIcon size={24} /></LiquidGlass>
-            <LiquidGlass as="button" radius={999} elevation={2} tint="dark" interactive className="cc-round cc-t2" aria-label="Focus"><MoonIcon size={24} /></LiquidGlass>
-            <LiquidGlass as="button" radius={999} elevation={2} tint="dark" interactive className="cc-round cc-t3" aria-label="Timer"><ClockIcon size={24} /></LiquidGlass>
-            <LiquidGlass as="button" radius={999} elevation={2} tint="dark" interactive className="cc-round cc-t4" aria-label="Camera"><CameraIcon size={24} /></LiquidGlass>
+            <LiquidGlass
+              as="button"
+              radius={999}
+              elevation={2}
+              tint="dark"
+              interactive
+              className="cc-round cc-t1"
+              aria-label="Flashlight"
+            >
+              <FlashlightIcon size={24} />
+            </LiquidGlass>
+            <LiquidGlass
+              as="button"
+              radius={999}
+              elevation={2}
+              tint="dark"
+              interactive
+              className="cc-round cc-t2"
+              aria-label="Focus"
+            >
+              <MoonIcon size={24} />
+            </LiquidGlass>
+            <LiquidGlass
+              as="button"
+              radius={999}
+              elevation={2}
+              tint="dark"
+              interactive
+              className="cc-round cc-t3"
+              aria-label="Timer"
+            >
+              <ClockIcon size={24} />
+            </LiquidGlass>
+            <LiquidGlass
+              as="button"
+              radius={999}
+              elevation={2}
+              tint="dark"
+              interactive
+              className="cc-round cc-t4"
+              aria-label="Camera"
+            >
+              <CameraIcon size={24} />
+            </LiquidGlass>
           </div>
         </div>
       </PhoneFrame>
@@ -404,7 +593,9 @@ function LockNotif({
 }) {
   return (
     <LiquidGlass radius={22} elevation={1} tint="dark" className="lock-notif">
-      <span className="lock-notif__icon" style={{ background: appColor }}>{icon}</span>
+      <span className="lock-notif__icon" style={{ background: appColor }}>
+        {icon}
+      </span>
       <span className="lock-notif__main">
         <span className="lock-notif__top">
           <span className="lock-notif__title">{title}</span>
@@ -422,19 +613,53 @@ export function LockScreenScene() {
       <PhoneFrame statusBar="light" scroll={false} background={<div className="lock-wallpaper" />}>
         <div className="lock">
           <div className="lock__head">
-            <span className="lock__lock"><LockIcon size={15} /></span>
+            <span className="lock__lock">
+              <LockIcon size={15} />
+            </span>
             <span className="lock__date">Friday, June 27</span>
             <span className="lock__time">9:41</span>
           </div>
 
           <div className="lock__notifs">
-            <LockNotif icon={<ChatIcon size={18} />} appColor="var(--lk-system-green)" title="Aurora" time="now" body="See you at the studio in 10 minutes!" />
-            <LockNotif icon={<ClockIcon size={18} />} appColor="var(--lk-system-red)" title="Calendar · Design Review" time="9:30" body="Liquid Glass components walkthrough" />
+            <LockNotif
+              icon={<ChatIcon size={18} />}
+              appColor="var(--lk-system-green)"
+              title="Aurora"
+              time="now"
+              body="See you at the studio in 10 minutes!"
+            />
+            <LockNotif
+              icon={<ClockIcon size={18} />}
+              appColor="var(--lk-system-red)"
+              title="Calendar · Design Review"
+              time="9:30"
+              body="Liquid Glass components walkthrough"
+            />
           </div>
 
           <div className="lock__actions">
-            <LiquidGlass as="button" radius={999} elevation={2} tint="dark" interactive className="lock__action" aria-label="Flashlight"><FlashlightIcon size={22} /></LiquidGlass>
-            <LiquidGlass as="button" radius={999} elevation={2} tint="dark" interactive className="lock__action" aria-label="Camera"><CameraIcon size={22} /></LiquidGlass>
+            <LiquidGlass
+              as="button"
+              radius={999}
+              elevation={2}
+              tint="dark"
+              interactive
+              className="lock__action"
+              aria-label="Flashlight"
+            >
+              <FlashlightIcon size={22} />
+            </LiquidGlass>
+            <LiquidGlass
+              as="button"
+              radius={999}
+              elevation={2}
+              tint="dark"
+              interactive
+              className="lock__action"
+              aria-label="Camera"
+            >
+              <CameraIcon size={22} />
+            </LiquidGlass>
           </div>
         </div>
       </PhoneFrame>
@@ -461,8 +686,14 @@ function MacNavRow({
   onSelect: (id: string) => void
 }) {
   return (
-    <button type="button" className={cx('mac-nav', active && 'is-active')} onClick={() => onSelect(id)}>
-      <span className="mac-nav__icon" style={{ background: fill }}>{icon}</span>
+    <button
+      type="button"
+      className={cx('mac-nav', active && 'is-active')}
+      onClick={() => onSelect(id)}
+    >
+      <span className="mac-nav__icon" style={{ background: fill }}>
+        {icon}
+      </span>
       <span className="mac-nav__label">{label}</span>
     </button>
   )
@@ -486,14 +717,63 @@ export function MacScene() {
             <div className="mac-source__search">
               <SearchField placeholder="Search" />
             </div>
-            <MacNavRow id="general" icon={<SettingsIcon size={15} />} label="General" fill="var(--lk-system-gray)" active={section === 'general'} onSelect={setSection} />
-            <MacNavRow id="appearance" icon={<SparkleIcon size={15} />} label="Appearance" fill="var(--lk-system-indigo)" active={section === 'appearance'} onSelect={setSection} />
-            <MacNavRow id="wifi" icon={<WifiIcon size={15} />} label="Wi-Fi" fill="var(--lk-system-blue)" active={section === 'wifi'} onSelect={setSection} />
-            <MacNavRow id="bluetooth" icon={<BluetoothIcon size={15} />} label="Bluetooth" fill="var(--lk-system-blue)" active={section === 'bluetooth'} onSelect={setSection} />
+            <MacNavRow
+              id="general"
+              icon={<SettingsIcon size={15} />}
+              label="General"
+              fill="var(--lk-system-gray)"
+              active={section === 'general'}
+              onSelect={setSection}
+            />
+            <MacNavRow
+              id="appearance"
+              icon={<SparkleIcon size={15} />}
+              label="Appearance"
+              fill="var(--lk-system-indigo)"
+              active={section === 'appearance'}
+              onSelect={setSection}
+            />
+            <MacNavRow
+              id="wifi"
+              icon={<WifiIcon size={15} />}
+              label="Wi-Fi"
+              fill="var(--lk-system-blue)"
+              active={section === 'wifi'}
+              onSelect={setSection}
+            />
+            <MacNavRow
+              id="bluetooth"
+              icon={<BluetoothIcon size={15} />}
+              label="Bluetooth"
+              fill="var(--lk-system-blue)"
+              active={section === 'bluetooth'}
+              onSelect={setSection}
+            />
             <div className="mac-source__title">Hardware</div>
-            <MacNavRow id="sound" icon={<VolumeIcon size={15} />} label="Sound" fill="var(--lk-system-pink)" active={section === 'sound'} onSelect={setSection} />
-            <MacNavRow id="displays" icon={<SunIcon size={15} />} label="Displays" fill="var(--lk-system-blue)" active={section === 'displays'} onSelect={setSection} />
-            <MacNavRow id="camera" icon={<CameraIcon size={15} />} label="Camera" fill="var(--lk-system-gray)" active={section === 'camera'} onSelect={setSection} />
+            <MacNavRow
+              id="sound"
+              icon={<VolumeIcon size={15} />}
+              label="Sound"
+              fill="var(--lk-system-pink)"
+              active={section === 'sound'}
+              onSelect={setSection}
+            />
+            <MacNavRow
+              id="displays"
+              icon={<SunIcon size={15} />}
+              label="Displays"
+              fill="var(--lk-system-blue)"
+              active={section === 'displays'}
+              onSelect={setSection}
+            />
+            <MacNavRow
+              id="camera"
+              icon={<CameraIcon size={15} />}
+              label="Camera"
+              fill="var(--lk-system-gray)"
+              active={section === 'camera'}
+              onSelect={setSection}
+            />
           </div>
         }
       >
@@ -506,13 +786,25 @@ export function MacScene() {
               trailing={
                 <span className="mac-slider">
                   <VolumeIcon size={16} style={{ opacity: 0.45 }} />
-                  <Slider value={volume} onChange={setVolume} aria-label="Output volume" style={{ width: 200 }} />
+                  <Slider
+                    value={volume}
+                    onChange={setVolume}
+                    aria-label="Output volume"
+                    style={{ width: 200 }}
+                  />
                 </span>
               }
             />
             <ListRow
               title="Balance"
-              trailing={<Slider value={balance} onChange={setBalance} aria-label="Balance" style={{ width: 200 }} />}
+              trailing={
+                <Slider
+                  value={balance}
+                  onChange={setBalance}
+                  aria-label="Balance"
+                  style={{ width: 200 }}
+                />
+              }
             />
             <ListRow title="Mute" trailing={<Switch checked={mute} onChange={setMute} />} />
           </List>
@@ -532,7 +824,10 @@ export function MacScene() {
               }
             />
             <ListRow title="Play sound on startup" trailing={<Switch defaultChecked />} />
-            <ListRow title="Play user-interface sound effects" trailing={<Switch defaultChecked />} />
+            <ListRow
+              title="Play user-interface sound effects"
+              trailing={<Switch defaultChecked />}
+            />
           </List>
         </div>
       </MacWindow>
@@ -548,14 +843,61 @@ export interface SceneMeta {
 }
 
 export const scenes: SceneMeta[] = [
-  { slug: 'landing', name: 'Landing Hero', description: 'A full landing hero with nav, eyebrow, headline and dual CTAs over a refractive background.', Component: LandingScene },
-  { slug: 'waitlist', name: 'Waitlist Page', description: 'A centered waitlist capture with a glass card, email field, socials and a watermark.', Component: WaitlistScene },
-  { slug: 'pricing', name: 'Pricing Page', description: 'A three-tier pricing layout with a billing toggle and a highlighted popular plan.', Component: PricingScene },
-  { slug: 'dashboard', name: 'Dashboard Shell', description: 'An app shell with a glass sidebar, top nav, command bar and feature cards.', Component: DashboardScene },
-  { slug: 'ios-settings', name: 'iOS Settings', description: 'A grouped iOS 26 Settings screen — large-title nav, search and inset lists — inside an iPhone frame.', Component: SettingsScene },
-  { slug: 'control-center', name: 'iOS Control Center', description: 'Liquid Glass Control Center modules — connectivity, media, brightness and volume — over a wallpaper.', Component: ControlCenterScene },
-  { slug: 'lock-screen', name: 'iOS Lock Screen', description: 'An iOS 26 Lock Screen with the big clock, glass notifications and flashlight / camera actions.', Component: LockScreenScene },
-  { slug: 'mac-settings', name: 'macOS Settings', description: 'A macOS 26 System Settings window — translucent chrome, source list and grouped panes with live controls.', Component: MacScene },
+  {
+    slug: 'landing',
+    name: 'Landing Hero',
+    description:
+      'A full landing hero with nav, eyebrow, headline and dual CTAs over a refractive background.',
+    Component: LandingScene,
+  },
+  {
+    slug: 'waitlist',
+    name: 'Waitlist Page',
+    description:
+      'A centered waitlist capture with a glass card, email field, socials and a watermark.',
+    Component: WaitlistScene,
+  },
+  {
+    slug: 'pricing',
+    name: 'Pricing Page',
+    description:
+      'A three-tier pricing layout with a billing toggle and a highlighted popular plan.',
+    Component: PricingScene,
+  },
+  {
+    slug: 'dashboard',
+    name: 'Dashboard Shell',
+    description: 'An app shell with a glass sidebar, top nav, command bar and feature cards.',
+    Component: DashboardScene,
+  },
+  {
+    slug: 'ios-settings',
+    name: 'iOS Settings',
+    description:
+      'A grouped iOS 26 Settings screen — large-title nav, search and inset lists — inside an iPhone frame.',
+    Component: SettingsScene,
+  },
+  {
+    slug: 'control-center',
+    name: 'iOS Control Center',
+    description:
+      'Liquid Glass Control Center modules — connectivity, media, brightness and volume — over a wallpaper.',
+    Component: ControlCenterScene,
+  },
+  {
+    slug: 'lock-screen',
+    name: 'iOS Lock Screen',
+    description:
+      'An iOS 26 Lock Screen with the big clock, glass notifications and flashlight / camera actions.',
+    Component: LockScreenScene,
+  },
+  {
+    slug: 'mac-settings',
+    name: 'macOS Settings',
+    description:
+      'A macOS 26 System Settings window — translucent chrome, source list and grouped panes with live controls.',
+    Component: MacScene,
+  },
 ]
 
 export const sceneMap = Object.fromEntries(scenes.map((s) => [s.slug, s]))

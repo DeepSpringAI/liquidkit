@@ -34,10 +34,7 @@ function buildPoints(data: number[], h: number): [number, number][] {
   const innerW = W - PAD_X * 2
   const innerH = h - PAD_Y * 2
   const step = data.length > 1 ? innerW / (data.length - 1) : 0
-  return data.map((v, i) => [
-    PAD_X + i * step,
-    PAD_Y + innerH - ((v - min) / span) * innerH,
-  ])
+  return data.map((v, i) => [PAD_X + i * step, PAD_Y + innerH - ((v - min) / span) * innerH])
 }
 
 function smoothPath(pts: [number, number][]): string {

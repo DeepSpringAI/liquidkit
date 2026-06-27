@@ -1,24 +1,34 @@
 import { forwardRef, useState } from 'react'
-import type { CSSProperties } from 'react'
+import type { CSSProperties, InputHTMLAttributes } from 'react'
 import { cx } from '../../utils/cx'
 import './Slider.css'
 
-export interface SliderProps {
+export interface SliderProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'value' | 'defaultValue' | 'onChange' | 'type'
+> {
   value?: number
   defaultValue?: number
   min?: number
   max?: number
   step?: number
   onChange?: (value: number) => void
-  disabled?: boolean
-  className?: string
-  style?: CSSProperties
-  'aria-label'?: string
 }
 
 /** A glass range slider (native input under the hood — keyboard accessible). */
 export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
-  { value, defaultValue = 50, min = 0, max = 100, step = 1, onChange, disabled = false, className, style, ...aria },
+  {
+    value,
+    defaultValue = 50,
+    min = 0,
+    max = 100,
+    step = 1,
+    onChange,
+    disabled = false,
+    className,
+    style,
+    ...rest
+  },
   ref,
 ) {
   const controlled = value != null
@@ -29,6 +39,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
   return (
     <input
       ref={ref}
+      {...rest}
       type="range"
       min={min}
       max={max}
@@ -42,7 +53,6 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
       }}
       className={cx('lk-slider', className)}
       style={{ '--lk-slider-pct': `${pct}%`, ...style } as CSSProperties}
-      {...aria}
     />
   )
 })

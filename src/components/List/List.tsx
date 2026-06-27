@@ -1,11 +1,11 @@
 import { forwardRef } from 'react'
-import type { CSSProperties, ElementType, MouseEventHandler, ReactNode } from 'react'
+import type { ElementType, HTMLAttributes, MouseEventHandler, ReactNode } from 'react'
 import { LiquidGlass, type GlassTint } from '../../core/LiquidGlass'
 import { ChevronRightIcon } from '../../icons'
 import { cx } from '../../utils/cx'
 import './List.css'
 
-export interface ListProps {
+export interface ListProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode
   /** Section header above the group (uppercase footnote, iOS style). */
   header?: ReactNode
@@ -19,19 +19,33 @@ export interface ListProps {
   elevation?: 0 | 1 | 2 | 3
   /** Render a glass surface. Set false for an opaque grouped background. @default true */
   glass?: boolean
-  className?: string
-  style?: CSSProperties
 }
 
 /** A grouped, inset list — the iOS Settings surface. Fill it with {@link ListRow}s. */
 export const List = forwardRef<HTMLDivElement, ListProps>(function List(
-  { children, header, footer, inset = true, tint = 'auto', elevation = 1, glass = true, className, style },
+  {
+    children,
+    header,
+    footer,
+    inset = true,
+    tint = 'auto',
+    elevation = 1,
+    glass = true,
+    className,
+    style,
+    ...rest
+  },
   ref,
 ) {
   const group = <div className="lk-list__group">{children}</div>
 
   return (
-    <div ref={ref} className={cx('lk-list', inset && 'lk-list--inset', className)} style={style}>
+    <div
+      ref={ref}
+      {...rest}
+      className={cx('lk-list', inset && 'lk-list--inset', className)}
+      style={style}
+    >
       {header != null && <div className="lk-list__header">{header}</div>}
       {glass ? (
         <LiquidGlass
@@ -51,7 +65,7 @@ export const List = forwardRef<HTMLDivElement, ListProps>(function List(
   )
 })
 
-export interface ListRowProps {
+export interface ListRowProps extends Omit<HTMLAttributes<HTMLElement>, 'title' | 'onClick'> {
   /** Override the element. Defaults to `a` with `href`, `button` with `onClick`, else `div`. */
   as?: ElementType
   /** Leading element — typically an icon. Rendered in a rounded tile when `leadingFill` is set. */
@@ -69,14 +83,26 @@ export interface ListRowProps {
   chevron?: boolean
   href?: string
   onClick?: MouseEventHandler
-  className?: string
-  style?: CSSProperties
-  children?: ReactNode
 }
 
 /** A single row in a {@link List}: leading tile, title/subtitle, trailing detail or control. */
 export const ListRow = forwardRef<HTMLElement, ListRowProps>(function ListRow(
-  { as, leading, leadingFill, title, subtitle, detail, trailing, chevron, href, onClick, className, style, children },
+  {
+    as,
+    leading,
+    leadingFill,
+    title,
+    subtitle,
+    detail,
+    trailing,
+    chevron,
+    href,
+    onClick,
+    className,
+    style,
+    children,
+    ...rest
+  },
   ref,
 ) {
   const interactive = !!(href || onClick)
@@ -87,6 +113,7 @@ export const ListRow = forwardRef<HTMLElement, ListRowProps>(function ListRow(
   return (
     <Comp
       ref={ref as never}
+      {...rest}
       href={href}
       onClick={onClick}
       className={cx(

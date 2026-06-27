@@ -1,4 +1,3 @@
-/// <reference types="vitest/config" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import dts from 'vite-plugin-dts'
@@ -13,12 +12,7 @@ export default defineConfig(({ mode }) => {
         react(),
         dts({
           include: ['src'],
-          exclude: [
-            'src/test/**',
-            'src/**/*.stories.tsx',
-            'src/**/*.test.ts',
-            'src/**/*.test.tsx',
-          ],
+          exclude: ['src/test/**', 'src/**/*.stories.tsx', 'src/**/*.test.ts', 'src/**/*.test.tsx'],
         }),
       ],
       build: {
@@ -31,6 +25,10 @@ export default defineConfig(({ mode }) => {
         rollupOptions: {
           external: ['react', 'react-dom', 'react/jsx-runtime'],
           output: {
+            // Mark the whole bundle as a client module so it can be imported
+            // from React Server Components (Next.js App Router). Prepended as
+            // raw text, so it survives minification and stays the first line.
+            banner: '"use client";',
             globals: { react: 'React', 'react-dom': 'ReactDOM' },
             assetFileNames: (info) =>
               info.name === 'style.css' ? 'liquidkit.css' : (info.name ?? 'asset'),
@@ -42,18 +40,17 @@ export default defineConfig(({ mode }) => {
     }
   }
 
-  // showcase playground
+  // showcase playground (test config lives in vitest.config.ts)
   return {
     plugins: [react()],
     resolve: {
       alias: { liquidkit: resolve(__dirname, 'src/index.ts') },
     },
     build: { outDir: 'dist-site' },
-    test: {
-      environment: 'jsdom',
-      globals: true,
-      setupFiles: ['./src/test/setup.ts'],
-      css: true,
+    server: {
+      // Don't watch build output or the agent's worktree copies (avoids
+      // exhausting the inotify watcher limit).
+      watch: { ignored: ['**/.claude/**', '**/dist/**', '**/dist-site/**', '**/coverage/**'] },
     },
   }
 })

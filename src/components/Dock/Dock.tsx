@@ -78,7 +78,17 @@ function DockButton({
 
 /** A glass navigation dock/rail (vertical or horizontal). */
 export const Dock = forwardRef<HTMLDivElement, DockProps>(function Dock(
-  { items, activeId, onSelect, orientation = 'vertical', size = 'md', tint = 'auto', elevation = 2, glass = true, className },
+  {
+    items,
+    activeId,
+    onSelect,
+    orientation = 'vertical',
+    size = 'md',
+    tint = 'auto',
+    elevation = 2,
+    glass = true,
+    className,
+  },
   ref,
 ) {
   const itemsEl = (

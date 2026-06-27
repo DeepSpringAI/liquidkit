@@ -1,10 +1,10 @@
 import { forwardRef, useState } from 'react'
-import type { CSSProperties, ReactNode } from 'react'
+import type { HTMLAttributes, ReactNode } from 'react'
 import { PlusIcon, MinusIcon } from '../../icons'
 import { cx } from '../../utils/cx'
 import './Stepper.css'
 
-export interface StepperProps {
+export interface StepperProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value?: number
   defaultValue?: number
   onChange?: (value: number) => void
@@ -21,9 +21,6 @@ export interface StepperProps {
   /** @default 'md' */
   size?: 'sm' | 'md' | 'lg'
   disabled?: boolean
-  'aria-label'?: string
-  className?: string
-  style?: CSSProperties
 }
 
 const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n))
@@ -41,9 +38,9 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
     formatValue,
     size = 'md',
     disabled = false,
-    'aria-label': ariaLabel,
     className,
     style,
+    ...rest
   },
   ref,
 ) {
@@ -64,10 +61,10 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
   return (
     <div
       ref={ref}
+      {...rest}
       className={cx('lk-stepper', `lk-stepper--${size}`, disabled && 'is-disabled', className)}
       style={style}
-      role="group"
-      aria-label={ariaLabel}
+      role={rest.role ?? 'group'}
     >
       <button
         type="button"

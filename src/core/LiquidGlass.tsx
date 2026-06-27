@@ -53,71 +53,69 @@ const DEFAULT = {
  * and disperses whatever is behind it, with a specular bevel and sheen.
  * Every other LiquidKit component composes this primitive.
  */
-export const LiquidGlass = forwardRef<HTMLElement, LiquidGlassProps>(
-  function LiquidGlass(
-    {
-      as: Comp = 'div',
-      material,
-      radius = DEFAULT.radius,
-      pill = false,
-      blur,
-      refraction = DEFAULT.refraction,
-      dispersion = DEFAULT.dispersion,
-      bezel = DEFAULT.bezel,
-      tint = 'auto',
-      elevation = 2,
-      sheen = true,
-      glass = true,
-      interactive = false,
-      className,
-      style,
-      children,
-      ...rest
-    },
-    forwardedRef,
-  ) {
-    const { ref, filterUrl } = useGlassFilter<HTMLElement>({
-      enabled: glass,
-      bezel,
-      scale: refraction,
-      dispersion,
-    })
-
-    const blurCss = blur != null ? `${blur}px` : 'var(--lk-glass-blur)'
-    const backdrop = [
-      filterUrl,
-      `blur(${blurCss})`,
-      'saturate(var(--lk-glass-saturate))',
-      'brightness(var(--lk-glass-brightness))',
-    ]
-      .filter(Boolean)
-      .join(' ')
-
-    return (
-      <Comp
-        ref={mergeRefs(forwardedRef, ref)}
-        className={cx('lk-glass', interactive && 'lk-glass--interactive', className)}
-        data-tint={tint}
-        data-material={material}
-        data-elevation={elevation}
-        style={{ borderRadius: pill ? 999 : radius, ...style }}
-        {...rest}
-      >
-        <span
-          className="lk-glass__refraction"
-          aria-hidden="true"
-          style={
-            {
-              backdropFilter: backdrop,
-              WebkitBackdropFilter: backdrop,
-            } as CSSProperties
-          }
-        />
-        <span className="lk-glass__tint" aria-hidden="true" />
-        <span className="lk-glass__bevel" aria-hidden="true" />
-        {sheen && <span className="lk-glass__sheen" aria-hidden="true" />}
-        <span className="lk-glass__content">{children}</span>
-      </Comp>
-    )
+export const LiquidGlass = forwardRef<HTMLElement, LiquidGlassProps>(function LiquidGlass(
+  {
+    as: Comp = 'div',
+    material,
+    radius = DEFAULT.radius,
+    pill = false,
+    blur,
+    refraction = DEFAULT.refraction,
+    dispersion = DEFAULT.dispersion,
+    bezel = DEFAULT.bezel,
+    tint = 'auto',
+    elevation = 2,
+    sheen = true,
+    glass = true,
+    interactive = false,
+    className,
+    style,
+    children,
+    ...rest
   },
-)
+  forwardedRef,
+) {
+  const { ref, filterUrl } = useGlassFilter<HTMLElement>({
+    enabled: glass,
+    bezel,
+    scale: refraction,
+    dispersion,
+  })
+
+  const blurCss = blur != null ? `${blur}px` : 'var(--lk-glass-blur)'
+  const backdrop = [
+    filterUrl,
+    `blur(${blurCss})`,
+    'saturate(var(--lk-glass-saturate))',
+    'brightness(var(--lk-glass-brightness))',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
+  return (
+    <Comp
+      ref={mergeRefs(forwardedRef, ref)}
+      className={cx('lk-glass', interactive && 'lk-glass--interactive', className)}
+      data-tint={tint}
+      data-material={material}
+      data-elevation={elevation}
+      style={{ borderRadius: pill ? 999 : radius, ...style }}
+      {...rest}
+    >
+      <span
+        className="lk-glass__refraction"
+        aria-hidden="true"
+        style={
+          {
+            backdropFilter: backdrop,
+            WebkitBackdropFilter: backdrop,
+          } as CSSProperties
+        }
+      />
+      <span className="lk-glass__tint" aria-hidden="true" />
+      <span className="lk-glass__bevel" aria-hidden="true" />
+      {sheen && <span className="lk-glass__sheen" aria-hidden="true" />}
+      <span className="lk-glass__content">{children}</span>
+    </Comp>
+  )
+})

@@ -22,7 +22,17 @@ export interface StatTileProps {
 
 /** A glowing glass data tile (value + delta), as in finance dashboards. */
 export const StatTile = forwardRef<HTMLDivElement, StatTileProps>(function StatTile(
-  { label, value, delta, direction = 'up', glow = false, accent = '#3b82f6', size = 180, className, style },
+  {
+    label,
+    value,
+    delta,
+    direction = 'up',
+    glow = false,
+    accent = '#3b82f6',
+    size = 180,
+    className,
+    style,
+  },
   ref,
 ) {
   const css = {

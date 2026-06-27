@@ -38,7 +38,10 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
         {src ? <img src={src} alt={alt ?? name ?? ''} /> : <span>{initials(name)}</span>}
       </div>
       {status && (
-        <span className={cx('lk-avatar__status', `lk-avatar__status--${status}`)} aria-label={status} />
+        <span
+          className={cx('lk-avatar__status', `lk-avatar__status--${status}`)}
+          aria-label={status}
+        />
       )}
     </div>
   )

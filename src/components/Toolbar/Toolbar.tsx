@@ -72,7 +72,13 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar
   }
 
   return (
-    <LiquidGlass ref={ref as never} pill tint={tint} elevation={elevation} className={cx('lk-toolbar', className)}>
+    <LiquidGlass
+      ref={ref as never}
+      pill
+      tint={tint}
+      elevation={elevation}
+      className={cx('lk-toolbar', className)}
+    >
       {itemsEl}
     </LiquidGlass>
   )

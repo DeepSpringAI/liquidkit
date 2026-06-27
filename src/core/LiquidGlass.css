@@ -151,9 +151,7 @@
 }
 
 /* Fallback when backdrop-filter isn't supported: lean on a denser tint. */
-@supports not (
-  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
-) {
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .lk-glass__tint {
     background: var(--lk-glass-tint-strong);
   }

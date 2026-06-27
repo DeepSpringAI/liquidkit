@@ -13,13 +13,25 @@ describe('displacementMapDataUri', () => {
 
 describe('glassFilterMarkup', () => {
   it('emits a single displacement pass when dispersion is 0', () => {
-    const m = glassFilterMarkup('id1', { width: 100, height: 100, bezel: 10, scale: 40, dispersion: 0 })
+    const m = glassFilterMarkup('id1', {
+      width: 100,
+      height: 100,
+      bezel: 10,
+      scale: 40,
+      dispersion: 0,
+    })
     expect(m.match(/feDisplacementMap/g)).toHaveLength(1)
     expect(m).toContain('color-interpolation-filters="sRGB"')
   })
 
   it('emits three displacement passes + blends for dispersion', () => {
-    const m = glassFilterMarkup('id2', { width: 100, height: 100, bezel: 10, scale: 40, dispersion: 6 })
+    const m = glassFilterMarkup('id2', {
+      width: 100,
+      height: 100,
+      bezel: 10,
+      scale: 40,
+      dispersion: 6,
+    })
     expect(m.match(/feDisplacementMap/g)).toHaveLength(3)
     expect(m.match(/feBlend/g)).toHaveLength(2)
   })

@@ -9,8 +9,10 @@ import { existsSync } from 'node:fs'
 const base = (process.argv[2] || 'http://localhost:5174').replace(/\/$/, '')
 const outDir = process.argv[3] || '.shots'
 
-const routes = (process.env.PW_ROUTES ??
-  ',components/button,components/liquid-glass,guide/glass-engine,icons,templates').split(',')
+const routes = (
+  process.env.PW_ROUTES ??
+  ',components/button,components/liquid-glass,guide/glass-engine,icons,templates'
+).split(',')
 const themes = (process.env.PW_THEMES ?? 'dark,light').split(',')
 const fullPage = process.env.PW_FULL === '1'
 

@@ -43,8 +43,7 @@
   background:
     radial-gradient(60% 55% at 50% -5%, rgba(91, 140, 255, 0.4), transparent 70%),
     radial-gradient(45% 45% at 85% 25%, rgba(190, 80, 255, 0.32), transparent 70%),
-    radial-gradient(40% 40% at 12% 75%, rgba(40, 220, 180, 0.22), transparent 70%),
-    var(--lk-bg);
+    radial-gradient(40% 40% at 12% 75%, rgba(40, 220, 180, 0.22), transparent 70%), var(--lk-bg);
 }
 .lk-landing {
   display: flex;
@@ -100,8 +99,7 @@
 .lk-waitlist::before {
   background:
     radial-gradient(60% 60% at 50% 38%, rgba(255, 120, 60, 0.3), transparent 70%),
-    radial-gradient(42% 42% at 82% 72%, rgba(255, 80, 120, 0.22), transparent 70%),
-    var(--lk-bg);
+    radial-gradient(42% 42% at 82% 72%, rgba(255, 80, 120, 0.22), transparent 70%), var(--lk-bg);
 }
 .lk-waitlist {
   display: flex;
@@ -167,8 +165,7 @@
 .lk-pricingpage::before {
   background:
     radial-gradient(50% 50% at 72% 18%, rgba(91, 140, 255, 0.32), transparent 70%),
-    radial-gradient(42% 50% at 18% 62%, rgba(140, 90, 255, 0.28), transparent 70%),
-    var(--lk-bg);
+    radial-gradient(42% 50% at 18% 62%, rgba(140, 90, 255, 0.28), transparent 70%), var(--lk-bg);
 }
 .lk-pricingpage {
   display: flex;
@@ -211,8 +208,7 @@
 /* ---------- Dashboard shell ---------- */
 .lk-dash::before {
   background:
-    radial-gradient(55% 60% at 82% -5%, rgba(91, 140, 255, 0.18), transparent 70%),
-    var(--lk-bg);
+    radial-gradient(55% 60% at 82% -5%, rgba(91, 140, 255, 0.18), transparent 70%), var(--lk-bg);
 }
 .lk-dash {
   display: flex;

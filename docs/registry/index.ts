@@ -106,10 +106,12 @@ export function buildNav(): NavSection[] {
     byCategory.set(doc.category, list)
   }
 
-  const componentSections: NavSection[] = CATEGORY_ORDER.filter((c) => byCategory.has(c)).map((c) => ({
-    title: c,
-    items: byCategory.get(c)!,
-  }))
+  const componentSections: NavSection[] = CATEGORY_ORDER.filter((c) => byCategory.has(c)).map(
+    (c) => ({
+      title: c,
+      items: byCategory.get(c)!,
+    }),
+  )
 
   const resourceSection: NavSection = {
     title: 'Resources',

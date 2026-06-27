@@ -28,7 +28,18 @@ export interface NavigationBarProps {
 /** The iOS large-title navigation bar: a glass header whose large title
  *  collapses into an inline title as the content scrolls. */
 export const NavigationBar = forwardRef<HTMLElement, NavigationBarProps>(function NavigationBar(
-  { title, largeTitle = true, leading, trailing, search, collapseAt = 8, scrollTarget, tint = 'auto', className, style },
+  {
+    title,
+    largeTitle = true,
+    leading,
+    trailing,
+    search,
+    collapseAt = 8,
+    scrollTarget,
+    tint = 'auto',
+    className,
+    style,
+  },
   ref,
 ) {
   const { scrollY } = useScrollDirection({ target: scrollTarget, topOffset: collapseAt })

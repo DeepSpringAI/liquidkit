@@ -56,9 +56,18 @@ export const inputDoc: ComponentDoc = {
   props: [
     { name: 'leftIcon', type: 'ReactNode', description: 'Icon before the field.' },
     { name: 'rightIcon', type: 'ReactNode', description: 'Icon after the field.' },
-    { name: 'inputSize', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Control size.' },
+    {
+      name: 'inputSize',
+      type: "'sm' | 'md' | 'lg'",
+      default: "'md'",
+      description: 'Control size.',
+    },
     { name: 'pill', type: 'boolean', default: 'false', description: 'Fully rounded.' },
-    { name: '...input', type: 'InputHTMLAttributes', description: 'All native <input> attributes except size.' },
+    {
+      name: '...input',
+      type: 'InputHTMLAttributes',
+      description: 'All native <input> attributes except size.',
+    },
   ],
 }
 
@@ -94,7 +103,15 @@ export const searchFieldDoc: ComponentDoc = {
       title: 'Sizes',
       wide: true,
       demo: (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: 320, margin: '0 auto' }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 12,
+            width: 320,
+            margin: '0 auto',
+          }}
+        >
           <SearchField size="sm" placeholder="Small" />
           <SearchField size="md" placeholder="Medium" />
           <SearchField size="lg" placeholder="Large" />
@@ -106,13 +123,26 @@ export const searchFieldDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'value / defaultValue', type: 'string', description: 'Controlled / uncontrolled text.' },
+    {
+      name: 'value / defaultValue',
+      type: 'string',
+      description: 'Controlled / uncontrolled text.',
+    },
     { name: 'onChange', type: '(value: string) => void', description: 'Fires on every keystroke.' },
     { name: 'onClear', type: '() => void', description: 'Fires when the clear button is pressed.' },
-    { name: 'cancelable', type: 'boolean', default: 'false', description: 'Reveal a Cancel button while focused or non-empty.' },
+    {
+      name: 'cancelable',
+      type: 'boolean',
+      default: 'false',
+      description: 'Reveal a Cancel button while focused or non-empty.',
+    },
     { name: 'onCancel', type: '() => void', description: 'Fires when Cancel is pressed.' },
     { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Control size.' },
-    { name: '...input', type: 'InputHTMLAttributes', description: 'All native <input> attributes except size/value.' },
+    {
+      name: '...input',
+      type: 'InputHTMLAttributes',
+      description: 'All native <input> attributes except size/value.',
+    },
   ],
 }
 
@@ -127,7 +157,8 @@ export const stepperDoc: ComponentDoc = {
   slug: 'stepper',
   name: 'Stepper',
   category: 'Inputs',
-  summary: 'The iOS −/+ stepper, optionally showing the current value. Clamps to min / max and steps by step.',
+  summary:
+    'The iOS −/+ stepper, optionally showing the current value. Clamps to min / max and steps by step.',
   importLine: "import { Stepper } from 'liquidkit'",
   examples: [
     {
@@ -146,13 +177,30 @@ export const stepperDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'value / defaultValue', type: 'number', description: 'Controlled / uncontrolled value.' },
-    { name: 'onChange', type: '(value: number) => void', description: 'Fires when the value changes.' },
+    {
+      name: 'value / defaultValue',
+      type: 'number',
+      description: 'Controlled / uncontrolled value.',
+    },
+    {
+      name: 'onChange',
+      type: '(value: number) => void',
+      description: 'Fires when the value changes.',
+    },
     { name: 'min', type: 'number', default: '0', description: 'Lower bound.' },
     { name: 'max', type: 'number', default: 'Infinity', description: 'Upper bound.' },
     { name: 'step', type: 'number', default: '1', description: 'Increment.' },
-    { name: 'showValue', type: 'boolean', default: 'false', description: 'Show the current value between the buttons.' },
-    { name: 'formatValue', type: '(v: number) => ReactNode', description: 'Format the displayed value.' },
+    {
+      name: 'showValue',
+      type: 'boolean',
+      default: 'false',
+      description: 'Show the current value between the buttons.',
+    },
+    {
+      name: 'formatValue',
+      type: '(v: number) => ReactNode',
+      description: 'Format the displayed value.',
+    },
     { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Control size.' },
   ],
 }
@@ -162,16 +210,30 @@ export const stepperDoc: ComponentDoc = {
 function CommandBarDemo() {
   const [sent, setSent] = useState<string | null>(null)
   return (
-    <div style={{ width: '100%', maxWidth: 540, display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div
+      style={{ width: '100%', maxWidth: 540, display: 'flex', flexDirection: 'column', gap: 10 }}
+    >
       <CommandBar
         placeholder="Ask me anything…"
         onSubmit={(v) => v && setSent(v)}
-        leading={<IconButton aria-label="Add" size="sm"><PlusIcon size={18} /></IconButton>}
-        trailing={<IconButton aria-label="Send" size="sm" variant="accent"><SendIcon size={18} /></IconButton>}
+        leading={
+          <IconButton aria-label="Add" size="sm">
+            <PlusIcon size={18} />
+          </IconButton>
+        }
+        trailing={
+          <IconButton aria-label="Send" size="sm" variant="accent">
+            <SendIcon size={18} />
+          </IconButton>
+        }
         footer={
           <>
-            <Button size="sm" variant="ghost" leftIcon={<ImageIcon size={16} />}>Image</Button>
-            <Button size="sm" variant="ghost" leftIcon={<SparkleIcon size={16} />}>Enhance</Button>
+            <Button size="sm" variant="ghost" leftIcon={<ImageIcon size={16} />}>
+              Image
+            </Button>
+            <Button size="sm" variant="ghost" leftIcon={<SparkleIcon size={16} />}>
+              Enhance
+            </Button>
           </>
         }
       />
@@ -207,11 +269,24 @@ export const commandBarDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'placeholder', type: 'string', default: "'Ask me anything…'", description: 'Field placeholder.' },
+    {
+      name: 'placeholder',
+      type: 'string',
+      default: "'Ask me anything…'",
+      description: 'Field placeholder.',
+    },
     { name: 'value', type: 'string', description: 'Controlled value.' },
     { name: 'defaultValue', type: 'string', description: 'Uncontrolled initial value.' },
-    { name: 'onValueChange', type: '(value: string) => void', description: 'Fires on every keystroke.' },
-    { name: 'onSubmit', type: '(value: string) => void', description: 'Fires on Enter (without Shift).' },
+    {
+      name: 'onValueChange',
+      type: '(value: string) => void',
+      description: 'Fires on every keystroke.',
+    },
+    {
+      name: 'onSubmit',
+      type: '(value: string) => void',
+      description: 'Fires on Enter (without Shift).',
+    },
     { name: 'leading', type: 'ReactNode', description: 'Controls on the left of the field.' },
     { name: 'trailing', type: 'ReactNode', description: 'Controls on the right of the field.' },
     { name: 'footer', type: 'ReactNode', description: 'A row of controls beneath the field.' },

@@ -71,7 +71,11 @@ export function ToastProvider({ children, placement = 'bottom', max = 4 }: Toast
       {children}
       {typeof document !== 'undefined' &&
         createPortal(
-          <div className={cx('lk-toasts', `lk-toasts--${placement}`)}>
+          <div
+            className={cx('lk-toasts', `lk-toasts--${placement}`)}
+            role="region"
+            aria-label="Notifications"
+          >
             {items.map((t) => (
               <ToastCard key={t.id} item={t} dismiss={dismiss} />
             ))}
@@ -91,13 +95,16 @@ function ToastCard({ item, dismiss }: { item: ToastItem; dismiss: (id: string) =
     return () => clearTimeout(t)
   }, [duration, dismiss, id])
 
+  // Errors interrupt (assertive); everything else is announced politely.
+  const assertive = variant === 'error'
+
   return (
     <LiquidGlass
       radius={16}
       elevation={3}
       className={cx('lk-toast', 'lk-spring-in', variant !== 'glass' && `lk-toast--${variant}`)}
-      role="status"
-      aria-live="polite"
+      role={assertive ? 'alert' : 'status'}
+      aria-live={assertive ? 'assertive' : 'polite'}
     >
       {icon != null && <span className="lk-toast__icon">{icon}</span>}
       <div className="lk-toast__main">
@@ -116,7 +123,12 @@ function ToastCard({ item, dismiss }: { item: ToastItem; dismiss: (id: string) =
           {action.label}
         </button>
       )}
-      <button type="button" className="lk-toast__close" aria-label="Dismiss" onClick={() => dismiss(id)}>
+      <button
+        type="button"
+        className="lk-toast__close"
+        aria-label="Dismiss"
+        onClick={() => dismiss(id)}
+      >
         <CloseIcon />
       </button>
     </LiquidGlass>

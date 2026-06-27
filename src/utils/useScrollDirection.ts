@@ -26,9 +26,7 @@ export interface ScrollDirectionState {
  * primitive behind iOS 26's scroll-reactive chrome: a tab bar or nav bar that
  * condenses on `direction === 'down'` and expands when scrolling up or `atTop`.
  */
-export function useScrollDirection(
-  options: UseScrollDirectionOptions = {},
-): ScrollDirectionState {
+export function useScrollDirection(options: UseScrollDirectionOptions = {}): ScrollDirectionState {
   const { target, threshold = 6, topOffset = 8 } = options
   const [state, setState] = useState<ScrollDirectionState>({
     direction: 'up',
@@ -60,7 +58,9 @@ export function useScrollDirection(
           scrollY: y,
           atTop,
         }
-        return next.direction === s.direction && next.scrollY === s.scrollY && next.atTop === s.atTop
+        return next.direction === s.direction &&
+          next.scrollY === s.scrollY &&
+          next.atTop === s.atTop
           ? s
           : next
       })

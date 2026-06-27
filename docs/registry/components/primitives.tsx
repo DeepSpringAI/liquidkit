@@ -93,7 +93,14 @@ export const liquidGlassDoc: ComponentDoc = {
           pill
           interactive
           tint="accent"
-          style={{ padding: '14px 22px', display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: 'inherit' }}
+          style={{
+            padding: '14px 22px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            textDecoration: 'none',
+            color: 'inherit',
+          }}
         >
           Get started <ArrowRightIcon size={18} />
         </LiquidGlass>
@@ -104,19 +111,69 @@ export const liquidGlassDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'as', type: 'ElementType', default: "'div'", description: 'Element or component to render as.' },
-    { name: 'material', type: "'ultraThin' | 'thin' | 'regular' | 'thick' | 'clear'", description: 'Apple-style material thickness — sets frost & auto-tint opacity. Composes with tint.' },
+    {
+      name: 'as',
+      type: 'ElementType',
+      default: "'div'",
+      description: 'Element or component to render as.',
+    },
+    {
+      name: 'material',
+      type: "'ultraThin' | 'thin' | 'regular' | 'thick' | 'clear'",
+      description:
+        'Apple-style material thickness — sets frost & auto-tint opacity. Composes with tint.',
+    },
     { name: 'radius', type: 'number', default: '22', description: 'Corner radius in px.' },
-    { name: 'pill', type: 'boolean', default: 'false', description: 'Fully rounded. Overrides radius.' },
-    { name: 'blur', type: 'number', default: '--lk-glass-blur', description: 'Backdrop blur in px.' },
-    { name: 'refraction', type: 'number', default: '46', description: 'Refraction strength (displacement scale).' },
-    { name: 'dispersion', type: 'number', default: '2', description: 'Chromatic split in px; 0 disables the rainbow fringe.' },
-    { name: 'bezel', type: 'number', default: '14', description: 'Width of the refracting edge band in px.' },
-    { name: 'tint', type: "'auto' | 'light' | 'dark' | 'clear' | 'accent'", default: "'auto'", description: 'Surface tint.' },
+    {
+      name: 'pill',
+      type: 'boolean',
+      default: 'false',
+      description: 'Fully rounded. Overrides radius.',
+    },
+    {
+      name: 'blur',
+      type: 'number',
+      default: '--lk-glass-blur',
+      description: 'Backdrop blur in px.',
+    },
+    {
+      name: 'refraction',
+      type: 'number',
+      default: '46',
+      description: 'Refraction strength (displacement scale).',
+    },
+    {
+      name: 'dispersion',
+      type: 'number',
+      default: '2',
+      description: 'Chromatic split in px; 0 disables the rainbow fringe.',
+    },
+    {
+      name: 'bezel',
+      type: 'number',
+      default: '14',
+      description: 'Width of the refracting edge band in px.',
+    },
+    {
+      name: 'tint',
+      type: "'auto' | 'light' | 'dark' | 'clear' | 'accent'",
+      default: "'auto'",
+      description: 'Surface tint.',
+    },
     { name: 'elevation', type: '0 | 1 | 2 | 3', default: '2', description: 'Drop-shadow depth.' },
     { name: 'sheen', type: 'boolean', default: 'true', description: 'Diagonal specular sheen.' },
-    { name: 'glass', type: 'boolean', default: 'true', description: 'Enable true refraction. When false, falls back to a frosted blur.' },
-    { name: 'interactive', type: 'boolean', default: 'false', description: 'Add hover / press affordance.' },
+    {
+      name: 'glass',
+      type: 'boolean',
+      default: 'true',
+      description: 'Enable true refraction. When false, falls back to a frosted blur.',
+    },
+    {
+      name: 'interactive',
+      type: 'boolean',
+      default: 'false',
+      description: 'Add hover / press affordance.',
+    },
   ],
 }
 
@@ -136,7 +193,9 @@ export const cardDoc: ComponentDoc = {
             Your projects shipped 12 deploys and closed 34 issues this week.
           </p>
           <div style={{ marginTop: 16 }}>
-            <Button size="sm" variant="accent">View report</Button>
+            <Button size="sm" variant="accent">
+              View report
+            </Button>
           </div>
         </Card>
       ),
@@ -164,7 +223,16 @@ export const cardDoc: ComponentDoc = {
     },
   ],
   props: [
-    { name: 'padding', type: "'none' | 'sm' | 'md' | 'lg'", default: "'md'", description: 'Inner padding preset.' },
-    { name: '...LiquidGlassProps', type: '—', description: 'All LiquidGlass props (radius, tint, elevation, …) are accepted.' },
+    {
+      name: 'padding',
+      type: "'none' | 'sm' | 'md' | 'lg'",
+      default: "'md'",
+      description: 'Inner padding preset.',
+    },
+    {
+      name: '...LiquidGlassProps',
+      type: '—',
+      description: 'All LiquidGlass props (radius, tint, elevation, …) are accepted.',
+    },
   ],
 }

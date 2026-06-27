@@ -59,13 +59,23 @@ function SidebarRow({
   )
   if (item.href) {
     return (
-      <a href={item.href} className={className} aria-current={active ? 'page' : undefined} onClick={handle}>
+      <a
+        href={item.href}
+        className={className}
+        aria-current={active ? 'page' : undefined}
+        onClick={handle}
+      >
         {inner}
       </a>
     )
   }
   return (
-    <button type="button" className={className} aria-current={active ? 'true' : undefined} onClick={handle}>
+    <button
+      type="button"
+      className={className}
+      aria-current={active ? 'true' : undefined}
+      onClick={handle}
+    >
       {inner}
     </button>
   )
@@ -73,7 +83,18 @@ function SidebarRow({
 
 /** The macOS source-list sidebar: sectioned nav with an accent selection. */
 export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(function Sidebar(
-  { sections, activeId, onSelect, header, footer, width = 248, tint = 'auto', glass = true, className, style },
+  {
+    sections,
+    activeId,
+    onSelect,
+    header,
+    footer,
+    width = 248,
+    tint = 'auto',
+    glass = true,
+    className,
+    style,
+  },
   ref,
 ) {
   const body = (
@@ -95,7 +116,11 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(function Sidebar
 
   if (!glass) {
     return (
-      <div ref={ref} className={cx('lk-sidebar', 'lk-sidebar--bare', className)} style={{ width, ...style }}>
+      <div
+        ref={ref}
+        className={cx('lk-sidebar', 'lk-sidebar--bare', className)}
+        style={{ width, ...style }}
+      >
         {body}
       </div>
     )

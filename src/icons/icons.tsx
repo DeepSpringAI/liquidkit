@@ -225,10 +225,7 @@ export const WifiIcon = createIcon(
   </>,
   'WifiIcon',
 )
-export const BluetoothIcon = createIcon(
-  <path d="m7 7.5 10 9-5 4V3l5 4-10 9" />,
-  'BluetoothIcon',
-)
+export const BluetoothIcon = createIcon(<path d="m7 7.5 10 9-5 4V3l5 4-10 9" />, 'BluetoothIcon')
 export const AirplaneIcon = createIcon(
   <path
     d="M12 3c.6 0 1 .8 1 1.8v4.9l8 4.6v1.9l-8-2.3v4.4l2 1.3v1.5l-3-.9-3 .9v-1.5l2-1.3v-4.4l-8 2.3v-1.9l8-4.6V4.8C11 3.8 11.4 3 12 3z"

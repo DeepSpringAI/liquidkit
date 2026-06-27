@@ -25,7 +25,11 @@ function PreviewFrame({ slug }: { slug: string }) {
     <div className="doc-preview">
       <Scene />
       <div className="doc-preview__bar">
-        <LiquidGlass pill elevation={3} style={{ padding: '6px 6px 6px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
+        <LiquidGlass
+          pill
+          elevation={3}
+          style={{ padding: '6px 6px 6px 16px', display: 'flex', alignItems: 'center', gap: 12 }}
+        >
           <span style={{ fontSize: 14, fontWeight: 600 }}>{scene.name}</span>
           <Button size="sm" pill variant="accent" onClick={() => navigate('templates')}>
             ← Back to docs
@@ -43,7 +47,9 @@ function NotFound() {
         <h1>Not found</h1>
         <p className="doc-page__lead">That page doesn't exist.</p>
       </header>
-      <Button as="a" href="#/" variant="accent" pill rightIcon={<ArrowRightIcon />}>Go home</Button>
+      <Button as="a" href="#/" variant="accent" pill rightIcon={<ArrowRightIcon />}>
+        Go home
+      </Button>
     </article>
   )
 }
@@ -79,7 +85,15 @@ function Shell() {
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((o) => !o)}
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+          >
             <path d="M4 7h16M4 12h16M4 17h16" />
           </svg>
         </button>
@@ -103,13 +117,19 @@ function Shell() {
         <aside className="doc-aside">
           <Sidebar route={route} onNavigate={() => setMenuOpen(false)} />
         </aside>
-        {menuOpen && <div className="doc-scrim" onClick={() => setMenuOpen(false)} />}
+        {menuOpen && (
+          <div className="doc-scrim" aria-hidden="true" onClick={() => setMenuOpen(false)} />
+        )}
         <main className={cx('doc-main', isHome && 'doc-main--wide')}>
           <div className="doc-bg" aria-hidden="true" />
           <Content route={route} />
           <footer className="doc-footer">
             <span>Built with LiquidKit · MIT licensed</span>
-            <a href="https://github.com/hamidrezazargham/liquidkit" target="_blank" rel="noreferrer">
+            <a
+              href="https://github.com/hamidrezazargham/liquidkit"
+              target="_blank"
+              rel="noreferrer"
+            >
               GitHub
             </a>
           </footer>

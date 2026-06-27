@@ -25,60 +25,63 @@ export interface CommandBarProps {
 }
 
 /** A glass command/prompt bar — text field plus optional action slots. */
-export const CommandBar = forwardRef<HTMLTextAreaElement, CommandBarProps>(
-  function CommandBar(
-    {
-      placeholder = 'Ask me anything…',
-      value,
-      defaultValue = '',
-      onValueChange,
-      onSubmit,
-      leading,
-      trailing,
-      footer,
-      rows = 1,
-      radius = 24,
-      elevation = 2,
-      className,
-      style,
-    },
-    ref,
-  ) {
-    const controlled = value != null
-    const [internal, setInternal] = useState(defaultValue)
-    const v = controlled ? value : internal
-
-    const setV = (next: string) => {
-      if (!controlled) setInternal(next)
-      onValueChange?.(next)
-    }
-
-    const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault()
-        onSubmit?.(v)
-      }
-    }
-
-    return (
-      <LiquidGlass radius={radius} elevation={elevation} className={cx('lk-cmd', className)} style={style}>
-        <div className="lk-cmd__inner">
-          <div className="lk-cmd__row">
-            {leading && <div className="lk-cmd__slot">{leading}</div>}
-            <textarea
-              ref={ref}
-              className="lk-cmd__field"
-              placeholder={placeholder}
-              rows={rows}
-              value={v}
-              onChange={(e) => setV(e.target.value)}
-              onKeyDown={onKeyDown}
-            />
-            {trailing && <div className="lk-cmd__slot">{trailing}</div>}
-          </div>
-          {footer && <div className="lk-cmd__footer">{footer}</div>}
-        </div>
-      </LiquidGlass>
-    )
+export const CommandBar = forwardRef<HTMLTextAreaElement, CommandBarProps>(function CommandBar(
+  {
+    placeholder = 'Ask me anything…',
+    value,
+    defaultValue = '',
+    onValueChange,
+    onSubmit,
+    leading,
+    trailing,
+    footer,
+    rows = 1,
+    radius = 24,
+    elevation = 2,
+    className,
+    style,
   },
-)
+  ref,
+) {
+  const controlled = value != null
+  const [internal, setInternal] = useState(defaultValue)
+  const v = controlled ? value : internal
+
+  const setV = (next: string) => {
+    if (!controlled) setInternal(next)
+    onValueChange?.(next)
+  }
+
+  const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      onSubmit?.(v)
+    }
+  }
+
+  return (
+    <LiquidGlass
+      radius={radius}
+      elevation={elevation}
+      className={cx('lk-cmd', className)}
+      style={style}
+    >
+      <div className="lk-cmd__inner">
+        <div className="lk-cmd__row">
+          {leading && <div className="lk-cmd__slot">{leading}</div>}
+          <textarea
+            ref={ref}
+            className="lk-cmd__field"
+            placeholder={placeholder}
+            rows={rows}
+            value={v}
+            onChange={(e) => setV(e.target.value)}
+            onKeyDown={onKeyDown}
+          />
+          {trailing && <div className="lk-cmd__slot">{trailing}</div>}
+        </div>
+        {footer && <div className="lk-cmd__footer">{footer}</div>}
+      </div>
+    </LiquidGlass>
+  )
+})

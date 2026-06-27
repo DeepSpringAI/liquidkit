@@ -23,11 +23,6 @@ export interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null)
 
-function prefersDark(): boolean {
-  if (typeof window === 'undefined' || !window.matchMedia) return false
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-}
-
 export interface ThemeProviderProps {
   children: ReactNode
   /** Initial mode. @default 'system' */
@@ -50,19 +45,22 @@ export function ThemeProvider({
   storageKey,
   className,
 }: ThemeProviderProps) {
-  const [mode, setModeState] = useState<ThemeMode>(() => {
-    if (storageKey && typeof localStorage !== 'undefined') {
-      const saved = localStorage.getItem(storageKey) as ThemeMode | null
-      if (saved === 'light' || saved === 'dark' || saved === 'system') return saved
-    }
-    return defaultMode
-  })
+  // Start from the deterministic default so the server-rendered markup and the
+  // first client render agree (no hydration mismatch / theme flash). The stored
+  // mode and OS preference are read after mount in the effects below.
+  const [mode, setModeState] = useState<ThemeMode>(defaultMode)
+  const [systemDark, setSystemDark] = useState(false)
 
-  const [systemDark, setSystemDark] = useState(prefersDark)
+  useEffect(() => {
+    if (!storageKey || typeof localStorage === 'undefined') return
+    const saved = localStorage.getItem(storageKey) as ThemeMode | null
+    if (saved === 'light' || saved === 'dark' || saved === 'system') setModeState(saved)
+  }, [storageKey])
 
   useEffect(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return
     const mql = window.matchMedia('(prefers-color-scheme: dark)')
+    setSystemDark(mql.matches)
     const onChange = () => setSystemDark(mql.matches)
     mql.addEventListener('change', onChange)
     return () => mql.removeEventListener('change', onChange)

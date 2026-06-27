@@ -66,10 +66,7 @@ export const PricingCard = forwardRef<HTMLDivElement, PricingCardProps>(function
           const feat: PricingFeature = typeof f === 'string' ? { text: f, included: true } : f
           const included = feat.included !== false
           return (
-            <li
-              key={i}
-              className={cx('lk-pricing__feature', !included && 'is-excluded')}
-            >
+            <li key={i} className={cx('lk-pricing__feature', !included && 'is-excluded')}>
               <span className="lk-pricing__check">
                 <CheckIcon size={15} />
               </span>

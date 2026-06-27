@@ -1,16 +1,15 @@
 import { forwardRef, useId, useState } from 'react'
-import type { ReactNode } from 'react'
+import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { cx } from '../../utils/cx'
 import './Switch.css'
 
 export type SwitchSize = 'sm' | 'md' | 'lg'
 
-export interface SwitchProps {
+export interface SwitchProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'> {
   checked?: boolean
   defaultChecked?: boolean
   onChange?: (checked: boolean) => void
-  disabled?: boolean
   /** @default 'md' */
   size?: SwitchSize
   /** Optional text label rendered next to the control. */
@@ -21,10 +20,6 @@ export interface SwitchProps {
   iconOff?: ReactNode
   /** Accent glow around the thumb when on (the dark-mode-switch look). */
   glow?: boolean
-  id?: string
-  name?: string
-  className?: string
-  'aria-label'?: string
 }
 
 /** A glass on/off switch with a sliding thumb that can carry an icon. */
@@ -42,7 +37,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
     id,
     name,
     className,
-    ...aria
+    ...rest
   },
   ref,
 ) {
@@ -69,13 +64,13 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
       <button
         ref={ref}
         type="button"
+        {...rest}
         role="switch"
         id={sid}
         aria-checked={value}
         disabled={disabled}
         onClick={toggle}
         className="lk-switch__control"
-        {...aria}
       >
         <LiquidGlass
           pill
