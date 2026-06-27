@@ -6,15 +6,22 @@ import { useGlassFilter } from './useGlassFilter'
 import './LiquidGlass.css'
 
 export type GlassTint = 'auto' | 'light' | 'dark' | 'clear' | 'accent'
+export type GlassMaterial = 'ultraThin' | 'thin' | 'regular' | 'thick' | 'clear'
 
 export interface LiquidGlassProps extends Omit<AllHTMLAttributes<HTMLElement>, 'as'> {
   /** Element/component to render as. @default 'div' */
   as?: ElementType
+  /**
+   * Apple-style material thickness — sets the frost (blur) and auto-tint
+   * opacity. `clear` is the most transparent, `thick` the most opaque.
+   * Composes with `tint` (which controls color). Omit to use the base tokens.
+   */
+  material?: GlassMaterial
   /** Corner radius in px. @default 22 */
   radius?: number
   /** Fully rounded (pill / circle). Overrides `radius`. */
   pill?: boolean
-  /** Backdrop blur in px. Defaults to the `--lk-glass-blur` token. */
+  /** Backdrop blur in px. Overrides `material`. Defaults to the `--lk-glass-blur` token. */
   blur?: number
   /** Refraction strength (displacement scale). @default 46 */
   refraction?: number
@@ -38,7 +45,7 @@ const DEFAULT = {
   radius: 22,
   bezel: 14,
   refraction: 46,
-  dispersion: 5,
+  dispersion: 2,
 } as const
 
 /**
@@ -50,6 +57,7 @@ export const LiquidGlass = forwardRef<HTMLElement, LiquidGlassProps>(
   function LiquidGlass(
     {
       as: Comp = 'div',
+      material,
       radius = DEFAULT.radius,
       pill = false,
       blur,
@@ -90,6 +98,7 @@ export const LiquidGlass = forwardRef<HTMLElement, LiquidGlassProps>(
         ref={mergeRefs(forwardedRef, ref)}
         className={cx('lk-glass', interactive && 'lk-glass--interactive', className)}
         data-tint={tint}
+        data-material={material}
         data-elevation={elevation}
         style={{ borderRadius: pill ? 999 : radius, ...style }}
         {...rest}

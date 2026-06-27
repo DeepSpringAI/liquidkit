@@ -1,0 +1,176 @@
+/* ============================================================================
+   LiquidKit — Apple system layer (iOS 26 / macOS 26 "Liquid Glass")
+   Documented Apple system values: system colors, label & fill hierarchies,
+   grouped backgrounds, material recipes, and the iOS type scale. Layered on
+   top of tokens.css; light is the :root default, dark overrides.
+   ========================================================================== */
+
+:root {
+  /* ---- system colors (iOS light) ---- */
+  --lk-system-blue: #007aff;
+  --lk-system-green: #34c759;
+  --lk-system-indigo: #5856d6;
+  --lk-system-orange: #ff9500;
+  --lk-system-pink: #ff2d55;
+  --lk-system-purple: #af52de;
+  --lk-system-red: #ff3b30;
+  --lk-system-teal: #30b0c7;
+  --lk-system-cyan: #32ade6;
+  --lk-system-mint: #00c7be;
+  --lk-system-yellow: #ffcc00;
+  --lk-system-brown: #a2845e;
+  --lk-system-gray: #8e8e93;
+
+  /* Re-point the brand accent to iOS systemBlue */
+  --lk-accent: #007aff;
+  --lk-accent-fg: #ffffff;
+  --lk-accent-soft: rgba(0, 122, 255, 0.14);
+
+  /* ---- label hierarchy (light) ---- */
+  --lk-label: rgba(0, 0, 0, 1);
+  --lk-label-secondary: rgba(60, 60, 67, 0.6);
+  --lk-label-tertiary: rgba(60, 60, 67, 0.3);
+  --lk-label-quaternary: rgba(60, 60, 67, 0.18);
+
+  /* ---- fill hierarchy (controls, light) ---- */
+  --lk-fill: rgba(120, 120, 128, 0.2);
+  --lk-fill-secondary: rgba(120, 120, 128, 0.16);
+  --lk-fill-tertiary: rgba(118, 118, 128, 0.12);
+  --lk-fill-quaternary: rgba(116, 116, 128, 0.08);
+
+  /* ---- grouped backgrounds (light) ---- */
+  --lk-bg-grouped: #f2f2f7;
+  --lk-bg-grouped-secondary: #ffffff;
+  --lk-bg-grouped-tertiary: #f2f2f7;
+  --lk-separator: rgba(60, 60, 67, 0.29);
+  --lk-separator-opaque: #c6c6c8;
+
+  /* ---- Liquid Glass material recipes (light) ---- */
+  /* `material` on <LiquidGlass> picks one of these blur + auto-tint pairs. */
+  --lk-mat-ultrathin-blur: 12px;
+  --lk-mat-thin-blur: 18px;
+  --lk-mat-regular-blur: 24px;
+  --lk-mat-thick-blur: 34px;
+  --lk-mat-clear-blur: 6px;
+  --lk-mat-ultrathin-tint: rgba(255, 255, 255, 0.44);
+  --lk-mat-thin-tint: rgba(255, 255, 255, 0.55);
+  --lk-mat-regular-tint: rgba(255, 255, 255, 0.66);
+  --lk-mat-thick-tint: rgba(255, 255, 255, 0.78);
+
+  /* ---- iOS type scale (px) ---- */
+  --lk-text-largetitle: 34px;
+  --lk-text-title1: 28px;
+  --lk-text-title2: 22px;
+  --lk-text-title3: 20px;
+  --lk-text-headline: 17px;
+  --lk-text-body: 17px;
+  --lk-text-callout: 16px;
+  --lk-text-subhead: 15px;
+  --lk-text-footnote: 13px;
+  --lk-text-caption: 12px;
+
+  /* ---- concentric / iOS radii (semantic aliases) ---- */
+  --lk-radius-control: 12px;
+  --lk-radius-field: 14px;
+  --lk-radius-card: 20px;
+  --lk-radius-tile: 22px;
+  --lk-radius-sheet: 38px;
+}
+
+[data-theme='dark'] {
+  --lk-system-blue: #0a84ff;
+  --lk-system-green: #30d158;
+  --lk-system-indigo: #5e5ce6;
+  --lk-system-orange: #ff9f0a;
+  --lk-system-pink: #ff375f;
+  --lk-system-purple: #bf5af2;
+  --lk-system-red: #ff453a;
+  --lk-system-teal: #40c8e0;
+  --lk-system-cyan: #64d2ff;
+  --lk-system-mint: #63e6e2;
+  --lk-system-yellow: #ffd60a;
+  --lk-system-brown: #ac8e68;
+  --lk-system-gray: #8e8e93;
+
+  --lk-accent: #0a84ff;
+  --lk-accent-soft: rgba(10, 132, 255, 0.24);
+
+  --lk-label: rgba(255, 255, 255, 1);
+  --lk-label-secondary: rgba(235, 235, 245, 0.6);
+  --lk-label-tertiary: rgba(235, 235, 245, 0.3);
+  --lk-label-quaternary: rgba(235, 235, 245, 0.16);
+
+  --lk-fill: rgba(120, 120, 128, 0.36);
+  --lk-fill-secondary: rgba(120, 120, 128, 0.32);
+  --lk-fill-tertiary: rgba(118, 118, 128, 0.24);
+  --lk-fill-quaternary: rgba(118, 118, 128, 0.18);
+
+  --lk-bg-grouped: #000000;
+  --lk-bg-grouped-secondary: #1c1c1e;
+  --lk-bg-grouped-tertiary: #2c2c2e;
+  --lk-separator: rgba(84, 84, 88, 0.6);
+  --lk-separator-opaque: #38383a;
+
+  --lk-mat-ultrathin-tint: rgba(30, 30, 33, 0.44);
+  --lk-mat-thin-tint: rgba(30, 30, 33, 0.55);
+  --lk-mat-regular-tint: rgba(28, 28, 30, 0.66);
+  --lk-mat-thick-tint: rgba(24, 24, 26, 0.8);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']):not([data-theme='dark']) {
+    --lk-system-blue: #0a84ff;
+    --lk-system-green: #30d158;
+    --lk-system-indigo: #5e5ce6;
+    --lk-system-orange: #ff9f0a;
+    --lk-system-pink: #ff375f;
+    --lk-system-purple: #bf5af2;
+    --lk-system-red: #ff453a;
+    --lk-system-teal: #40c8e0;
+    --lk-system-cyan: #64d2ff;
+    --lk-system-mint: #63e6e2;
+    --lk-system-yellow: #ffd60a;
+    --lk-system-brown: #ac8e68;
+    --lk-system-gray: #8e8e93;
+
+    --lk-accent: #0a84ff;
+    --lk-accent-soft: rgba(10, 132, 255, 0.24);
+
+    --lk-label: rgba(255, 255, 255, 1);
+    --lk-label-secondary: rgba(235, 235, 245, 0.6);
+    --lk-label-tertiary: rgba(235, 235, 245, 0.3);
+    --lk-label-quaternary: rgba(235, 235, 245, 0.16);
+
+    --lk-fill: rgba(120, 120, 128, 0.36);
+    --lk-fill-secondary: rgba(120, 120, 128, 0.32);
+    --lk-fill-tertiary: rgba(118, 118, 128, 0.24);
+    --lk-fill-quaternary: rgba(118, 118, 128, 0.18);
+
+    --lk-bg-grouped: #000000;
+    --lk-bg-grouped-secondary: #1c1c1e;
+    --lk-bg-grouped-tertiary: #2c2c2e;
+    --lk-separator: rgba(84, 84, 88, 0.6);
+    --lk-separator-opaque: #38383a;
+
+    --lk-mat-ultrathin-tint: rgba(30, 30, 33, 0.44);
+    --lk-mat-thin-tint: rgba(30, 30, 33, 0.55);
+    --lk-mat-regular-tint: rgba(28, 28, 30, 0.66);
+    --lk-mat-thick-tint: rgba(24, 24, 26, 0.8);
+  }
+}
+
+/* ---------------------------------------------------------------- utilities */
+
+/* Vibrancy-style label colors — match Apple's label hierarchy on any surface. */
+.lk-label {
+  color: var(--lk-label);
+}
+.lk-label-secondary {
+  color: var(--lk-label-secondary);
+}
+.lk-label-tertiary {
+  color: var(--lk-label-tertiary);
+}
+.lk-label-quaternary {
+  color: var(--lk-label-quaternary);
+}

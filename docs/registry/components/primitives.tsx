@@ -24,6 +24,25 @@ export const liquidGlassDoc: ComponentDoc = {
 </LiquidGlass>`,
     },
     {
+      title: 'Materials',
+      description:
+        'Apple-style material thickness — from clear (most transparent) to thick (most opaque). Sets the frost and auto-tint; compose with tint for color.',
+      demo: (
+        <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+          {(['clear', 'ultraThin', 'thin', 'regular', 'thick'] as const).map((m) => (
+            <LiquidGlass key={m} material={m} radius={18} style={{ padding: '18px 20px' }}>
+              {m}
+            </LiquidGlass>
+          ))}
+        </div>
+      ),
+      code: `<LiquidGlass material="clear" />
+<LiquidGlass material="ultraThin" />
+<LiquidGlass material="thin" />
+<LiquidGlass material="regular" />
+<LiquidGlass material="thick" />`,
+    },
+    {
       title: 'Tints',
       description:
         'auto adapts to the theme. Use clear for maximum transparency or accent to pick up your brand color.',
@@ -86,11 +105,12 @@ export const liquidGlassDoc: ComponentDoc = {
   ],
   props: [
     { name: 'as', type: 'ElementType', default: "'div'", description: 'Element or component to render as.' },
+    { name: 'material', type: "'ultraThin' | 'thin' | 'regular' | 'thick' | 'clear'", description: 'Apple-style material thickness — sets frost & auto-tint opacity. Composes with tint.' },
     { name: 'radius', type: 'number', default: '22', description: 'Corner radius in px.' },
     { name: 'pill', type: 'boolean', default: 'false', description: 'Fully rounded. Overrides radius.' },
     { name: 'blur', type: 'number', default: '--lk-glass-blur', description: 'Backdrop blur in px.' },
     { name: 'refraction', type: 'number', default: '46', description: 'Refraction strength (displacement scale).' },
-    { name: 'dispersion', type: 'number', default: '5', description: 'Chromatic split in px; 0 disables the rainbow fringe.' },
+    { name: 'dispersion', type: 'number', default: '2', description: 'Chromatic split in px; 0 disables the rainbow fringe.' },
     { name: 'bezel', type: 'number', default: '14', description: 'Width of the refracting edge band in px.' },
     { name: 'tint', type: "'auto' | 'light' | 'dark' | 'clear' | 'accent'", default: "'auto'", description: 'Surface tint.' },
     { name: 'elevation', type: '0 | 1 | 2 | 3', default: '2', description: 'Drop-shadow depth.' },

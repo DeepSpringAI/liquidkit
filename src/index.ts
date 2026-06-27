@@ -1,9 +1,10 @@
 import './styles/tokens.css'
+import './styles/system.css'
 import './styles/base.css'
 
 // Core engine
 export { LiquidGlass } from './core/LiquidGlass'
-export type { LiquidGlassProps, GlassTint } from './core/LiquidGlass'
+export type { LiquidGlassProps, GlassTint, GlassMaterial } from './core/LiquidGlass'
 export { useGlassFilter } from './core/useGlassFilter'
 export type {
   UseGlassFilterOptions,

@@ -55,6 +55,39 @@
   background: var(--lk-accent-soft);
 }
 
+/* ---- Apple material thickness: frost (blur) + auto-tint opacity ---- */
+.lk-glass[data-material='ultraThin'] {
+  --lk-glass-blur: var(--lk-mat-ultrathin-blur);
+}
+.lk-glass[data-material='thin'] {
+  --lk-glass-blur: var(--lk-mat-thin-blur);
+}
+.lk-glass[data-material='regular'] {
+  --lk-glass-blur: var(--lk-mat-regular-blur);
+}
+.lk-glass[data-material='thick'] {
+  --lk-glass-blur: var(--lk-mat-thick-blur);
+}
+.lk-glass[data-material='clear'] {
+  --lk-glass-blur: var(--lk-mat-clear-blur);
+}
+/* the color comes from data-tint; material sets the auto-tint opacity */
+.lk-glass[data-material='ultraThin'][data-tint='auto'] .lk-glass__tint {
+  background: var(--lk-mat-ultrathin-tint);
+}
+.lk-glass[data-material='thin'][data-tint='auto'] .lk-glass__tint {
+  background: var(--lk-mat-thin-tint);
+}
+.lk-glass[data-material='regular'][data-tint='auto'] .lk-glass__tint {
+  background: var(--lk-mat-regular-tint);
+}
+.lk-glass[data-material='thick'][data-tint='auto'] .lk-glass__tint {
+  background: var(--lk-mat-thick-tint);
+}
+.lk-glass[data-material='clear'][data-tint='auto'] .lk-glass__tint {
+  background: transparent;
+}
+
 /* specular bevel: bright top edge, soft inner shading, hairline border */
 .lk-glass__bevel {
   z-index: 2;

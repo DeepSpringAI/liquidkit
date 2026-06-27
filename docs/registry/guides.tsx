@@ -232,7 +232,7 @@ const engine: GuideDoc = {
       <PropsTable
         props={[
           { name: 'refraction', type: 'number', default: '46', description: 'Displacement scale — how hard the edge bends light.' },
-          { name: 'dispersion', type: 'number', default: '5', description: 'Per-channel split in px. 0 = clean glass, no rainbow.' },
+          { name: 'dispersion', type: 'number', default: '2', description: 'Per-channel split in px. 0 = clean glass, no rainbow.' },
           { name: 'bezel', type: 'number', default: '14', description: 'Width of the refracting edge band. Larger = thicker rim.' },
         ]}
       />

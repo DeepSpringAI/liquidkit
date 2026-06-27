@@ -6,8 +6,9 @@
 
 :root {
   /* ---- typography ---- */
-  --lk-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  --lk-font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "SF Pro Display", system-ui, "Segoe UI", Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
   --lk-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
 
@@ -44,7 +45,7 @@
   --lk-glass-brightness: 1.05;
   --lk-refract: 46; /* feDisplacementMap scale (refraction strength) */
   --lk-refract-bezel: 14px; /* width of the refracting edge band */
-  --lk-dispersion: 5; /* chromatic aberration split (0 disables) */
+  --lk-dispersion: 2; /* chromatic aberration split (0 disables) — Apple-subtle */
 
   /* ============ LIGHT THEME (default) ============ */
   --lk-bg: #e9edf4;
