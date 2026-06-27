@@ -64,6 +64,10 @@ export { Modal } from './components/Modal/Modal'
 export type { ModalProps } from './components/Modal/Modal'
 export { Select } from './components/Select/Select'
 export type { SelectProps, SelectOption } from './components/Select/Select'
+export { List, ListRow } from './components/List/List'
+export type { ListProps, ListRowProps } from './components/List/List'
+export { TabBar } from './components/TabBar/TabBar'
+export type { TabBarProps, TabBarItem } from './components/TabBar/TabBar'
 
 // Templates
 export * from './templates'

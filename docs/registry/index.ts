@@ -18,8 +18,9 @@ import {
   chartCardDoc,
   statTileDoc,
   pricingCardDoc,
+  listDoc,
 } from './components/data'
-import { dockDoc, toolbarDoc, navBarDoc } from './components/navigation'
+import { dockDoc, toolbarDoc, navBarDoc, tabBarDoc } from './components/navigation'
 import { modalDoc } from './components/overlays'
 import { guides } from './guides'
 
@@ -46,7 +47,9 @@ export const componentDocs: ComponentDoc[] = [
   chartCardDoc,
   statTileDoc,
   pricingCardDoc,
+  listDoc,
   // Navigation
+  tabBarDoc,
   dockDoc,
   toolbarDoc,
   navBarDoc,

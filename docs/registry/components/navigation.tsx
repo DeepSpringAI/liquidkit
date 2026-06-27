@@ -3,6 +3,7 @@ import {
   Dock,
   Toolbar,
   NavBar,
+  TabBar,
   Button,
   HomeIcon,
   SearchIcon,
@@ -91,6 +92,81 @@ export const dockDoc: ComponentDoc = {
     { name: 'tint', type: 'GlassTint', default: "'auto'", description: 'Surface tint.' },
     { name: 'elevation', type: '0 | 1 | 2 | 3', default: '2', description: 'Drop-shadow depth.' },
     { name: 'glass', type: 'boolean', default: 'true', description: 'Render the glass container. Set false when embedding.' },
+  ],
+}
+
+/* --------------------------------------------------------------- TabBar */
+
+function TabBarDemo() {
+  const [tab, setTab] = useState('home')
+  return (
+    <TabBar
+      value={tab}
+      onChange={setTab}
+      items={[
+        { id: 'home', icon: <HomeIcon />, label: 'Home' },
+        { id: 'search', icon: <SearchIcon />, label: 'Search' },
+        { id: 'explore', icon: <CompassIcon />, label: 'Explore' },
+        { id: 'alerts', icon: <BellIcon />, label: 'Alerts', badge: '3' },
+        { id: 'me', icon: <UserIcon />, label: 'Profile' },
+      ]}
+    />
+  )
+}
+
+export const tabBarDoc: ComponentDoc = {
+  slug: 'tab-bar',
+  name: 'TabBar',
+  category: 'Navigation',
+  summary:
+    'The iOS 26 floating tab bar — a glass capsule of icon + label tabs with badges, accent-tinted selection, and an optional scroll-reactive condense.',
+  importLine: "import { TabBar } from 'liquidkit'",
+  examples: [
+    {
+      title: 'Floating tab bar',
+      demo: <TabBarDemo />,
+      code: `function Bar() {
+  const [tab, setTab] = useState('home')
+  return (
+    <TabBar
+      value={tab}
+      onChange={setTab}
+      items={[
+        { id: 'home', icon: <HomeIcon />, label: 'Home' },
+        { id: 'search', icon: <SearchIcon />, label: 'Search' },
+        { id: 'explore', icon: <CompassIcon />, label: 'Explore' },
+        { id: 'alerts', icon: <BellIcon />, label: 'Alerts', badge: '3' },
+        { id: 'me', icon: <UserIcon />, label: 'Profile' },
+      ]}
+    />
+  )
+}`,
+    },
+    {
+      title: 'Scroll-reactive',
+      description:
+        'Set condense to collapse the labels and shrink the bar as the page scrolls down — it expands again when you scroll up or reach the top.',
+      demo: (
+        <TabBar
+          defaultValue="home"
+          items={[
+            { id: 'home', icon: <HomeIcon />, label: 'Home' },
+            { id: 'search', icon: <SearchIcon />, label: 'Search' },
+            { id: 'me', icon: <UserIcon />, label: 'Profile' },
+          ]}
+        />
+      ),
+      code: `<TabBar condense items={items} value={tab} onChange={setTab} />`,
+    },
+  ],
+  props: [
+    { name: 'items', type: 'TabBarItem[]', required: true, description: 'Items: { id, icon, label?, badge? }.' },
+    { name: 'value / defaultValue', type: 'string', description: 'Controlled / uncontrolled active id.' },
+    { name: 'onChange', type: '(id: string) => void', description: 'Fires when a tab is chosen.' },
+    { name: 'condense', type: 'boolean', default: 'false', description: 'Collapse labels & shrink when scrolling down.' },
+    { name: 'floating', type: 'boolean', default: 'true', description: 'Floating capsule vs. an edge-to-edge bar.' },
+    { name: 'tint', type: 'GlassTint', default: "'auto'", description: 'Surface tint.' },
+    { name: 'elevation', type: '0 | 1 | 2 | 3', default: '3', description: 'Drop-shadow depth.' },
   ],
 }
 

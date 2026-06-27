@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   Badge,
   Avatar,
@@ -9,7 +10,14 @@ import {
   PricingCard,
   Button,
   IconButton,
+  List,
+  ListRow,
+  Switch,
   HeartIcon,
+  GlobeIcon,
+  BellIcon,
+  MoonIcon,
+  SparkleIcon,
 } from 'liquidkit'
 import type { ComponentDoc } from '../types'
 
@@ -306,5 +314,123 @@ export const pricingCardDoc: ComponentDoc = {
     { name: 'onSelect', type: '() => void', description: 'CTA click handler.' },
     { name: 'popular', type: 'boolean', default: 'false', description: 'Highlight as the featured tier.' },
     { name: 'badgeLabel', type: 'ReactNode', description: 'Badge shown when popular.' },
+  ],
+}
+
+/* ------------------------------------------------------------------ List */
+
+function SettingsListDemo() {
+  const [airplane, setAirplane] = useState(false)
+  return (
+    <div style={{ width: '100%', maxWidth: 440, margin: '0 auto' }}>
+      <List header="Settings">
+        <ListRow
+          leading={<SparkleIcon />}
+          leadingFill="var(--lk-system-orange)"
+          title="Airplane Mode"
+          trailing={<Switch size="sm" checked={airplane} onChange={setAirplane} />}
+        />
+        <ListRow
+          leading={<GlobeIcon />}
+          leadingFill="var(--lk-system-blue)"
+          title="Wi-Fi"
+          detail="GlassNet"
+          href="#/components/list"
+        />
+        <ListRow
+          leading={<BellIcon />}
+          leadingFill="var(--lk-system-red)"
+          title="Notifications"
+          subtitle="Banners, Sounds, Badges"
+          href="#/components/list"
+        />
+        <ListRow
+          leading={<MoonIcon />}
+          leadingFill="var(--lk-system-indigo)"
+          title="Focus"
+          href="#/components/list"
+        />
+      </List>
+    </div>
+  )
+}
+
+export const listDoc: ComponentDoc = {
+  slug: 'list',
+  name: 'List',
+  category: 'Data Display',
+  summary:
+    'The iOS grouped, inset list — the Settings surface. Rows carry a colored leading tile, title/subtitle, trailing detail or a control, and a disclosure chevron.',
+  importLine: "import { List, ListRow } from 'liquidkit'",
+  examples: [
+    {
+      title: 'Settings group',
+      wide: true,
+      demo: <SettingsListDemo />,
+      code: `<List header="Settings">
+  <ListRow
+    leading={<SparkleIcon />}
+    leadingFill="var(--lk-system-orange)"
+    title="Airplane Mode"
+    trailing={<Switch size="sm" checked={on} onChange={setOn} />}
+  />
+  <ListRow
+    leading={<GlobeIcon />}
+    leadingFill="var(--lk-system-blue)"
+    title="Wi-Fi"
+    detail="GlassNet"
+    href="/wifi"
+  />
+  <ListRow
+    leading={<BellIcon />}
+    leadingFill="var(--lk-system-red)"
+    title="Notifications"
+    subtitle="Banners, Sounds, Badges"
+    href="/notifications"
+  />
+</List>`,
+    },
+    {
+      title: 'Plain inset (no leading tiles)',
+      wide: true,
+      demo: (
+        <div style={{ width: '100%', maxWidth: 440, margin: '0 auto' }}>
+          <List header="Account" footer="Manage the devices signed in to your account.">
+            <ListRow title="Apple Account" detail="Hamid" href="#/components/list" />
+            <ListRow title="iCloud" detail="50 GB" href="#/components/list" />
+            <ListRow title="Sign Out" href="#/components/list" chevron={false} />
+          </List>
+        </div>
+      ),
+      code: `<List header="Account" footer="Manage the devices signed in to your account.">
+  <ListRow title="Apple Account" detail="Hamid" href="/account" />
+  <ListRow title="iCloud" detail="50 GB" href="/icloud" />
+  <ListRow title="Sign Out" href="/signout" chevron={false} />
+</List>`,
+    },
+  ],
+  props: [
+    { name: 'header', type: 'ReactNode', description: 'Uppercase section header above the group.' },
+    { name: 'footer', type: 'ReactNode', description: 'Caption below the group.' },
+    { name: 'inset', type: 'boolean', default: 'true', description: 'Rounded inset card with side margins.' },
+    { name: 'tint', type: 'GlassTint', default: "'auto'", description: 'Surface tint.' },
+    { name: 'elevation', type: '0 | 1 | 2 | 3', default: '1', description: 'Drop-shadow depth.' },
+    { name: 'glass', type: 'boolean', default: 'true', description: 'Glass surface; false for an opaque grouped background.' },
+  ],
+  extraProps: [
+    {
+      title: 'ListRow',
+      props: [
+        { name: 'title', type: 'ReactNode', description: 'Primary label.' },
+        { name: 'subtitle', type: 'ReactNode', description: 'Secondary line under the title.' },
+        { name: 'leading', type: 'ReactNode', description: 'Leading element, usually an icon.' },
+        { name: 'leadingFill', type: 'string', description: 'Color of the rounded leading tile.' },
+        { name: 'detail', type: 'ReactNode', description: 'Trailing value text.' },
+        { name: 'trailing', type: 'ReactNode', description: 'Trailing element — a Switch, Badge, etc.' },
+        { name: 'chevron', type: 'boolean', description: 'Disclosure chevron. Defaults on for interactive rows.' },
+        { name: 'href / onClick', type: 'string / handler', description: 'Make the row a link or button.' },
+        { name: 'as', type: 'ElementType', description: 'Override the rendered element.' },
+      ],
+    },
   ],
 }
