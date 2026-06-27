@@ -198,6 +198,14 @@ The docs site lives in `/docs` and dogfoods the library — it renders every com
 
 ---
 
+## Contributing
+
+Contributions are welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md) for setup,
+project layout, and conventions, and [CHANGELOG.md](./CHANGELOG.md) for notable
+changes.
+
+---
+
 ## License
 
 MIT © Hamidreza Zargham
