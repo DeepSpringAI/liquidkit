@@ -19,6 +19,8 @@ export interface DocExample {
   stage?: boolean
   /** Stack the demo vertically with more room (forms, command bars). */
   wide?: boolean
+  /** Let the demo overflow its stage — for anchored overlays (menus, popovers). */
+  overflow?: boolean
 }
 
 export interface ComponentDoc {

@@ -306,6 +306,14 @@ a:hover { text-decoration: underline; }
 }
 .doc-demo--stage .doc-demo__inner { position: relative; }
 
+/* anchored-overlay demos (menu, popover): give the panel room to open inside
+   the stage, top-aligned, so it isn't clipped by the stage's rounded edge. */
+.doc-demo--overflow .doc-demo__inner {
+  align-items: flex-start;
+  min-height: 380px;
+  padding-top: 30px;
+}
+
 /* ------------------------------------------------------------- code block */
 
 .doc-code {

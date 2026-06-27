@@ -1,0 +1,114 @@
+.lk-popover {
+  position: relative;
+  display: inline-block;
+}
+.lk-popover__trigger {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.lk-popover__panel {
+  position: absolute;
+  z-index: 70;
+  min-width: 180px;
+  max-width: min(86vw, 360px);
+  animation: lk-pop var(--lk-spring-duration-sm) var(--lk-spring-snappy);
+}
+.lk-popover__panel .lk-glass__content {
+  width: 100%;
+}
+.lk-popover__content {
+  padding: 14px 16px;
+  color: var(--lk-label);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+/* top / bottom placement */
+.lk-popover__panel--bottom {
+  top: calc(100% + 10px);
+}
+.lk-popover__panel--top {
+  bottom: calc(100% + 10px);
+}
+.lk-popover__panel--bottom.lk-popover__panel--align-start,
+.lk-popover__panel--top.lk-popover__panel--align-start {
+  left: 0;
+}
+.lk-popover__panel--bottom.lk-popover__panel--align-end,
+.lk-popover__panel--top.lk-popover__panel--align-end {
+  right: 0;
+}
+.lk-popover__panel--bottom.lk-popover__panel--align-center,
+.lk-popover__panel--top.lk-popover__panel--align-center {
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  width: max-content;
+}
+
+/* left / right placement (vertically centered) */
+.lk-popover__panel--right {
+  left: calc(100% + 10px);
+  top: 0;
+  bottom: 0;
+  margin-block: auto;
+  height: max-content;
+}
+.lk-popover__panel--left {
+  right: calc(100% + 10px);
+  top: 0;
+  bottom: 0;
+  margin-block: auto;
+  height: max-content;
+}
+
+/* arrow — a rotated glass square overlapping the panel edge */
+.lk-popover__arrow {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: var(--lk-glass-tint-strong);
+  border: 1px solid var(--lk-glass-border-soft);
+  transform: rotate(45deg);
+  backdrop-filter: blur(var(--lk-glass-blur));
+  -webkit-backdrop-filter: blur(var(--lk-glass-blur));
+}
+.lk-popover__arrow--bottom {
+  top: -7px;
+  left: 50%;
+  margin-left: -7px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.lk-popover__arrow--top {
+  bottom: -7px;
+  left: 50%;
+  margin-left: -7px;
+  border-left: 0;
+  border-top: 0;
+}
+.lk-popover__arrow--right {
+  left: -7px;
+  top: 50%;
+  margin-top: -7px;
+  border-top: 0;
+  border-right: 0;
+}
+.lk-popover__arrow--left {
+  right: -7px;
+  top: 50%;
+  margin-top: -7px;
+  border-bottom: 0;
+  border-left: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lk-popover__panel {
+    animation: none;
+  }
+}

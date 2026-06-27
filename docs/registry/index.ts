@@ -21,7 +21,7 @@ import {
   listDoc,
 } from './components/data'
 import { dockDoc, toolbarDoc, navBarDoc, tabBarDoc } from './components/navigation'
-import { modalDoc } from './components/overlays'
+import { modalDoc, sheetDoc, menuDoc, popoverDoc, toastDoc } from './components/overlays'
 import { guides } from './guides'
 
 export const componentDocs: ComponentDoc[] = [
@@ -57,6 +57,10 @@ export const componentDocs: ComponentDoc[] = [
   navBarDoc,
   // Overlays
   modalDoc,
+  sheetDoc,
+  menuDoc,
+  popoverDoc,
+  toastDoc,
 ]
 
 export const componentMap = Object.fromEntries(componentDocs.map((d) => [d.slug, d]))
