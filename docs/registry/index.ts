@@ -22,7 +22,14 @@ import {
   tableDoc,
   tileDoc,
 } from './components/data'
-import { dockDoc, toolbarDoc, navBarDoc, tabBarDoc, sidebarDoc } from './components/navigation'
+import {
+  dockDoc,
+  toolbarDoc,
+  navBarDoc,
+  tabBarDoc,
+  sidebarDoc,
+  navigationBarDoc,
+} from './components/navigation'
 import { modalDoc, sheetDoc, menuDoc, popoverDoc, toastDoc } from './components/overlays'
 import { guides } from './guides'
 
@@ -56,6 +63,7 @@ export const componentDocs: ComponentDoc[] = [
   tileDoc,
   // Navigation
   tabBarDoc,
+  navigationBarDoc,
   sidebarDoc,
   dockDoc,
   toolbarDoc,

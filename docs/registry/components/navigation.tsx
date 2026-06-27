@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import {
   Dock,
   Toolbar,
   NavBar,
   TabBar,
   Sidebar,
+  NavigationBar,
+  SearchField,
+  Card,
+  IconButton,
   Button,
   HomeIcon,
   SearchIcon,
@@ -172,6 +176,84 @@ export const sidebarDoc: ComponentDoc = {
     { name: 'width', type: 'number', default: '248', description: 'Sidebar width in px.' },
     { name: 'tint', type: 'GlassTint', default: "'auto'", description: 'Surface tint.' },
     { name: 'glass', type: 'boolean', default: 'true', description: 'Glass surface; false for an opaque sidebar.' },
+  ],
+}
+
+/* -------------------------------------------------------- NavigationBar */
+
+function NavigationBarDemo() {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  return (
+    <div
+      style={{
+        width: '100%',
+        maxWidth: 420,
+        height: 380,
+        margin: '0 auto',
+        borderRadius: 22,
+        overflow: 'hidden',
+        border: '1px solid var(--lk-glass-border-soft)',
+        background: 'var(--lk-bg)',
+      }}
+    >
+      <div ref={scrollRef} style={{ height: '100%', overflow: 'auto' }}>
+        <div style={{ position: 'sticky', top: 0, zIndex: 2 }}>
+          <NavigationBar
+            title="Settings"
+            scrollTarget={scrollRef}
+            trailing={<IconButton aria-label="Add" size="sm"><PlusIcon /></IconButton>}
+            search={<SearchField placeholder="Search" />}
+          />
+        </div>
+        <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {Array.from({ length: 14 }).map((_, i) => (
+            <Card key={i} padding="sm">Item {i + 1}</Card>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export const navigationBarDoc: ComponentDoc = {
+  slug: 'navigation-bar',
+  name: 'NavigationBar',
+  category: 'Navigation',
+  summary:
+    'The iOS large-title navigation bar — a glass header whose large title collapses into a centered inline title as the content scrolls, with leading/trailing actions and an optional search row.',
+  importLine: "import { NavigationBar } from 'liquidkit'",
+  examples: [
+    {
+      title: 'Large title (scroll to collapse)',
+      description: 'Scroll inside the frame — the large title shrinks into the inline title and a hairline appears.',
+      demo: <NavigationBarDemo />,
+      code: `function Screen() {
+  const scrollRef = useRef(null)
+  return (
+    <div ref={scrollRef} style={{ overflow: 'auto', height: '100dvh' }}>
+      <div style={{ position: 'sticky', top: 0 }}>
+        <NavigationBar
+          title="Settings"
+          scrollTarget={scrollRef}
+          trailing={<IconButton aria-label="Add"><PlusIcon /></IconButton>}
+          search={<SearchField placeholder="Search" />}
+        />
+      </div>
+      {/* …content… */}
+    </div>
+  )
+}`,
+    },
+  ],
+  props: [
+    { name: 'title', type: 'ReactNode', required: true, description: 'The title (shown large, then inline).' },
+    { name: 'largeTitle', type: 'boolean', default: 'true', description: 'Collapsing large title; false for an inline-only bar.' },
+    { name: 'leading', type: 'ReactNode', description: 'Leading content (e.g. a back button).' },
+    { name: 'trailing', type: 'ReactNode', description: 'Trailing actions.' },
+    { name: 'search', type: 'ReactNode', description: 'A row under the title — typically a SearchField.' },
+    { name: 'collapseAt', type: 'number', default: '8', description: 'scrollY past which the large title collapses.' },
+    { name: 'scrollTarget', type: 'RefObject<HTMLElement>', description: 'Scroll container to react to; defaults to the window.' },
+    { name: 'tint', type: 'GlassTint', default: "'auto'", description: 'Surface tint.' },
   ],
 }
 
