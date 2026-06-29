@@ -57,6 +57,9 @@ This will become the first published release (`0.1.0`).
 
 - README: corrected the component / icon / template counts, documented the full
   component list, and added Next.js usage and accessibility notes.
+- `Modal` and `Sheet` scrims now read a themeable `--lk-scrim` token (light/dark
+  aware) instead of a hardcoded `rgba(0, 0, 0, …)`, so the backdrop dim follows
+  the theme and can be overridden.
 
 ### Fixed
 
