@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import {
   Avatar,
   Button,
@@ -10,6 +11,50 @@ import {
 } from 'liquidkit'
 
 const PALETTE_LABEL = Object.fromEntries(themePresets.map((p) => [p.name, p.label]))
+
+/** The Themes gallery: the base/default look first, then the named presets. */
+const GALLERY = [{ name: '', label: 'Default' }, ...themePresets]
+
+/** Key semantic tokens that define a theme's color, shown for the default. */
+const DEFAULT_TOKENS = [
+  '--lk-accent',
+  '--lk-accent-soft',
+  '--lk-bg',
+  '--lk-bg-elev',
+  '--lk-fg',
+  '--lk-fg-muted',
+] as const
+
+/** One mode's column of default-theme token chips, with values read live from
+ *  a `data-theme`-pinned, palette-less wrapper (so it always shows the base
+ *  theme, never the picker's active palette — and no hex is hardcoded). */
+function DefaultModeSwatches({ mode }: { mode: 'light' | 'dark' }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [values, setValues] = useState<Record<string, string>>({})
+
+  useEffect(() => {
+    if (!ref.current) return
+    const cs = getComputedStyle(ref.current)
+    setValues(
+      Object.fromEntries(DEFAULT_TOKENS.map((t) => [t, cs.getPropertyValue(t).trim()])),
+    )
+  }, [])
+
+  return (
+    <div className="doc-token-mode" ref={ref} data-theme={mode}>
+      <div className="doc-token-mode__label">{mode}</div>
+      <div className="doc-swatch-row">
+        {DEFAULT_TOKENS.map((token) => (
+          <div key={token} className="doc-swatch" title={`${token} · ${values[token] ?? ''}`}>
+            <span className="doc-swatch__chip" style={{ background: `var(${token})` }} />
+            <span className="doc-swatch__name">{token.replace('--lk-', '')}</span>
+            <span className="doc-swatch__hex">{values[token] || '…'}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 /** A palette's named swatches as a labelled row of color chips. */
 function SwatchGroup({ name, swatches }: { name: string; swatches: Record<string, string> }) {
@@ -32,12 +77,12 @@ function SwatchGroup({ name, swatches }: { name: string; swatches: Record<string
 }
 
 /** A compact glass scene rendered under one palette + mode. */
-function Vignette({ name, mode }: { name: string; mode: 'light' | 'dark' }) {
+function Vignette({ name, label, mode }: { name: string; label: string; mode: 'light' | 'dark' }) {
   return (
     <div
       className="doc-theme-vignette"
       data-theme={mode}
-      data-palette={name}
+      data-palette={name || undefined}
       style={{ background: 'var(--lk-bg)', color: 'var(--lk-fg)' }}
     >
       <div className="doc-theme-vignette__mode">{mode}</div>
@@ -46,7 +91,7 @@ function Vignette({ name, mode }: { name: string; mode: 'light' | 'dark' }) {
         style={{ padding: 14, display: 'flex', flexDirection: 'column', gap: 10 }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Avatar name={name} size={28} />
+          <Avatar name={name || label} size={28} />
           <div style={{ fontWeight: 600, fontSize: 13 }}>Liquid Glass</div>
           <Switch defaultChecked aria-label="demo" style={{ marginLeft: 'auto' }} />
         </div>
@@ -70,11 +115,11 @@ function PaletteCard({ name, label }: { name: string; label: string }) {
     <div className="doc-theme-card">
       <div className="doc-theme-card__head">
         <strong>{label}</strong>
-        <code>data-palette=&quot;{name}&quot;</code>
+        {name ? <code>data-palette=&quot;{name}&quot;</code> : <code>base theme · no data-palette</code>}
       </div>
       <div className="doc-theme-variants">
-        <Vignette name={name} mode="light" />
-        <Vignette name={name} mode="dark" />
+        <Vignette name={name} label={label} mode="light" />
+        <Vignette name={name} label={label} mode="dark" />
       </div>
     </div>
   )
@@ -119,8 +164,8 @@ import 'liquidkit/themes.css'   // these presets`}
       </Card>
 
       <div className="doc-theme-grid">
-        {themePresets.map((preset) => (
-          <PaletteCard key={preset.name} name={preset.name} label={preset.label} />
+        {GALLERY.map((theme) => (
+          <PaletteCard key={theme.name || 'default'} name={theme.name} label={theme.label} />
         ))}
       </div>
 
@@ -129,6 +174,21 @@ import 'liquidkit/themes.css'   // these presets`}
         <code>import {'{ themePresets }'} from 'liquidkit'</code> — each entry has <code>name</code>{' '}
         and <code>label</code>. Try them live from the picker in the sidebar.
       </div>
+
+      <section style={{ marginTop: 44 }}>
+        <h2 style={{ margin: '0 0 6px' }}>The default theme</h2>
+        <p className="doc-page__lead" style={{ fontSize: 15 }}>
+          The look you get out of the box — no <code>data-palette</code>, no{' '}
+          <code>themes.css</code> needed. It&apos;s defined by the core semantic tokens, so these are
+          the colors every component inherits by default. Here are its key colors in both modes:
+        </p>
+        <Card radius={18} style={{ marginTop: 18 }}>
+          <div className="doc-token-modes">
+            <DefaultModeSwatches mode="light" />
+            <DefaultModeSwatches mode="dark" />
+          </div>
+        </Card>
+      </section>
 
       <section style={{ marginTop: 44 }}>
         <h2 style={{ margin: '0 0 6px' }}>Raw palette swatches</h2>
