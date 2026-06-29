@@ -280,9 +280,9 @@
   --lk-fg-muted: rgba(1, 79, 97, 0.66);
   --lk-fg-subtle: rgba(1, 79, 97, 0.44);
 
-  --lk-accent: #b908e1;
+  --lk-accent: #0592a2;
   --lk-accent-fg: #ffffff;
-  --lk-accent-soft: rgba(185, 8, 225, 0.14);
+  --lk-accent-soft: rgba(5, 146, 162, 0.16);
 
   --lk-success: #1faa5a;
   --lk-warning: #e6952a;
@@ -308,17 +308,17 @@
   --lk-fg-muted: rgba(234, 248, 251, 0.64);
   --lk-fg-subtle: rgba(234, 248, 251, 0.4);
 
-  --lk-accent: #b908e1;
-  --lk-accent-fg: #ffffff;
-  --lk-accent-soft: rgba(185, 8, 225, 0.26);
+  --lk-accent: #7bd6e8;
+  --lk-accent-fg: #022b34;
+  --lk-accent-soft: rgba(123, 214, 232, 0.22);
 
   --lk-success: #34d27b;
   --lk-warning: #f3b14b;
   --lk-danger: #ff6b6b;
 
-  --lk-glass-tint: rgba(123, 214, 232, 0.16);
-  --lk-glass-tint-strong: rgba(123, 214, 232, 0.26);
-  --lk-glass-border: rgba(182, 235, 247, 0.28);
+  --lk-glass-tint: rgba(123, 214, 232, 0.12);
+  --lk-glass-tint-strong: rgba(123, 214, 232, 0.2);
+  --lk-glass-border: rgba(182, 235, 247, 0.24);
   --lk-glass-border-soft: rgba(182, 235, 247, 0.12);
   --lk-glass-highlight: rgba(215, 247, 252, 0.78);
   --lk-glass-inner-shadow: rgba(0, 0, 0, 0.55);
