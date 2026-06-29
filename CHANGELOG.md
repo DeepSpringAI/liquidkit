@@ -21,6 +21,12 @@ This will become the first published release (`0.1.0`).
   `defaultPalette` prop (persisted under `` `${storageKey}-palette` ``);
   portaled overlays mirror the active palette. The `themePresets` list is
   exported for building a theme picker.
+- **Raw palette swatches** — the named colors behind the presets are exposed
+  on their own: a typed `palettes` JS export (`palettes.amber.flameAmber`) and
+  matching CSS custom properties in an optional `liquidkit/palettes.css`
+  (`--lk-amber-flame-amber`). Swatches are grouped by palette without repeating
+  the palette name; `aurora` merges its three source groups (Ice · Forest ·
+  Borealis) into one palette.
 - **Next.js / React Server Components support** — the library build is marked
   `"use client";`, so components can be imported from Server Components.
 - **Right-to-left (RTL) support** across the component set via CSS logical

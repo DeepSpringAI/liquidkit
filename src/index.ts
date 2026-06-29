@@ -101,6 +101,8 @@ export type {
 } from './theme/ThemeProvider'
 export { themePresets } from './theme/presets'
 export type { ThemePreset, ThemePresetName } from './theme/presets'
+export { palettes } from './theme/palettes'
+export type { PaletteName, Palette } from './theme/palettes'
 
 // Utils
 export { cx } from './utils/cx'

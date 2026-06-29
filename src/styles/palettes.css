@@ -1,0 +1,141 @@
+/* ============================================================================
+   LiquidKit — raw palette swatches (OPTIONAL)
+
+   The named colors behind the preset themes, exposed as CSS custom properties so
+   you can reference an individual swatch when building your own UI. These are raw
+   colors, NOT the semantic theme tokens (`--lk-accent`, `--lk-bg`, …) — for whole-
+   UI theming use `liquidkit/themes.css` + `data-palette` instead.
+
+   Opt in alongside the core stylesheet:
+
+       import 'liquidkit/styles.css'      // required core
+       import 'liquidkit/palettes.css'    // these raw swatches
+
+       .promo { background: var(--lk-amber-flame-amber); }
+
+   Naming: `--lk-<palette>-<swatch>`. The palette name is never repeated, so the
+   amber swatch `amber-taupe` is `--lk-amber-taupe` and `flame-amber` is
+   `--lk-amber-flame-amber`. The same colors are available in JS as `palettes`.
+
+   Aurora merges three source groups (Ice · Forest · Borealis) into one palette.
+   ========================================================================== */
+
+:root {
+  /* Aurora */
+  --lk-aurora-teal: #397979;
+  --lk-aurora-polar-mint: #8cc1b7;
+  --lk-aurora-ice-blue: #3d6678;
+  --lk-aurora-arctic-blue-white: #97b3c1;
+  --lk-aurora-arctic-white: #edece8;
+  --lk-aurora-soft-violet-navy: #1e2639;
+  --lk-aurora-forest: #053931;
+  --lk-aurora-aquamarine-ice: #cbefeb;
+  --lk-aurora-teal-mint: #48a89a;
+  --lk-aurora-deep-aurora-teal: #00524d;
+  --lk-aurora-midnight-green: #072928;
+  --lk-aurora-polar-night-1: #182830;
+  --lk-aurora-polar-night-2: #204050;
+  --lk-aurora-polar-night-3: #285868;
+  --lk-aurora-blue-teal: #308890;
+  --lk-aurora-glacier-blue: #5888a0;
+  --lk-aurora-frost-cyan: #70b8c8;
+
+  /* Indigo */
+  --lk-indigo-void-indigo: #00002a;
+  --lk-indigo-polar-night: #000f22;
+  --lk-indigo-deep-midnight: #0a1931;
+  --lk-indigo-navy-indigo: #1b3554;
+  --lk-indigo-deep-arctic-blue: #1a3d63;
+  --lk-indigo-classic-indigo-blue: #1a3f75;
+  --lk-indigo-storm-indigo: #2e3e6d;
+  --lk-indigo-muted-royal-indigo: #495589;
+  --lk-indigo-glacier-denim: #3f6593;
+  --lk-indigo-slate-aurora-blue: #4e6a9c;
+  --lk-indigo-aurora-steel-blue: #4a7fa7;
+  --lk-indigo-ice-fjord-blue: #5b86b6;
+  --lk-indigo-aurora-cyan-blue: #4ea4cc;
+  --lk-indigo-soft-periwinkle-indigo: #7087bb;
+  --lk-indigo-arctic-blue: #80aad3;
+  --lk-indigo-mist-indigo: #a2b7e4;
+  --lk-indigo-pale-polar-blue: #b3cfe5;
+  --lk-indigo-powder-indigo: #bbd0ed;
+  --lk-indigo-ice-glow: #c0e6fd;
+  --lk-indigo-frosted-cloud: #e5edfa;
+  --lk-indigo-snow-white-blue: #f6fafd;
+
+  /* Orchid */
+  --lk-orchid-deep-night-orchid: #1c0c38;
+  --lk-orchid-shadow-plum: #312a44;
+  --lk-orchid-wine: #87003e;
+  --lk-orchid-royal-orchid: #4d3a6b;
+  --lk-orchid-deep-violet-orchid: #4b3f6e;
+  --lk-orchid-muted-lavender-indigo: #6c5f8d;
+  --lk-orchid-dusty-orchid: #745f8d;
+  --lk-orchid-soft-mauve-orchid: #a08ab7;
+  --lk-orchid-lavender-bloom: #9c8cb9;
+  --lk-orchid-mist: #bab0c8;
+  --lk-orchid-pale-lilac-orchid: #cdc2e5;
+  --lk-orchid-blush-orchid: #d7c5d2;
+  --lk-orchid-frosted-lavender: #dad4df;
+  --lk-orchid-warm-orchid-gray: #dcd7d5;
+
+  /* Amber */
+  --lk-amber-carbon-ember: #0c1519;
+  --lk-amber-midnight-charcoal: #131d26;
+  --lk-amber-deep-blue-charcoal: #162127;
+  --lk-amber-dark-slate-navy: #1b2632;
+  --lk-amber-burnt-ember-brown: #482420;
+  --lk-amber-smoked-umber: #3a3534;
+  --lk-amber-iron-blue-gray: #2c3b4d;
+  --lk-amber-ash-gray: #414143;
+  --lk-amber-roasted-copper: #724b39;
+  --lk-amber-burnt-sienna: #a35139;
+  --lk-amber-ember-clay: #b24d37;
+  --lk-amber-taupe: #9b7252;
+  --lk-amber-flame-amber: #f78358;
+  --lk-amber-soft-copper-tan: #cf9d7b;
+  --lk-amber-golden-copper: #ed9e51;
+  --lk-amber-apricot-amber: #f59c6a;
+  --lk-amber-warm-honey: #ffb162;
+  --lk-amber-sandstone-gray: #c9c1b1;
+  --lk-amber-pale-amber: #febf7c;
+  --lk-amber-butterscotch: #fec579;
+  --lk-amber-warm-ivory: #eee9df;
+  --lk-amber-cream: #ffeeb0;
+
+  /* Glacier */
+  --lk-glacier-deep-glacier-teal: #014f61;
+  --lk-glacier-polar-depth: #0d5c75;
+  --lk-glacier-arctic-fjord: #2c6a74;
+  --lk-glacier-aurora-violet-accent: #b908e1;
+  --lk-glacier-slate-blue: #447f98;
+  --lk-glacier-icy-teal: #0592a2;
+  --lk-glacier-frozen-aqua: #199fb1;
+  --lk-glacier-blue-ice: #629bb5;
+  --lk-glacier-frosted-teal: #5da9b0;
+  --lk-glacier-bright-glacier-cyan: #7bd6e8;
+  --lk-glacier-mist-blue: #a5d1e1;
+  --lk-glacier-electric-ice: #06ebf3;
+  --lk-glacier-pale-glacier: #badee1;
+  --lk-glacier-sea-ice-mist: #abe3e0;
+  --lk-glacier-frozen-sky: #b6ebf7;
+  --lk-glacier-ice-fog: #d0efef;
+  --lk-glacier-snowcap-white: #f2f7fb;
+
+  /* Rose */
+  --lk-rose-dark-cherry-rose: #3a071f;
+  --lk-rose-noir-rose: #161722;
+  --lk-rose-wine-rose: #6f1f3b;
+  --lk-rose-smoky-mauve: #604d53;
+  --lk-rose-deep-raspberry-rose: #9d3c51;
+  --lk-rose-dusty-rose: #b66a7c;
+  --lk-rose-petal: #df7c8c;
+  --lk-rose-mauve-pink: #db7f8e;
+  --lk-rose-cool-rose-gray: #9da3a4;
+  --lk-rose-antique-rose: #d0a6b3;
+  --lk-rose-soft-orchid-rose: #e2a6ba;
+  --lk-rose-vintage-blush: #ddbbc5;
+  --lk-rose-muted-rose-mist: #d5c5c8;
+  --lk-rose-blush-pink: #ffdbda;
+  --lk-rose-lavender-rose-white: #fff0f5;
+}

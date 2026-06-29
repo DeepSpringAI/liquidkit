@@ -1,4 +1,35 @@
-import { Avatar, Button, Card, LiquidGlass, Progress, Switch, themePresets } from 'liquidkit'
+import {
+  Avatar,
+  Button,
+  Card,
+  LiquidGlass,
+  Progress,
+  Switch,
+  palettes,
+  themePresets,
+} from 'liquidkit'
+
+const PALETTE_LABEL = Object.fromEntries(themePresets.map((p) => [p.name, p.label]))
+
+/** A palette's named swatches as a labelled row of color chips. */
+function SwatchGroup({ name, swatches }: { name: string; swatches: Record<string, string> }) {
+  return (
+    <div className="doc-swatch-group">
+      <div className="doc-swatch-group__head">
+        <strong>{PALETTE_LABEL[name] ?? name}</strong>
+        <code>--lk-{name}-*</code>
+      </div>
+      <div className="doc-swatch-row">
+        {Object.entries(swatches).map(([swatch, hex]) => (
+          <div key={swatch} className="doc-swatch" title={`${swatch} · ${hex}`}>
+            <span className="doc-swatch__chip" style={{ background: hex }} />
+            <span className="doc-swatch__name">{swatch}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 /** A compact glass scene rendered under one palette + mode. */
 function Vignette({ name, mode }: { name: string; mode: 'light' | 'dark' }) {
@@ -98,6 +129,45 @@ import 'liquidkit/themes.css'   // these presets`}
         <code>import {'{ themePresets }'} from 'liquidkit'</code> — each entry has <code>name</code>{' '}
         and <code>label</code>. Try them live from the picker in the sidebar.
       </div>
+
+      <section style={{ marginTop: 44 }}>
+        <h2 style={{ margin: '0 0 6px' }}>Raw palette swatches</h2>
+        <p className="doc-page__lead" style={{ fontSize: 15 }}>
+          Need a single color instead of a whole theme? Every named swatch behind the presets is
+          also exposed on its own — as a CSS variable and a JS value. These are <em>raw</em> colors,
+          not the semantic tokens, so reach for them when building your own surfaces.
+        </p>
+
+        <div className="doc-callout">
+          Another optional stylesheet — nothing ships unless you opt in:
+          <pre style={{ margin: '10px 0 0' }}>
+            <code>
+              {`import 'liquidkit/palettes.css'
+
+.promo { background: var(--lk-amber-flame-amber); }`}
+            </code>
+          </pre>
+        </div>
+
+        <p style={{ margin: '20px 0 6px', color: 'var(--lk-fg-muted)' }}>
+          …or grab them in JS (fully typed):
+        </p>
+        <Card radius={18} style={{ marginBottom: 28 }}>
+          <pre style={{ margin: 0 }}>
+            <code>
+              {`import { palettes } from 'liquidkit'
+
+palettes.amber.flameAmber // '#F78358'`}
+            </code>
+          </pre>
+        </Card>
+
+        <div className="doc-swatch-groups">
+          {Object.entries(palettes).map(([name, swatches]) => (
+            <SwatchGroup key={name} name={name} swatches={swatches} />
+          ))}
+        </div>
+      </section>
     </article>
   )
 }

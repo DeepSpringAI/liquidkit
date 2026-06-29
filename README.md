@@ -136,6 +136,29 @@ exported so you can build a theme picker:
 import { themePresets } from 'liquidkit' // [{ name, label }, …]
 ```
 
+### Raw palette swatches
+
+Need a single color rather than a whole theme? The named swatches behind each
+preset are exposed on their own — as a JS value and a CSS variable. These are
+**raw** colors (not the semantic `--lk-accent` / `--lk-bg` tokens), handy for
+building your own surfaces:
+
+```js
+import { palettes } from 'liquidkit'
+palettes.amber.flameAmber // '#F78358'
+```
+
+```js
+import 'liquidkit/palettes.css' // optional, opt-in
+
+/* .promo { background: var(--lk-amber-flame-amber); } */
+```
+
+Swatches are grouped by palette and the palette name is never repeated, so
+`amber-taupe` is `palettes.amber.taupe` / `--lk-amber-taupe`, while `flame-amber`
+is `palettes.amber.flameAmber` / `--lk-amber-flame-amber`. `aurora` merges its
+three source groups (Ice · Forest · Borealis) into one palette.
+
 ---
 
 ## The core: `<LiquidGlass>`
