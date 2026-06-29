@@ -448,6 +448,53 @@ a:hover {
   color: #d6deeb;
 }
 
+/* Light mode: flip the IDE block to a light surface with a light syntax theme
+   (One Light inspired) so code follows the toggle like every other surface. */
+[data-theme='light'] .doc-code {
+  background: #f6f8fa;
+  border-color: rgba(20, 30, 60, 0.1);
+}
+[data-theme='light'] .doc-code__bar {
+  background: rgba(20, 30, 60, 0.03);
+  border-bottom-color: rgba(20, 30, 60, 0.08);
+}
+[data-theme='light'] .doc-code__lang {
+  color: rgba(40, 50, 70, 0.5);
+}
+[data-theme='light'] .doc-code__copy {
+  border-color: rgba(20, 30, 60, 0.12);
+  background: rgba(20, 30, 60, 0.04);
+  color: rgba(40, 50, 70, 0.8);
+}
+[data-theme='light'] .doc-code__copy:hover {
+  background: rgba(20, 30, 60, 0.1);
+  color: #1a1f2b;
+}
+[data-theme='light'] .doc-code__pre {
+  color: #383a42;
+}
+[data-theme='light'] .tok-comment {
+  color: #a0a1a7;
+}
+[data-theme='light'] .tok-string {
+  color: #50a14f;
+}
+[data-theme='light'] .tok-keyword {
+  color: #a626a4;
+}
+[data-theme='light'] .tok-type {
+  color: #4078f2;
+}
+[data-theme='light'] .tok-number {
+  color: #c18401;
+}
+[data-theme='light'] .tok-punct {
+  color: #6e7178;
+}
+[data-theme='light'] .tok-ident {
+  color: #383a42;
+}
+
 /* ------------------------------------------------------------- props table */
 
 .doc-section {
