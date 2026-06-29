@@ -39,11 +39,12 @@
       "require": "./dist/liquidkit.cjs"
     },
     "./styles.css": "./dist/liquidkit.css",
+    "./themes.css": "./dist/themes.css",
     "./package.json": "./package.json"
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build --mode lib",
+    "build": "tsc --noEmit && vite build --mode lib && node scripts/copy-themes.mjs",
     "build:docs": "vite build",
     "preview": "vite preview",
     "test": "vitest run",

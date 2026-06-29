@@ -1,0 +1,391 @@
+/* ============================================================================
+   LiquidKit — preset themes (OPTIONAL)
+
+   Theming has TWO independent axes:
+     • mode    — `data-theme="light" | "dark"`   (the light/dark toggle owns this)
+     • palette — `data-palette="aurora" | …`     (which named theme; absent = default blue)
+
+   Each palette below defines a FULL light variant and a FULL dark variant, so the
+   light/dark toggle switches between a theme's two looks. Structural tokens
+   (typography, radii, spacing, motion) are inherited from :root in tokens.css.
+
+   This file is NOT part of the core stylesheet. Opt in:
+
+       import 'liquidkit/styles.css'   // required core
+       import 'liquidkit/themes.css'   // these presets
+
+   Then pick a palette by name — directly…
+
+       <div data-theme="dark" data-palette="aurora"> … </div>
+
+   …or via the provider (the toggle still flips light/dark):
+
+       <ThemeProvider defaultMode="dark" defaultPalette="aurora"> … </ThemeProvider>
+
+   Palettes: aurora · indigo · orchid · amber · glacier · rose  (each light + dark)
+
+   NOTE: both the light block `[data-palette='X']` and the dark block
+   `[data-theme='dark'][data-palette='X']` set the COMPLETE token list — the dark
+   block must re-set every token, otherwise the light values leak into dark mode
+   (equal specificity, themes.css wins on source order over the base dark block).
+   ========================================================================== */
+
+/* ===========================================================================
+   AURORA — teal / emerald
+   ========================================================================= */
+[data-palette='aurora'] {
+  --lk-bg: #e6f1ec;
+  --lk-bg-elev: #f1f9f5;
+  --lk-fg: #06140e;
+  --lk-fg-muted: rgba(6, 20, 14, 0.62);
+  --lk-fg-subtle: rgba(6, 20, 14, 0.42);
+
+  --lk-accent: #0c9b73;
+  --lk-accent-fg: #ffffff;
+  --lk-accent-soft: rgba(12, 155, 115, 0.16);
+
+  --lk-success: #1faa5a;
+  --lk-warning: #e6952a;
+  --lk-danger: #e5484d;
+
+  --lk-glass-tint: rgba(206, 244, 230, 0.5);
+  --lk-glass-tint-strong: rgba(220, 248, 238, 0.66);
+  --lk-glass-border: rgba(238, 255, 249, 0.72);
+  --lk-glass-border-soft: rgba(238, 255, 249, 0.42);
+  --lk-glass-highlight: rgba(248, 255, 252, 0.95);
+  --lk-glass-inner-shadow: rgba(6, 70, 50, 0.12);
+  --lk-glass-saturate: 1.7;
+  --lk-glass-brightness: 1.05;
+
+  --lk-shadow-1: 0 1px 2px rgba(6, 70, 50, 0.1), 0 2px 6px rgba(6, 70, 50, 0.08);
+  --lk-shadow-2: 0 6px 16px rgba(6, 70, 50, 0.14), 0 2px 6px rgba(6, 70, 50, 0.1);
+  --lk-shadow-3: 0 18px 50px rgba(6, 70, 50, 0.22), 0 8px 18px rgba(6, 70, 50, 0.12);
+}
+[data-theme='dark'][data-palette='aurora'] {
+  --lk-bg: #061210;
+  --lk-bg-elev: #0c1f1b;
+  --lk-fg: #e9faf3;
+  --lk-fg-muted: rgba(233, 250, 243, 0.64);
+  --lk-fg-subtle: rgba(233, 250, 243, 0.4);
+
+  --lk-accent: #2ee6a6;
+  --lk-accent-fg: #052017;
+  --lk-accent-soft: rgba(46, 230, 166, 0.2);
+
+  --lk-success: #34d27b;
+  --lk-warning: #f3b14b;
+  --lk-danger: #ff6b6b;
+
+  --lk-glass-tint: rgba(46, 230, 166, 0.1);
+  --lk-glass-tint-strong: rgba(46, 230, 166, 0.18);
+  --lk-glass-border: rgba(150, 245, 215, 0.24);
+  --lk-glass-border-soft: rgba(150, 245, 215, 0.12);
+  --lk-glass-highlight: rgba(210, 255, 240, 0.78);
+  --lk-glass-inner-shadow: rgba(0, 0, 0, 0.55);
+  --lk-glass-saturate: 1.85;
+  --lk-glass-brightness: 1.12;
+
+  --lk-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-2: 0 8px 24px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-3: 0 24px 64px rgba(0, 0, 0, 0.65), 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* ===========================================================================
+   INDIGO — blue
+   ========================================================================= */
+[data-palette='indigo'] {
+  --lk-bg: #e7ebf7;
+  --lk-bg-elev: #f2f5fd;
+  --lk-fg: #080b1a;
+  --lk-fg-muted: rgba(8, 11, 26, 0.62);
+  --lk-fg-subtle: rgba(8, 11, 26, 0.42);
+
+  --lk-accent: #3a55d6;
+  --lk-accent-fg: #ffffff;
+  --lk-accent-soft: rgba(58, 85, 214, 0.16);
+
+  --lk-success: #1faa5a;
+  --lk-warning: #e6952a;
+  --lk-danger: #e5484d;
+
+  --lk-glass-tint: rgba(216, 224, 255, 0.5);
+  --lk-glass-tint-strong: rgba(226, 232, 255, 0.66);
+  --lk-glass-border: rgba(240, 244, 255, 0.72);
+  --lk-glass-border-soft: rgba(240, 244, 255, 0.42);
+  --lk-glass-highlight: rgba(250, 251, 255, 0.95);
+  --lk-glass-inner-shadow: rgba(20, 30, 80, 0.12);
+  --lk-glass-saturate: 1.7;
+  --lk-glass-brightness: 1.05;
+
+  --lk-shadow-1: 0 1px 2px rgba(20, 30, 80, 0.1), 0 2px 6px rgba(20, 30, 80, 0.08);
+  --lk-shadow-2: 0 6px 16px rgba(20, 30, 80, 0.14), 0 2px 6px rgba(20, 30, 80, 0.1);
+  --lk-shadow-3: 0 18px 50px rgba(20, 30, 80, 0.22), 0 8px 18px rgba(20, 30, 80, 0.12);
+}
+[data-theme='dark'][data-palette='indigo'] {
+  --lk-bg: #0a0e1a;
+  --lk-bg-elev: #121a2e;
+  --lk-fg: #eef2fb;
+  --lk-fg-muted: rgba(238, 242, 251, 0.64);
+  --lk-fg-subtle: rgba(238, 242, 251, 0.4);
+
+  --lk-accent: #6a8bff;
+  --lk-accent-fg: #ffffff;
+  --lk-accent-soft: rgba(106, 139, 255, 0.22);
+
+  --lk-success: #34d27b;
+  --lk-warning: #f3b14b;
+  --lk-danger: #ff5a5f;
+
+  --lk-glass-tint: rgba(120, 150, 255, 0.1);
+  --lk-glass-tint-strong: rgba(120, 150, 255, 0.18);
+  --lk-glass-border: rgba(180, 200, 255, 0.24);
+  --lk-glass-border-soft: rgba(180, 200, 255, 0.12);
+  --lk-glass-highlight: rgba(220, 230, 255, 0.78);
+  --lk-glass-inner-shadow: rgba(0, 0, 0, 0.55);
+  --lk-glass-saturate: 1.8;
+  --lk-glass-brightness: 1.12;
+
+  --lk-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-2: 0 8px 24px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-3: 0 24px 64px rgba(0, 0, 0, 0.65), 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* ===========================================================================
+   ORCHID — violet
+   ========================================================================= */
+[data-palette='orchid'] {
+  --lk-bg: #f1e9f7;
+  --lk-bg-elev: #f9f3fd;
+  --lk-fg: #150820;
+  --lk-fg-muted: rgba(21, 8, 32, 0.62);
+  --lk-fg-subtle: rgba(21, 8, 32, 0.42);
+
+  --lk-accent: #a23bd6;
+  --lk-accent-fg: #ffffff;
+  --lk-accent-soft: rgba(162, 59, 214, 0.16);
+
+  --lk-success: #1faa5a;
+  --lk-warning: #e6952a;
+  --lk-danger: #e5484d;
+
+  --lk-glass-tint: rgba(238, 222, 250, 0.5);
+  --lk-glass-tint-strong: rgba(244, 232, 252, 0.66);
+  --lk-glass-border: rgba(250, 244, 255, 0.72);
+  --lk-glass-border-soft: rgba(250, 244, 255, 0.42);
+  --lk-glass-highlight: rgba(252, 250, 255, 0.95);
+  --lk-glass-inner-shadow: rgba(70, 20, 90, 0.12);
+  --lk-glass-saturate: 1.7;
+  --lk-glass-brightness: 1.05;
+
+  --lk-shadow-1: 0 1px 2px rgba(70, 20, 90, 0.1), 0 2px 6px rgba(70, 20, 90, 0.08);
+  --lk-shadow-2: 0 6px 16px rgba(70, 20, 90, 0.14), 0 2px 6px rgba(70, 20, 90, 0.1);
+  --lk-shadow-3: 0 18px 50px rgba(70, 20, 90, 0.22), 0 8px 18px rgba(70, 20, 90, 0.12);
+}
+[data-theme='dark'][data-palette='orchid'] {
+  --lk-bg: #0d0814;
+  --lk-bg-elev: #181023;
+  --lk-fg: #f6eefb;
+  --lk-fg-muted: rgba(246, 238, 251, 0.64);
+  --lk-fg-subtle: rgba(246, 238, 251, 0.4);
+
+  --lk-accent: #c879ff;
+  --lk-accent-fg: #ffffff;
+  --lk-accent-soft: rgba(200, 121, 255, 0.22);
+
+  --lk-success: #46dd8f;
+  --lk-warning: #f3b14b;
+  --lk-danger: #ff5a7a;
+
+  --lk-glass-tint: rgba(200, 121, 255, 0.12);
+  --lk-glass-tint-strong: rgba(200, 121, 255, 0.2);
+  --lk-glass-border: rgba(225, 190, 255, 0.24);
+  --lk-glass-border-soft: rgba(225, 190, 255, 0.12);
+  --lk-glass-highlight: rgba(240, 220, 255, 0.78);
+  --lk-glass-inner-shadow: rgba(0, 0, 0, 0.55);
+  --lk-glass-saturate: 1.85;
+  --lk-glass-brightness: 1.12;
+
+  --lk-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-2: 0 8px 24px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-3: 0 24px 64px rgba(0, 0, 0, 0.65), 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* ===========================================================================
+   AMBER — warm orange
+   ========================================================================= */
+[data-palette='amber'] {
+  --lk-bg: #f5ecdd;
+  --lk-bg-elev: #fdf7ec;
+  --lk-fg: #211708;
+  --lk-fg-muted: rgba(33, 23, 8, 0.62);
+  --lk-fg-subtle: rgba(33, 23, 8, 0.42);
+
+  --lk-accent: #e0892a;
+  --lk-accent-fg: #ffffff;
+  --lk-accent-soft: rgba(224, 137, 42, 0.18);
+
+  --lk-success: #1faa5a;
+  --lk-warning: #d9821f;
+  --lk-danger: #e5484d;
+
+  --lk-glass-tint: rgba(255, 244, 224, 0.5);
+  --lk-glass-tint-strong: rgba(255, 246, 230, 0.66);
+  --lk-glass-border: rgba(255, 250, 240, 0.72);
+  --lk-glass-border-soft: rgba(255, 250, 240, 0.42);
+  --lk-glass-highlight: rgba(255, 252, 245, 0.95);
+  --lk-glass-inner-shadow: rgba(80, 50, 20, 0.12);
+  --lk-glass-saturate: 1.7;
+  --lk-glass-brightness: 1.05;
+
+  --lk-shadow-1: 0 1px 2px rgba(80, 50, 20, 0.12), 0 2px 6px rgba(80, 50, 20, 0.1);
+  --lk-shadow-2: 0 6px 16px rgba(80, 50, 20, 0.16), 0 2px 6px rgba(80, 50, 20, 0.12);
+  --lk-shadow-3: 0 18px 50px rgba(80, 50, 20, 0.24), 0 8px 18px rgba(80, 50, 20, 0.14);
+}
+[data-theme='dark'][data-palette='amber'] {
+  --lk-bg: #14100a;
+  --lk-bg-elev: #1e180e;
+  --lk-fg: #fbf3e6;
+  --lk-fg-muted: rgba(251, 243, 230, 0.64);
+  --lk-fg-subtle: rgba(251, 243, 230, 0.4);
+
+  --lk-accent: #f5a623;
+  --lk-accent-fg: #2a1c05;
+  --lk-accent-soft: rgba(245, 166, 35, 0.22);
+
+  --lk-success: #34d27b;
+  --lk-warning: #f3b14b;
+  --lk-danger: #ff5a5f;
+
+  --lk-glass-tint: rgba(245, 166, 35, 0.1);
+  --lk-glass-tint-strong: rgba(245, 166, 35, 0.18);
+  --lk-glass-border: rgba(255, 225, 170, 0.24);
+  --lk-glass-border-soft: rgba(255, 225, 170, 0.12);
+  --lk-glass-highlight: rgba(255, 240, 210, 0.78);
+  --lk-glass-inner-shadow: rgba(0, 0, 0, 0.55);
+  --lk-glass-saturate: 1.8;
+  --lk-glass-brightness: 1.12;
+
+  --lk-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-2: 0 8px 24px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-3: 0 24px 64px rgba(0, 0, 0, 0.65), 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* ===========================================================================
+   GLACIER — cyan
+   ========================================================================= */
+[data-palette='glacier'] {
+  --lk-bg: #e6eef6;
+  --lk-bg-elev: #f3f9fe;
+  --lk-fg: #0b1620;
+  --lk-fg-muted: rgba(11, 22, 32, 0.62);
+  --lk-fg-subtle: rgba(11, 22, 32, 0.42);
+
+  --lk-accent: #0ea5b7;
+  --lk-accent-fg: #ffffff;
+  --lk-accent-soft: rgba(14, 165, 183, 0.16);
+
+  --lk-success: #1faa5a;
+  --lk-warning: #e6952a;
+  --lk-danger: #e5484d;
+
+  --lk-glass-tint: rgba(220, 238, 255, 0.5);
+  --lk-glass-tint-strong: rgba(228, 243, 255, 0.66);
+  --lk-glass-border: rgba(245, 251, 255, 0.72);
+  --lk-glass-border-soft: rgba(245, 251, 255, 0.42);
+  --lk-glass-highlight: rgba(252, 254, 255, 0.95);
+  --lk-glass-inner-shadow: rgba(20, 40, 60, 0.12);
+  --lk-glass-saturate: 1.7;
+  --lk-glass-brightness: 1.05;
+
+  --lk-shadow-1: 0 1px 2px rgba(20, 40, 60, 0.1), 0 2px 6px rgba(20, 40, 60, 0.08);
+  --lk-shadow-2: 0 6px 16px rgba(20, 40, 60, 0.14), 0 2px 6px rgba(20, 40, 60, 0.1);
+  --lk-shadow-3: 0 18px 50px rgba(20, 40, 60, 0.22), 0 8px 18px rgba(20, 40, 60, 0.12);
+}
+[data-theme='dark'][data-palette='glacier'] {
+  --lk-bg: #051318;
+  --lk-bg-elev: #0c1f27;
+  --lk-fg: #e6fafe;
+  --lk-fg-muted: rgba(230, 250, 254, 0.64);
+  --lk-fg-subtle: rgba(230, 250, 254, 0.4);
+
+  --lk-accent: #38d6ea;
+  --lk-accent-fg: #04222a;
+  --lk-accent-soft: rgba(56, 214, 234, 0.2);
+
+  --lk-success: #34d27b;
+  --lk-warning: #f3b14b;
+  --lk-danger: #ff6b6b;
+
+  --lk-glass-tint: rgba(56, 214, 234, 0.1);
+  --lk-glass-tint-strong: rgba(56, 214, 234, 0.18);
+  --lk-glass-border: rgba(160, 235, 245, 0.24);
+  --lk-glass-border-soft: rgba(160, 235, 245, 0.12);
+  --lk-glass-highlight: rgba(215, 250, 255, 0.78);
+  --lk-glass-inner-shadow: rgba(0, 0, 0, 0.55);
+  --lk-glass-saturate: 1.85;
+  --lk-glass-brightness: 1.12;
+
+  --lk-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-2: 0 8px 24px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-3: 0 24px 64px rgba(0, 0, 0, 0.65), 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* ===========================================================================
+   ROSE — pink
+   ========================================================================= */
+[data-palette='rose'] {
+  --lk-bg: #f6eaee;
+  --lk-bg-elev: #fdf3f6;
+  --lk-fg: #1f0f14;
+  --lk-fg-muted: rgba(31, 15, 20, 0.62);
+  --lk-fg-subtle: rgba(31, 15, 20, 0.42);
+
+  --lk-accent: #e0457a;
+  --lk-accent-fg: #ffffff;
+  --lk-accent-soft: rgba(224, 69, 122, 0.16);
+
+  --lk-success: #1faa5a;
+  --lk-warning: #e6952a;
+  --lk-danger: #e5484d;
+
+  --lk-glass-tint: rgba(255, 226, 236, 0.5);
+  --lk-glass-tint-strong: rgba(255, 232, 240, 0.66);
+  --lk-glass-border: rgba(255, 246, 249, 0.72);
+  --lk-glass-border-soft: rgba(255, 246, 249, 0.42);
+  --lk-glass-highlight: rgba(255, 251, 252, 0.95);
+  --lk-glass-inner-shadow: rgba(70, 20, 40, 0.12);
+  --lk-glass-saturate: 1.7;
+  --lk-glass-brightness: 1.05;
+
+  --lk-shadow-1: 0 1px 2px rgba(70, 20, 40, 0.1), 0 2px 6px rgba(70, 20, 40, 0.08);
+  --lk-shadow-2: 0 6px 16px rgba(70, 20, 40, 0.14), 0 2px 6px rgba(70, 20, 40, 0.1);
+  --lk-shadow-3: 0 18px 50px rgba(70, 20, 40, 0.22), 0 8px 18px rgba(70, 20, 40, 0.12);
+}
+[data-theme='dark'][data-palette='rose'] {
+  --lk-bg: #160a0f;
+  --lk-bg-elev: #211019;
+  --lk-fg: #fbeef3;
+  --lk-fg-muted: rgba(251, 238, 243, 0.64);
+  --lk-fg-subtle: rgba(251, 238, 243, 0.4);
+
+  --lk-accent: #ff6b9a;
+  --lk-accent-fg: #2a0712;
+  --lk-accent-soft: rgba(255, 107, 154, 0.22);
+
+  --lk-success: #34d27b;
+  --lk-warning: #f3b14b;
+  --lk-danger: #ff5a7a;
+
+  --lk-glass-tint: rgba(255, 107, 154, 0.1);
+  --lk-glass-tint-strong: rgba(255, 107, 154, 0.18);
+  --lk-glass-border: rgba(255, 200, 220, 0.24);
+  --lk-glass-border-soft: rgba(255, 200, 220, 0.12);
+  --lk-glass-highlight: rgba(255, 225, 235, 0.78);
+  --lk-glass-inner-shadow: rgba(0, 0, 0, 0.55);
+  --lk-glass-saturate: 1.8;
+  --lk-glass-brightness: 1.12;
+
+  --lk-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-2: 0 8px 24px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --lk-shadow-3: 0 24px 64px rgba(0, 0, 0, 0.65), 0 10px 24px rgba(0, 0, 0, 0.45);
+}

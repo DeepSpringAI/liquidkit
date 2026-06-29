@@ -12,6 +12,15 @@ This will become the first published release (`0.1.0`).
 
 ### Added
 
+- **Preset themes** — six named palette themes (`aurora`, `indigo`, `orchid`,
+  `amber`, `glacier`, `rose`), each with a full **light and dark** variant,
+  shipped in an optional `liquidkit/themes.css` (zero cost unless imported).
+  Palette and mode are independent axes: set `data-palette="…"` (or
+  `<ThemeProvider defaultPalette="…">`) and the light/dark toggle switches the
+  theme's two variants. `ThemeProvider` gains `palette`/`setPalette` and a
+  `defaultPalette` prop (persisted under `` `${storageKey}-palette` ``);
+  portaled overlays mirror the active palette. The `themePresets` list is
+  exported for building a theme picker.
 - **Next.js / React Server Components support** — the library build is marked
   `"use client";`, so components can be imported from Server Components.
 - **Right-to-left (RTL) support** across the component set via CSS logical

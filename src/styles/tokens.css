@@ -112,9 +112,9 @@
   color-scheme: dark;
 }
 
-/* Follow the OS when the app hasn't pinned a theme */
+/* Follow the OS only when no theme is pinned at all (including named presets) */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']):not([data-theme='dark']) {
+  :root:not([data-theme]) {
     --lk-bg: #07080c;
     --lk-bg-elev: #0f1118;
     --lk-fg: #f4f7fb;

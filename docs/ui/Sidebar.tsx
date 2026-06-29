@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Input, SearchIcon } from 'liquidkit'
 import { cx } from 'liquidkit'
 import { buildNav } from '../registry'
+import { ThemePicker } from './ThemePicker'
 
 const NAV = buildNav()
 
@@ -46,6 +47,9 @@ export function Sidebar({ route, onNavigate }: { route: string; onNavigate?: () 
           </div>
         ))}
         {!sections.length && <p className="doc-nav-empty">No matches.</p>}
+      </div>
+      <div className="doc-sidebar__footer">
+        <ThemePicker />
       </div>
     </nav>
   )

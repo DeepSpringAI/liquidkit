@@ -99,6 +99,8 @@ export type {
   ThemeContextValue,
   ThemeProviderProps,
 } from './theme/ThemeProvider'
+export { themePresets } from './theme/presets'
+export type { ThemePreset, ThemePresetName } from './theme/presets'
 
 // Utils
 export { cx } from './utils/cx'

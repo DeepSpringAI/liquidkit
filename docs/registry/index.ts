@@ -116,6 +116,7 @@ export function buildNav(): NavSection[] {
   const resourceSection: NavSection = {
     title: 'Resources',
     items: [
+      { label: 'Themes', route: 'themes' },
       { label: 'Icons', route: 'icons' },
       { label: 'Templates', route: 'templates' },
     ],

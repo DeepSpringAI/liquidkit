@@ -107,6 +107,35 @@ function ThemeName() {
 }
 ```
 
+### Preset themes
+
+The library ships named **palette** themes — each a full look (colors + glass
+material) with its own **light _and_ dark** variant. Theme and mode are
+independent axes: `data-palette` picks the palette, `data-theme` (the toggle)
+picks light/dark, so any theme works in either mode. They live in an
+**optional** stylesheet, so they cost nothing unless you opt in:
+
+```js
+import 'liquidkit/styles.css' // required core
+import 'liquidkit/themes.css' // adds the presets
+```
+
+Pick a palette by name — directly, or through the provider (the toggle still
+flips light/dark):
+
+```jsx
+<div data-theme="dark" data-palette="aurora"> … </div>
+
+<ThemeProvider defaultMode="dark" defaultPalette="aurora" storageKey="theme"> … </ThemeProvider>
+```
+
+Built in: `aurora`, `indigo`, `orchid`, `amber`, `glacier`, `rose`. The list is
+exported so you can build a theme picker:
+
+```jsx
+import { themePresets } from 'liquidkit' // [{ name, label }, …]
+```
+
 ---
 
 ## The core: `<LiquidGlass>`
