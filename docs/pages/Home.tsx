@@ -63,8 +63,14 @@ export function Home() {
               <strong style={{ fontSize: 18 }}>Liquid Glass</strong>
             </div>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 16 }}>
-              <StatTile glow accent="#3b82f6" label="Refraction" value="46" size={120} />
-              <StatTile glow accent="#a855f7" label="Dispersion" value="5px" size={120} />
+              <StatTile glow accent="var(--lk-accent)" label="Refraction" value="46" size={120} />
+              <StatTile
+                glow
+                accent="color-mix(in srgb, var(--lk-accent) 60%, var(--lk-fg))"
+                label="Dispersion"
+                value="5px"
+                size={120}
+              />
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <span style={{ display: 'inline-flex', gap: 8, alignItems: 'center', opacity: 0.8 }}>

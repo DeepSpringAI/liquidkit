@@ -72,8 +72,8 @@ a:hover {
   inset: 0;
   background-image: repeating-linear-gradient(
     45deg,
-    rgba(255, 255, 255, 0.025) 0,
-    rgba(255, 255, 255, 0.025) 1px,
+    color-mix(in srgb, var(--lk-fg) 3%, transparent) 0,
+    color-mix(in srgb, var(--lk-fg) 3%, transparent) 1px,
     transparent 1px,
     transparent 11px
   );
@@ -100,15 +100,6 @@ a:hover {
       color-mix(in srgb, var(--lk-accent) 4%, transparent),
       transparent 72%
     );
-}
-[data-theme='light'] .doc-bg::after {
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(20, 30, 60, 0.03) 0,
-    rgba(20, 30, 60, 0.03) 1px,
-    transparent 1px,
-    transparent 11px
-  );
 }
 
 /* ----------------------------------------------------------------- topbar */
@@ -396,8 +387,8 @@ a:hover {
   inset: 0;
   background-image: repeating-linear-gradient(
     45deg,
-    rgba(255, 255, 255, 0.06) 0,
-    rgba(255, 255, 255, 0.06) 1px,
+    color-mix(in srgb, var(--lk-fg) 6%, transparent) 0,
+    color-mix(in srgb, var(--lk-fg) 6%, transparent) 1px,
     transparent 1px,
     transparent 13px
   );
@@ -802,7 +793,7 @@ a:hover {
   height: 44px;
   border-radius: 10px;
   border: 1px solid var(--lk-glass-border-soft);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--lk-fg) 5%, transparent);
 }
 .doc-swatch__name {
   font-size: 11px;
@@ -873,7 +864,11 @@ a:hover {
   letter-spacing: -0.03em;
 }
 .home-grad {
-  background: linear-gradient(100deg, #5b8cff, #a855f7 45%, #ff8a5b);
+  background: linear-gradient(
+    100deg,
+    var(--lk-accent),
+    color-mix(in srgb, var(--lk-accent) 55%, var(--lk-fg))
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -929,8 +924,8 @@ a:hover {
   inset: 0;
   background-image: repeating-linear-gradient(
     45deg,
-    rgba(255, 255, 255, 0.07) 0,
-    rgba(255, 255, 255, 0.07) 1px,
+    color-mix(in srgb, var(--lk-fg) 7%, transparent) 0,
+    color-mix(in srgb, var(--lk-fg) 7%, transparent) 1px,
     transparent 1px,
     transparent 14px
   );
@@ -1412,7 +1407,7 @@ a:hover {
 }
 .mac-nav.is-active {
   background: var(--lk-accent);
-  color: #fff;
+  color: var(--lk-accent-fg);
 }
 .mac-nav__icon {
   flex: 0 0 auto;
@@ -1425,7 +1420,7 @@ a:hover {
   color: #fff;
 }
 .mac-nav.is-active .mac-nav__icon {
-  background: rgba(255, 255, 255, 0.24) !important;
+  background: color-mix(in srgb, var(--lk-accent-fg) 24%, transparent) !important;
 }
 .mac-nav__label {
   white-space: nowrap;
@@ -1475,7 +1470,7 @@ a:hover {
     position: fixed;
     inset: 60px 0 0;
     z-index: 44;
-    background: rgba(0, 0, 0, 0.4);
+    background: color-mix(in srgb, var(--lk-bg) 55%, transparent);
   }
   .doc-main {
     padding: 28px 22px 64px;

@@ -320,7 +320,7 @@ export const statTileDoc: ComponentDoc = {
             delta="2.4%"
             direction="up"
             glow
-            accent="#3b82f6"
+            accent="var(--lk-accent)"
             size={170}
           />
           <StatTile
@@ -329,7 +329,7 @@ export const statTileDoc: ComponentDoc = {
             delta="1.1%"
             direction="down"
             glow
-            accent="#a855f7"
+            accent="color-mix(in srgb, var(--lk-accent) 60%, var(--lk-fg))"
             size={170}
           />
         </div>
