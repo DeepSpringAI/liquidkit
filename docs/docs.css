@@ -368,12 +368,16 @@ a:hover {
 
 /* ------------------------------------------------------------- code block */
 
+/* Code blocks derive entirely from the active palette tokens, so they follow
+   both axes (light/dark + the data-palette family). Surface is an elevated
+   panel with a faint accent wash; syntax is a monochrome accent→foreground
+   scale — no off-palette hues. */
 .doc-code {
   margin: 14px 0;
   border-radius: var(--lk-radius-md);
   overflow: hidden;
-  background: #0c0f17;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: color-mix(in srgb, var(--lk-bg-elev) 92%, var(--lk-accent) 8%);
+  border: 1px solid var(--lk-glass-border);
   box-shadow: var(--lk-shadow-1);
 }
 .doc-code__bar {
@@ -381,13 +385,13 @@ a:hover {
   align-items: center;
   justify-content: space-between;
   padding: 6px 8px 6px 14px;
-  background: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: color-mix(in srgb, var(--lk-fg) 4%, transparent);
+  border-bottom: 1px solid var(--lk-glass-border-soft);
 }
 .doc-code__lang {
   font-family: var(--lk-font-mono);
   font-size: 12px;
-  color: rgba(244, 247, 251, 0.5);
+  color: var(--lk-fg-subtle);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -396,10 +400,10 @@ a:hover {
   align-items: center;
   gap: 6px;
   padding: 5px 11px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--lk-glass-border);
   border-radius: var(--lk-radius-full);
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(244, 247, 251, 0.8);
+  background: color-mix(in srgb, var(--lk-fg) 5%, transparent);
+  color: var(--lk-fg-muted);
   font: inherit;
   font-size: 13px;
   cursor: pointer;
@@ -408,8 +412,8 @@ a:hover {
     color var(--lk-duration-fast);
 }
 .doc-code__copy:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
+  background: var(--lk-accent-soft);
+  color: var(--lk-fg);
 }
 .doc-code__pre {
   margin: 0;
@@ -418,7 +422,7 @@ a:hover {
   font-family: var(--lk-font-mono);
   font-size: 13.5px;
   line-height: 1.7;
-  color: #d6deeb;
+  color: var(--lk-fg);
   tab-size: 2;
 }
 .doc-code__pre code {
@@ -426,73 +430,26 @@ a:hover {
 }
 
 .tok-comment {
-  color: #5b6b86;
+  color: var(--lk-fg-subtle);
   font-style: italic;
 }
 .tok-string {
-  color: #8ce99a;
+  color: color-mix(in srgb, var(--lk-accent) 45%, var(--lk-fg));
 }
 .tok-keyword {
-  color: #c792ea;
+  color: var(--lk-accent);
 }
 .tok-type {
-  color: #82aaff;
+  color: color-mix(in srgb, var(--lk-accent) 72%, var(--lk-fg));
 }
 .tok-number {
-  color: #f7a35c;
+  color: color-mix(in srgb, var(--lk-accent) 85%, var(--lk-fg));
 }
 .tok-punct {
-  color: #93a4bf;
+  color: var(--lk-fg-muted);
 }
 .tok-ident {
-  color: #d6deeb;
-}
-
-/* Light mode: flip the IDE block to a light surface with a light syntax theme
-   (One Light inspired) so code follows the toggle like every other surface. */
-[data-theme='light'] .doc-code {
-  background: #f6f8fa;
-  border-color: rgba(20, 30, 60, 0.1);
-}
-[data-theme='light'] .doc-code__bar {
-  background: rgba(20, 30, 60, 0.03);
-  border-bottom-color: rgba(20, 30, 60, 0.08);
-}
-[data-theme='light'] .doc-code__lang {
-  color: rgba(40, 50, 70, 0.5);
-}
-[data-theme='light'] .doc-code__copy {
-  border-color: rgba(20, 30, 60, 0.12);
-  background: rgba(20, 30, 60, 0.04);
-  color: rgba(40, 50, 70, 0.8);
-}
-[data-theme='light'] .doc-code__copy:hover {
-  background: rgba(20, 30, 60, 0.1);
-  color: #1a1f2b;
-}
-[data-theme='light'] .doc-code__pre {
-  color: #383a42;
-}
-[data-theme='light'] .tok-comment {
-  color: #a0a1a7;
-}
-[data-theme='light'] .tok-string {
-  color: #50a14f;
-}
-[data-theme='light'] .tok-keyword {
-  color: #a626a4;
-}
-[data-theme='light'] .tok-type {
-  color: #4078f2;
-}
-[data-theme='light'] .tok-number {
-  color: #c18401;
-}
-[data-theme='light'] .tok-punct {
-  color: #6e7178;
-}
-[data-theme='light'] .tok-ident {
-  color: #383a42;
+  color: var(--lk-fg);
 }
 
 /* ------------------------------------------------------------- props table */
