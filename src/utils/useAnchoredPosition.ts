@@ -30,10 +30,17 @@ export function useAnchoredPosition(
   opts: AnchoredOptions = {},
 ): CSSProperties {
   const { placement = 'bottom-start', gap = 6, matchWidth = false } = opts
+  // Pin every offset before the first measure. A panel's CSS may still set a
+  // placement inset (e.g. `inset-inline-end: 0`); combined with the `left: 0`
+  // below that would stretch it to full width and throw off the very first
+  // measurement (panel flashes to the wrong edge on first open). Forcing the
+  // opposite offsets to `auto` keeps the panel at its natural content size.
   const [style, setStyle] = useState<CSSProperties>({
     position: 'fixed',
     top: 0,
     left: 0,
+    right: 'auto',
+    bottom: 'auto',
     visibility: 'hidden',
   })
 

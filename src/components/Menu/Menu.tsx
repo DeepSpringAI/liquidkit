@@ -45,7 +45,14 @@ export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
 type MenuEntry = Extract<MenuItem, { id: string }>
 
 const ITEM_SELECTOR = '[role="menuitem"],[role="menuitemcheckbox"]'
-const HIDDEN: CSSProperties = { position: 'fixed', top: 0, left: 0, visibility: 'hidden' }
+const HIDDEN: CSSProperties = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 'auto',
+  bottom: 'auto',
+  visibility: 'hidden',
+}
 
 /** A dropdown action menu (also a context menu) anchored to its trigger. */
 export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(

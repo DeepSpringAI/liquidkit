@@ -24,24 +24,20 @@
   padding: 6px;
 }
 
+/* The panel is portaled and positioned entirely by JS (useAnchoredPosition,
+   position: fixed). These classes only carry the pop-animation origin — they must
+   NOT set top/bottom/inset, or the leftover offset stretches the panel and breaks
+   the first-open measurement. */
 .lk-menu__panel--bottom-start {
-  top: calc(100% + 6px);
-  inset-inline-start: 0;
   transform-origin: top left;
 }
 .lk-menu__panel--bottom-end {
-  top: calc(100% + 6px);
-  inset-inline-end: 0;
   transform-origin: top right;
 }
 .lk-menu__panel--top-start {
-  bottom: calc(100% + 6px);
-  inset-inline-start: 0;
   transform-origin: bottom left;
 }
 .lk-menu__panel--top-end {
-  bottom: calc(100% + 6px);
-  inset-inline-end: 0;
   transform-origin: bottom right;
 }
 
