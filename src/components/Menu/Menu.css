@@ -94,6 +94,21 @@
   flex: 0 0 auto;
   color: var(--lk-accent);
 }
+.lk-menu__chevron {
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+  color: var(--lk-label-tertiary);
+}
+/* In RTL the flyout opens to the left, so point the affordance that way. */
+[dir='rtl'] .lk-menu__chevron {
+  transform: scaleX(-1);
+}
+.lk-menu__item.is-open {
+  background: var(--lk-fill-tertiary);
+}
+.lk-menu__panel--sub {
+  z-index: 71;
+}
 
 .lk-menu__divider {
   height: 1px;
