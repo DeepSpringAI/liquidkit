@@ -140,6 +140,22 @@ const [liked, setLiked] = useState(false)
   ],
 }
 
+/* The like icon button fills its heart on click, like a real like action. */
+function IconLikeButton() {
+  const [liked, setLiked] = useState(false)
+  return (
+    <IconButton
+      aria-label="Like"
+      aria-pressed={liked}
+      variant="accent"
+      glow
+      onClick={() => setLiked((v) => !v)}
+    >
+      <HeartIcon fill={liked ? 'currentColor' : 'none'} />
+    </IconButton>
+  )
+}
+
 /* ------------------------------------------------------------ IconButton */
 
 export const iconButtonDoc: ComponentDoc = {
@@ -159,16 +175,19 @@ export const iconButtonDoc: ComponentDoc = {
           <IconButton aria-label="Notifications">
             <BellIcon />
           </IconButton>
-          <IconButton aria-label="Like" variant="accent" glow>
-            <HeartIcon />
-          </IconButton>
+          <IconLikeButton />
           <IconButton aria-label="Settings" size="lg">
             <SettingsIcon />
           </IconButton>
         </div>
       ),
       code: `<IconButton aria-label="Search"><SearchIcon /></IconButton>
-<IconButton aria-label="Like" variant="accent" glow><HeartIcon /></IconButton>
+
+const [liked, setLiked] = useState(false)
+<IconButton aria-label="Like" variant="accent" glow onClick={() => setLiked((v) => !v)}>
+  <HeartIcon fill={liked ? 'currentColor' : 'none'} />
+</IconButton>
+
 <IconButton aria-label="Settings" size="lg"><SettingsIcon /></IconButton>`,
     },
   ],
