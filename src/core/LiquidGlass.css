@@ -98,19 +98,20 @@
     inset 0 -1px 0 0 var(--lk-glass-inner-shadow);
 }
 
-/* specular rim: a diagonal gradient clipped to the border ring only.
-   This is the glass's glow/gradient — it rides the edge, never the face. */
+/* specular rim: two mirrored glows clipped to the border ring — one on the
+   top edge, its mirror on the bottom edge, fading to nothing through the
+   middle. The light rides the edge, never the face. */
 .lk-glass__sheen {
   z-index: 3;
   padding: var(--lk-glass-rim);
   background: linear-gradient(
-    128deg,
+    to bottom,
     rgba(255, 255, 255, 0.7) 0%,
-    rgba(255, 255, 255, 0.15) 22%,
-    rgba(255, 255, 255, 0) 44%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0) 42%,
     rgba(255, 255, 255, 0) 58%,
-    rgba(255, 255, 255, 0.12) 80%,
-    rgba(255, 255, 255, 0.55) 100%
+    rgba(255, 255, 255, 0.1) 80%,
+    rgba(255, 255, 255, 0.7) 100%
   );
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
