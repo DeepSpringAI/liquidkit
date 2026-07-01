@@ -82,11 +82,19 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
           bezel={8}
           className="lk-switch__track"
         />
-        <span className={cx('lk-switch__thumb', glow && 'lk-switch__thumb--glow')}>
+        <LiquidGlass
+          pill
+          elevation={2}
+          tint="clear"
+          refraction={64}
+          dispersion={22}
+          bezel={7}
+          className={cx('lk-switch__thumb', glow && 'lk-switch__thumb--glow')}
+        >
           <span className="lk-switch__thumb-icon" aria-hidden="true">
             {value ? iconOn : iconOff}
           </span>
-        </span>
+        </LiquidGlass>
       </button>
       {label && (
         <label htmlFor={sid} className="lk-switch__label">
