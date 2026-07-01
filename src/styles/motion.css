@@ -176,6 +176,7 @@
 
   /* ---- interaction magnitudes ---- */
   --lk-lift: -2px; /* hover-lift translateY        */
+  --lk-hover-scale: 1.04; /* hover-grow scale (buttons)   */
   --lk-press-scale: 0.96; /* press-squish scale           */
 }
 
