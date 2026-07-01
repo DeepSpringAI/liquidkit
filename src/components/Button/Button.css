@@ -67,8 +67,8 @@
   padding: 0;
 }
 .lk-btn--icon .lk-btn__icon svg {
-  width: 1.4em;
-  height: 1.4em;
+  width: 1.8em;
+  height: 1.8em;
 }
 
 /* block */
@@ -123,14 +123,23 @@
   pointer-events: none;
 }
 
-/* Buttons grow a little on hover instead of lifting upward, then press in. */
+/* Buttons grow a little on hover instead of lifting upward, then press in.
+   The press feels like squishing a drop of water: it snaps down fast on
+   click, then settles slowly back with a smooth, viscous decel. */
+.lk-btn.lk-glass--interactive {
+  transition: transform var(--lk-press-return) var(--lk-press-return-ease);
+}
 .lk-btn.lk-glass--interactive:hover {
   transform: scale(var(--lk-hover-scale));
 }
 .lk-btn.lk-glass--interactive:active {
   transform: scale(var(--lk-press-scale));
+  transition-duration: var(--lk-press-in);
 }
 @media (prefers-reduced-motion: reduce) {
+  .lk-btn.lk-glass--interactive {
+    transition: none;
+  }
   .lk-btn.lk-glass--interactive:hover,
   .lk-btn.lk-glass--interactive:active {
     transform: none;

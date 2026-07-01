@@ -18,22 +18,6 @@ import {
 } from 'liquidkit'
 import type { ComponentDoc } from '../types'
 
-/* The glow button doubles as a "like" — the heart fills in on click. */
-function GlowLikeButton() {
-  const [liked, setLiked] = useState(false)
-  return (
-    <Button
-      glow
-      variant="accent"
-      aria-pressed={liked}
-      onClick={() => setLiked((v) => !v)}
-      leftIcon={<HeartIcon size={18} fill={liked ? 'currentColor' : 'none'} />}
-    >
-      Glow
-    </Button>
-  )
-}
-
 /* ---------------------------------------------------------------- Button */
 
 export const buttonDoc: ComponentDoc = {
@@ -82,17 +66,14 @@ export const buttonDoc: ComponentDoc = {
           <Button rightIcon={<ArrowRightIcon size={18} />} variant="accent">
             Continue
           </Button>
-          <GlowLikeButton />
+          <Button glow variant="accent" leftIcon={<HeartIcon size={18} />}>
+            Glow
+          </Button>
         </div>
       ),
       code: `<Button leftIcon={<PlusIcon />}>New</Button>
 <Button rightIcon={<ArrowRightIcon />} variant="accent">Continue</Button>
-
-const [liked, setLiked] = useState(false)
-<Button glow variant="accent" onClick={() => setLiked((v) => !v)}
-  leftIcon={<HeartIcon fill={liked ? 'currentColor' : 'none'} />}>
-  Glow
-</Button>`,
+<Button glow variant="accent" leftIcon={<HeartIcon />}>Glow</Button>`,
     },
   ],
   props: [
@@ -140,22 +121,6 @@ const [liked, setLiked] = useState(false)
   ],
 }
 
-/* The like icon button fills its heart on click, like a real like action. */
-function IconLikeButton() {
-  const [liked, setLiked] = useState(false)
-  return (
-    <IconButton
-      aria-label="Like"
-      aria-pressed={liked}
-      variant="accent"
-      glow
-      onClick={() => setLiked((v) => !v)}
-    >
-      <HeartIcon fill={liked ? 'currentColor' : 'none'} />
-    </IconButton>
-  )
-}
-
 /* ------------------------------------------------------------ IconButton */
 
 export const iconButtonDoc: ComponentDoc = {
@@ -169,25 +134,22 @@ export const iconButtonDoc: ComponentDoc = {
       title: 'Icon buttons',
       demo: (
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <IconButton aria-label="Search">
+          <IconButton aria-label="Search" size="lg">
             <SearchIcon />
           </IconButton>
-          <IconButton aria-label="Notifications">
+          <IconButton aria-label="Notifications" size="lg">
             <BellIcon />
           </IconButton>
-          <IconLikeButton />
+          <IconButton aria-label="Like" size="lg" variant="accent" glow>
+            <HeartIcon />
+          </IconButton>
           <IconButton aria-label="Settings" size="lg">
             <SettingsIcon />
           </IconButton>
         </div>
       ),
-      code: `<IconButton aria-label="Search"><SearchIcon /></IconButton>
-
-const [liked, setLiked] = useState(false)
-<IconButton aria-label="Like" variant="accent" glow onClick={() => setLiked((v) => !v)}>
-  <HeartIcon fill={liked ? 'currentColor' : 'none'} />
-</IconButton>
-
+      code: `<IconButton aria-label="Search" size="lg"><SearchIcon /></IconButton>
+<IconButton aria-label="Like" size="lg" variant="accent" glow><HeartIcon /></IconButton>
 <IconButton aria-label="Settings" size="lg"><SettingsIcon /></IconButton>`,
     },
   ],

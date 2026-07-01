@@ -173,6 +173,10 @@
   --lk-spring-duration: 0.52s; /* lifts, morphs, reveals      */
   --lk-spring-duration-sm: 0.36s; /* press-back, small toggles */
   --lk-press-duration: 90ms; /* the squish *down* (snaps fast) */
+  /* Water-drop press: quick squish in, slow viscous settle back out. */
+  --lk-press-in: 110ms; /* click → squish down (fast)   */
+  --lk-press-return: 620ms; /* release → settle back (slow) */
+  --lk-press-return-ease: cubic-bezier(0.16, 1, 0.3, 1); /* smooth decel, no bounce */
 
   /* ---- interaction magnitudes ---- */
   --lk-lift: -2px; /* hover-lift translateY        */
