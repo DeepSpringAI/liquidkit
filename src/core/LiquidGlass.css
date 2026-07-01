@@ -94,7 +94,7 @@
   z-index: 2;
   border: 1px solid var(--lk-glass-border-soft);
   box-shadow:
-    inset 0 1px 0 0 var(--lk-glass-highlight),
+    inset 0 1px 0 0 color-mix(in srgb, var(--lk-glass-highlight) 50%, transparent),
     inset 0 -1px 0 0 var(--lk-glass-inner-shadow);
 }
 
@@ -106,12 +106,12 @@
   padding: var(--lk-glass-rim);
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.7) 0%,
-    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(255, 255, 255, 0.06) 20%,
     rgba(255, 255, 255, 0) 42%,
     rgba(255, 255, 255, 0) 58%,
-    rgba(255, 255, 255, 0.1) 80%,
-    rgba(255, 255, 255, 0.7) 100%
+    rgba(255, 255, 255, 0.06) 80%,
+    rgba(255, 255, 255, 0.42) 100%
   );
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
