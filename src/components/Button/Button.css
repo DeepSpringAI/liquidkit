@@ -91,7 +91,10 @@
   outline-offset: 2px;
 }
 
-/* chromatic glow ring */
+/* chromatic glow — clipped to the button so it stays inside the border */
+.lk-btn--glow {
+  overflow: hidden;
+}
 .lk-btn--glow::before {
   content: '';
   position: absolute;
@@ -107,8 +110,8 @@
     #ff4dd2,
     #ff4d6d
   );
-  filter: blur(7px) saturate(1.4);
-  opacity: 0.85;
+  filter: blur(7px) saturate(1.2) brightness(0.8);
+  opacity: 0.5;
   z-index: -1;
   pointer-events: none;
 }
