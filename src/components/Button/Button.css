@@ -82,6 +82,10 @@
     color var(--lk-duration) var(--lk-ease),
     background var(--lk-duration) var(--lk-ease);
 }
+/* ghost has no glass surface to inherit the pill radius, so honor it here */
+.lk-btn--ghost.lk-btn--pill {
+  border-radius: var(--lk-radius-full);
+}
 .lk-btn--ghost:hover {
   color: var(--lk-fg);
   background: var(--lk-glass-border-soft);

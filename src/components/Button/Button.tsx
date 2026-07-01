@@ -65,6 +65,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     'lk-btn',
     `lk-btn--${size}`,
     iconOnly && 'lk-btn--icon',
+    pill && 'lk-btn--pill',
     block && 'lk-btn--block',
     glow && 'lk-btn--glow',
     className,
