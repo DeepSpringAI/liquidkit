@@ -18,6 +18,22 @@ import {
 } from 'liquidkit'
 import type { ComponentDoc } from '../types'
 
+/* The glow button doubles as a "like" — the heart fills in on click. */
+function GlowLikeButton() {
+  const [liked, setLiked] = useState(false)
+  return (
+    <Button
+      glow
+      variant="accent"
+      aria-pressed={liked}
+      onClick={() => setLiked((v) => !v)}
+      leftIcon={<HeartIcon size={18} fill={liked ? 'currentColor' : 'none'} />}
+    >
+      Glow
+    </Button>
+  )
+}
+
 /* ---------------------------------------------------------------- Button */
 
 export const buttonDoc: ComponentDoc = {
@@ -66,14 +82,17 @@ export const buttonDoc: ComponentDoc = {
           <Button rightIcon={<ArrowRightIcon size={18} />} variant="accent">
             Continue
           </Button>
-          <Button glow variant="accent" leftIcon={<HeartIcon size={18} />}>
-            Glow
-          </Button>
+          <GlowLikeButton />
         </div>
       ),
       code: `<Button leftIcon={<PlusIcon />}>New</Button>
 <Button rightIcon={<ArrowRightIcon />} variant="accent">Continue</Button>
-<Button glow variant="accent" leftIcon={<HeartIcon />}>Glow</Button>`,
+
+const [liked, setLiked] = useState(false)
+<Button glow variant="accent" onClick={() => setLiked((v) => !v)}
+  leftIcon={<HeartIcon fill={liked ? 'currentColor' : 'none'} />}>
+  Glow
+</Button>`,
     },
   ],
   props: [
