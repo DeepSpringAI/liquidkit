@@ -42,7 +42,7 @@ export interface LiquidGlassProps extends Omit<AllHTMLAttributes<HTMLElement>, '
 }
 
 const DEFAULT = {
-  radius: 22,
+  radius: 28,
   bezel: 14,
   refraction: 46,
   dispersion: 2,

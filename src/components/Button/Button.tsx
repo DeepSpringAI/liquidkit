@@ -14,7 +14,7 @@ export interface ButtonProps extends Omit<AllHTMLAttributes<HTMLElement>, 'as' |
   variant?: ButtonVariant
   /** @default 'md' */
   size?: ButtonSize
-  /** Fully rounded pill. */
+  /** Fully rounded pill (bubble). Pass `pill={false}` for softly-rounded corners. @default true */
   pill?: boolean
   /** Square/circular icon-only button. */
   iconOnly?: boolean
@@ -38,7 +38,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     as: Comp = 'button',
     variant = 'glass',
     size = 'md',
-    pill = false,
+    pill = true,
     iconOnly = false,
     glow = false,
     block = false,

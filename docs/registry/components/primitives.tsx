@@ -123,7 +123,7 @@ export const liquidGlassDoc: ComponentDoc = {
       description:
         'Apple-style material thickness — sets frost & auto-tint opacity. Composes with tint.',
     },
-    { name: 'radius', type: 'number', default: '22', description: 'Corner radius in px.' },
+    { name: 'radius', type: 'number', default: '28', description: 'Corner radius in px.' },
     {
       name: 'pill',
       type: 'boolean',
