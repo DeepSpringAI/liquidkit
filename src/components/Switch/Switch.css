@@ -14,16 +14,16 @@
 }
 
 .lk-switch--sm .lk-switch__control {
-  width: 46px;
-  height: 28px;
+  width: 52px;
+  height: 26px;
 }
 .lk-switch--md .lk-switch__control {
-  width: 56px;
-  height: 34px;
+  width: 64px;
+  height: 30px;
 }
 .lk-switch--lg .lk-switch__control {
-  width: 68px;
-  height: 40px;
+  width: 78px;
+  height: 36px;
 }
 
 .lk-switch__track {
@@ -34,15 +34,6 @@
   transition: filter var(--lk-duration) var(--lk-ease);
 }
 
-/* Track fill: monochrome graphite glass — a calm neutral in both states, a
-   touch more present when on. State reads from the sliding thumb, not colour. */
-.lk-switch__track .lk-glass__tint {
-  background: color-mix(in srgb, var(--lk-fg) 12%, transparent);
-  transition: background var(--lk-duration) var(--lk-ease);
-}
-.lk-switch[data-checked='true'] .lk-switch__track .lk-glass__tint {
-  background: color-mix(in srgb, var(--lk-fg) 22%, transparent);
-}
 
 /* The thumb is itself a glass pill: a bright specular rim with chromatic
    dispersion at the edges, carrying the icon. It slides along the track. */
@@ -74,7 +65,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--lk-fg);
+  color: rgba(255, 255, 255, 0.95);
 }
 .lk-switch--sm .lk-switch__thumb-icon svg {
   width: 12px;
@@ -90,25 +81,25 @@
 }
 
 .lk-switch--sm[data-checked='true'] .lk-switch__thumb {
-  transform: translateX(12px);
+  transform: translateX(18px);
 }
 .lk-switch--md[data-checked='true'] .lk-switch__thumb {
-  transform: translateX(14px);
+  transform: translateX(22px);
 }
 .lk-switch--lg[data-checked='true'] .lk-switch__thumb {
-  transform: translateX(18px);
+  transform: translateX(28px);
 }
 
 /* RTL: the thumb is anchored to the inline-start edge, so it must travel the
    opposite physical direction when checked. translateX is not direction-aware. */
 [dir='rtl'] .lk-switch--sm[data-checked='true'] .lk-switch__thumb {
-  transform: translateX(-12px);
+  transform: translateX(-18px);
 }
 [dir='rtl'] .lk-switch--md[data-checked='true'] .lk-switch__thumb {
-  transform: translateX(-14px);
+  transform: translateX(-22px);
 }
 [dir='rtl'] .lk-switch--lg[data-checked='true'] .lk-switch__thumb {
-  transform: translateX(-18px);
+  transform: translateX(-28px);
 }
 
 /* glowing accent ring when on */
@@ -120,6 +111,61 @@
     0 0 16px 2px var(--lk-accent),
     0 0 6px 0 var(--lk-accent),
     inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+/* Reflection glint on every pill's BORDER: a diagonal specular streak clipped
+   to the rim (never the surface) that slides around the border as the switch
+   toggles — like light catching a moving object, not a flat glow. */
+.lk-switch__thumb-glint {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 5;
+  padding: 2px; /* rim thickness the reflection rides on */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+.lk-switch__thumb-glint::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  bottom: -40%;
+  width: 34%;
+  left: 2%;
+  /* off: a dark reflection that shades a diagonal of the bright rim */
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.6) 46%,
+    rgba(0, 0, 0, 0.2) 62%,
+    transparent 100%
+  );
+  transform: skewX(-22deg);
+  transition: left var(--lk-spring-duration) var(--lk-spring);
+}
+.lk-switch[data-checked='true'] .lk-switch__thumb-glint::before {
+  left: 64%;
+  /* on: a bright reflection */
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.95) 46%,
+    rgba(255, 255, 255, 0.3) 62%,
+    transparent 100%
+  );
+}
+[dir='rtl'] .lk-switch__thumb-glint::before {
+  left: 64%;
+}
+[dir='rtl'] .lk-switch[data-checked='true'] .lk-switch__thumb-glint::before {
+  left: 2%;
 }
 
 .lk-switch__label {
