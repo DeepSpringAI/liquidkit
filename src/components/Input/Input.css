@@ -23,6 +23,12 @@
 .lk-input__field::placeholder {
   color: var(--lk-fg-subtle);
 }
+/* Focus is shown by the wrapper's :focus-within glow — never ring the field
+   itself, even under an app-level :focus-visible reset. */
+.lk-input__field:focus,
+.lk-input__field:focus-visible {
+  outline: none;
+}
 
 .lk-input--sm .lk-input__field {
   padding: 9px 0;
