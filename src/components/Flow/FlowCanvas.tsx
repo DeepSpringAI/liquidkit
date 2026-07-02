@@ -8,7 +8,7 @@ import { FlowContext, type FlowContextValue } from './FlowContext'
 import { FlowEdge } from './FlowEdge'
 import { FlowNode } from './FlowNode'
 import { nodePortPoint } from './geometry'
-import { usePanZoom, computeFitTransform } from './usePanZoom'
+import { usePanZoom, computeFitTransform, WHEEL_ZOOM_SENSITIVITY } from './usePanZoom'
 import {
   nodeBounds as resolveBounds,
   type FlowEdgeData,
@@ -112,7 +112,11 @@ export const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(function F
       if (!(e.ctrlKey || e.metaKey)) return
       e.preventDefault()
       const rect = el.getBoundingClientRect()
-      zoomAtRef.current(e.clientX - rect.left, e.clientY - rect.top, Math.exp(-e.deltaY * 0.0015))
+      zoomAtRef.current(
+        e.clientX - rect.left,
+        e.clientY - rect.top,
+        Math.exp(-e.deltaY * WHEEL_ZOOM_SENSITIVITY),
+      )
     }
     el.addEventListener('wheel', onWheel, { passive: false })
     return () => el.removeEventListener('wheel', onWheel)

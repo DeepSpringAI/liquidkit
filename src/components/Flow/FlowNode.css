@@ -70,8 +70,6 @@
 }
 .lk-flow-node__badge {
   flex: 0 0 auto;
-  align-self: flex-start;
-  margin-top: 2px;
 }
 
 /* Selection outline via an accent ring on the surface. */

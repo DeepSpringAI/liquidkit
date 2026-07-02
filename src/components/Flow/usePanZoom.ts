@@ -4,6 +4,9 @@ import type { FlowTransform, NodeBounds } from './types'
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v))
 
+/** Wheel/pinch delta → zoom factor exponent. Higher = more sensitive. */
+export const WHEEL_ZOOM_SENSITIVITY = 0.0025
+
 export interface PanZoomOptions {
   minZoom?: number
   maxZoom?: number

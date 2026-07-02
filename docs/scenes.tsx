@@ -19,7 +19,6 @@ import {
   Dock,
   FlashlightIcon,
   FlowCanvas,
-  FlowControls,
   FlowMinimap,
   GitBranchIcon,
   GlassIcon,
@@ -938,7 +937,6 @@ export function WorkflowScene() {
         nodeContextMenu={workflowMenu}
         background="dots"
       >
-        <FlowControls position="bottom-left" />
         <FlowMinimap position="bottom-right" />
       </FlowCanvas>
 

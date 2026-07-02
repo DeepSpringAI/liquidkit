@@ -64,8 +64,8 @@ describe('FlowCanvas', () => {
     const wheel = pointer('wheel', { deltaY: -100, clientX: 100, clientY: 100 })
     Object.assign(wheel, { ctrlKey: true })
     fireEvent(canvas, wheel)
-    // exp(-(-100) * 0.0015) ≈ 1.1618
-    expect(layer.style.transform).toContain('scale(1.16')
+    // exp(-(-100) * WHEEL_ZOOM_SENSITIVITY) = exp(0.25) ≈ 1.284
+    expect(layer.style.transform).toContain('scale(1.28')
   })
 
   it('selects a node on click', () => {

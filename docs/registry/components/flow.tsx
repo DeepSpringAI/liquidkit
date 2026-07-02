@@ -91,16 +91,15 @@ export const flowCanvasDoc: ComponentDoc = {
   category: 'Flow',
   summary:
     'A pannable, zoomable node canvas for building n8n-style workflow diagrams — glass nodes joined by glowing connectors, with drag-to-reposition, selection and right-click menus.',
-  importLine: "import { FlowCanvas, FlowControls, FlowMinimap } from 'liquidkit'",
+  importLine: "import { FlowCanvas, FlowMinimap } from 'liquidkit'",
   examples: [
     {
       title: 'Workflow diagram',
       description:
-        'Pass nodes and edges as data. Drag the canvas to pan, scroll to zoom, drag a node to move it, and right-click a node for its menu.',
+        'Pass nodes and edges as data. Drag the canvas to pan, pinch (or ⌘/Ctrl+scroll) to zoom, drag a node to move it, and right-click a node for its menu.',
       demo: (
         <CanvasFrame>
           <FlowCanvas nodes={flowNodes} edges={flowEdges} nodeContextMenu={nodeMenu}>
-            <FlowControls />
             <FlowMinimap />
           </FlowCanvas>
         </CanvasFrame>
@@ -120,7 +119,6 @@ const edges = [
 
 <div style={{ height: 380 }}>
   <FlowCanvas nodes={nodes} edges={edges} nodeContextMenu={() => menuItems}>
-    <FlowControls />
     <FlowMinimap />
   </FlowCanvas>
 </div>`,

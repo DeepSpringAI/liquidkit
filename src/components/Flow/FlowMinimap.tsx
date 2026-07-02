@@ -3,6 +3,7 @@ import type { PointerEvent as ReactPointerEvent } from 'react'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { cx } from '../../utils/cx'
 import { useFlow } from './FlowContext'
+import { WHEEL_ZOOM_SENSITIVITY } from './usePanZoom'
 import type { NodeBounds } from './types'
 import './FlowMinimap.css'
 
@@ -58,7 +59,7 @@ export function FlowMinimap({
     if (!node) return
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
-      zoomByRef.current(Math.exp(-e.deltaY * 0.0015))
+      zoomByRef.current(Math.exp(-e.deltaY * WHEEL_ZOOM_SENSITIVITY))
     }
     node.addEventListener('wheel', onWheel, { passive: false })
     wheelCleanup.current = () => node.removeEventListener('wheel', onWheel)
