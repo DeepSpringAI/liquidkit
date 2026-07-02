@@ -15,12 +15,20 @@
   padding: 0 10px;
   background: var(--lk-fill-tertiary);
   border-radius: var(--lk-radius-field);
-  transition: background var(--lk-duration) var(--lk-ease);
+  transition:
+    background var(--lk-duration) var(--lk-ease),
+    box-shadow var(--lk-duration) var(--lk-ease);
 }
+/* Glassy activation: a crisp accent hairline, a soft accent halo and a diffuse
+   accent glow, lit by an inner top highlight — matching the glass surfaces
+   elsewhere rather than a flat outline. */
 .lk-search__field:focus-within {
   background: var(--lk-fill-secondary);
-  outline: 2px solid var(--lk-accent);
-  outline-offset: 1px;
+  box-shadow:
+    inset 0 1px 0 var(--lk-glass-highlight),
+    0 0 0 1px color-mix(in srgb, var(--lk-accent) 55%, transparent),
+    0 0 0 4px var(--lk-accent-soft),
+    0 2px 12px color-mix(in srgb, var(--lk-accent) 22%, transparent);
 }
 
 .lk-search--sm .lk-search__field {
