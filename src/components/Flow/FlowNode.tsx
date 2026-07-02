@@ -3,7 +3,7 @@ import type { CSSProperties, PointerEvent as ReactPointerEvent } from 'react'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { cx } from '../../utils/cx'
 import { FlowPort } from './FlowPort'
-import { nodeBounds, type FlowNodeData } from './types'
+import { nodeBounds, type FlowNodeData, type FlowNodeStatus } from './types'
 
 export interface FlowNodeProps {
   node: FlowNodeData
@@ -20,6 +20,13 @@ export interface FlowNodeProps {
 }
 
 const MOVE_THRESHOLD = 3
+
+const STATUS_LABEL: Record<FlowNodeStatus, string> = {
+  idle: 'Idle',
+  running: 'Running',
+  done: 'Done',
+  error: 'Failed',
+}
 
 /**
  * A glass workflow node. `card` renders a rounded surface with icon, title,
@@ -145,7 +152,12 @@ export const FlowNode = forwardRef<HTMLDivElement, FlowNodeProps>(function FlowN
       </LiquidGlass>
 
       {node.status && node.status !== 'idle' && (
-        <span className="lk-flow-node__status" aria-hidden="true" />
+        <span
+          className="lk-flow-node__status"
+          role="img"
+          title={STATUS_LABEL[node.status]}
+          aria-label={STATUS_LABEL[node.status]}
+        />
       )}
 
       {ports.map((side) => (

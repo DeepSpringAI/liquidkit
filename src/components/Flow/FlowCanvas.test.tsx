@@ -48,6 +48,26 @@ describe('FlowCanvas', () => {
     expect(layer.style.transform).toContain('translate(60px, 30px)')
   })
 
+  it('pans when dragging empty diagram space (not just the root)', () => {
+    // Regression: pressing the full-size transformed layer must start a pan too.
+    const { container } = renderCanvas()
+    const layer = container.querySelector('.lk-flow__layer') as HTMLElement
+    fireEvent(layer, pointer('pointerdown', { button: 0, clientX: 50, clientY: 50, pointerId: 7 }))
+    fireEvent(layer, pointer('pointermove', { clientX: 90, clientY: 70, pointerId: 7 }))
+    expect(layer.style.transform).toContain('translate(40px, 20px)')
+  })
+
+  it('zooms on pinch (ctrl/⌘ + wheel) about the cursor', () => {
+    const { container } = renderCanvas()
+    const canvas = container.querySelector('.lk-flow') as HTMLElement
+    const layer = container.querySelector('.lk-flow__layer') as HTMLElement
+    const wheel = pointer('wheel', { deltaY: -100, clientX: 100, clientY: 100 })
+    Object.assign(wheel, { ctrlKey: true })
+    fireEvent(canvas, wheel)
+    // exp(-(-100) * 0.0015) ≈ 1.1618
+    expect(layer.style.transform).toContain('scale(1.16')
+  })
+
   it('selects a node on click', () => {
     const onSelectionChange = vi.fn()
     const { container } = renderCanvas({ onSelectionChange })

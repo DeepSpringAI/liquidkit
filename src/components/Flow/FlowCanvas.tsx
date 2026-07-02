@@ -93,11 +93,30 @@ export const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(function F
 ) {
   const [size, sizeRef] = useSize<HTMLDivElement>()
   const viewport = useMemo(() => size ?? { width: 0, height: 0 }, [size])
-  const { transform, setTransform, zoomBy, panning, handlers } = usePanZoom({
+  const { transform, setTransform, zoomAtPoint, zoomBy, panning, handlers } = usePanZoom({
     minZoom,
     maxZoom,
     defaultTransform: { x: 0, y: 0, zoom: defaultZoom },
   })
+
+  // Zoom on pinch (trackpad) or ⌘/Ctrl + scroll, anchored at the cursor. Bound
+  // natively and non-passively so preventDefault reliably stops page scroll;
+  // a plain scroll is left alone so the surrounding page keeps scrolling.
+  const canvasRef = useRef<HTMLDivElement>(null)
+  const zoomAtRef = useRef(zoomAtPoint)
+  zoomAtRef.current = zoomAtPoint
+  useEffect(() => {
+    const el = canvasRef.current
+    if (!el) return
+    const onWheel = (e: WheelEvent) => {
+      if (!(e.ctrlKey || e.metaKey)) return
+      e.preventDefault()
+      const rect = el.getBoundingClientRect()
+      zoomAtRef.current(e.clientX - rect.left, e.clientY - rect.top, Math.exp(-e.deltaY * 0.0015))
+    }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
 
   // Internal position overrides let dragging work out-of-the-box even when the
   // consumer does not persist positions; controlled consumers get onNodesChange.
@@ -188,7 +207,7 @@ export const FlowCanvas = forwardRef<HTMLDivElement, FlowCanvasProps>(function F
   return (
     <FlowContext.Provider value={ctx}>
       <div
-        ref={mergeRefs(ref, sizeRef)}
+        ref={mergeRefs(ref, sizeRef, canvasRef)}
         className={cx('lk-flow', `lk-flow--bg-${background}`, panning && 'is-panning', className)}
         style={style}
         {...handlers}

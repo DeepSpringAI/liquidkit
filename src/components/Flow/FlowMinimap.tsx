@@ -1,4 +1,5 @@
-import type { MouseEvent as ReactMouseEvent } from 'react'
+import { useCallback, useRef } from 'react'
+import type { PointerEvent as ReactPointerEvent } from 'react'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { cx } from '../../utils/cx'
 import { useFlow } from './FlowContext'
@@ -15,6 +16,8 @@ export interface FlowMinimapProps {
   className?: string
 }
 
+const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v))
+
 function graphBounds(list: NodeBounds[]): NodeBounds | null {
   if (list.length === 0) return null
   let minX = Infinity
@@ -30,14 +33,37 @@ function graphBounds(list: NodeBounds[]): NodeBounds | null {
   return { x: minX, y: minY, width: maxX - minX, height: maxY - minY }
 }
 
-/** A scaled overview of the canvas with a draggable viewport indicator. */
+/**
+ * A scaled overview of the canvas. The current view is drawn as a rectangle that
+ * is always kept fully inside the minimap; drag it to pan and scroll/pinch over
+ * it to zoom.
+ */
 export function FlowMinimap({
   position = 'bottom-right',
-  width = 200,
-  height = 140,
+  width = 160,
+  height = 104,
   className,
 }: FlowMinimapProps) {
-  const { nodeBounds, transform, viewport, centerOn } = useFlow()
+  const { nodeBounds, transform, viewport, centerOn, zoomBy } = useFlow()
+  const dragging = useRef(false)
+
+  // Bind a native, non-passive wheel listener via a callback ref so it survives
+  // the minimap mounting after nodes appear, and can preventDefault the page scroll.
+  const zoomByRef = useRef(zoomBy)
+  zoomByRef.current = zoomBy
+  const wheelCleanup = useRef<(() => void) | null>(null)
+  const svgRef = useCallback((node: SVGSVGElement | null) => {
+    wheelCleanup.current?.()
+    wheelCleanup.current = null
+    if (!node) return
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault()
+      zoomByRef.current(Math.exp(-e.deltaY * 0.0015))
+    }
+    node.addEventListener('wheel', onWheel, { passive: false })
+    wheelCleanup.current = () => node.removeEventListener('wheel', onWheel)
+  }, [])
+
   const nodes = Object.values(nodeBounds)
   const world = graphBounds(nodes)
   if (!world) return null
@@ -53,32 +79,58 @@ export function FlowMinimap({
 
   const toMap = (x: number, y: number) => ({ x: ox + (x - wx) * scale, y: oy + (y - wy) * scale })
 
-  // Visible world region → minimap rect.
+  // Current view region in world space, projected + clamped to the minimap so all
+  // four edges of the "view window" stay visible even when zoomed out.
   const viewW = viewport.width / transform.zoom
   const viewH = viewport.height / transform.zoom
-  const viewX = -transform.x / transform.zoom
-  const viewY = -transform.y / transform.zoom
-  const vp = toMap(viewX, viewY)
+  const vp = toMap(-transform.x / transform.zoom, -transform.y / transform.zoom)
+  const vx0 = clamp(vp.x, 0, width)
+  const vy0 = clamp(vp.y, 0, height)
+  const vx1 = clamp(vp.x + viewW * scale, 0, width)
+  const vy1 = clamp(vp.y + viewH * scale, 0, height)
 
-  const recenter = (e: ReactMouseEvent<SVGSVGElement>) => {
+  const posToWorld = (e: ReactPointerEvent<SVGSVGElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const mx = e.clientX - rect.left
     const my = e.clientY - rect.top
-    centerOn(wx + (mx - ox) / scale, wy + (my - oy) / scale)
+    return { x: wx + (mx - ox) / scale, y: wy + (my - oy) / scale }
+  }
+  const onPointerDown = (e: ReactPointerEvent<SVGSVGElement>) => {
+    if ((e.button ?? 0) !== 0) return
+    dragging.current = true
+    e.currentTarget.setPointerCapture?.(e.pointerId)
+    const p = posToWorld(e)
+    centerOn(p.x, p.y)
+  }
+  const onPointerMove = (e: ReactPointerEvent<SVGSVGElement>) => {
+    if (!dragging.current) return
+    const p = posToWorld(e)
+    centerOn(p.x, p.y)
+  }
+  const onPointerUp = (e: ReactPointerEvent<SVGSVGElement>) => {
+    dragging.current = false
+    try {
+      e.currentTarget.releasePointerCapture?.(e.pointerId)
+    } catch {
+      /* already released */
+    }
   }
 
   return (
     <LiquidGlass
-      radius={14}
+      radius={12}
       elevation={2}
       className={cx('lk-flow-minimap', `lk-flow-minimap--${position}`, className)}
     >
       <svg
+        ref={svgRef}
         className="lk-flow-minimap__svg"
         width={width}
         height={height}
-        onPointerDown={recenter}
-        onClick={recenter}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
       >
         {nodes.map((b, i) => {
           const p = toMap(b.x, b.y)
@@ -90,16 +142,16 @@ export function FlowMinimap({
               y={p.y}
               width={Math.max(2, b.width * scale)}
               height={Math.max(2, b.height * scale)}
-              rx={2}
+              rx={1.5}
             />
           )
         })}
         <rect
           className="lk-flow-minimap__view"
-          x={vp.x}
-          y={vp.y}
-          width={viewW * scale}
-          height={viewH * scale}
+          x={vx0}
+          y={vy0}
+          width={Math.max(0, vx1 - vx0)}
+          height={Math.max(0, vy1 - vy0)}
           rx={3}
         />
       </svg>

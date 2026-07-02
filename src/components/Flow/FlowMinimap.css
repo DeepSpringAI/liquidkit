@@ -21,14 +21,22 @@
 }
 .lk-flow-minimap__svg {
   display: block;
-  cursor: pointer;
+  cursor: grab;
+  touch-action: none;
 }
+.lk-flow-minimap__svg:active {
+  cursor: grabbing;
+}
+
+/* Node marks sit quietly behind the view window. */
 .lk-flow-minimap__node {
   fill: var(--lk-label-tertiary, rgba(127, 140, 170, 0.5));
-  opacity: 0.7;
+  opacity: 0.45;
 }
+
+/* The current-view "window" — the prominent element. */
 .lk-flow-minimap__view {
-  fill: color-mix(in srgb, var(--lk-accent) 16%, transparent);
+  fill: color-mix(in srgb, var(--lk-accent) 18%, transparent);
   stroke: var(--lk-accent);
-  stroke-width: 1.5px;
+  stroke-width: 2px;
 }
