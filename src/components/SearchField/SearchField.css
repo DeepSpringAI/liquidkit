@@ -85,12 +85,22 @@
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: var(--lk-label-tertiary);
-  color: var(--lk-bg-elev);
+  background: transparent;
+  color: var(--lk-label-secondary);
   cursor: pointer;
+  transition:
+    background var(--lk-duration) var(--lk-ease),
+    color var(--lk-duration) var(--lk-ease);
+}
+.lk-search__clear:hover {
+  background: var(--lk-fill-tertiary);
+  color: var(--lk-label);
+}
+.lk-search__clear:active {
+  background: var(--lk-fill-secondary);
 }
 .lk-search__clear svg {
-  width: 12px;
-  height: 12px;
-  stroke-width: 3;
+  width: 15px;
+  height: 15px;
+  stroke-width: 2;
 }
