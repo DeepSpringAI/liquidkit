@@ -1,0 +1,26 @@
+.lk-flow-controls {
+  position: absolute;
+  z-index: 6;
+}
+.lk-flow-controls--bottom-left {
+  bottom: 16px;
+  left: 16px;
+}
+.lk-flow-controls--bottom-right {
+  bottom: 16px;
+  right: 16px;
+}
+.lk-flow-controls--top-left {
+  top: 16px;
+  left: 16px;
+}
+.lk-flow-controls--top-right {
+  top: 16px;
+  right: 16px;
+}
+.lk-flow-controls__row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 5px;
+}

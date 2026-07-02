@@ -1,0 +1,54 @@
+.lk-flow-edge__hit {
+  stroke: transparent;
+  stroke-width: 18px;
+  pointer-events: stroke;
+}
+.lk-flow-edge__line {
+  filter: drop-shadow(0 0 6px rgba(91, 140, 255, 0.5));
+  transition: stroke-width var(--lk-duration-fast) var(--lk-ease);
+}
+.lk-flow-edge.is-selected .lk-flow-edge__line {
+  stroke-width: 3.5px;
+  filter: drop-shadow(0 0 10px rgba(91, 140, 255, 0.85));
+}
+
+/* Flowing dash animation along the connector. */
+.lk-flow-edge.is-animated .lk-flow-edge__line {
+  stroke-dasharray: 6 8;
+  animation: lk-flow-dash 0.8s linear infinite;
+}
+@keyframes lk-flow-dash {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+
+.lk-flow-edge__label-fo {
+  overflow: visible;
+}
+.lk-flow-edge__label-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.lk-flow-edge__label {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 12px;
+  border-radius: var(--lk-radius-full);
+  background: var(--lk-bg-elev);
+  border: 1px solid var(--lk-glass-border-soft);
+  box-shadow: var(--lk-shadow-1);
+  color: var(--lk-label);
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lk-flow-edge.is-animated .lk-flow-edge__line {
+    animation: none;
+  }
+}

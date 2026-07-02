@@ -3,6 +3,7 @@ import {
   AirplaneIcon,
   ArrowUpRightIcon,
   Avatar,
+  Badge,
   BellIcon,
   BluetoothIcon,
   Button,
@@ -14,8 +15,13 @@ import {
   CommandBar,
   cx,
   DashboardShell,
+  DatabaseIcon,
   Dock,
   FlashlightIcon,
+  FlowCanvas,
+  FlowControls,
+  FlowMinimap,
+  GitBranchIcon,
   GlassIcon,
   GlobeIcon,
   GridIcon,
@@ -23,6 +29,7 @@ import {
   IconButton,
   ImageIcon,
   LandingHero,
+  layoutFlow,
   LiquidGlass,
   List,
   ListRow,
@@ -33,6 +40,7 @@ import {
   NavigationBar,
   PhoneFrame,
   PlayIcon,
+  PlugIcon,
   PlusIcon,
   PricingPage,
   SearchField,
@@ -45,10 +53,16 @@ import {
   SunIcon,
   Switch,
   ThemeToggle,
+  Toolbar,
   VideoIcon,
   VolumeIcon,
   WaitlistPage,
+  WebhookIcon,
   WifiIcon,
+  WorkflowIcon,
+  type FlowEdgeData,
+  type FlowNodeData,
+  type MenuItem,
 } from 'liquidkit'
 
 export function LandingScene() {
@@ -835,6 +849,137 @@ export function MacScene() {
   )
 }
 
+const workflowBaseNodes: FlowNodeData[] = [
+  {
+    id: 'trigger',
+    x: 0,
+    y: 0,
+    variant: 'hub',
+    title: 'Markus AI',
+    subtitle: 'Core action',
+    icon: <SparkleIcon />,
+    accent: '#5b8cff',
+    status: 'done',
+  },
+  {
+    id: 'condition',
+    x: 0,
+    y: 0,
+    title: 'Condition',
+    subtitle: 'If new lead',
+    icon: <GitBranchIcon />,
+    badge: (
+      <Badge size="sm" variant="accent">
+        Logic
+      </Badge>
+    ),
+    status: 'done',
+  },
+  {
+    id: 'enrich',
+    x: 0,
+    y: 0,
+    title: 'Enrich data',
+    subtitle: 'Lookup contact',
+    icon: <DatabaseIcon />,
+  },
+  { id: 'crm', x: 0, y: 0, title: 'Update CRM', subtitle: 'HubSpot', icon: <PlugIcon /> },
+  {
+    id: 'notify',
+    x: 0,
+    y: 0,
+    title: 'Send message',
+    subtitle: 'WhatsApp',
+    icon: <SendIcon />,
+    accent: '#37d0d6',
+    status: 'running',
+  },
+]
+
+const workflowEdges: FlowEdgeData[] = [
+  { id: 'e1', source: 'trigger', target: 'condition', label: 'On event', animated: true },
+  { id: 'e2', source: 'trigger', target: 'enrich' },
+  { id: 'e3', source: 'condition', target: 'crm', label: 'Match' },
+  { id: 'e4', source: 'enrich', target: 'notify' },
+  { id: 'e5', source: 'crm', target: 'notify' },
+]
+
+const workflowMenu = (): MenuItem[] => [
+  { id: 'data', label: 'Example data', shortcut: '⌘D' },
+  { id: 'copy', label: 'Copy link', icon: <CodeIcon />, shortcut: '⌘C' },
+  { id: 'branch', label: 'Create new branch', shortcut: '⌘B' },
+  { id: 'custom', label: 'Custom code', icon: <CodeIcon />, shortcut: '⌘K' },
+  { divider: true },
+  { id: 'hide', label: 'Hide' },
+  { id: 'remove', label: 'Remove', destructive: true, shortcut: '⌫' },
+]
+
+const workflowApps = [
+  { id: 'web', icon: <GlobeIcon />, label: 'Webhook trigger' },
+  { id: 'chat', icon: <ChatIcon />, label: 'Messaging' },
+  { id: 'db', icon: <DatabaseIcon />, label: 'Database' },
+  { id: 'plug', icon: <PlugIcon />, label: 'Integrations' },
+  { id: 'hook', icon: <WebhookIcon />, label: 'Webhooks' },
+  { id: 'ai', icon: <SparkleIcon />, label: 'AI' },
+]
+
+export function WorkflowScene() {
+  const nodes = layoutFlow(workflowBaseNodes, workflowEdges, {
+    direction: 'LR',
+    layerGap: 150,
+    nodeGap: 48,
+    origin: { x: 120, y: 220 },
+  })
+  return (
+    <div style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
+      <FlowCanvas
+        nodes={nodes}
+        edges={workflowEdges}
+        nodeContextMenu={workflowMenu}
+        background="dots"
+      >
+        <FlowControls position="bottom-left" />
+        <FlowMinimap position="bottom-right" />
+      </FlowCanvas>
+
+      <div
+        style={{
+          position: 'absolute',
+          top: 16,
+          left: 16,
+          right: 16,
+          display: 'flex',
+          justifyContent: 'space-between',
+          gap: 12,
+          pointerEvents: 'none',
+        }}
+      >
+        <div style={{ pointerEvents: 'auto' }}>
+          <Toolbar
+            items={[
+              { id: 'grid', icon: <GridIcon />, label: 'Overview' },
+              { id: 'flow', icon: <WorkflowIcon />, label: 'Workflow', active: true },
+              { id: 'code', icon: <CodeIcon />, label: 'Code' },
+            ]}
+          />
+        </div>
+        <div style={{ pointerEvents: 'auto' }}>
+          <Toolbar
+            items={[
+              { id: 'run', icon: <PlayIcon />, label: 'Run', primary: true },
+              { id: 'settings', icon: <SettingsIcon />, label: 'Settings' },
+            ]}
+          />
+        </div>
+      </div>
+
+      <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
+        <Dock orientation="horizontal" items={workflowApps} />
+      </div>
+    </div>
+  )
+}
+
 export interface SceneMeta {
   slug: string
   name: string
@@ -897,6 +1042,13 @@ export const scenes: SceneMeta[] = [
     description:
       'A macOS 26 System Settings window — translucent chrome, source list and grouped panes with live controls.',
     Component: MacScene,
+  },
+  {
+    slug: 'workflow',
+    name: 'Workflow Designer',
+    description:
+      'An n8n-style visual workflow builder — glass nodes on a pannable, zoomable canvas joined by glowing connectors, with a top toolbar, node context menus, an integration dock, zoom controls and a minimap.',
+    Component: WorkflowScene,
   },
 ]
 

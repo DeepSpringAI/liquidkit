@@ -35,12 +35,20 @@ import {
   FolderIcon,
   SunIcon,
   MoonIcon,
+  BoltIcon,
+  PlugIcon,
+  GitBranchIcon,
+  DatabaseIcon,
+  WebhookIcon,
+  FilterIcon,
+  WorkflowIcon,
 } from 'liquidkit'
 
 const ICONS: [string, typeof HomeIcon][] = [
   ['ArrowRightIcon', ArrowRightIcon],
   ['ArrowUpRightIcon', ArrowUpRightIcon],
   ['BellIcon', BellIcon],
+  ['BoltIcon', BoltIcon],
   ['ChatIcon', ChatIcon],
   ['CheckIcon', CheckIcon],
   ['ChevronDownIcon', ChevronDownIcon],
@@ -50,8 +58,11 @@ const ICONS: [string, typeof HomeIcon][] = [
   ['CodeIcon', CodeIcon],
   ['CompassIcon', CompassIcon],
   ['CubeIcon', CubeIcon],
+  ['DatabaseIcon', DatabaseIcon],
   ['EditIcon', EditIcon],
+  ['FilterIcon', FilterIcon],
   ['FolderIcon', FolderIcon],
+  ['GitBranchIcon', GitBranchIcon],
   ['GlobeIcon', GlobeIcon],
   ['GridIcon', GridIcon],
   ['HashIcon', HashIcon],
@@ -62,6 +73,7 @@ const ICONS: [string, typeof HomeIcon][] = [
   ['MicIcon', MicIcon],
   ['MoonIcon', MoonIcon],
   ['PlayIcon', PlayIcon],
+  ['PlugIcon', PlugIcon],
   ['PlusIcon', PlusIcon],
   ['SearchIcon', SearchIcon],
   ['SendIcon', SendIcon],
@@ -72,6 +84,8 @@ const ICONS: [string, typeof HomeIcon][] = [
   ['UserIcon', UserIcon],
   ['VideoIcon', VideoIcon],
   ['WalletIcon', WalletIcon],
+  ['WebhookIcon', WebhookIcon],
+  ['WorkflowIcon', WorkflowIcon],
 ]
 
 export function IconsPage() {

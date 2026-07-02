@@ -2,12 +2,22 @@ import {
   cloneElement,
   forwardRef,
   isValidElement,
+  useCallback,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
-import type { CSSProperties, HTMLAttributes, KeyboardEvent, MouseEvent, ReactElement, ReactNode } from 'react'
+import type {
+  CSSProperties,
+  HTMLAttributes,
+  KeyboardEvent,
+  MouseEvent,
+  ReactElement,
+  ReactNode,
+  RefObject,
+} from 'react'
 import { createPortal } from 'react-dom'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { CheckIcon, ChevronRightIcon } from '../../icons'
@@ -24,6 +34,8 @@ export type MenuItem =
       id: string
       label: ReactNode
       icon?: ReactNode
+      /** Right-aligned keyboard-shortcut hint (e.g. "⌘C"). */
+      shortcut?: ReactNode
       checked?: boolean
       destructive?: boolean
       disabled?: boolean
@@ -35,11 +47,23 @@ export type MenuItem =
 export type MenuPlacement = 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end'
 
 export interface MenuProps extends HTMLAttributes<HTMLDivElement> {
-  /** The element that opens the menu. Its onClick is wrapped automatically. */
-  trigger: ReactNode
+  /**
+   * The element that opens the menu. Its onClick is wrapped automatically.
+   * Omit it to drive the menu purely with `open` (e.g. a right-click context menu).
+   */
+  trigger?: ReactNode
   items: MenuItem[]
   /** @default 'bottom-start' */
   placement?: MenuPlacement
+  /** Controlled open state. When set, the menu no longer manages its own visibility. */
+  open?: boolean
+  /** Fires whenever the menu wants to open or close. */
+  onOpenChange?: (open: boolean) => void
+  /**
+   * Position against this viewport rect instead of the trigger — pass the pointer
+   * position (e.g. `new DOMRect(e.clientX, e.clientY, 0, 0)`) for a context menu.
+   */
+  anchorRect?: DOMRect | null
 }
 
 type MenuEntry = Extract<MenuItem, { id: string }>
@@ -56,22 +80,56 @@ const HIDDEN: CSSProperties = {
 
 /** A dropdown action menu (also a context menu) anchored to its trigger. */
 export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(
-  { trigger, items, placement = 'bottom-start', className, ...rest },
+  {
+    trigger,
+    items,
+    placement = 'bottom-start',
+    open: openProp,
+    onOpenChange,
+    anchorRect,
+    className,
+    ...rest
+  },
   ref,
 ) {
-  const [open, setOpen] = useState(false)
+  const [openState, setOpenState] = useState(false)
+  const isControlled = openProp !== undefined
+  const open = isControlled ? openProp : openState
+  // Read the latest `open` from a ref so `setOpen` can stay referentially stable
+  // (it's used inside an effect) while still supporting functional updates.
+  const openRef = useRef(open)
+  openRef.current = open
+  const setOpen = useCallback(
+    (next: boolean | ((o: boolean) => boolean)) => {
+      const resolved = typeof next === 'function' ? next(openRef.current) : next
+      if (openProp === undefined) setOpenState(resolved)
+      onOpenChange?.(resolved)
+    },
+    [openProp, onOpenChange],
+  )
+
   const [subOpenId, setSubOpenId] = useState<string | null>(null)
   const [subStyle, setSubStyle] = useState<CSSProperties>(HIDDEN)
   const rootRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const subPanelRef = useRef<HTMLDivElement>(null)
   const container = useThemedPortal()
-  const posStyle = useAnchoredPosition(rootRef, panelRef, open, { placement })
+  // A pointer-anchored context menu positions against a virtual rect; otherwise
+  // we anchor to the trigger element. The virtual ref's identity changes with the
+  // rect so useAnchoredPosition re-measures.
+  const virtualAnchor = useMemo(
+    () =>
+      anchorRect
+        ? ({ current: { getBoundingClientRect: () => anchorRect } } as RefObject<HTMLElement>)
+        : null,
+    [anchorRect],
+  )
+  const posStyle = useAnchoredPosition(virtualAnchor ?? rootRef, panelRef, open, { placement })
 
-  const close = () => {
+  const close = useCallback(() => {
     setOpen(false)
     setSubOpenId(null)
-  }
+  }, [setOpen])
 
   useEffect(() => {
     if (!open) return
@@ -98,7 +156,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(
       document.removeEventListener('mousedown', onDoc)
       document.removeEventListener('keydown', onKey)
     }
-  }, [open, subOpenId])
+  }, [open, subOpenId, close])
 
   // Move focus into the menu when it opens.
   useEffect(() => {
@@ -153,20 +211,21 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(
     subPanelRef.current?.querySelector<HTMLElement>(`${ITEM_SELECTOR}:not([disabled])`)?.focus()
   }, [subOpenId])
 
-  const triggerEl = isValidElement(trigger) ? (
-    cloneElement(trigger as ReactElement<Record<string, unknown>>, {
-      onClick: (e: MouseEvent) => {
-        ;(trigger as ReactElement<{ onClick?: (e: MouseEvent) => void }>).props.onClick?.(e)
-        setOpen((o) => !o)
-      },
-      'aria-haspopup': 'menu',
-      'aria-expanded': open,
-    })
-  ) : (
-    <button type="button" className="lk-menu__trigger" onClick={() => setOpen((o) => !o)}>
-      {trigger}
-    </button>
-  )
+  const triggerEl =
+    trigger == null ? null : isValidElement(trigger) ? (
+      cloneElement(trigger as ReactElement<Record<string, unknown>>, {
+        onClick: (e: MouseEvent) => {
+          ;(trigger as ReactElement<{ onClick?: (e: MouseEvent) => void }>).props.onClick?.(e)
+          setOpen((o) => !o)
+        },
+        'aria-haspopup': 'menu',
+        'aria-expanded': open,
+      })
+    ) : (
+      <button type="button" className="lk-menu__trigger" onClick={() => setOpen((o) => !o)}>
+        {trigger}
+      </button>
+    )
 
   const select = (it: MenuEntry) => {
     if (it.disabled) return
@@ -215,6 +274,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(
       >
         {it.icon != null && <span className="lk-menu__icon">{it.icon}</span>}
         <span className="lk-menu__label">{it.label}</span>
+        {it.shortcut != null && <span className="lk-menu__shortcut">{it.shortcut}</span>}
         {it.checked && <CheckIcon size={16} className="lk-menu__check" />}
         {hasSub && <ChevronRightIcon size={16} className="lk-menu__chevron" />}
       </button>

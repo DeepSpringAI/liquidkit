@@ -281,3 +281,59 @@ export const VolumeIcon = createIcon(
   </>,
   'VolumeIcon',
 )
+
+// Flow / automation
+export const BoltIcon = createIcon(
+  <>
+    <path d="M13 2 4 14h6l-1 8 9-12h-6z" />
+  </>,
+  'BoltIcon',
+)
+export const PlugIcon = createIcon(
+  <>
+    <path d="M9 2v6M15 2v6" />
+    <path d="M6 8h12v2a6 6 0 0 1-12 0z" />
+    <path d="M12 16v6" />
+  </>,
+  'PlugIcon',
+)
+export const GitBranchIcon = createIcon(
+  <>
+    <circle cx="6" cy="6" r="2.5" />
+    <circle cx="6" cy="18" r="2.5" />
+    <circle cx="18" cy="7" r="2.5" />
+    <path d="M6 8.5v7" />
+    <path d="M18 9.5c0 3.5-3 4-6 5.5" />
+  </>,
+  'GitBranchIcon',
+)
+export const DatabaseIcon = createIcon(
+  <>
+    <ellipse cx="12" cy="5" rx="8" ry="3" />
+    <path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5" />
+    <path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" />
+  </>,
+  'DatabaseIcon',
+)
+export const WebhookIcon = createIcon(
+  <>
+    <path d="M18 16.98h-5.99c-1.1 0-1.95.94-2.48 1.9A4 4 0 0 1 2 17c.01-.7.2-1.4.57-2" />
+    <path d="m6 17 3.13-5.78c.53-.97.1-2.18-.5-3.1a4 4 0 1 1 6.89-4.06" />
+    <path d="m12 6 3.13 5.73C15.66 12.7 16.9 13 18 13a4 4 0 0 1 0 8" />
+  </>,
+  'WebhookIcon',
+)
+export const FilterIcon = createIcon(
+  <>
+    <path d="M4 5h16l-6 7v5l-4 2v-7z" />
+  </>,
+  'FilterIcon',
+)
+export const WorkflowIcon = createIcon(
+  <>
+    <rect x="3" y="3" width="8" height="8" rx="2" />
+    <path d="M7 11v3a2 2 0 0 0 2 2h4" />
+    <rect x="13" y="13" width="8" height="8" rx="2" />
+  </>,
+  'WorkflowIcon',
+)
