@@ -87,7 +87,7 @@ export const searchFieldDoc: ComponentDoc = {
   name: 'SearchField',
   category: 'Inputs',
   summary:
-    'The iOS search bar — a rounded fill with a leading magnifier, a clear (×) button, and an optional Cancel action that appears on focus.',
+    'The iOS search bar — a rounded fill with a leading magnifier and an in-field clear (×) button that can double as a cancel action.',
   importLine: "import { SearchField } from 'liquidkit'",
   examples: [
     {
@@ -134,9 +134,9 @@ export const searchFieldDoc: ComponentDoc = {
       name: 'cancelable',
       type: 'boolean',
       default: 'false',
-      description: 'Reveal a Cancel button while focused or non-empty.',
+      description: 'Make the in-field × also dismiss the keyboard (blur) as a cancel.',
     },
-    { name: 'onCancel', type: '() => void', description: 'Fires when Cancel is pressed.' },
+    { name: 'onCancel', type: '() => void', description: 'Fires when the × is pressed (cancelable).' },
     { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Control size.' },
     {
       name: '...input',

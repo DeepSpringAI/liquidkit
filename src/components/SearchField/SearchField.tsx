@@ -18,15 +18,15 @@ export interface SearchFieldProps extends NativeProps {
   onClear?: () => void
   /** @default 'md' */
   size?: 'sm' | 'md' | 'lg'
-  /** Reveal a Cancel button while focused or non-empty (iOS). @default false */
+  /** Make the in-field × also dismiss the keyboard (blur) as a cancel. @default false */
   cancelable?: boolean
   onCancel?: () => void
   className?: string
   style?: CSSProperties
 }
 
-/** The iOS search bar — a rounded fill with a leading magnifier, a clear
- *  button, and an optional Cancel action. */
+/** The iOS search bar — a rounded fill with a leading magnifier and an
+ *  in-field clear (×) button that can double as a cancel action. */
 export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(function SearchField(
   {
     value,
@@ -46,7 +46,6 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(functi
   const controlled = value != null
   const [internal, setInternal] = useState(defaultValue ?? '')
   const v = controlled ? value : internal
-  const [focused, setFocused] = useState(false)
   const innerRef = useRef<HTMLInputElement>(null)
 
   const setVal = (next: string) => {
@@ -65,13 +64,9 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(functi
   }
 
   const hasValue = (v?.length ?? 0) > 0
-  const showCancel = cancelable && (focused || hasValue)
 
   return (
-    <div
-      className={cx('lk-search', `lk-search--${size}`, showCancel && 'is-cancelable', className)}
-      style={style}
-    >
+    <div className={cx('lk-search', `lk-search--${size}`, className)} style={style}>
       <div className="lk-search__field">
         <span className="lk-search__icon">
           <SearchIcon />
@@ -83,32 +78,19 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(functi
           value={v}
           placeholder={placeholder}
           onChange={(e) => setVal(e.target.value)}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
           {...rest}
         />
         {hasValue && (
           <button
             type="button"
             className="lk-search__clear"
-            aria-label="Clear search"
-            onClick={clear}
+            aria-label={cancelable ? 'Cancel search' : 'Clear search'}
+            onClick={cancelable ? cancel : clear}
           >
             <CloseIcon />
           </button>
         )}
       </div>
-      {showCancel && (
-        <button
-          type="button"
-          className="lk-search__cancel"
-          // keep focus until the click lands so the button doesn't vanish first
-          onMouseDown={(e) => e.preventDefault()}
-          onClick={cancel}
-        >
-          Cancel
-        </button>
-      )}
     </div>
   )
 })
