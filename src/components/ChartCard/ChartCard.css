@@ -41,8 +41,29 @@
 
 .lk-chartcard__labels {
   display: flex;
-  justify-content: space-between;
+  gap: 6px;
   font-size: 12px;
   color: var(--lk-fg-subtle);
   font-weight: 600;
+}
+/* Each label owns an equal slice of the axis, so any number of columns
+   distributes evenly instead of bunching up. */
+.lk-chartcard__label {
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+}
+/* Anchor the ends to the chart edges (where the first/last points sit). */
+.lk-chartcard__label:first-child {
+  text-align: left;
+}
+.lk-chartcard__label:last-child {
+  text-align: right;
+}
+.lk-chartcard__label:only-child {
+  text-align: center;
 }

@@ -273,6 +273,38 @@ export const chartCardDoc: ComponentDoc = {
   action={<IconButton aria-label="Like"><HeartIcon /></IconButton>}
 />`,
     },
+    {
+      title: 'Many columns with long names',
+      demo: (
+        <ChartCard
+          title="Monthly revenue"
+          value="$1.2M"
+          data={[12, 18, 9, 22, 16, 28, 21, 34, 30, 42, 38, 47]}
+          labels={[
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December',
+          ]}
+          style={{ maxWidth: 420 }}
+        />
+      ),
+      code: `<ChartCard
+  title="Monthly revenue"
+  value="$1.2M"
+  data={[12, 18, 9, 22, 16, 28, 21, 34, 30, 42, 38, 47]}
+  // 12 columns — each label truncates and shows its full name on hover.
+  labels={['January', 'February', 'March', 'April', /* … */ 'December']}
+/>`,
+    },
   ],
   props: [
     { name: 'title', type: 'ReactNode', description: 'Small heading.' },

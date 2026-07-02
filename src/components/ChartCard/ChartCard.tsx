@@ -118,10 +118,15 @@ export const ChartCard = forwardRef<HTMLDivElement, ChartCardProps>(function Cha
         />
       </svg>
 
-      {labels && (
-        <div className="lk-chartcard__labels">
+      {labels && labels.length > 0 && (
+        <div
+          className="lk-chartcard__labels"
+          style={{ '--lk-chartcard-cols': labels.length } as CSSProperties}
+        >
           {labels.map((l, i) => (
-            <span key={i}>{l}</span>
+            <span key={i} className="lk-chartcard__label" title={l}>
+              {l}
+            </span>
           ))}
         </div>
       )}
