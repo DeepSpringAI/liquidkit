@@ -6,6 +6,26 @@
   width: 100%;
 }
 
+/* Glassy activation glow (matches Input / SearchField). Drawn on an overlay
+   pseudo so it layers over the configurable elevation shadow instead of
+   replacing it — a crisp accent hairline, a soft halo and a diffuse glow. */
+.lk-cmd::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--lk-duration) var(--lk-ease);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--lk-accent) 55%, transparent),
+    0 0 0 4px var(--lk-accent-soft),
+    0 2px 14px color-mix(in srgb, var(--lk-accent) 22%, transparent);
+}
+.lk-cmd:focus-within::after {
+  opacity: 1;
+}
+
 .lk-cmd__inner {
   display: flex;
   flex-direction: column;
@@ -40,6 +60,12 @@
   font-size: 17px;
   line-height: 1.5;
   padding: 6px 0;
+}
+/* Activation is shown by the card's :focus-within glow — never ring the
+   field itself, even under an app-level :focus-visible reset. */
+.lk-cmd__field:focus,
+.lk-cmd__field:focus-visible {
+  outline: none;
 }
 .lk-cmd__field::placeholder {
   color: var(--lk-fg-subtle);

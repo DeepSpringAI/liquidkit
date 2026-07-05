@@ -1,6 +1,7 @@
 .lk-input {
   display: inline-flex;
   width: 260px;
+  transition: box-shadow var(--lk-duration) var(--lk-ease);
 }
 
 .lk-input .lk-glass__content {
@@ -54,9 +55,15 @@
   height: 20px;
 }
 
+/* Glassy activation glow (matches SearchField). The glass bevel already
+   supplies the inner highlight, so add only the accent hairline, halo and
+   diffuse glow, and keep the resting elevation shadow. */
 .lk-input:focus-within {
-  outline: 2px solid var(--lk-accent);
-  outline-offset: 1px;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--lk-accent) 55%, transparent),
+    0 0 0 4px var(--lk-accent-soft),
+    0 2px 12px color-mix(in srgb, var(--lk-accent) 22%, transparent),
+    var(--lk-shadow-1);
 }
 
 .lk-input.is-disabled {
