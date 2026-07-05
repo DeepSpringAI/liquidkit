@@ -55,15 +55,14 @@
   height: 20px;
 }
 
-/* Glassy activation glow (matches SearchField). The glass bevel already
-   supplies the inner highlight, so add only the accent hairline, halo and
-   diffuse glow, and keep the resting elevation shadow. */
+/* Glassy activation glow — identical recipe to SearchField so activation
+   reads the same across inputs: accent hairline + soft halo + diffuse glow,
+   no dark drop shadow (the glass bevel already supplies the inner highlight). */
 .lk-input:focus-within {
   box-shadow:
     0 0 0 1px color-mix(in srgb, var(--lk-accent) 55%, transparent),
     0 0 0 4px var(--lk-accent-soft),
-    0 2px 12px color-mix(in srgb, var(--lk-accent) 22%, transparent),
-    var(--lk-shadow-1);
+    0 2px 12px color-mix(in srgb, var(--lk-accent) 22%, transparent);
 }
 
 .lk-input.is-disabled {

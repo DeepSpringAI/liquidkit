@@ -20,7 +20,7 @@
   box-shadow:
     0 0 0 1px color-mix(in srgb, var(--lk-accent) 55%, transparent),
     0 0 0 4px var(--lk-accent-soft),
-    0 2px 14px color-mix(in srgb, var(--lk-accent) 22%, transparent);
+    0 2px 12px color-mix(in srgb, var(--lk-accent) 22%, transparent);
 }
 .lk-cmd:focus-within::after {
   opacity: 1;
