@@ -4,12 +4,12 @@
    The named colors behind the preset themes, exposed as CSS custom properties so
    you can reference an individual swatch when building your own UI. These are raw
    colors, NOT the semantic theme tokens (`--lk-accent`, `--lk-bg`, …) — for whole-
-   UI theming use `liquidkit/themes.css` + `data-palette` instead.
+   UI theming use `@hamidrezazargham/liquidkit/themes.css` + `data-palette` instead.
 
    Opt in alongside the core stylesheet:
 
-       import 'liquidkit/styles.css'      // required core
-       import 'liquidkit/palettes.css'    // these raw swatches
+       import '@hamidrezazargham/liquidkit/styles.css'      // required core
+       import '@hamidrezazargham/liquidkit/palettes.css'    // these raw swatches
 
        .promo { background: var(--lk-amber-flame-amber); }
 

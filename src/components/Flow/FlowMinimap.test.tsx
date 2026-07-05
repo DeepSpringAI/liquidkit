@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/react'
-import { FlowCanvas, FlowMinimap, ThemeProvider } from 'liquidkit'
-import type { FlowNodeData } from 'liquidkit'
+import { FlowCanvas, FlowMinimap, ThemeProvider } from '@hamidrezazargham/liquidkit'
+import type { FlowNodeData } from '@hamidrezazargham/liquidkit'
 
 const nodes: FlowNodeData[] = [
   { id: 'a', x: 0, y: 0, title: 'A' },

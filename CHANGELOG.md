@@ -14,7 +14,7 @@ This will become the first published release (`0.1.0`).
 
 - **Preset themes** — six named palette themes (`aurora`, `indigo`, `orchid`,
   `amber`, `glacier`, `rose`), each with a full **light and dark** variant,
-  shipped in an optional `liquidkit/themes.css` (zero cost unless imported).
+  shipped in an optional `@hamidrezazargham/liquidkit/themes.css` (zero cost unless imported).
   Palette and mode are independent axes: set `data-palette="…"` (or
   `<ThemeProvider defaultPalette="…">`) and the light/dark toggle switches the
   theme's two variants. `ThemeProvider` gains `palette`/`setPalette` and a
@@ -23,7 +23,7 @@ This will become the first published release (`0.1.0`).
   exported for building a theme picker.
 - **Raw palette swatches** — the named colors behind the presets are exposed
   on their own: a typed `palettes` JS export (`palettes.amber.flameAmber`) and
-  matching CSS custom properties in an optional `liquidkit/palettes.css`
+  matching CSS custom properties in an optional `@hamidrezazargham/liquidkit/palettes.css`
   (`--lk-amber-flame-amber`). Swatches are grouped by palette without repeating
   the palette name; `aurora` merges its three source groups (Ice · Forest ·
   Borealis) into one palette.

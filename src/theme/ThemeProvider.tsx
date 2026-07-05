@@ -25,7 +25,7 @@ export interface ThemeContextValue {
   toggle: () => void
   /**
    * The active preset palette name (e.g. `'aurora'`), or `null` for the default.
-   * Requires the optional `liquidkit/themes.css`. Written to `data-palette`,
+   * Requires the optional `@hamidrezazargham/liquidkit/themes.css`. Written to `data-palette`,
    * an axis orthogonal to light/dark — the toggle still switches mode.
    */
   palette: string | null

@@ -11,8 +11,8 @@
 
    This file is NOT part of the core stylesheet. Opt in:
 
-       import 'liquidkit/styles.css'   // required core
-       import 'liquidkit/themes.css'   // these presets
+       import '@hamidrezazargham/liquidkit/styles.css'   // required core
+       import '@hamidrezazargham/liquidkit/themes.css'   // these presets
 
    Then pick a palette by name — directly…
 

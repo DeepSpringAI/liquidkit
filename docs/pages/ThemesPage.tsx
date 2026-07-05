@@ -8,7 +8,7 @@ import {
   Switch,
   palettes,
   themePresets,
-} from 'liquidkit'
+} from '@hamidrezazargham/liquidkit'
 
 const PALETTE_LABEL = Object.fromEntries(themePresets.map((p) => [p.name, p.label]))
 
@@ -35,9 +35,7 @@ function DefaultModeSwatches({ mode }: { mode: 'light' | 'dark' }) {
   useEffect(() => {
     if (!ref.current) return
     const cs = getComputedStyle(ref.current)
-    setValues(
-      Object.fromEntries(DEFAULT_TOKENS.map((t) => [t, cs.getPropertyValue(t).trim()])),
-    )
+    setValues(Object.fromEntries(DEFAULT_TOKENS.map((t) => [t, cs.getPropertyValue(t).trim()])))
   }, [])
 
   return (
@@ -115,7 +113,11 @@ function PaletteCard({ name, label }: { name: string; label: string }) {
     <div className="doc-theme-card">
       <div className="doc-theme-card__head">
         <strong>{label}</strong>
-        {name ? <code>data-palette=&quot;{name}&quot;</code> : <code>base theme · no data-palette</code>}
+        {name ? (
+          <code>data-palette=&quot;{name}&quot;</code>
+        ) : (
+          <code>base theme · no data-palette</code>
+        )}
       </div>
       <div className="doc-theme-variants">
         <Vignette name={name} label={label} mode="light" />
@@ -143,8 +145,8 @@ export function ThemesPage() {
         unless you opt in:
         <pre style={{ margin: '10px 0 0' }}>
           <code>
-            {`import 'liquidkit/styles.css'   // required core
-import 'liquidkit/themes.css'   // these presets`}
+            {`import '@hamidrezazargham/liquidkit/styles.css'   // required core
+import '@hamidrezazargham/liquidkit/themes.css'   // these presets`}
           </code>
         </pre>
       </div>
@@ -171,16 +173,16 @@ import 'liquidkit/themes.css'   // these presets`}
 
       <div className="doc-callout" style={{ marginTop: 28 }}>
         Build a theme picker from the exported list:{' '}
-        <code>import {'{ themePresets }'} from 'liquidkit'</code> — each entry has <code>name</code>{' '}
-        and <code>label</code>. Try them live from the picker in the sidebar.
+        <code>import {'{ themePresets }'} from '@hamidrezazargham/liquidkit'</code> — each entry has{' '}
+        <code>name</code> and <code>label</code>. Try them live from the picker in the sidebar.
       </div>
 
       <section style={{ marginTop: 44 }}>
         <h2 style={{ margin: '0 0 6px' }}>The default theme</h2>
         <p className="doc-page__lead" style={{ fontSize: 15 }}>
-          The look you get out of the box — no <code>data-palette</code>, no{' '}
-          <code>themes.css</code> needed. It&apos;s defined by the core semantic tokens, so these are
-          the colors every component inherits by default. Here are its key colors in both modes:
+          The look you get out of the box — no <code>data-palette</code>, no <code>themes.css</code>{' '}
+          needed. It&apos;s defined by the core semantic tokens, so these are the colors every
+          component inherits by default. Here are its key colors in both modes:
         </p>
         <Card radius={18} style={{ marginTop: 18 }}>
           <div className="doc-token-modes">
@@ -202,7 +204,7 @@ import 'liquidkit/themes.css'   // these presets`}
           Another optional stylesheet — nothing ships unless you opt in:
           <pre style={{ margin: '10px 0 0' }}>
             <code>
-              {`import 'liquidkit/palettes.css'
+              {`import '@hamidrezazargham/liquidkit/palettes.css'
 
 .promo { background: var(--lk-amber-flame-amber); }`}
             </code>
@@ -215,7 +217,7 @@ import 'liquidkit/themes.css'   // these presets`}
         <Card radius={18} style={{ marginBottom: 28 }}>
           <pre style={{ margin: 0 }}>
             <code>
-              {`import { palettes } from 'liquidkit'
+              {`import { palettes } from '@hamidrezazargham/liquidkit'
 
 palettes.amber.flameAmber // '#F78358'`}
             </code>

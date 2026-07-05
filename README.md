@@ -1,6 +1,7 @@
 # LiquidKit
 
 [![CI](https://github.com/hamidrezazargham/liquidkit/actions/workflows/ci.yml/badge.svg)](https://github.com/hamidrezazargham/liquidkit/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/@hamidrezazargham/liquidkit.svg)](https://www.npmjs.com/package/@hamidrezazargham/liquidkit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 ![Types included](https://img.shields.io/badge/types-included-blue)
 ![Zero runtime deps](https://img.shields.io/badge/runtime%20deps-0-brightgreen)
@@ -10,8 +11,8 @@
 LiquidKit isn't "glassmorphism" (a blur and a border). Every surface runs a real-time **SVG displacement engine** that bends the content behind it like actual glass, with optional chromatic dispersion for that rainbow edge fringe. It gracefully degrades to a frosted blur where the engine isn't supported.
 
 ```tsx
-import { ThemeProvider, Button, Card } from 'liquidkit'
-import 'liquidkit/styles.css'
+import { ThemeProvider, Button, Card } from '@hamidrezazargham/liquidkit'
+import '@hamidrezazargham/liquidkit/styles.css'
 
 export default function App() {
   return (
@@ -30,17 +31,17 @@ export default function App() {
 ## Install
 
 ```bash
-npm install liquidkit
+npm install @hamidrezazargham/liquidkit
 # peer deps: react >= 18, react-dom >= 18
 ```
 
 Import the stylesheet once (it ships the design tokens + component CSS):
 
 ```ts
-import 'liquidkit/styles.css'
+import '@hamidrezazargham/liquidkit/styles.css'
 ```
 
-**Next.js / React Server Components.** The library is shipped as a client module (`"use client"`), so you can import components directly into App Router pages — render them inside client components as usual. Import `liquidkit/styles.css` once in your root layout.
+**Next.js / React Server Components.** The library is shipped as a client module (`"use client"`), so you can import components directly into App Router pages — render them inside client components as usual. Import `@hamidrezazargham/liquidkit/styles.css` once in your root layout.
 
 ---
 
@@ -77,7 +78,7 @@ LiquidKit is driven by CSS custom properties. Light is the default; `[data-theme
 **With the provider** (recommended — gives you `useTheme`):
 
 ```tsx
-import { ThemeProvider, useTheme, ThemeToggle } from 'liquidkit'
+import { ThemeProvider, useTheme, ThemeToggle } from '@hamidrezazargham/liquidkit'
 
 <ThemeProvider defaultMode="system" storageKey="theme">
   <ThemeToggle />            {/* pre-wired light/dark switch */}
@@ -116,8 +117,8 @@ picks light/dark, so any theme works in either mode. They live in an
 **optional** stylesheet, so they cost nothing unless you opt in:
 
 ```js
-import 'liquidkit/styles.css' // required core
-import 'liquidkit/themes.css' // adds the presets
+import '@hamidrezazargham/liquidkit/styles.css' // required core
+import '@hamidrezazargham/liquidkit/themes.css' // adds the presets
 ```
 
 Pick a palette by name — directly, or through the provider (the toggle still
@@ -133,7 +134,7 @@ Built in: `aurora`, `indigo`, `orchid`, `amber`, `glacier`, `rose`. The list is
 exported so you can build a theme picker:
 
 ```jsx
-import { themePresets } from 'liquidkit' // [{ name, label }, …]
+import { themePresets } from '@hamidrezazargham/liquidkit' // [{ name, label }, …]
 ```
 
 ### Raw palette swatches
@@ -144,12 +145,12 @@ preset are exposed on their own — as a JS value and a CSS variable. These are
 building your own surfaces:
 
 ```js
-import { palettes } from 'liquidkit'
+import { palettes } from '@hamidrezazargham/liquidkit'
 palettes.amber.flameAmber // '#F78358'
 ```
 
 ```js
-import 'liquidkit/palettes.css' // optional, opt-in
+import '@hamidrezazargham/liquidkit/palettes.css' // optional, opt-in
 
 /* .promo { background: var(--lk-amber-flame-amber); } */
 ```
@@ -211,7 +212,7 @@ Every component composes this primitive. Use it directly for custom surfaces.
 **Templates** — full, prop-driven screens: `LandingHero`, `WaitlistPage`, `PricingPage`, `DashboardShell`, plus device frames `PhoneFrame` (iOS) and `MacWindow` (macOS) for mocking app screens.
 
 ```tsx
-import { PricingPage } from 'liquidkit'
+import { PricingPage } from '@hamidrezazargham/liquidkit'
 
 <PricingPage
   title="Pricing"

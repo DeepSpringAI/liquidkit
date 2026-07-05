@@ -3,10 +3,10 @@
  * strings grouped by palette. Use these when you need an individual color in JS/TS;
  * for whole-UI theming use `themePresets` + `data-palette` (see ./presets).
  *
- *     import { palettes } from 'liquidkit'
+ *     import { palettes } from '@hamidrezazargham/liquidkit'
  *     palettes.amber.flameAmber // '#F78358'
  *
- * The matching CSS custom properties ship in the opt-in `liquidkit/palettes.css`
+ * The matching CSS custom properties ship in the opt-in `@hamidrezazargham/liquidkit/palettes.css`
  * as `--lk-<palette>-<swatch>` (e.g. `--lk-amber-flame-amber`). Keys never repeat
  * the palette name: `amber-taupe` is `palettes.amber.taupe`.
  *

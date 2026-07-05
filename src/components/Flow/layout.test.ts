@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { layoutFlow } from 'liquidkit'
-import type { FlowNodeData } from 'liquidkit'
+import { layoutFlow } from '@hamidrezazargham/liquidkit'
+import type { FlowNodeData } from '@hamidrezazargham/liquidkit'
 
 const node = (id: string): FlowNodeData => ({ id, x: 0, y: 0, title: id })
 

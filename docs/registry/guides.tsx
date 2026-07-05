@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { CodeBlock } from '../ui/CodeBlock'
 import { PropsTable } from '../ui/PropsTable'
-import { LiquidGlass, Button, Badge } from 'liquidkit'
+import { LiquidGlass, Button, Badge } from '@hamidrezazargham/liquidkit'
 
 export interface GuideDoc {
   slug: string
@@ -96,16 +96,16 @@ const installation: GuideDoc = {
       <h2>1. Install</h2>
       <CodeBlock
         lang="bash"
-        code={`npm install liquidkit
+        code={`npm install @hamidrezazargham/liquidkit
 # or
-pnpm add liquidkit
+pnpm add @hamidrezazargham/liquidkit
 # or
-yarn add liquidkit`}
+yarn add @hamidrezazargham/liquidkit`}
       />
 
       <h2>2. Import the stylesheet</h2>
       <p>Import the CSS once, at the root of your app:</p>
-      <CodeBlock lang="ts" code={`import 'liquidkit/styles.css'`} />
+      <CodeBlock lang="ts" code={`import '@hamidrezazargham/liquidkit/styles.css'`} />
 
       <h2>3. Wrap your app &amp; use a component</h2>
       <p>
@@ -113,8 +113,8 @@ yarn add liquidkit`}
         drop in any component.
       </p>
       <CodeBlock
-        code={`import 'liquidkit/styles.css'
-import { ThemeProvider, Button, Card } from 'liquidkit'
+        code={`import '@hamidrezazargham/liquidkit/styles.css'
+import { ThemeProvider, Button, Card } from '@hamidrezazargham/liquidkit'
 
 export default function App() {
   return (
@@ -197,7 +197,7 @@ const theming: GuideDoc = {
         <a href="#/components/theme-toggle">ThemeToggle</a>.
       </p>
       <CodeBlock
-        code={`import { useTheme } from 'liquidkit'
+        code={`import { useTheme } from '@hamidrezazargham/liquidkit'
 
 function Header() {
   const { theme, mode, setMode, toggle } = useTheme()
@@ -441,7 +441,7 @@ const motion: GuideDoc = {
         you scroll up or reach the top.
       </p>
       <CodeBlock
-        code={`import { useReducedMotion, useScrollDirection } from 'liquidkit'
+        code={`import { useReducedMotion, useScrollDirection } from '@hamidrezazargham/liquidkit'
 
 function Chrome() {
   const reduced = useReducedMotion()

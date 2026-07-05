@@ -1,7 +1,7 @@
 // Copy the optional stylesheets into the published bundle.
 // The lib build emits only the core `liquidkit.css` from the single entry;
 // the preset themes and raw palette swatches ship as separate, opt-in
-// `liquidkit/themes.css` and `liquidkit/palettes.css`.
+// `@hamidrezazargham/liquidkit/themes.css` and `@hamidrezazargham/liquidkit/palettes.css`.
 // Run after `vite build --mode lib` (which empties dist/).
 import { copyFileSync, existsSync, mkdirSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'

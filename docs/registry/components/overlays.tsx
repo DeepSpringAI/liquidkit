@@ -14,7 +14,7 @@ import {
   EllipsisIcon,
   CheckIcon,
   CloseIcon,
-} from 'liquidkit'
+} from '@hamidrezazargham/liquidkit'
 import type { ComponentDoc } from '../types'
 
 function ModalDemo() {
@@ -51,7 +51,7 @@ export const modalDoc: ComponentDoc = {
   category: 'Overlays',
   summary:
     'A portal-rendered dialog on a glass surface, with a blurred scrim, Escape-to-close, scroll lock and a footer slot.',
-  importLine: "import { Modal } from 'liquidkit'",
+  importLine: "import { Modal } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Dialog',
@@ -143,7 +143,7 @@ export const sheetDoc: ComponentDoc = {
   category: 'Overlays',
   summary:
     'The iOS bottom sheet — a glass panel that springs up and snaps between detents. Drag the grabber to resize, pull down to dismiss.',
-  importLine: "import { Sheet } from 'liquidkit'",
+  importLine: "import { Sheet } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Detented sheet',
@@ -202,7 +202,7 @@ export const menuDoc: ComponentDoc = {
   category: 'Overlays',
   summary:
     'A dropdown action menu anchored to its trigger — icons, checkmarks, dividers and destructive items, with click-outside and Escape to close.',
-  importLine: "import { Menu } from 'liquidkit'",
+  importLine: "import { Menu } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Action menu',
@@ -269,7 +269,7 @@ export const popoverDoc: ComponentDoc = {
   category: 'Overlays',
   summary:
     'A floating glass panel with an arrow, anchored to its trigger. Place it on any side, open on click or hover.',
-  importLine: "import { Popover } from 'liquidkit'",
+  importLine: "import { Popover } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Anchored panel',
@@ -372,7 +372,7 @@ export const toastDoc: ComponentDoc = {
   category: 'Overlays',
   summary:
     'Transient glass notifications. Wrap your app in ToastProvider, then call useToast().toast() — they spring in and auto-dismiss.',
-  importLine: "import { ToastProvider, useToast } from 'liquidkit'",
+  importLine: "import { ToastProvider, useToast } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Fire a toast',

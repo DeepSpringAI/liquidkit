@@ -62,7 +62,7 @@ import {
   type FlowEdgeData,
   type FlowNodeData,
   type MenuItem,
-} from 'liquidkit'
+} from '@hamidrezazargham/liquidkit'
 
 export function LandingScene() {
   return (

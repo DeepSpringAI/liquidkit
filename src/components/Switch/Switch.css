@@ -34,7 +34,6 @@
   transition: filter var(--lk-duration) var(--lk-ease);
 }
 
-
 /* The thumb is itself a glass pill: a bright specular rim with chromatic
    dispersion at the edges, carrying the icon. It slides along the track. */
 .lk-switch__thumb {

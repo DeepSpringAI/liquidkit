@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/react'
-import { ChartCard, ThemeProvider } from 'liquidkit'
+import { ChartCard, ThemeProvider } from '@hamidrezazargham/liquidkit'
 
 const MONTHS = [
   'January',
@@ -21,11 +21,7 @@ describe('ChartCard labels', () => {
   it('renders one label per column and exposes the full name via title for hover', () => {
     const { container } = render(
       <ThemeProvider>
-        <ChartCard
-          value="$1.2M"
-          data={MONTHS.map((_, i) => i)}
-          labels={MONTHS}
-        />
+        <ChartCard value="$1.2M" data={MONTHS.map((_, i) => i)} labels={MONTHS} />
       </ThemeProvider>,
     )
 

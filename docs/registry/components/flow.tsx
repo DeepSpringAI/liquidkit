@@ -13,7 +13,7 @@ import {
   type FlowNodeData,
   type FlowEdgeData,
   type MenuItem,
-} from 'liquidkit'
+} from '@hamidrezazargham/liquidkit'
 import type { ReactNode } from 'react'
 import type { ComponentDoc } from '../types'
 
@@ -91,7 +91,7 @@ export const flowCanvasDoc: ComponentDoc = {
   category: 'Flow',
   summary:
     'A pannable, zoomable node canvas for building n8n-style workflow diagrams — glass nodes joined by glowing connectors, with drag-to-reposition, selection and right-click menus.',
-  importLine: "import { FlowCanvas, FlowMinimap } from 'liquidkit'",
+  importLine: "import { FlowCanvas, FlowMinimap } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Workflow diagram',
@@ -189,7 +189,7 @@ export const flowNodeDoc: ComponentDoc = {
   category: 'Flow',
   summary:
     'A glass workflow node — a rounded card with icon, title, subtitle and status, or a circular glowing hub for a core/trigger node.',
-  importLine: "import { FlowNode } from 'liquidkit'",
+  importLine: "import { FlowNode } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Card & hub variants',
@@ -271,7 +271,7 @@ export const flowEdgeDoc: ComponentDoc = {
   category: 'Flow',
   summary:
     'A single glowing gradient bezier connector, drawn inside the canvas SVG layer, with an optional flowing dash and a centered label pill.',
-  importLine: "import { FlowEdge } from 'liquidkit'",
+  importLine: "import { FlowEdge } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Connectors',
@@ -321,7 +321,7 @@ export const flowControlsDoc: ComponentDoc = {
   category: 'Flow',
   summary:
     'A glass pill with zoom-in, zoom-out and fit-to-view buttons for a FlowCanvas. Renders inside the canvas.',
-  importLine: "import { FlowControls } from 'liquidkit'",
+  importLine: "import { FlowControls } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'In a canvas',
@@ -356,7 +356,7 @@ export const flowMinimapDoc: ComponentDoc = {
   category: 'Flow',
   summary:
     'A scaled overview of the canvas with a viewport indicator; click to recenter. Renders inside the canvas.',
-  importLine: "import { FlowMinimap } from 'liquidkit'",
+  importLine: "import { FlowMinimap } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'In a canvas',

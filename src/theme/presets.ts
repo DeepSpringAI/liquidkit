@@ -1,12 +1,12 @@
 /**
- * Built-in preset palettes shipped in `liquidkit/themes.css`.
+ * Built-in preset palettes shipped in `@hamidrezazargham/liquidkit/themes.css`.
  *
  * Each palette has a full light AND dark variant — it's an axis orthogonal to
  * light/dark, so the mode toggle switches between a theme's two looks. To use
  * them, opt into the optional stylesheet and pick a palette by name:
  *
- *     import 'liquidkit/styles.css'
- *     import 'liquidkit/themes.css'
+ *     import '@hamidrezazargham/liquidkit/styles.css'
+ *     import '@hamidrezazargham/liquidkit/themes.css'
  *
  *     <ThemeProvider defaultMode="dark" defaultPalette="aurora"> … </ThemeProvider>
  *     // or, without the provider:
@@ -14,7 +14,7 @@
  *
  * This list is data so you can build a theme picker:
  *
- *     import { themePresets } from 'liquidkit'
+ *     import { themePresets } from '@hamidrezazargham/liquidkit'
  *     themePresets.map((p) => <option value={p.name}>{p.label}</option>)
  */
 export interface ThemePreset {

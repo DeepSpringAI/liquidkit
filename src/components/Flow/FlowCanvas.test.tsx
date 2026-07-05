@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { FlowCanvas, ThemeProvider } from 'liquidkit'
-import type { FlowNodeData, FlowEdgeData, MenuItem } from 'liquidkit'
+import { FlowCanvas, ThemeProvider } from '@hamidrezazargham/liquidkit'
+import type { FlowNodeData, FlowEdgeData, MenuItem } from '@hamidrezazargham/liquidkit'
 
 const nodes: FlowNodeData[] = [
   { id: 'a', x: 0, y: 0, title: 'Trigger' },

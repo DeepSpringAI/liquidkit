@@ -6,9 +6,9 @@ import { resolve } from 'node:path'
 // independent of the lib/site build branches.
 export default defineConfig({
   plugins: [react()],
-  // The docs registry (used by the smoke suite) imports from 'liquidkit'.
+  // The docs registry (used by the smoke suite) imports from '@hamidrezazargham/liquidkit'.
   resolve: {
-    alias: { liquidkit: resolve(__dirname, 'src/index.ts') },
+    alias: { '@hamidrezazargham/liquidkit': resolve(__dirname, 'src/index.ts') },
   },
   test: {
     environment: 'jsdom',

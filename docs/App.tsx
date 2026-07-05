@@ -1,5 +1,12 @@
 import { useState } from 'react'
-import { ThemeProvider, ThemeToggle, Button, LiquidGlass, cx, ArrowRightIcon } from 'liquidkit'
+import {
+  ThemeProvider,
+  ThemeToggle,
+  Button,
+  LiquidGlass,
+  cx,
+  ArrowRightIcon,
+} from '@hamidrezazargham/liquidkit'
 import { useHashRoute, navigate } from './router'
 import { Sidebar } from './ui/Sidebar'
 import { Home } from './pages/Home'

@@ -44,7 +44,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     resolve: {
-      alias: { liquidkit: resolve(__dirname, 'src/index.ts') },
+      alias: { '@hamidrezazargham/liquidkit': resolve(__dirname, 'src/index.ts') },
     },
     build: { outDir: 'dist-site' },
     server: {

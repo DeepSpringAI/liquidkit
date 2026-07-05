@@ -15,7 +15,7 @@ import {
   BellIcon,
   CheckIcon,
   CloseIcon,
-} from 'liquidkit'
+} from '@hamidrezazargham/liquidkit'
 import type { ComponentDoc } from '../types'
 
 /* ---------------------------------------------------------------- Button */
@@ -25,7 +25,7 @@ export const buttonDoc: ComponentDoc = {
   name: 'Button',
   category: 'Actions',
   summary: 'Glass, accent and ghost buttons with optional chromatic glow ring, icons and sizes.',
-  importLine: "import { Button } from 'liquidkit'",
+  importLine: "import { Button } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Variants',
@@ -128,7 +128,7 @@ export const iconButtonDoc: ComponentDoc = {
   name: 'IconButton',
   category: 'Actions',
   summary: 'A circular, icon-only button. Requires an aria-label for accessibility.',
-  importLine: "import { IconButton } from 'liquidkit'",
+  importLine: "import { IconButton } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Icon buttons',
@@ -196,7 +196,7 @@ export const switchDoc: ComponentDoc = {
   name: 'Switch',
   category: 'Actions',
   summary: 'A glass toggle with a sliding thumb, optional thumb icons and an accent glow.',
-  importLine: "import { Switch } from 'liquidkit'",
+  importLine: "import { Switch } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Toggles',
@@ -252,13 +252,13 @@ export const themeToggleDoc: ComponentDoc = {
   category: 'Actions',
   summary:
     'A purpose-built sun / moon theme switch (its own component, not a Switch). Must live inside a ThemeProvider.',
-  importLine: "import { ThemeToggle } from 'liquidkit'",
+  importLine: "import { ThemeToggle } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Toggle the theme',
       description: 'This very toggle controls the whole docs site — try it.',
       demo: <ThemeToggle />,
-      code: `import { ThemeProvider, ThemeToggle } from 'liquidkit'
+      code: `import { ThemeProvider, ThemeToggle } from '@hamidrezazargham/liquidkit'
 
 <ThemeProvider defaultMode="system">
   <ThemeToggle />
@@ -297,7 +297,7 @@ export const sliderDoc: ComponentDoc = {
   name: 'Slider',
   category: 'Actions',
   summary: 'A range input with a gradient fill and a glass thumb.',
-  importLine: "import { Slider } from 'liquidkit'",
+  importLine: "import { Slider } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Controlled slider',
@@ -350,7 +350,7 @@ export const tabsDoc: ComponentDoc = {
   name: 'Tabs',
   category: 'Actions',
   summary: 'A segmented control with a sliding glass indicator.',
-  importLine: "import { Tabs } from 'liquidkit'",
+  importLine: "import { Tabs } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Segmented tabs',
@@ -408,7 +408,7 @@ export const selectDoc: ComponentDoc = {
   name: 'Select',
   category: 'Actions',
   summary: 'A dropdown with a glass popover menu. Closes on outside-click or Escape.',
-  importLine: "import { Select } from 'liquidkit'",
+  importLine: "import { Select } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Select an option',

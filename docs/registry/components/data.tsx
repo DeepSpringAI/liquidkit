@@ -21,7 +21,7 @@ import {
   MoonIcon,
   SparkleIcon,
   SendIcon,
-} from 'liquidkit'
+} from '@hamidrezazargham/liquidkit'
 import type { ComponentDoc } from '../types'
 
 /* ----------------------------------------------------------------- Badge */
@@ -31,7 +31,7 @@ export const badgeDoc: ComponentDoc = {
   name: 'Badge',
   category: 'Data Display',
   summary: 'Small status pills in glass and semantic colors, with an optional leading dot.',
-  importLine: "import { Badge } from 'liquidkit'",
+  importLine: "import { Badge } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Variants',
@@ -78,7 +78,7 @@ export const avatarDoc: ComponentDoc = {
   category: 'Data Display',
   summary:
     'A user image with initials fallback, status dot, glass ring — and an AvatarGroup for stacks.',
-  importLine: "import { Avatar, AvatarGroup } from 'liquidkit'",
+  importLine: "import { Avatar, AvatarGroup } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Single avatars',
@@ -155,7 +155,7 @@ export const progressDoc: ComponentDoc = {
   name: 'Progress',
   category: 'Data Display',
   summary: 'A bar or ring progress indicator with an optional chromatic glow.',
-  importLine: "import { Progress } from 'liquidkit'",
+  importLine: "import { Progress } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Bar & ring',
@@ -202,7 +202,7 @@ export const tooltipDoc: ComponentDoc = {
   name: 'Tooltip',
   category: 'Data Display',
   summary: 'A frosted-glass tooltip shown on hover or focus. Wraps any single element.',
-  importLine: "import { Tooltip } from 'liquidkit'",
+  importLine: "import { Tooltip } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Sides',
@@ -247,7 +247,7 @@ export const chartCardDoc: ComponentDoc = {
   name: 'ChartCard',
   category: 'Data Display',
   summary: 'A glass card with a smooth, glowing area line chart drawn from a number array.',
-  importLine: "import { ChartCard } from 'liquidkit'",
+  importLine: "import { ChartCard } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Trend chart',
@@ -340,7 +340,7 @@ export const statTileDoc: ComponentDoc = {
   name: 'StatTile',
   category: 'Data Display',
   summary: 'A square metric tile with a strong colored glow and a delta indicator.',
-  importLine: "import { StatTile } from 'liquidkit'",
+  importLine: "import { StatTile } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Metric tiles',
@@ -393,7 +393,7 @@ export const pricingCardDoc: ComponentDoc = {
   name: 'PricingCard',
   category: 'Data Display',
   summary: 'A glass pricing tier with a feature list, optional “popular” highlight and a CTA.',
-  importLine: "import { PricingCard } from 'liquidkit'",
+  importLine: "import { PricingCard } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Pricing tiers',
@@ -495,7 +495,7 @@ export const listDoc: ComponentDoc = {
   category: 'Data Display',
   summary:
     'The iOS grouped, inset list — the Settings surface. Rows carry a colored leading tile, title/subtitle, trailing detail or a control, and a disclosure chevron.',
-  importLine: "import { List, ListRow } from 'liquidkit'",
+  importLine: "import { List, ListRow } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Settings group',
@@ -610,7 +610,7 @@ export const tableDoc: ComponentDoc = {
   category: 'Data Display',
   summary:
     'A data table on a glass surface — custom cell renderers, per-column alignment, optional zebra striping and row hover.',
-  importLine: "import { Table } from 'liquidkit'",
+  importLine: "import { Table } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Team table',
@@ -730,7 +730,7 @@ export const tileDoc: ComponentDoc = {
   category: 'Data Display',
   summary:
     'The iOS Control Center tile — a glass square with an icon badge and label that toggles on/off, the badge filling with a system color when active.',
-  importLine: "import { Tile } from 'liquidkit'",
+  importLine: "import { Tile } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Control Center toggles',

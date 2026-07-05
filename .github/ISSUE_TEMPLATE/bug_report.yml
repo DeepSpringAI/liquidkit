@@ -1,0 +1,44 @@
+name: Bug report
+description: Report something that isn't working as expected
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to file a bug! Please fill out the sections below.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: Steps to reproduce, or a link to a minimal repro (StackBlitz/CodeSandbox).
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: LiquidKit version
+      placeholder: e.g. 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser(s)
+      multiple: true
+      options:
+        - Chrome
+        - Safari
+        - Firefox
+        - Edge
+        - Other
+  - type: textarea
+    id: context
+    attributes:
+      label: Environment
+      description: React version, bundler (Vite/Next/etc.), OS — anything relevant.

@@ -42,7 +42,7 @@ import {
   WebhookIcon,
   FilterIcon,
   WorkflowIcon,
-} from 'liquidkit'
+} from '@hamidrezazargham/liquidkit'
 
 const ICONS: [string, typeof HomeIcon][] = [
   ['ArrowRightIcon', ArrowRightIcon],

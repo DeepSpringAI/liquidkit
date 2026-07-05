@@ -22,7 +22,7 @@ import {
   FolderIcon,
   HashIcon,
   ClockIcon,
-} from 'liquidkit'
+} from '@hamidrezazargham/liquidkit'
 import type { ComponentDoc } from '../types'
 
 /* ------------------------------------------------------------------ Dock */
@@ -50,7 +50,7 @@ export const dockDoc: ComponentDoc = {
   name: 'Dock',
   category: 'Navigation',
   summary: 'A floating icon dock / tab bar. Horizontal or vertical, with an active highlight.',
-  importLine: "import { Dock } from 'liquidkit'",
+  importLine: "import { Dock } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Horizontal dock',
@@ -159,7 +159,7 @@ export const sidebarDoc: ComponentDoc = {
   category: 'Navigation',
   summary:
     'The macOS source-list sidebar — sectioned navigation with icons, badges, an accent selection, and header / footer slots.',
-  importLine: "import { Sidebar } from 'liquidkit'",
+  importLine: "import { Sidebar } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Source list',
@@ -261,7 +261,7 @@ export const navigationBarDoc: ComponentDoc = {
   category: 'Navigation',
   summary:
     'The iOS large-title navigation bar — a glass header whose large title collapses into a centered inline title as the content scrolls, with leading/trailing actions and an optional search row.',
-  importLine: "import { NavigationBar } from 'liquidkit'",
+  importLine: "import { NavigationBar } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Large title (scroll to collapse)',
@@ -346,7 +346,7 @@ export const tabBarDoc: ComponentDoc = {
   category: 'Navigation',
   summary:
     'The iOS 26 floating tab bar — a glass capsule of icon + label tabs with badges, accent-tinted selection, and an optional scroll-reactive condense.',
-  importLine: "import { TabBar } from 'liquidkit'",
+  importLine: "import { TabBar } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Floating tab bar',
@@ -422,7 +422,7 @@ export const toolbarDoc: ComponentDoc = {
   name: 'Toolbar',
   category: 'Navigation',
   summary: 'A horizontal action bar with icon buttons and prominent primary (accent) actions.',
-  importLine: "import { Toolbar } from 'liquidkit'",
+  importLine: "import { Toolbar } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Editor toolbar',
@@ -472,7 +472,7 @@ export const navBarDoc: ComponentDoc = {
   name: 'NavBar',
   category: 'Navigation',
   summary: 'A floating top navigation bar with a brand, links and an actions slot.',
-  importLine: "import { NavBar } from 'liquidkit'",
+  importLine: "import { NavBar } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'App nav',

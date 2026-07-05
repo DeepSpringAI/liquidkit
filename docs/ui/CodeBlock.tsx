@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CheckIcon } from 'liquidkit'
+import { CheckIcon } from '@hamidrezazargham/liquidkit'
 import { Highlighted } from './highlight'
 
 const CopyIcon = () => (

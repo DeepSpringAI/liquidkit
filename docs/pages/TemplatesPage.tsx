@@ -1,4 +1,4 @@
-import { Button, Card, ArrowUpRightIcon } from 'liquidkit'
+import { Button, Card, ArrowUpRightIcon } from '@hamidrezazargham/liquidkit'
 import { scenes } from '../scenes'
 
 export function TemplatesPage() {
@@ -33,7 +33,7 @@ export function TemplatesPage() {
 
       <div className="doc-callout" style={{ marginTop: 28 }}>
         Import any template from the package root, e.g.{' '}
-        <code>import {'{ LandingHero, PricingPage }'} from 'liquidkit'</code>.
+        <code>import {'{ LandingHero, PricingPage }'} from '@hamidrezazargham/liquidkit'</code>.
       </div>
     </article>
   )

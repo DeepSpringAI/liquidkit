@@ -1,5 +1,5 @@
 {
-  "name": "liquidkit",
+  "name": "@hamidrezazargham/liquidkit",
   "version": "0.1.0",
   "description": "Liquid Glass UI component library for React — true refraction, chromatic dispersion, light & dark.",
   "type": "module",

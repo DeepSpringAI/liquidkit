@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Input, SearchIcon } from 'liquidkit'
-import { cx } from 'liquidkit'
+import { Input, SearchIcon } from '@hamidrezazargham/liquidkit'
+import { cx } from '@hamidrezazargham/liquidkit'
 import { buildNav } from '../registry'
 import { ThemePicker } from './ThemePicker'
 

@@ -1,6 +1,6 @@
 import type { DocExample } from '../registry/types'
 import { CodeBlock } from './CodeBlock'
-import { cx } from 'liquidkit'
+import { cx } from '@hamidrezazargham/liquidkit'
 
 export function Example({ example }: { example: DocExample }) {
   const { title, description, demo, code, stage = true, wide = false, overflow = false } = example

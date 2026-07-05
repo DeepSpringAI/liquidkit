@@ -10,7 +10,7 @@ import {
   SparkleIcon,
   CubeIcon,
   SunIcon,
-} from 'liquidkit'
+} from '@hamidrezazargham/liquidkit'
 import { CodeBlock } from '../ui/CodeBlock'
 
 function Feature({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
@@ -113,10 +113,10 @@ export function Home() {
             Read the guide
           </Button>
         </div>
-        <CodeBlock code={`npm install liquidkit`} lang="bash" />
+        <CodeBlock code={`npm install @hamidrezazargham/liquidkit`} lang="bash" />
         <CodeBlock
-          code={`import 'liquidkit/styles.css'
-import { ThemeProvider, Button } from 'liquidkit'
+          code={`import '@hamidrezazargham/liquidkit/styles.css'
+import { ThemeProvider, Button } from '@hamidrezazargham/liquidkit'
 
 export default () => (
   <ThemeProvider>

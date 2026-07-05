@@ -12,7 +12,7 @@ import {
   SendIcon,
   ImageIcon,
   SparkleIcon,
-} from 'liquidkit'
+} from '@hamidrezazargham/liquidkit'
 import type { ComponentDoc } from '../types'
 
 /* ----------------------------------------------------------------- Input */
@@ -22,7 +22,7 @@ export const inputDoc: ComponentDoc = {
   name: 'Input',
   category: 'Inputs',
   summary: 'A text field on a glass surface, with optional leading / trailing icons.',
-  importLine: "import { Input } from 'liquidkit'",
+  importLine: "import { Input } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'With icons',
@@ -88,7 +88,7 @@ export const searchFieldDoc: ComponentDoc = {
   category: 'Inputs',
   summary:
     'The iOS search bar — a rounded fill with a leading magnifier and an in-field clear (×) button that can double as a cancel action.',
-  importLine: "import { SearchField } from 'liquidkit'",
+  importLine: "import { SearchField } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Search bar',
@@ -136,7 +136,11 @@ export const searchFieldDoc: ComponentDoc = {
       default: 'false',
       description: 'Make the in-field × also dismiss the keyboard (blur) as a cancel.',
     },
-    { name: 'onCancel', type: '() => void', description: 'Fires when the × is pressed (cancelable).' },
+    {
+      name: 'onCancel',
+      type: '() => void',
+      description: 'Fires when the × is pressed (cancelable).',
+    },
     { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Control size.' },
     {
       name: '...input',
@@ -159,7 +163,7 @@ export const stepperDoc: ComponentDoc = {
   category: 'Inputs',
   summary:
     'The iOS −/+ stepper, optionally showing the current value. Clamps to min / max and steps by step.',
-  importLine: "import { Stepper } from 'liquidkit'",
+  importLine: "import { Stepper } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'With value',
@@ -248,7 +252,7 @@ export const commandBarDoc: ComponentDoc = {
   category: 'Inputs',
   summary:
     'An auto-growing prompt field with leading, trailing and footer slots — the AI-composer surface. Enter submits, Shift+Enter adds a line.',
-  importLine: "import { CommandBar } from 'liquidkit'",
+  importLine: "import { CommandBar } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'AI composer',

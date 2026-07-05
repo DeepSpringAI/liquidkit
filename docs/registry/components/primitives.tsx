@@ -1,4 +1,4 @@
-import { LiquidGlass, Card, Button, ArrowRightIcon } from 'liquidkit'
+import { LiquidGlass, Card, Button, ArrowRightIcon } from '@hamidrezazargham/liquidkit'
 import type { ComponentDoc } from '../types'
 
 export const liquidGlassDoc: ComponentDoc = {
@@ -7,7 +7,7 @@ export const liquidGlassDoc: ComponentDoc = {
   category: 'Primitives',
   summary:
     'The core surface every other component is built on. It refracts the live content behind it through an SVG displacement filter — real lensing at the edges, not just a blur.',
-  importLine: "import { LiquidGlass } from 'liquidkit'",
+  importLine: "import { LiquidGlass } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'A glass panel',
@@ -182,7 +182,7 @@ export const cardDoc: ComponentDoc = {
   name: 'Card',
   category: 'Primitives',
   summary: 'A glass surface with sensible padding presets — the workhorse container for content.',
-  importLine: "import { Card } from 'liquidkit'",
+  importLine: "import { Card } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Basic card',

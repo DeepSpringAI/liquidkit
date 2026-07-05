@@ -1,4 +1,4 @@
-import { Select, useTheme, themePresets, type SelectOption } from 'liquidkit'
+import { Select, useTheme, themePresets, type SelectOption } from '@hamidrezazargham/liquidkit'
 
 const OPTIONS: SelectOption[] = [
   { value: '', label: 'Default' },
