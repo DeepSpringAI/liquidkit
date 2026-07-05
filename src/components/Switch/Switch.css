@@ -50,6 +50,23 @@
   align-items: center;
   justify-content: center;
 }
+/* off pill: a dark glass with a low tint — present but not heavy/tense */
+.lk-switch:not([data-checked='true']) .lk-switch__thumb .lk-glass__tint {
+  background: rgba(10, 13, 20, 0.28);
+}
+/* on pill: light mode keeps the solid accent. */
+[data-theme='light'] .lk-switch[data-checked='true'] .lk-switch__thumb .lk-glass__tint {
+  background: var(--lk-accent);
+}
+/* dark mode: the on pill is exactly the LiquidGlass "accent" tint tile —
+   a translucent accent glass (--lk-accent-soft), no solid fill. */
+[data-theme='dark'] .lk-switch[data-checked='true'] .lk-switch__thumb .lk-glass__tint {
+  background: var(--lk-accent-soft);
+}
+/* light mode: nudge the surface a touch darker so the pills contrast more */
+[data-theme='light'] .lk-switch__track.lk-glass .lk-glass__tint {
+  background: color-mix(in srgb, var(--lk-fg) 12%, transparent);
+}
 
 .lk-switch--sm .lk-switch__thumb {
   width: 26px;
@@ -61,11 +78,16 @@
   width: 42px;
 }
 
+/* icon: dimmer/darker when off (theme-aware so it stays visible on the dark
+   off pill), bright when on */
 .lk-switch__thumb-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--lk-fg-muted);
+}
+.lk-switch[data-checked='true'] .lk-switch__thumb-icon {
+  color: #f4f7fb;
 }
 .lk-switch--sm .lk-switch__thumb-icon svg {
   width: 12px;

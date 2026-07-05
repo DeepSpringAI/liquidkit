@@ -76,7 +76,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
           pill
           elevation={1}
           material="ultraThin"
-          tint="dark"
+          tint="auto"
           sheen={false}
           refraction={26}
           dispersion={3}
