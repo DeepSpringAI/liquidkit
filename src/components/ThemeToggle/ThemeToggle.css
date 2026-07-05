@@ -77,12 +77,13 @@
   height: 18px;
 }
 
-/* the active side lights up in the current theme's accent */
+/* fixed, palette-neutral colours: a dark slate sun on the white disc, a
+   silvery moon on the dark disc */
 .lk-theme-toggle[data-mode='light'] .lk-theme-toggle__glyph--sun {
-  color: var(--lk-accent);
+  color: #3a3f4a;
 }
 .lk-theme-toggle[data-mode='dark'] .lk-theme-toggle__glyph--moon {
-  color: var(--lk-accent);
+  color: #e3e8f2;
 }
 
 /* ---- sliding highlight disc that spotlights the active glyph ---- */
@@ -113,21 +114,20 @@
   height: 30px;
 }
 
-/* light: a light glass disc with a theme-accent glow, on the left */
+/* light: a plain white disc on the left */
 .lk-theme-toggle[data-mode='light'] .lk-theme-toggle__highlight {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.72));
+  background: linear-gradient(180deg, #ffffff, #f1f4f9);
   box-shadow:
     0 2px 6px rgba(0, 0, 0, 0.18),
-    0 0 10px 1px var(--lk-accent-soft),
-    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+    inset 0 1px 1px rgba(255, 255, 255, 0.95);
 }
-/* dark: a dark glass disc with a theme-accent glow, slid to the right */
+/* dark: a silvery moon button that shines with a soft cool glow */
 .lk-theme-toggle[data-mode='dark'] .lk-theme-toggle__highlight {
-  background: linear-gradient(180deg, rgba(48, 52, 66, 0.96), rgba(28, 30, 42, 0.92));
+  background: linear-gradient(180deg, rgba(64, 70, 88, 0.96), rgba(34, 38, 52, 0.94));
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.5),
-    0 0 12px 1px var(--lk-accent-soft),
-    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    0 0 14px 2px rgba(214, 224, 250, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
 }
 .lk-theme-toggle--sm[data-mode='dark'] .lk-theme-toggle__highlight {
   transform: translate(28px, -50%);
