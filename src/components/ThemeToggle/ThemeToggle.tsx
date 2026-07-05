@@ -1,16 +1,13 @@
 import { forwardRef } from 'react'
-import { Switch, type SwitchProps } from '../Switch/Switch'
+import type { ButtonHTMLAttributes } from 'react'
+import { LiquidGlass } from '../../core/LiquidGlass'
 import { useTheme } from '../../theme/ThemeProvider'
+import { cx } from '../../utils/cx'
+import './ThemeToggle.css'
 
 function SunIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
       <circle cx="12" cy="12" r="4" />
       <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
     </svg>
@@ -25,24 +22,57 @@ function MoonIcon() {
   )
 }
 
-export type ThemeToggleProps = Omit<SwitchProps, 'checked' | 'onChange' | 'iconOn' | 'iconOff'>
+export type ThemeToggleSize = 'sm' | 'md' | 'lg'
 
-/** A pre-wired light/dark switch. Must be used within a ThemeProvider. */
+export interface ThemeToggleProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'> {
+  /** @default 'md' */
+  size?: ThemeToggleSize
+}
+
+/**
+ * A purpose-built light/dark theme switch — its own component, independent of
+ * Switch. Shows a sun and a moon on the rail; a sliding glass highlight
+ * spotlights the active one (warm for light, cool for dark). Must live inside
+ * a ThemeProvider.
+ */
 export const ThemeToggle = forwardRef<HTMLButtonElement, ThemeToggleProps>(function ThemeToggle(
-  { glow = true, ...props },
+  { size = 'md', className, ...props },
   ref,
 ) {
   const { theme, toggle } = useTheme()
+  const dark = theme === 'dark'
   return (
-    <Switch
+    <button
       ref={ref}
-      checked={theme === 'dark'}
-      onChange={toggle}
-      iconOn={<MoonIcon />}
-      iconOff={<SunIcon />}
-      glow={glow}
+      type="button"
+      role="switch"
+      aria-checked={dark}
       aria-label="Toggle color theme"
+      onClick={toggle}
+      className={cx('lk-theme-toggle', `lk-theme-toggle--${size}`, className)}
+      data-mode={dark ? 'dark' : 'light'}
       {...props}
-    />
+    >
+      <LiquidGlass
+        pill
+        elevation={1}
+        tint="auto"
+        sheen={false}
+        refraction={22}
+        dispersion={2}
+        bezel={7}
+        className="lk-theme-toggle__track"
+      >
+        <span className="lk-theme-toggle__highlight" aria-hidden="true" />
+        <span className="lk-theme-toggle__rail" aria-hidden="true">
+          <span className="lk-theme-toggle__glyph lk-theme-toggle__glyph--sun">
+            <SunIcon />
+          </span>
+          <span className="lk-theme-toggle__glyph lk-theme-toggle__glyph--moon">
+            <MoonIcon />
+          </span>
+        </span>
+      </LiquidGlass>
+    </button>
   )
 })

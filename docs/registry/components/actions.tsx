@@ -250,7 +250,8 @@ export const themeToggleDoc: ComponentDoc = {
   slug: 'theme-toggle',
   name: 'ThemeToggle',
   category: 'Actions',
-  summary: 'A pre-wired sun / moon switch that flips the theme. Must live inside a ThemeProvider.',
+  summary:
+    'A purpose-built sun / moon theme switch (its own component, not a Switch). Must live inside a ThemeProvider.',
   importLine: "import { ThemeToggle } from 'liquidkit'",
   examples: [
     {
@@ -266,15 +267,15 @@ export const themeToggleDoc: ComponentDoc = {
   ],
   props: [
     {
-      name: 'glow',
-      type: 'boolean',
-      default: 'true',
-      description: 'Accent glow around the thumb.',
+      name: 'size',
+      type: "'sm' | 'md' | 'lg'",
+      default: "'md'",
+      description: 'Control size.',
     },
     {
-      name: '...Switch',
+      name: '...button',
       type: '—',
-      description: 'All Switch props except checked / onChange / iconOn / iconOff.',
+      description: 'All native <button> attributes (minus onChange).',
     },
   ],
 }
