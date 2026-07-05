@@ -23,16 +23,16 @@
 
 /* ---- sizes ---- */
 .lk-theme-toggle--sm .lk-theme-toggle__track {
-  width: 56px;
-  height: 28px;
-}
-.lk-theme-toggle--md .lk-theme-toggle__track {
-  width: 66px;
+  width: 58px;
   height: 32px;
 }
+.lk-theme-toggle--md .lk-theme-toggle__track {
+  width: 68px;
+  height: 36px;
+}
 .lk-theme-toggle--lg .lk-theme-toggle__track {
-  width: 78px;
-  height: 38px;
+  width: 82px;
+  height: 42px;
 }
 
 /* ---- the two glyphs, one at each end ---- */
@@ -45,13 +45,13 @@
   z-index: 2;
 }
 .lk-theme-toggle--sm .lk-theme-toggle__rail {
-  padding: 0 7.5px;
-}
-.lk-theme-toggle--md .lk-theme-toggle__rail {
   padding: 0 8.5px;
 }
+.lk-theme-toggle--md .lk-theme-toggle__rail {
+  padding: 0 9.5px;
+}
 .lk-theme-toggle--lg .lk-theme-toggle__rail {
-  padding: 0 10px;
+  padding: 0 11px;
 }
 
 .lk-theme-toggle__glyph {
@@ -59,22 +59,22 @@
   align-items: center;
   justify-content: center;
   color: var(--lk-fg-subtle);
-  transition: color var(--lk-duration) var(--lk-ease);
+  transition: color var(--lk-theme-fade) var(--lk-ease);
 }
 .lk-theme-toggle__glyph svg {
   display: block;
 }
 .lk-theme-toggle--sm .lk-theme-toggle__glyph svg {
-  width: 13px;
-  height: 13px;
-}
-.lk-theme-toggle--md .lk-theme-toggle__glyph svg {
   width: 15px;
   height: 15px;
 }
+.lk-theme-toggle--md .lk-theme-toggle__glyph svg {
+  width: 17px;
+  height: 17px;
+}
 .lk-theme-toggle--lg .lk-theme-toggle__glyph svg {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
 /* fixed, palette-neutral colours: a dark slate sun on the white disc, a
@@ -87,31 +87,33 @@
 }
 
 /* ---- sliding highlight disc that spotlights the active glyph ---- */
-.lk-theme-toggle__highlight {
+/* Selector kept specific enough (two classes) to keep the slide transition
+   even while the root's theme-fade rule is active. */
+.lk-theme-toggle .lk-theme-toggle__highlight {
   position: absolute;
   top: 50%;
   border-radius: 50%;
   z-index: 1;
   transform: translateY(-50%);
   transition:
-    transform var(--lk-spring-duration-sm) var(--lk-spring-snappy),
-    background var(--lk-duration) var(--lk-ease),
-    box-shadow var(--lk-duration) var(--lk-ease);
+    transform var(--lk-theme-fade) var(--lk-spring),
+    background var(--lk-theme-fade) var(--lk-ease),
+    box-shadow var(--lk-theme-fade) var(--lk-ease);
 }
 .lk-theme-toggle--sm .lk-theme-toggle__highlight {
-  left: 3px;
-  width: 22px;
-  height: 22px;
-}
-.lk-theme-toggle--md .lk-theme-toggle__highlight {
   left: 3px;
   width: 26px;
   height: 26px;
 }
-.lk-theme-toggle--lg .lk-theme-toggle__highlight {
-  left: 4px;
+.lk-theme-toggle--md .lk-theme-toggle__highlight {
+  left: 3px;
   width: 30px;
   height: 30px;
+}
+.lk-theme-toggle--lg .lk-theme-toggle__highlight {
+  left: 4px;
+  width: 34px;
+  height: 34px;
 }
 
 /* light: a plain white disc on the left */
@@ -130,10 +132,10 @@
     inset 0 1px 1px rgba(255, 255, 255, 0.2);
 }
 .lk-theme-toggle--sm[data-mode='dark'] .lk-theme-toggle__highlight {
-  transform: translate(28px, -50%);
+  transform: translate(26px, -50%);
 }
 .lk-theme-toggle--md[data-mode='dark'] .lk-theme-toggle__highlight {
-  transform: translate(34px, -50%);
+  transform: translate(32px, -50%);
 }
 .lk-theme-toggle--lg[data-mode='dark'] .lk-theme-toggle__highlight {
   transform: translate(40px, -50%);

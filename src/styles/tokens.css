@@ -39,6 +39,7 @@
   --lk-duration-fast: 140ms;
   --lk-duration: 240ms;
   --lk-duration-slow: 420ms;
+  --lk-theme-fade: 0.66s; /* soft cross-fade when the light/dark theme flips */
 
   /* ---- glass material knobs (engine reads these) ---- */
   --lk-glass-blur: 8px; /* backdrop blur radius */

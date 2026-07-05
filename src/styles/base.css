@@ -27,6 +27,26 @@
   box-sizing: border-box;
 }
 
+/* Soft theme swap: the ThemeProvider adds `lk-theme-animating` to the root for
+   the length of a light/dark flip, so the colour-driven properties cross-fade
+   instead of snapping. Only active during that brief window, so it never slows
+   normal hover/press interactions. */
+.lk-theme-animating,
+.lk-theme-animating * {
+  transition:
+    background-color var(--lk-theme-fade) ease-in-out,
+    border-color var(--lk-theme-fade) ease-in-out,
+    color var(--lk-theme-fade) ease-in-out,
+    fill var(--lk-theme-fade) ease-in-out,
+    box-shadow var(--lk-theme-fade) ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lk-theme-animating,
+  .lk-theme-animating * {
+    transition: none !important;
+  }
+}
+
 /* shared keyframes (modal, popovers) */
 @keyframes lk-fade {
   from {

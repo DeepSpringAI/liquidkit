@@ -4,9 +4,11 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from 'react'
+import { cx } from '../utils/cx'
 
 /** The chosen mode. `'system'` follows the OS; `'light'`/`'dark'` pin it. */
 export type ThemeMode = 'light' | 'dark' | 'system'
@@ -92,14 +94,28 @@ export function ThemeProvider({
 
   const theme: ResolvedTheme = mode === 'system' ? (systemDark ? 'dark' : 'light') : mode
 
+  // Cross-fade the tree while light/dark flips. `fading` is flipped on in the
+  // same update as the mode change (so the `lk-theme-animating` class lands in
+  // the very commit that changes `data-theme` — the transition then runs from
+  // the old colours), and cleared shortly after. Only a mode change triggers
+  // it, so first paint and normal interactions are never affected.
+  const [fading, setFading] = useState(false)
+  const fadeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const beginFade = useCallback(() => {
+    setFading(true)
+    clearTimeout(fadeTimer.current)
+    fadeTimer.current = setTimeout(() => setFading(false), 600)
+  }, [])
+
   const setMode = useCallback(
     (next: ThemeMode) => {
+      beginFade()
       setModeState(next)
       if (storageKey && typeof localStorage !== 'undefined') {
         localStorage.setItem(storageKey, next)
       }
     },
-    [storageKey],
+    [storageKey, beginFade],
   )
 
   const setPalette = useCallback(
@@ -121,6 +137,7 @@ export function ThemeProvider({
     const el = document.documentElement
     const prevTheme = el.getAttribute('data-theme')
     const prevPalette = el.getAttribute('data-palette')
+    el.classList.toggle('lk-theme-animating', fading)
     el.setAttribute('data-theme', theme)
     if (palette) el.setAttribute('data-palette', palette)
     else el.removeAttribute('data-palette')
@@ -130,7 +147,7 @@ export function ThemeProvider({
       if (prevPalette) el.setAttribute('data-palette', prevPalette)
       else el.removeAttribute('data-palette')
     }
-  }, [attach, theme, palette])
+  }, [attach, theme, palette, fading])
 
   const value = useMemo<ThemeContextValue>(
     () => ({ mode, theme, setMode, toggle, palette, setPalette }),
@@ -141,7 +158,7 @@ export function ThemeProvider({
     <ThemeContext.Provider value={value}>
       {attach === 'wrapper' ? (
         <div
-          className={className ? `lk-root ${className}` : 'lk-root'}
+          className={cx('lk-root', fading && 'lk-theme-animating', className)}
           data-theme={theme}
           data-palette={palette ?? undefined}
         >
