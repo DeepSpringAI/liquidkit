@@ -1,0 +1,67 @@
+.lk-flow {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--lk-bg);
+  touch-action: none;
+  cursor: default;
+  contain: strict;
+}
+.lk-flow.is-panning {
+  cursor: grabbing;
+}
+
+/* Canvas backdrops. */
+.lk-flow--bg-dots {
+  background-image: radial-gradient(
+    var(--lk-flow-dot, rgba(127, 140, 170, 0.28)) 1.2px,
+    transparent 1.2px
+  );
+  background-size: 22px 22px;
+}
+.lk-flow--bg-grid {
+  background-image:
+    linear-gradient(var(--lk-flow-grid, rgba(127, 140, 170, 0.16)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--lk-flow-grid, rgba(127, 140, 170, 0.16)) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+[data-theme='dark'] .lk-flow--bg-dots {
+  --lk-flow-dot: rgba(160, 175, 205, 0.22);
+}
+[data-theme='dark'] .lk-flow--bg-grid {
+  --lk-flow-grid: rgba(160, 175, 205, 0.12);
+}
+
+.lk-flow__layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Full-size so the edge <svg> (100%×100%) has real dimensions; connectors that
+     fall outside the box still paint via overflow:visible. Nodes are absolutely
+     positioned in world space, unaffected by the layer size. */
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.lk-flow__edges {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.lk-flow__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+.lk-flow__overlay > * {
+  pointer-events: auto;
+}

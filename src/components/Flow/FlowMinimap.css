@@ -1,0 +1,42 @@
+.lk-flow-minimap {
+  position: absolute;
+  z-index: 6;
+  overflow: hidden;
+}
+.lk-flow-minimap--bottom-right {
+  bottom: 16px;
+  right: 16px;
+}
+.lk-flow-minimap--bottom-left {
+  bottom: 16px;
+  left: 16px;
+}
+.lk-flow-minimap--top-right {
+  top: 16px;
+  right: 16px;
+}
+.lk-flow-minimap--top-left {
+  top: 16px;
+  left: 16px;
+}
+.lk-flow-minimap__svg {
+  display: block;
+  cursor: grab;
+  touch-action: none;
+}
+.lk-flow-minimap__svg:active {
+  cursor: grabbing;
+}
+
+/* Node marks sit quietly behind the view window. */
+.lk-flow-minimap__node {
+  fill: var(--lk-label-tertiary, rgba(127, 140, 170, 0.5));
+  opacity: 0.45;
+}
+
+/* The current-view "window" — the prominent element. */
+.lk-flow-minimap__view {
+  fill: color-mix(in srgb, var(--lk-accent) 18%, transparent);
+  stroke: var(--lk-accent);
+  stroke-width: 2px;
+}

@@ -85,6 +85,9 @@ export type { TableProps, TableColumn } from './components/Table/Table'
 export { Tile } from './components/Tile/Tile'
 export type { TileProps } from './components/Tile/Tile'
 
+// Flow (node-based workflow canvas)
+export * from './components/Flow'
+
 // Templates
 export * from './templates'
 

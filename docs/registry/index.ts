@@ -31,6 +31,13 @@ import {
   navigationBarDoc,
 } from './components/navigation'
 import { modalDoc, sheetDoc, menuDoc, popoverDoc, toastDoc } from './components/overlays'
+import {
+  flowCanvasDoc,
+  flowNodeDoc,
+  flowEdgeDoc,
+  flowControlsDoc,
+  flowMinimapDoc,
+} from './components/flow'
 import { guides } from './guides'
 
 export const componentDocs: ComponentDoc[] = [
@@ -74,6 +81,12 @@ export const componentDocs: ComponentDoc[] = [
   menuDoc,
   popoverDoc,
   toastDoc,
+  // Flow
+  flowCanvasDoc,
+  flowNodeDoc,
+  flowEdgeDoc,
+  flowControlsDoc,
+  flowMinimapDoc,
 ]
 
 export const componentMap = Object.fromEntries(componentDocs.map((d) => [d.slug, d]))
@@ -86,6 +99,7 @@ export const CATEGORY_ORDER = [
   'Data Display',
   'Navigation',
   'Overlays',
+  'Flow',
 ]
 
 export interface NavSection {
