@@ -1,21 +1,12 @@
 name: Deploy docs
 
 # Builds the showcase playground and publishes it to GitHub Pages.
-#
-# Currently MANUAL-ONLY (workflow_dispatch) because Pages is not enabled on this
-# repo — GitHub Pages requires either a public repo or a paid plan for private
-# repos. To turn on automatic deploys:
-#   1. Make the repo public, OR upgrade to a plan that supports Pages on private
-#      repos.
-#   2. Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
-#   3. Add a push trigger here so docs publish on every merge to main:
-#        on:
-#          push:
-#            branches: [main]
-#          workflow_dispatch:
-#   4. Set "homepage" in package.json to https://<owner>.github.io/liquidkit/
-#      and re-add the docs badge to README.md.
+# Live at https://hamidrezazargham.github.io/liquidkit/
+# Pages source is "GitHub Actions" (Settings -> Pages). Deploys on every push to
+# main, and on demand via the "Run workflow" button (workflow_dispatch).
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 # Allow the deploy job to publish to Pages via OIDC.
