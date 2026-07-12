@@ -337,3 +337,95 @@ export const WorkflowIcon = createIcon(
   </>,
   'WorkflowIcon',
 )
+
+// --- Added for The Machine's Files app + collapsible sidebar (v0.2.0) ---
+export const EyeIcon = createIcon(
+  <>
+    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
+    <circle cx="12" cy="12" r="3" />
+  </>,
+  'EyeIcon',
+)
+export const DownloadIcon = createIcon(
+  <>
+    <path d="M12 4v11M7 10l5 5 5-5M4 20h16" />
+  </>,
+  'DownloadIcon',
+)
+export const TrashIcon = createIcon(
+  <>
+    <path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13M10 11v6M14 11v6" />
+  </>,
+  'TrashIcon',
+)
+export const InfoIcon = createIcon(
+  <>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 11v5M12 8h.01" />
+  </>,
+  'InfoIcon',
+)
+export const ListIcon = createIcon(
+  <>
+    <path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01" />
+  </>,
+  'ListIcon',
+)
+export const CopyIcon = createIcon(
+  <>
+    <rect x="9" y="9" width="11" height="11" rx="2" />
+    <path d="M5 15V5a2 2 0 0 1 2-2h8" />
+  </>,
+  'CopyIcon',
+)
+export const DuplicateIcon = createIcon(
+  <>
+    <rect x="9" y="9" width="11" height="11" rx="2" />
+    <path d="M5 15V6a1 1 0 0 1 1-1h9" />
+  </>,
+  'DuplicateIcon',
+)
+export const TagIcon = createIcon(
+  <>
+    <path d="M3 12V4a1 1 0 0 1 1-1h8l8 8-9 9-8-8z" />
+    <circle cx="7.5" cy="7.5" r="1.2" />
+  </>,
+  'TagIcon',
+)
+export const PaletteIcon = createIcon(
+  <>
+    <path d="M12 3a9 9 0 1 0 0 18c1 0 1.5-.8 1.5-1.5 0-.4-.2-.8-.5-1-.3-.3-.5-.6-.5-1 0-.8.7-1.5 1.5-1.5H16a5 5 0 0 0 5-5c0-4.4-4-8-9-8z" />
+    <circle cx="7.5" cy="12" r="1" />
+    <circle cx="10" cy="7.5" r="1" />
+    <circle cx="15" cy="7.5" r="1" />
+  </>,
+  'PaletteIcon',
+)
+export const RefreshIcon = createIcon(
+  <>
+    <path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5" />
+  </>,
+  'RefreshIcon',
+)
+export const ChevronUpIcon = createIcon(
+  <>
+    <path d="m6 15 6-6 6 6" />
+  </>,
+  'ChevronUpIcon',
+)
+/** A pencil writing on a note — used for "compose / new chat". */
+export const ComposeIcon = createIcon(
+  <>
+    <path d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6" />
+    <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L13 14l-4 1 1-4z" />
+  </>,
+  'ComposeIcon',
+)
+/** A sidebar/panel toggle — a rectangle with a left rail. */
+export const PanelLeftIcon = createIcon(
+  <>
+    <rect x="3" y="4" width="18" height="16" rx="2" />
+    <path d="M9 4v16" />
+  </>,
+  'PanelLeftIcon',
+)
