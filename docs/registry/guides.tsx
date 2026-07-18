@@ -344,6 +344,96 @@ const engine: GuideDoc = {
   ),
 }
 
+/* ---------------------------------------------------------- Performance */
+
+const performance: GuideDoc = {
+  slug: 'performance',
+  title: 'Performance',
+  summary:
+    'How LiquidKit keeps dozens of live glass surfaces cheap — and the one knob to tune it app-wide.',
+  content: (
+    <>
+      <p>
+        A glass surface is a <code>backdrop-filter</code>, which the browser re-evaluates on the GPU
+        whenever anything behind it moves. A page with many surfaces (a dashboard, a node graph) can
+        allocate a lot of GPU memory, so the engine bounds that cost automatically — no
+        configuration required.
+      </p>
+
+      <h2>Automatic, and invisible</h2>
+      <ul className="doc-list">
+        <li>
+          <strong>Off-screen surfaces are paused.</strong> A shared{' '}
+          <code>IntersectionObserver</code> drops the <code>backdrop-filter</code> (freeing its GPU
+          texture) on any surface scrolled out of view and restores it just before it scrolls back —
+          so cost tracks what is actually on screen, not what exists in the DOM.
+        </li>
+        <li>
+          <strong>Filters are shared.</strong> The displacement <code>&lt;filter&gt;</code> is
+          cached by bucketed size, so many similarly-sized surfaces reference one definition instead
+          of minting their own.
+        </li>
+        <li>
+          <strong>The engine is skipped where it isn’t honored.</strong> Safari and Firefox don’t
+          render SVG <code>url()</code> references inside <code>backdrop-filter</code>, so LiquidKit
+          detects that and serves the frosted fallback directly instead of generating a filter they
+          would ignore. Chromium (and Electron) get the full effect.
+        </li>
+      </ul>
+      <p>
+        None of this changes how anything looks — it only removes work the browser was doing off
+        screen or throwing away.
+      </p>
+
+      <h2>Tuning it app-wide</h2>
+      <p>
+        Wrap your app in an optional <code>GlassConfigProvider</code> to tune the engine everywhere
+        at once. It is entirely optional; without it, every surface runs at full fidelity.
+      </p>
+      <PropsTable
+        props={[
+          {
+            name: 'performance',
+            type: `'high' | 'balanced' | 'low'`,
+            default: `'high'`,
+            description:
+              'Fidelity tier. high = full effect (unchanged). balanced = single displacement pass (drops only the rainbow fringe). low = also gentler blur & refraction.',
+          },
+          {
+            name: 'pauseOffscreen',
+            type: 'boolean',
+            default: 'true',
+            description: 'Release the backdrop-filter on surfaces scrolled out of view.',
+          },
+          {
+            name: 'glass',
+            type: 'boolean',
+            default: 'undefined',
+            description: 'App-wide refraction override. undefined defers to each component’s prop.',
+          },
+        ]}
+      />
+      <CodeBlock
+        code={`import { GlassConfigProvider } from '@hamidrezazargham/liquidkit'
+
+// Full fidelity everywhere (the default — provider optional):
+<App />
+
+// Lighter glass on constrained devices, nothing removed by default:
+<GlassConfigProvider performance="balanced">
+  <App />
+</GlassConfigProvider>`}
+      />
+      <div className="doc-callout">
+        <strong>Nothing is removed unless you opt in.</strong> The default <code>high</code> tier is
+        byte-for-byte identical to setting no tier at all. <code>balanced</code>/<code>low</code>{' '}
+        are escape hatches for weak hardware — they trade the chromatic fringe (and, at{' '}
+        <code>low</code>, some blur) for a much cheaper composite.
+      </div>
+    </>
+  ),
+}
+
 /* --------------------------------------------------------------- Motion */
 
 const motion: GuideDoc = {
@@ -460,5 +550,5 @@ function Chrome() {
   ),
 }
 
-export const guides: GuideDoc[] = [introduction, installation, theming, engine, motion]
+export const guides: GuideDoc[] = [introduction, installation, theming, engine, performance, motion]
 export const guideMap = Object.fromEntries(guides.map((g) => [g.slug, g]))

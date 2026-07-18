@@ -1,8 +1,11 @@
-import { forwardRef } from 'react'
+import { forwardRef, memo } from 'react'
 import type { AllHTMLAttributes, CSSProperties, ElementType } from 'react'
 import { cx } from '../utils/cx'
 import { mergeRefs } from '../utils/mergeRefs'
+import { useInView } from '../utils/useInView'
 import { useGlassFilter } from './useGlassFilter'
+import { useGlassConfig, resolveGlassTier } from './glassConfig'
+import { isGlassEngineSupported } from './glassSupport'
 import './LiquidGlass.css'
 
 export type GlassTint = 'auto' | 'light' | 'dark' | 'clear' | 'accent'
@@ -48,12 +51,7 @@ const DEFAULT = {
   dispersion: 2,
 } as const
 
-/**
- * The core Liquid Glass surface. Renders a translucent element that refracts
- * and disperses whatever is behind it, with a specular bevel and sheen.
- * Every other LiquidKit component composes this primitive.
- */
-export const LiquidGlass = forwardRef<HTMLElement, LiquidGlassProps>(function LiquidGlass(
+const LiquidGlassInner = forwardRef<HTMLElement, LiquidGlassProps>(function LiquidGlass(
   {
     as: Comp = 'div',
     material,
@@ -75,26 +73,42 @@ export const LiquidGlass = forwardRef<HTMLElement, LiquidGlassProps>(function Li
   },
   forwardedRef,
 ) {
+  const config = useGlassConfig()
+  // App-wide override (if any) wins over the per-instance prop; the capability
+  // gate skips the SVG engine on browsers that ignore url() backdrop-filters
+  // (they keep the frosted fallback they already showed). The performance tier
+  // is the identity at the default 'high', so nothing changes unless opted in.
+  const glassOn = (config.glass ?? glass) && isGlassEngineSupported()
+  const tier = resolveGlassTier(config.performance, refraction, dispersion)
+
+  // Pause the (GPU-expensive) backdrop-filter while scrolled out of view.
+  const [inView, inViewRef] = useInView<HTMLElement>(config.pauseOffscreen)
+
   const { ref, filterUrl } = useGlassFilter<HTMLElement>({
-    enabled: glass,
+    enabled: glassOn && inView,
     bezel,
-    scale: refraction,
-    dispersion,
+    scale: tier.scale,
+    dispersion: tier.dispersion,
   })
 
-  const blurCss = blur != null ? `${blur}px` : 'var(--lk-glass-blur)'
-  const backdrop = [
-    filterUrl,
-    `blur(${blurCss})`,
-    'saturate(var(--lk-glass-saturate))',
-    'brightness(var(--lk-glass-brightness))',
-  ]
-    .filter(Boolean)
-    .join(' ')
+  const blurBase = blur != null ? `${blur}px` : 'var(--lk-glass-blur)'
+  const blurCss = tier.blurScale === 1 ? blurBase : `calc(${blurBase} * ${tier.blurScale})`
+  // Off-screen surfaces drop the whole backdrop-filter (freeing the GPU texture);
+  // clearing to '' would fall back to the CSS blur and keep the texture alive.
+  const backdrop = inView
+    ? [
+        filterUrl,
+        `blur(${blurCss})`,
+        'saturate(var(--lk-glass-saturate))',
+        'brightness(var(--lk-glass-brightness))',
+      ]
+        .filter(Boolean)
+        .join(' ')
+    : 'none'
 
   return (
     <Comp
-      ref={mergeRefs(forwardedRef, ref)}
+      ref={mergeRefs(forwardedRef, ref, inViewRef)}
       className={cx('lk-glass', interactive && 'lk-glass--interactive', className)}
       data-tint={tint}
       data-material={material}
@@ -119,3 +133,14 @@ export const LiquidGlass = forwardRef<HTMLElement, LiquidGlassProps>(function Li
     </Comp>
   )
 })
+LiquidGlassInner.displayName = 'LiquidGlass'
+
+/**
+ * The core Liquid Glass surface. Renders a translucent element that refracts
+ * and disperses whatever is behind it, with a specular bevel and sheen. Every
+ * other LiquidKit component composes this primitive.
+ *
+ * Memoized so a parent re-render doesn't cascade into every glass surface on
+ * the page (each one rebuilds a backdrop-filter — the expensive part).
+ */
+export const LiquidGlass = memo(LiquidGlassInner)

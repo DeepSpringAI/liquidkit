@@ -5,6 +5,43 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+Performance pass: the glass engine now bounds its GPU / compositor cost so pages
+with many live surfaces stay smooth, **with no change to how anything looks**.
+
+### Added
+
+- **`GlassConfigProvider` / `useGlassConfig`** — optional app-wide glass config:
+  a `performance` tier (`'high' | 'balanced' | 'low'`, default `'high'` = full
+  fidelity), a `pauseOffscreen` toggle, and an app-wide `glass` override. The
+  lower tiers are opt-in escape hatches for constrained devices; the default
+  removes nothing.
+- **`isGlassEngineSupported()`** — the exported browser-capability probe.
+
+### Changed
+
+- **Off-screen surfaces are paused** — a shared `IntersectionObserver` releases a
+  surface's `backdrop-filter` (and its cached filter) while it is scrolled out of
+  view and restores it just before it returns, bounding GPU memory to what's on
+  screen. Invisible.
+- **Filter definitions are shared more aggressively** — the displacement
+  `<filter>` is cached by bucketed size, so many similarly-sized surfaces
+  reference one definition instead of minting their own.
+- **The filter region is now sized to each surface** (was a fixed 170%),
+  shrinking the GPU texture for large panels with no visible change.
+- **The SVG engine is skipped where it isn't honored** (Safari, Firefox) — those
+  browsers get the frosted fallback directly instead of generating a filter they
+  discard. Chromium / Electron are unchanged, full effect.
+- **`LiquidGlass`, `Button`, `Card`, and `IconButton` are memoized**, so an
+  unrelated parent re-render no longer rebuilds every glass surface on the page.
+
+### Fixed
+
+- The glass `ResizeObserver` can no longer drive a feedback loop on a
+  continuously growing child — size updates are coalesced to one per animation
+  frame.
+
 ## [0.2.0]
 
 ### Added
@@ -15,10 +52,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `ComposeIcon` (a pencil-on-note, for "compose / new chat"), and `PanelLeftIcon`
   (a sidebar/panel toggle). Built from the icons hand-rolled for The Machine's UI.
 
-## [Unreleased]
+## [0.1.0]
 
-A hardening pass turning the initial prototype into a publish-ready library.
-This will become the first published release (`0.1.0`).
+A hardening pass turning the initial prototype into a publish-ready library —
+the first published release.
 
 ### Added
 

@@ -46,3 +46,42 @@ describe('glassFilterKey', () => {
     expect(glassFilterKey(a)).not.toBe(glassFilterKey(c))
   })
 })
+
+describe('glassFilterMarkup filter region', () => {
+  it('keeps objectBoundingBox units', () => {
+    const m = glassFilterMarkup('r0', {
+      width: 400,
+      height: 200,
+      bezel: 14,
+      scale: 46,
+      dispersion: 2,
+    })
+    expect(m).toContain('filterUnits="objectBoundingBox"')
+  })
+
+  it('clamps small / heavy surfaces to the original 170% region (byte-identical)', () => {
+    // (scale + dispersion + K) / width = 50/100 = 0.5 → clamps to 0.35.
+    const m = glassFilterMarkup('r1', {
+      width: 100,
+      height: 100,
+      bezel: 14,
+      scale: 40,
+      dispersion: 6,
+    })
+    expect(m).toContain('x="-35.000%"')
+    expect(m).toContain('width="170.000%"')
+  })
+
+  it('shrinks the region for large surfaces (smaller GPU texture)', () => {
+    const m = glassFilterMarkup('r2', {
+      width: 800,
+      height: 400,
+      bezel: 14,
+      scale: 46,
+      dispersion: 2,
+    })
+    const width = Number(m.match(/width="([\d.]+)%"/)?.[1])
+    expect(width).toBeGreaterThan(100)
+    expect(width).toBeLessThan(170)
+  })
+})

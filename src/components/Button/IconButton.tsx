@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import { forwardRef, memo } from 'react'
 import type { ReactNode } from 'react'
 import { Button, type ButtonProps } from './Button'
 
@@ -12,8 +12,7 @@ export interface IconButtonProps extends Omit<
   children: ReactNode
 }
 
-/** A circular/square icon-only button. Defaults to a circular pill. */
-export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
+const IconButtonInner = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
   { pill = true, children, ...props },
   ref,
 ) {
@@ -23,3 +22,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
     </Button>
   )
 })
+IconButtonInner.displayName = 'IconButton'
+
+/** A circular/square icon-only button. Defaults to a circular pill. */
+export const IconButton = memo(IconButtonInner)

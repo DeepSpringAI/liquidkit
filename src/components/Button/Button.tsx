@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import { forwardRef, memo } from 'react'
 import type { AllHTMLAttributes, ElementType, ReactNode } from 'react'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { cx } from '../../utils/cx'
@@ -32,8 +32,7 @@ export interface ButtonProps extends Omit<AllHTMLAttributes<HTMLElement>, 'as' |
 
 const RADIUS: Record<ButtonSize, number> = { sm: 12, md: 16, lg: 20 }
 
-/** A glass button. Supports icons, sizes, pill/icon-only shapes and a glow ring. */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+const ButtonInner = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {
     as: Comp = 'button',
     variant = 'glass',
@@ -105,3 +104,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     </LiquidGlass>
   )
 })
+ButtonInner.displayName = 'Button'
+
+/** A glass button. Supports icons, sizes, pill/icon-only shapes and a glow ring. */
+export const Button = memo(ButtonInner)

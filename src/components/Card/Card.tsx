@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import { forwardRef, memo } from 'react'
 import { LiquidGlass, type LiquidGlassProps } from '../../core/LiquidGlass'
 import { cx } from '../../utils/cx'
 import './Card.css'
@@ -10,8 +10,7 @@ export interface CardProps extends LiquidGlassProps {
   padding?: CardPadding
 }
 
-/** A glass panel/card surface. Thin wrapper over LiquidGlass with padding presets. */
-export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
+const CardInner = forwardRef<HTMLDivElement, CardProps>(function Card(
   { padding = 'md', radius = 28, className, children, ...rest },
   ref,
 ) {
@@ -26,3 +25,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
     </LiquidGlass>
   )
 })
+CardInner.displayName = 'Card'
+
+/** A glass panel/card surface. Thin wrapper over LiquidGlass with padding presets. */
+export const Card = memo(CardInner)

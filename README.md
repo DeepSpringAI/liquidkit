@@ -245,7 +245,23 @@ The refraction engine uses `backdrop-filter: url(#…)` with SVG `feDisplacement
 | Safari                           | ⚠️ Partial              | Frosted blur + tint   |
 | Firefox                          | ⚠️ Partial              | Frosted blur + tint   |
 
-Where the displacement filter isn't honored, components automatically fall back to a frosted blur + tint, so layouts never break — you just lose the lensing. Set `glass={false}` on `<LiquidGlass>` to opt out of refraction entirely.
+Where the displacement filter isn't honored (Safari, Firefox), LiquidKit detects it and serves the frosted blur + tint directly — skipping the filter work those engines would only discard — so layouts never break, you just lose the lensing. Set `glass={false}` on `<LiquidGlass>` to opt out of refraction entirely.
+
+## ⚡ Performance
+
+The glass engine bounds its own cost automatically, with **no change to how anything looks**: surfaces scrolled out of view release their `backdrop-filter`, filters are shared across similarly-sized surfaces, and the filter region is sized to each surface. For constrained devices you can tune fidelity app-wide with an optional provider — the default is full fidelity:
+
+```tsx
+import { GlassConfigProvider } from '@hamidrezazargham/liquidkit'
+
+// 'high' (default) keeps everything; 'balanced'/'low' trade the rainbow fringe
+// (and, at 'low', some blur) for a cheaper composite. Nothing is removed unless you opt in.
+<GlassConfigProvider performance="balanced">
+  <App />
+</GlassConfigProvider>
+```
+
+See the **Performance** guide in the docs for the full knob list.
 
 ## 🛠️ Development
 
