@@ -5,6 +5,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0]
+
+### Added
+
+- 13 new stroke icons (additive) for file-manager and collapsible-sidebar UIs:
+  `EyeIcon`, `DownloadIcon`, `TrashIcon`, `InfoIcon`, `ListIcon`, `CopyIcon`,
+  `DuplicateIcon`, `TagIcon`, `PaletteIcon`, `RefreshIcon`, `ChevronUpIcon`,
+  `ComposeIcon` (a pencil-on-note, for "compose / new chat"), and `PanelLeftIcon`
+  (a sidebar/panel toggle). Built from the icons hand-rolled for The Machine's UI.
+
 ## [Unreleased]
 
 A hardening pass turning the initial prototype into a publish-ready library.
