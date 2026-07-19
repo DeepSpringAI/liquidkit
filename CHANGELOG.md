@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-07-19
+
+### Fixed
+
+- Revert the size-aware filter region introduced in 0.3.0. Making the region
+  percentage depend on the surface size meant it jumped at the filter-size
+  buckets during a resize (e.g. dragging a sidebar edge), which on some GPUs
+  flashed the surface **black** while the compositor reallocated the backdrop
+  texture. The region is a fixed 170% again. Every other 0.3.0 optimization —
+  off-screen pausing, filter sharing, memoization, ResizeObserver coalescing,
+  the capability gate — is unchanged.
+
 ## [0.3.0] - 2026-07-19
 
 Performance pass: the glass engine now bounds its GPU / compositor cost so pages

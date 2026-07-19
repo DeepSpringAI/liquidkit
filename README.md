@@ -249,7 +249,7 @@ Where the displacement filter isn't honored (Safari, Firefox), LiquidKit detects
 
 ## ⚡ Performance
 
-The glass engine bounds its own cost automatically, with **no change to how anything looks**: surfaces scrolled out of view release their `backdrop-filter`, filters are shared across similarly-sized surfaces, and the filter region is sized to each surface. For constrained devices you can tune fidelity app-wide with an optional provider — the default is full fidelity:
+The glass engine bounds its own cost automatically, with **no change to how anything looks**: surfaces scrolled out of view release their `backdrop-filter`, and filters are shared across similarly-sized surfaces. For constrained devices you can tune fidelity app-wide with an optional provider — the default is full fidelity:
 
 ```tsx
 import { GlassConfigProvider } from '@hamidrezazargham/liquidkit'
