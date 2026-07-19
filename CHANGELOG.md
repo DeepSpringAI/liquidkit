@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-07-19
+
+### Fixed
+
+- **Crash when continuously resizing a glass surface** (e.g. dragging a sidebar
+  edge): an infinite render loop (`Maximum update depth exceeded`) unmounted the
+  whole app, leaving a blank screen. Two 0.3.0 changes were reverted/reworked:
+  - `useSize` deferred its ResizeObserver measurement to `requestAnimationFrame`,
+    which hid the resize→layout→resize cycle from the browser's own
+    ResizeObserver loop-detection. Restored the synchronous measurement (the 1px
+    dead-band still guards sub-pixel jitter).
+  - `useInView` set React state from inside its callback ref (which `mergeRefs`
+    re-invokes every render). Reworked to hold the node in a ref and observe
+    directly, so `inView` only changes from the observer callback.
+
 ## [0.3.1] - 2026-07-19
 
 ### Fixed
