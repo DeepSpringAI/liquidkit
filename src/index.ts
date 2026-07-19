@@ -10,6 +10,13 @@ export { useGlassFilter } from './core/useGlassFilter'
 export type { UseGlassFilterOptions, UseGlassFilterResult } from './core/useGlassFilter'
 export { displacementMapDataUri, glassFilterMarkup, glassFilterKey } from './core/displacement'
 export type { GlassFilterParams, DisplacementMapOptions } from './core/displacement'
+export { GlassConfigProvider, useGlassConfig } from './core/glassConfig'
+export type {
+  GlassConfig,
+  GlassConfigProviderProps,
+  GlassPerformanceTier,
+} from './core/glassConfig'
+export { isGlassEngineSupported } from './core/glassSupport'
 
 // Components
 export { Button } from './components/Button/Button'

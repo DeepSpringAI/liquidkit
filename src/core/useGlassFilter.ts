@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSize } from '../utils/useSize'
 import { acquireGlassFilter, releaseGlassFilter } from './glassFilterRegistry'
+import { quantizeSize } from './quantize'
 import type { GlassFilterParams } from './displacement'
 
 export interface UseGlassFilterOptions {
@@ -30,17 +31,24 @@ export function useGlassFilter<T extends HTMLElement = HTMLElement>(
 
   const w = size?.width ?? 0
   const h = size?.height ?? 0
+  const ready = enabled && w >= 2 && h >= 2
+
+  // Bucket the size so many near-identical surfaces share one cached <filter>
+  // and a sub-bucket resize doesn't re-acquire. Quantize only once ready, so
+  // the raw <2px guard above still gates unmeasured/zero-size elements.
+  const qw = ready ? quantizeSize(w) : 0
+  const qh = ready ? quantizeSize(h) : 0
 
   useEffect(() => {
-    if (!enabled || w < 2 || h < 2) {
+    if (!ready) {
       setFilterId(null)
       return
     }
-    const params: GlassFilterParams = { width: w, height: h, bezel, scale, dispersion }
+    const params: GlassFilterParams = { width: qw, height: qh, bezel, scale, dispersion }
     const id = acquireGlassFilter(params)
     setFilterId(id)
     return () => releaseGlassFilter(params)
-  }, [enabled, w, h, bezel, scale, dispersion])
+  }, [ready, qw, qh, bezel, scale, dispersion])
 
   return {
     ref,
