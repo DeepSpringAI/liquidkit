@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 /* ============================================================================
    A single process-wide IntersectionObserver shared by every glass surface,
@@ -34,6 +34,11 @@ function getObserver(): IntersectionObserver | null {
   return observer
 }
 
+function unobserve(node: Element) {
+  callbacks.delete(node)
+  observer?.unobserve(node)
+}
+
 /**
  * Track whether an element is within (or near) the viewport via the shared
  * observer. Returns `[inView, ref]`. Attach `ref` to the element.
@@ -42,34 +47,62 @@ function getObserver(): IntersectionObserver | null {
  *   non-paused output exactly, with no above-the-fold flash.
  * - When `enabled` is false, or `IntersectionObserver` is unavailable (SSR /
  *   jsdom), it stays `true` and never observes.
+ *
+ * The callback ref intentionally holds the node in a ref and NEVER calls
+ * setState. `mergeRefs` re-invokes callback refs (null then node) on every
+ * render, so setting React state from here would risk a render loop; instead
+ * `inView` only changes from the observer callback.
  */
 export function useInView<T extends Element = Element>(
   enabled: boolean = true,
 ): [boolean, (node: T | null) => void] {
   const [inView, setInView] = useState(true)
-  // Drives the observe effect. Functional updates collapse the null→node churn
-  // that `mergeRefs` produces on every render into a no-op when the node is
-  // unchanged, so we never re-observe a stable element.
-  const [node, setNode] = useState<T | null>(null)
+  const nodeRef = useRef<T | null>(null)
+  const enabledRef = useRef(enabled)
 
-  const ref = useCallback((next: T | null) => {
-    setNode((prev) => (prev === next ? prev : next))
+  const observeNode = useCallback((node: Element) => {
+    const obs = getObserver()
+    if (!obs) return
+    if (!callbacks.has(node)) {
+      callbacks.set(node, (v) => setInView((prev) => (prev === v ? prev : v)))
+      obs.observe(node)
+    }
   }, [])
 
+  const ref = useCallback(
+    (node: T | null) => {
+      // Ignore the transient `null` that mergeRefs fires on every re-render;
+      // a real unmount is handled by the cleanup effect. Only act on a genuinely
+      // new node. No setState here → no render loop.
+      if (node === null || node === nodeRef.current) return
+      if (nodeRef.current) unobserve(nodeRef.current)
+      nodeRef.current = node
+      if (enabledRef.current) observeNode(node)
+    },
+    [observeNode],
+  )
+
+  // React to `enabled` flipping without re-creating the ref.
   useEffect(() => {
+    enabledRef.current = enabled
+    const node = nodeRef.current
     if (!node) return
-    const obs = getObserver()
-    if (!enabled || !obs) {
+    if (enabled) {
+      observeNode(node)
+    } else {
+      unobserve(node)
       setInView(true)
-      return
     }
-    callbacks.set(node, (v) => setInView((prev) => (prev === v ? prev : v)))
-    obs.observe(node)
-    return () => {
-      obs.unobserve(node)
-      callbacks.delete(node)
-    }
-  }, [node, enabled])
+  }, [enabled, observeNode])
+
+  // Cleanup on unmount.
+  useEffect(
+    () => () => {
+      if (nodeRef.current) unobserve(nodeRef.current)
+      nodeRef.current = null
+    },
+    [],
+  )
 
   return [enabled ? inView : true, ref]
 }
