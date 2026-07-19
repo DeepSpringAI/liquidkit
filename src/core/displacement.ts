@@ -98,25 +98,14 @@ export function glassFilterMarkup(id: string, p: GlassFilterParams): string {
       `<feDisplacementMap in="SourceGraphic" in2="map" scale="${p.scale}" xChannelSelector="R" yChannelSelector="G"/>`
   }
 
-  // Size-aware filter region. `feDisplacementMap` shifts the backdrop by at most
-  // ~(scale+dispersion)/2 px and the frost blur reaches a little further, so a
-  // margin of `scale + dispersion + K` px on each side fully contains the output.
-  // Expressed as a fraction of the box (objectBoundingBox — immune to the
-  // content-box/padding-box gap that a px `userSpaceOnUse` region would clip),
-  // clamped to the previous 0.35 so small/heavy surfaces keep the old 170% region
-  // exactly while large panels shrink toward ~110% — a much smaller GPU texture.
-  const K = 4
-  const marginX = clamp((p.scale + p.dispersion + K) / Math.max(p.width, 1), 0.001, 0.35)
-  const marginY = clamp((p.scale + p.dispersion + K) / Math.max(p.height, 1), 0.001, 0.35)
-  const x = (-marginX * 100).toFixed(3)
-  const y = (-marginY * 100).toFixed(3)
-  const w = (100 + 200 * marginX).toFixed(3)
-  const h = (100 + 200 * marginY).toFixed(3)
-
   // sRGB so 128 stays the neutral midpoint; userSpaceOnUse so px sizes match.
+  // Fixed 170% region: generous enough to contain the displaced + blurred
+  // backdrop at any size. A size-varying region (tried in 0.3.0) jumps at the
+  // filter-size buckets during a resize and can flash black on some GPUs while
+  // the compositor reallocates the backdrop texture — so keep it constant.
   return (
     `<filter id="${id}" color-interpolation-filters="sRGB" ` +
-    `x="${x}%" y="${y}%" width="${w}%" height="${h}%" ` +
+    `x="-35%" y="-35%" width="170%" height="170%" ` +
     `filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">${body}</filter>`
   )
 }
