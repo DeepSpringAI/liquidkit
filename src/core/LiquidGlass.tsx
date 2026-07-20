@@ -1,4 +1,4 @@
-import { forwardRef, memo } from 'react'
+import { forwardRef, memo, useMemo } from 'react'
 import type { AllHTMLAttributes, CSSProperties, ElementType } from 'react'
 import { cx } from '../utils/cx'
 import { mergeRefs } from '../utils/mergeRefs'
@@ -106,9 +106,19 @@ const LiquidGlassInner = forwardRef<HTMLElement, LiquidGlassProps>(function Liqu
         .join(' ')
     : 'none'
 
+  // Memoised so the callback ref keeps ONE identity across renders. An inline `mergeRefs(...)` is a
+  // new function every render, which makes React detach (ref(null)) and re-attach (ref(node)) on each
+  // one — tearing down and rebuilding the size ResizeObserver every time and re-measuring. Any
+  // re-render then feeds the next, which is how a glass surface could spin into "Maximum update depth
+  // exceeded" (e.g. opening a second Menu flyout, or a growing field inside a glass bar).
+  const setRefs = useMemo(
+    () => mergeRefs(forwardedRef, ref, inViewRef),
+    [forwardedRef, ref, inViewRef],
+  )
+
   return (
     <Comp
-      ref={mergeRefs(forwardedRef, ref, inViewRef)}
+      ref={setRefs}
       className={cx('lk-glass', interactive && 'lk-glass--interactive', className)}
       data-tint={tint}
       data-material={material}

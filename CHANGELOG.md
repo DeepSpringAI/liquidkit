@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Crash (`Maximum update depth exceeded`) when opening a second `Menu` flyout**,
+  and the same failure for any glass surface whose content re-renders (it is why a
+  growing field could not live inside a glass bar). `LiquidGlass` built its callback
+  ref inline with `mergeRefs(...)`, so the ref changed identity on every render;
+  React detached and re-attached it each time, tearing down and rebuilding the
+  `useSize` ResizeObserver and re-measuring — and any re-render fed the next. The
+  merged ref is now memoised, so it keeps one identity and the observer is created
+  once. Regression test asserts the element is observed exactly once across renders.
+- `Menu` flyout positioning no longer hands React a new style object when the
+  flyout has not moved (it also runs from a capture-phase scroll listener), and
+  menu/flyout focus uses `preventScroll` so focusing a row cannot scroll an
+  ancestor and re-trigger the positioner.
+
 ## [0.3.2] - 2026-07-19
 
 ### Fixed

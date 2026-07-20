@@ -80,6 +80,41 @@ describe('LiquidGlass off-screen pausing', () => {
   })
 })
 
+describe('LiquidGlass ref stability', () => {
+  // Regression: the callback ref was built inline with mergeRefs(...), so it changed identity on
+  // every render. React then detached and re-attached it each time, tearing down and rebuilding the
+  // size ResizeObserver — and any re-render fed the next, which could spin into "Maximum update
+  // depth exceeded" (e.g. opening a second Menu flyout).
+  it('does not re-attach its ref (or rebuild the ResizeObserver) on re-render', () => {
+    let observeCount = 0
+    let disconnectCount = 0
+    class CountingResizeObserver {
+      observe() {
+        observeCount += 1
+      }
+      unobserve() {}
+      disconnect() {
+        disconnectCount += 1
+      }
+    }
+    vi.stubGlobal('ResizeObserver', CountingResizeObserver)
+
+    const { rerender } = render(<LiquidGlass>hi</LiquidGlass>)
+    const afterFirst = observeCount
+    expect(afterFirst).toBe(1)
+
+    // Re-render with different children/props — the element is the same, so the ref must not churn.
+    rerender(<LiquidGlass>hello</LiquidGlass>)
+    rerender(<LiquidGlass>hello again</LiquidGlass>)
+
+    expect(observeCount).toBe(afterFirst)
+    expect(disconnectCount).toBe(0)
+
+    vi.unstubAllGlobals()
+    vi.stubGlobal('IntersectionObserver', FakeIntersectionObserver)
+  })
+})
+
 describe('LiquidGlass filter sharing', () => {
   it('draws the displacement map at the ceil-bucketed size, not the raw size', () => {
     render(<LiquidGlass>hi</LiquidGlass>)

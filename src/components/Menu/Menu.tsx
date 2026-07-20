@@ -158,10 +158,13 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(
     }
   }, [open, subOpenId, close])
 
-  // Move focus into the menu when it opens.
+  // Move focus into the menu when it opens. `preventScroll` so focusing never scrolls an ancestor
+  // (that scroll would re-run the flyout positioner — see the submenu effect below).
   useEffect(() => {
     if (!open) return
-    panelRef.current?.querySelector<HTMLElement>(`${ITEM_SELECTOR}:not([disabled])`)?.focus()
+    panelRef.current
+      ?.querySelector<HTMLElement>(`${ITEM_SELECTOR}:not([disabled])`)
+      ?.focus({ preventScroll: true })
   }, [open])
 
   // Position the submenu flyout beside its anchor row (open to the side, flip on overflow).
@@ -184,14 +187,24 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(
       if (left < 8 || left + p.width > vw - 8) left = startLeft
       left = Math.max(8, Math.min(left, vw - p.width - 8))
       const top = Math.max(8, Math.min(a.top - 6, vh - p.height - 8))
-      setSubStyle({
-        position: 'fixed',
-        top: Math.round(top),
-        left: Math.round(left),
-        right: 'auto',
-        bottom: 'auto',
-        visibility: 'visible',
-      })
+      const nextTop = Math.round(top)
+      const nextLeft = Math.round(left)
+      // Bail out when the flyout hasn't actually moved. `place` also runs from a capture-phase
+      // scroll listener, and opening a flyout focuses a row — which can scroll an ancestor and fire
+      // that listener. Handing React a fresh object every time made those two feed each other into
+      // "Maximum update depth exceeded" (reproducible by opening a second flyout).
+      setSubStyle((prev) =>
+        prev.top === nextTop && prev.left === nextLeft && prev.visibility === 'visible'
+          ? prev
+          : {
+              position: 'fixed',
+              top: nextTop,
+              left: nextLeft,
+              right: 'auto',
+              bottom: 'auto',
+              visibility: 'visible',
+            },
+      )
     }
     place()
     window.addEventListener('resize', place)
@@ -208,7 +221,9 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(
       setSubStyle(HIDDEN)
       return
     }
-    subPanelRef.current?.querySelector<HTMLElement>(`${ITEM_SELECTOR}:not([disabled])`)?.focus()
+    subPanelRef.current
+      ?.querySelector<HTMLElement>(`${ITEM_SELECTOR}:not([disabled])`)
+      ?.focus({ preventScroll: true })
   }, [subOpenId])
 
   const triggerEl =
