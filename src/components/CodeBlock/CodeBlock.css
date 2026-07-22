@@ -1,0 +1,190 @@
+/* Code blocks derive entirely from the active palette tokens, so they follow both axes
+   (light/dark + the data-palette family). The surface is an elevated panel with a faint accent
+   wash; syntax is a monochrome accent→foreground scale — no off-palette hues, so a snippet never
+   fights the surrounding UI for attention. */
+
+.lk-code {
+  --lk-code-line: 1.65;
+  position: relative;
+  margin: 0;
+  border-radius: var(--lk-radius-md);
+  overflow: hidden;
+  background: color-mix(in srgb, var(--lk-bg-elev) 92%, var(--lk-accent) 8%);
+  border: 1px solid var(--lk-glass-border);
+  box-shadow: var(--lk-shadow-1);
+  font-size: var(--lk-text-footnote);
+}
+
+/* ------------------------------------------------------------------ header */
+
+.lk-code__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lk-space-2);
+  padding: var(--lk-space-1) var(--lk-space-1) var(--lk-space-1) var(--lk-space-3);
+  min-height: 30px;
+  background: color-mix(in srgb, var(--lk-fg) 4%, transparent);
+  border-bottom: 1px solid var(--lk-glass-border-soft);
+}
+
+.lk-code__lang {
+  font-family: var(--lk-font-mono);
+  font-size: var(--lk-text-caption2, 11px);
+  color: var(--lk-fg-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lk-code__copy {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lk-space-1);
+  flex: none;
+  padding: 3px 9px;
+  border: 1px solid transparent;
+  border-radius: var(--lk-radius-full);
+  background: transparent;
+  color: var(--lk-fg-subtle);
+  font: inherit;
+  font-size: var(--lk-text-caption2, 11px);
+  line-height: 1.4;
+  cursor: pointer;
+  transition:
+    background var(--lk-duration-fast),
+    border-color var(--lk-duration-fast),
+    color var(--lk-duration-fast);
+}
+.lk-code__copy:hover {
+  background: var(--lk-accent-soft);
+  border-color: var(--lk-glass-border);
+  color: var(--lk-fg);
+}
+.lk-code__copy:focus-visible {
+  outline: 2px solid var(--lk-accent);
+  outline-offset: 2px;
+}
+
+/* Headerless variant: the copy button floats, appearing on hover / keyboard focus. */
+.lk-code__float {
+  position: absolute;
+  top: var(--lk-space-2);
+  right: var(--lk-space-2);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity var(--lk-duration-fast);
+}
+.lk-code:hover .lk-code__float,
+.lk-code__float:focus-within {
+  opacity: 1;
+}
+.lk-code--bare .lk-code__copy {
+  background: color-mix(in srgb, var(--lk-bg-elev) 80%, transparent);
+  border-color: var(--lk-glass-border);
+  backdrop-filter: blur(8px);
+}
+
+/* -------------------------------------------------------------------- body */
+
+.lk-code__scroll {
+  overflow: auto;
+  transition: max-height var(--lk-duration) ease;
+}
+
+.lk-code__pre {
+  display: flex;
+  margin: 0;
+  padding: var(--lk-space-3) var(--lk-space-4);
+  font-family: var(--lk-font-mono);
+  font-size: inherit;
+  line-height: var(--lk-code-line);
+  color: var(--lk-fg);
+  tab-size: 2;
+}
+
+.lk-code__code {
+  font-family: inherit;
+  white-space: pre;
+  min-width: 0;
+}
+
+.lk-code--wrap .lk-code__code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.lk-code__gutter {
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  margin-right: var(--lk-space-4);
+  padding-right: var(--lk-space-3);
+  border-right: 1px solid var(--lk-glass-border-soft);
+  color: var(--lk-fg-subtle);
+  text-align: right;
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------- collapsing */
+
+.lk-code--collapsed .lk-code__scroll {
+  overflow: hidden;
+  /* Fade the clipped last line so it reads as "there is more", not "this is the end". */
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 2.2em), transparent);
+}
+
+.lk-code__more {
+  display: block;
+  width: 100%;
+  padding: var(--lk-space-2);
+  border: 0;
+  border-top: 1px solid var(--lk-glass-border-soft);
+  background: color-mix(in srgb, var(--lk-fg) 3%, transparent);
+  color: var(--lk-fg-muted);
+  font: inherit;
+  font-size: var(--lk-text-caption, 12px);
+  cursor: pointer;
+  transition:
+    color var(--lk-duration-fast),
+    background var(--lk-duration-fast);
+}
+.lk-code__more:hover {
+  background: var(--lk-accent-soft);
+  color: var(--lk-fg);
+}
+
+/* ------------------------------------------------------------------ syntax */
+
+.lk-tok--comment {
+  color: var(--lk-fg-subtle);
+  font-style: italic;
+}
+.lk-tok--string {
+  color: color-mix(in srgb, var(--lk-accent) 45%, var(--lk-fg));
+}
+.lk-tok--keyword {
+  color: var(--lk-accent);
+}
+.lk-tok--type {
+  color: color-mix(in srgb, var(--lk-accent) 72%, var(--lk-fg));
+}
+.lk-tok--number {
+  color: color-mix(in srgb, var(--lk-accent) 85%, var(--lk-fg));
+}
+.lk-tok--punct {
+  color: var(--lk-fg-muted);
+}
+.lk-tok--ident {
+  color: var(--lk-fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lk-code__scroll,
+  .lk-code__float {
+    transition: none;
+  }
+}

@@ -21,6 +21,7 @@ import {
   listDoc,
   tableDoc,
   tileDoc,
+  codeBlockDoc,
 } from './components/data'
 import {
   dockDoc,
@@ -68,6 +69,7 @@ export const componentDocs: ComponentDoc[] = [
   listDoc,
   tableDoc,
   tileDoc,
+  codeBlockDoc,
   // Navigation
   tabBarDoc,
   navigationBarDoc,
