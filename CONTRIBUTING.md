@@ -45,7 +45,7 @@ npm run typecheck && npm run lint && npm run format:check && npm test && npm run
 
 ```
 src/
-  core/        LiquidGlass primitive + the SVG displacement engine
+  core/        LiquidGlass primitive + glass configuration
   components/  one folder per component: Component.tsx + Component.css + Component.test.tsx
   templates/   composed showcase frames (PhoneFrame, MacWindow)
   theme/       ThemeProvider + tokens

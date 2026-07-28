@@ -111,8 +111,6 @@ export const buttonDoc: ComponentDoc = {
     },
     { name: 'leftIcon', type: 'ReactNode', description: 'Icon before the label.' },
     { name: 'rightIcon', type: 'ReactNode', description: 'Icon after the label.' },
-    { name: 'refraction', type: 'number', description: 'Refraction strength override.' },
-    { name: 'dispersion', type: 'number', description: 'Chromatic dispersion override.' },
     {
       name: '...button',
       type: 'ButtonHTMLAttributes',

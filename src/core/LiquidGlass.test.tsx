@@ -1,11 +1,15 @@
-import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { describe, it, expect, vi, beforeAll, afterAll, afterEach } from 'vitest'
 import { render, act } from '@testing-library/react'
 import { LiquidGlass } from './LiquidGlass'
+import { GlassConfigProvider } from './glassConfig'
+import { __resetDeprecationWarnings } from '../utils/deprecate'
 import { Button } from '../components/Button/Button'
 import { Card } from '../components/Card/Card'
 import { IconButton } from '../components/Button/IconButton'
 
-/* A controllable IntersectionObserver: the engine creates one shared instance,
+/* A controllable IntersectionObserver: the surface creates one shared instance,
    so we capture its callback and drive intersection by hand. */
 let ioCb: IntersectionObserverCallback | null = null
 const observedEls = new Set<Element>()
@@ -45,7 +49,8 @@ afterAll(() => {
   vi.unstubAllGlobals()
 })
 
-const filterCount = () => document.querySelectorAll('[data-lk-glass-defs] filter').length
+const frostLayer = (root: ParentNode = document) =>
+  root.querySelector('.lk-glass__refraction') as HTMLElement
 
 describe('LiquidGlass memoization', () => {
   it('wraps the hot components in React.memo', () => {
@@ -58,81 +63,135 @@ describe('LiquidGlass memoization', () => {
   })
 })
 
+describe('LiquidGlass frost', () => {
+  it('applies blur, saturate and brightness — and no SVG filter', () => {
+    const { container } = render(<LiquidGlass>hi</LiquidGlass>)
+    const backdrop = frostLayer(container).style.backdropFilter
+    expect(backdrop).toContain('blur(')
+    expect(backdrop).toContain('saturate(')
+    expect(backdrop).toContain('brightness(')
+    // The displacement engine is gone; nothing may reference url(#…) any more.
+    expect(backdrop).not.toContain('url(')
+  })
+
+  it('never injects a filter definition into the document', () => {
+    render(<LiquidGlass>hi</LiquidGlass>)
+    expect(document.querySelectorAll('filter')).toHaveLength(0)
+    expect(document.querySelector('[data-lk-glass-defs]')).toBeNull()
+  })
+
+  it('honours an explicit blur override', () => {
+    const { container } = render(<LiquidGlass blur={30}>hi</LiquidGlass>)
+    expect(frostLayer(container).style.backdropFilter).toContain('blur(30px)')
+  })
+
+  it('softens the blur at the low performance tier', () => {
+    const { container } = render(
+      <GlassConfigProvider performance="low">
+        <LiquidGlass blur={20}>hi</LiquidGlass>
+      </GlassConfigProvider>,
+    )
+    expect(frostLayer(container).style.backdropFilter).toContain('calc(20px * 0.75)')
+  })
+})
+
 describe('LiquidGlass off-screen pausing', () => {
-  it('drops the backdrop-filter and releases the filter when scrolled out of view', () => {
+  it('drops the backdrop-filter entirely when scrolled out of view', () => {
     const { container } = render(<LiquidGlass>hi</LiquidGlass>)
     const root = container.querySelector('.lk-glass') as HTMLElement
-    const refraction = () => container.querySelector('.lk-glass__refraction') as HTMLElement
 
-    // On screen (optimistic default) → full glass, with the url() displacement.
-    expect(refraction().style.backdropFilter).toContain('url(#lk-glass-')
-    const before = filterCount()
-    expect(before).toBeGreaterThan(0)
+    expect(frostLayer(container).style.backdropFilter).toContain('blur(')
 
-    // Off screen → the entire backdrop-filter is dropped and the filter released.
+    // Off screen → the whole backdrop-filter goes, freeing the GPU texture.
     setIntersecting(root, false)
-    expect(refraction().style.backdropFilter).toBe('none')
-    expect(filterCount()).toBe(before - 1)
+    expect(frostLayer(container).style.backdropFilter).toBe('none')
 
-    // Back on screen → refraction returns.
     setIntersecting(root, true)
-    expect(refraction().style.backdropFilter).toContain('url(#lk-glass-')
+    expect(frostLayer(container).style.backdropFilter).toContain('blur(')
   })
 })
 
 describe('LiquidGlass ref stability', () => {
   // Regression: the callback ref was built inline with mergeRefs(...), so it changed identity on
-  // every render. React then detached and re-attached it each time, tearing down and rebuilding the
-  // size ResizeObserver — and any re-render fed the next, which could spin into "Maximum update
-  // depth exceeded" (e.g. opening a second Menu flyout).
-  it('does not re-attach its ref (or rebuild the ResizeObserver) on re-render', () => {
-    let observeCount = 0
-    let disconnectCount = 0
-    class CountingResizeObserver {
-      observe() {
-        observeCount += 1
-      }
-      unobserve() {}
-      disconnect() {
-        disconnectCount += 1
-      }
+  // every render. React then detached and re-attached it each time — and any re-render fed the
+  // next, which could spin into "Maximum update depth exceeded" (e.g. opening a second Menu flyout).
+  it('does not re-attach its ref on re-render', () => {
+    // React re-runs a callback ref (null, then the node) whenever its identity
+    // changes. Counting calls on a *stable* forwarded ref therefore detects the
+    // churn directly: one attach, and nothing more across re-renders.
+    const calls: (HTMLElement | null)[] = []
+    const countingRef = (node: HTMLElement | null) => {
+      calls.push(node)
     }
-    vi.stubGlobal('ResizeObserver', CountingResizeObserver)
 
-    const { rerender } = render(<LiquidGlass>hi</LiquidGlass>)
-    const afterFirst = observeCount
-    expect(afterFirst).toBe(1)
+    const { rerender } = render(<LiquidGlass ref={countingRef}>hi</LiquidGlass>)
+    expect(calls).toHaveLength(1)
+    expect(calls[0]).toBeInstanceOf(HTMLElement)
 
-    // Re-render with different children/props — the element is the same, so the ref must not churn.
-    rerender(<LiquidGlass>hello</LiquidGlass>)
-    rerender(<LiquidGlass>hello again</LiquidGlass>)
+    rerender(<LiquidGlass ref={countingRef}>hello</LiquidGlass>)
+    rerender(<LiquidGlass ref={countingRef}>hello again</LiquidGlass>)
 
-    expect(observeCount).toBe(afterFirst)
-    expect(disconnectCount).toBe(0)
-
-    vi.unstubAllGlobals()
-    vi.stubGlobal('IntersectionObserver', FakeIntersectionObserver)
+    expect(calls).toHaveLength(1)
   })
 })
 
-describe('LiquidGlass filter sharing', () => {
-  it('draws the displacement map at the ceil-bucketed size, not the raw size', () => {
-    render(<LiquidGlass>hi</LiquidGlass>)
-    const feImage = document.querySelector('[data-lk-glass-defs] feImage')
-    // raw 121×48 → quantize(121,8)=128, quantize(48,8)=48
-    expect(feImage?.getAttribute('width')).toBe('128')
-    expect(feImage?.getAttribute('height')).toBe('48')
+/**
+ * Regression guard: a child with a non-normal `mix-blend-mode` turns `.lk-glass`
+ * into an isolated group, which makes it a *backdrop root* — and every
+ * `backdrop-filter` inside it then filters an empty backdrop, so the frost
+ * silently disappears. jsdom doesn't composite, so assert on the stylesheet.
+ */
+describe('LiquidGlass stylesheet', () => {
+  it('never blends a glass sub-layer (it would kill every backdrop-filter inside)', () => {
+    const css = readFileSync(resolve(__dirname, 'LiquidGlass.css'), 'utf8')
+    expect(css).not.toMatch(/mix-blend-mode\s*:\s*(?!normal)[a-z-]+/)
+  })
+})
+
+/**
+ * The displacement props stay accepted-but-ignored for one deprecation cycle so
+ * existing apps keep compiling. They must not reach the DOM, and they must say
+ * so once in development.
+ */
+describe('removed displacement props', () => {
+  afterEach(() => {
+    __resetDeprecationWarnings()
+    vi.restoreAllMocks()
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue(
+      RECT as unknown as DOMRect,
+    )
   })
 
-  it('shares one <filter> node across similarly-sized surfaces', () => {
+  it('accepts them, ignores them, and never leaks them as DOM attributes', () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const { container } = render(
+      <LiquidGlass refraction={90} dispersion={14} bezel={40} glass={false}>
+        hi
+      </LiquidGlass>,
+    )
+    const root = container.querySelector('.lk-glass') as HTMLElement
+    for (const attr of ['refraction', 'dispersion', 'bezel', 'glass']) {
+      expect(root.hasAttribute(attr)).toBe(false)
+    }
+    // glass={false} used to mean "frosted fallback" — frost is all there is now.
+    expect(frostLayer(container).style.backdropFilter).toContain('blur(')
+  })
+
+  it('warns once in development, not once per surface', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     render(
       <div>
-        <LiquidGlass>a</LiquidGlass>
-        <LiquidGlass>b</LiquidGlass>
-        <LiquidGlass>c</LiquidGlass>
+        <LiquidGlass refraction={90}>a</LiquidGlass>
+        <LiquidGlass dispersion={4}>b</LiquidGlass>
       </div>,
     )
-    // All three fall in the same size bucket → one ref-counted definition.
-    expect(filterCount()).toBe(1)
+    expect(warn).toHaveBeenCalledTimes(1)
+    expect(String(warn.mock.calls[0][0])).toMatch(/no longer do anything/i)
+  })
+
+  it('stays quiet when nobody passes them', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    render(<LiquidGlass>hi</LiquidGlass>)
+    expect(warn).not.toHaveBeenCalled()
   })
 })

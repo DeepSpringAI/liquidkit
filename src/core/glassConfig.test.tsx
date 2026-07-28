@@ -14,18 +14,15 @@ function Probe() {
 
 describe('resolveGlassTier', () => {
   it('high is the identity — the default path is unchanged', () => {
-    expect(resolveGlassTier('high', 46, 2)).toEqual({ scale: 46, dispersion: 2, blurScale: 1 })
+    expect(resolveGlassTier('high')).toEqual({ blurScale: 1 })
   })
 
-  it('balanced drops dispersion to the single-pass branch, keeps frost', () => {
-    expect(resolveGlassTier('balanced', 46, 2)).toEqual({ scale: 46, dispersion: 0, blurScale: 1 })
+  it('balanced still renders the full frost', () => {
+    expect(resolveGlassTier('balanced')).toEqual({ blurScale: 1 })
   })
 
-  it('low reduces refraction, dispersion and blur', () => {
-    const r = resolveGlassTier('low', 46, 2)
-    expect(r.dispersion).toBe(0)
-    expect(r.scale).toBeLessThan(46)
-    expect(r.blurScale).toBeLessThan(1)
+  it('low softens the blur for weak hardware', () => {
+    expect(resolveGlassTier('low').blurScale).toBeLessThan(1)
   })
 })
 

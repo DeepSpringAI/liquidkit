@@ -3,7 +3,16 @@ import { CodeBlock } from './CodeBlock'
 import { cx } from '@hamidrezazargham/liquidkit'
 
 export function Example({ example }: { example: DocExample }) {
-  const { title, description, demo, code, stage = true, wide = false, overflow = false } = example
+  const {
+    title,
+    description,
+    demo,
+    code,
+    stage = true,
+    wide = false,
+    overflow = false,
+    hideCode = false,
+  } = example
   return (
     <section className="doc-example">
       <h3 className="doc-example__title">{title}</h3>
@@ -18,7 +27,7 @@ export function Example({ example }: { example: DocExample }) {
       >
         <div className="doc-demo__inner">{demo}</div>
       </div>
-      <CodeBlock code={code} />
+      {!hideCode && <CodeBlock code={code} />}
     </section>
   )
 }

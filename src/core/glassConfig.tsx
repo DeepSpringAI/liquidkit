@@ -2,20 +2,19 @@ import { createContext, useContext, useMemo } from 'react'
 import type { ReactNode } from 'react'
 
 /* ============================================================================
-   App-wide glass configuration. One place to tune the Liquid Glass engine for
+   App-wide glass configuration. One place to tune the Liquid Glass surface for
    the whole tree — chiefly for performance on constrained devices. It is
    entirely optional: `useGlassConfig()` returns sane defaults when no provider
    is mounted, so components work exactly as before without one.
    ========================================================================== */
 
 /**
- * Fidelity tier for the glass engine.
- * - `high` (default) — full fidelity; **identical** to not setting a tier.
- * - `balanced` — drop the 3-pass chromatic dispersion to a single displacement
- *   pass (removes only the rainbow edge fringe; keeps refraction + frost). ~3×
- *   cheaper displacement.
- * - `low` — `balanced` plus reduced blur and refraction, for the weakest
- *   devices. Still glass, just gentler.
+ * Fidelity tier for glass surfaces.
+ * - `high` (default) — full frost; **identical** to not setting a tier.
+ * - `balanced` — same as `high` today. Kept so existing code keeps working and
+ *   so there is a middle rung to tune again later.
+ * - `low` — reduced blur radius, for the weakest devices. Still glass, just
+ *   gentler (and a much cheaper composite).
  */
 export type GlassPerformanceTier = 'high' | 'balanced' | 'low'
 
@@ -29,9 +28,8 @@ export interface GlassConfig {
    */
   pauseOffscreen: boolean
   /**
-   * App-wide refraction override. `true`/`false` forces the engine on/off for
-   * every surface; `undefined` defers to each component's own `glass` prop.
-   * @default undefined
+   * @deprecated No longer does anything. It switched the SVG displacement engine
+   * on or off app-wide, and that engine has been removed.
    */
   glass?: boolean
 }
@@ -50,7 +48,7 @@ export interface GlassConfigProviderProps {
   performance?: GlassPerformanceTier
   /** Pause off-screen surfaces. @default true */
   pauseOffscreen?: boolean
-  /** App-wide refraction override. @default undefined (defer to components) */
+  /** @deprecated No longer does anything — the displacement engine was removed. */
   glass?: boolean
 }
 
@@ -78,29 +76,14 @@ export function useGlassConfig(): GlassConfig {
 }
 
 export interface ResolvedGlassTier {
-  scale: number
-  dispersion: number
   /** Multiplier to apply to the backdrop blur radius (1 = unchanged). */
   blurScale: number
 }
 
 /**
- * Map a `(scale, dispersion)` pair through a performance tier. `high` is the
- * identity — the default path is byte-for-byte unchanged.
+ * Map a performance tier to its blur multiplier. `high` is the identity — the
+ * default path is byte-for-byte unchanged.
  */
-export function resolveGlassTier(
-  tier: GlassPerformanceTier,
-  scale: number,
-  dispersion: number,
-): ResolvedGlassTier {
-  switch (tier) {
-    case 'balanced':
-      // Single displacement pass (dispersion 0 → the cheap branch), full frost.
-      return { scale, dispersion: 0, blurScale: 1 }
-    case 'low':
-      return { scale: Math.round(scale * 0.8), dispersion: 0, blurScale: 0.75 }
-    case 'high':
-    default:
-      return { scale, dispersion, blurScale: 1 }
-  }
+export function resolveGlassTier(tier: GlassPerformanceTier): ResolvedGlassTier {
+  return { blurScale: tier === 'low' ? 0.75 : 1 }
 }

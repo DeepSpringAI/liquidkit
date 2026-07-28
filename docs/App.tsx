@@ -15,6 +15,7 @@ import { ComponentPage } from './pages/ComponentPage'
 import { IconsPage } from './pages/IconsPage'
 import { TemplatesPage } from './pages/TemplatesPage'
 import { ThemesPage } from './pages/ThemesPage'
+import { PlaygroundPage } from './pages/PlaygroundPage'
 import { componentMap } from './registry'
 import { guideMap } from './registry/guides'
 import { sceneMap } from './scenes'
@@ -67,6 +68,7 @@ function Content({ route }: { route: string }) {
   if (route === 'icons') return <IconsPage />
   if (route === 'templates') return <TemplatesPage />
   if (route === 'themes') return <ThemesPage />
+  if (route === 'playground') return <PlaygroundPage />
 
   const [kind, slug] = route.split('/')
   if (kind === 'guide' && guideMap[slug]) return <GuidePage guide={guideMap[slug]} />

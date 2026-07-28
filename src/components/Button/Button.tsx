@@ -24,9 +24,9 @@ export interface ButtonProps extends Omit<AllHTMLAttributes<HTMLElement>, 'as' |
   block?: boolean
   leftIcon?: ReactNode
   rightIcon?: ReactNode
-  /** Refraction strength override. */
+  /** @deprecated No longer does anything — the displacement engine was removed. */
   refraction?: number
-  /** Chromatic dispersion override. */
+  /** @deprecated No longer does anything — the displacement engine was removed. */
   dispersion?: number
 }
 
@@ -43,6 +43,8 @@ const ButtonInner = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
     block = false,
     leftIcon,
     rightIcon,
+    // Destructured only to keep them out of `...rest` (and off the DOM); see the
+    // deprecation note on the props.
     refraction,
     dispersion,
     className,
@@ -52,6 +54,8 @@ const ButtonInner = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   },
   ref,
 ) {
+  void refraction
+  void dispersion
   const inner = (
     <span className="lk-btn__inner">
       {leftIcon && <span className="lk-btn__icon">{leftIcon}</span>}
@@ -94,8 +98,6 @@ const ButtonInner = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
       pill={pill}
       radius={RADIUS[size]}
       tint={variant === 'accent' ? 'accent' : 'auto'}
-      refraction={refraction}
-      dispersion={dispersion}
       className={cx(classes, `lk-btn--${variant}`)}
       {...typeAttr}
       {...rest}

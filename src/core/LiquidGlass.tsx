@@ -3,9 +3,8 @@ import type { AllHTMLAttributes, CSSProperties, ElementType } from 'react'
 import { cx } from '../utils/cx'
 import { mergeRefs } from '../utils/mergeRefs'
 import { useInView } from '../utils/useInView'
-import { useGlassFilter } from './useGlassFilter'
+import { warnDeprecated } from '../utils/deprecate'
 import { useGlassConfig, resolveGlassTier } from './glassConfig'
-import { isGlassEngineSupported } from './glassSupport'
 import './LiquidGlass.css'
 
 export type GlassTint = 'auto' | 'light' | 'dark' | 'clear' | 'accent'
@@ -20,52 +19,51 @@ export interface LiquidGlassProps extends Omit<AllHTMLAttributes<HTMLElement>, '
    * Composes with `tint` (which controls color). Omit to use the base tokens.
    */
   material?: GlassMaterial
-  /** Corner radius in px. @default 22 */
+  /** Corner radius in px. @default 28 */
   radius?: number
   /** Fully rounded (pill / circle). Overrides `radius`. */
   pill?: boolean
   /** Backdrop blur in px. Overrides `material`. Defaults to the `--lk-glass-blur` token. */
   blur?: number
-  /** Refraction strength (displacement scale). @default 46 */
-  refraction?: number
-  /** Chromatic dispersion split in px; 0 disables the rainbow fringe. @default 5 */
-  dispersion?: number
-  /** Width of the refracting edge band in px. @default 14 */
-  bezel?: number
   /** Surface tint. @default 'auto' */
   tint?: GlassTint
   /** Drop-shadow depth. @default 2 */
   elevation?: 0 | 1 | 2 | 3
   /** Diagonal specular sheen. @default true */
   sheen?: boolean
-  /** Enable true refraction. When false, falls back to a frosted blur. @default true */
-  glass?: boolean
   /** Add hover/press affordance. */
   interactive?: boolean
+  /**
+   * @deprecated No longer does anything. The SVG displacement engine was removed
+   * — glass surfaces are a frosted blur. Safe to delete; will be removed in the
+   * next major.
+   */
+  refraction?: number
+  /** @deprecated No longer does anything. See {@link LiquidGlassProps.refraction}. */
+  dispersion?: number
+  /** @deprecated No longer does anything. See {@link LiquidGlassProps.refraction}. */
+  bezel?: number
+  /** @deprecated No longer does anything. See {@link LiquidGlassProps.refraction}. */
+  glass?: boolean
 }
 
-const DEFAULT = {
-  radius: 28,
-  bezel: 14,
-  refraction: 46,
-  dispersion: 2,
-} as const
+const DEFAULT_RADIUS = 28
 
 const LiquidGlassInner = forwardRef<HTMLElement, LiquidGlassProps>(function LiquidGlass(
   {
     as: Comp = 'div',
     material,
-    radius = DEFAULT.radius,
+    radius = DEFAULT_RADIUS,
     pill = false,
     blur,
-    refraction = DEFAULT.refraction,
-    dispersion = DEFAULT.dispersion,
-    bezel = DEFAULT.bezel,
     tint = 'auto',
     elevation = 2,
     sheen = true,
-    glass = true,
     interactive = false,
+    refraction,
+    dispersion,
+    bezel,
+    glass,
     className,
     style,
     children,
@@ -73,48 +71,35 @@ const LiquidGlassInner = forwardRef<HTMLElement, LiquidGlassProps>(function Liqu
   },
   forwardedRef,
 ) {
+  if (refraction != null || dispersion != null || bezel != null || glass != null) {
+    warnDeprecated(
+      'refraction-props',
+      'The `refraction`, `dispersion`, `bezel` and `glass` props no longer do anything — ' +
+        'the displacement engine was removed and glass surfaces render as a frosted blur. ' +
+        'Remove them; they will be deleted in the next major.',
+    )
+  }
+
   const config = useGlassConfig()
-  // App-wide override (if any) wins over the per-instance prop; the capability
-  // gate skips the SVG engine on browsers that ignore url() backdrop-filters
-  // (they keep the frosted fallback they already showed). The performance tier
-  // is the identity at the default 'high', so nothing changes unless opted in.
-  const glassOn = (config.glass ?? glass) && isGlassEngineSupported()
-  const tier = resolveGlassTier(config.performance, refraction, dispersion)
+  const tier = resolveGlassTier(config.performance)
 
   // Pause the (GPU-expensive) backdrop-filter while scrolled out of view.
   const [inView, inViewRef] = useInView<HTMLElement>(config.pauseOffscreen)
-
-  const { ref, filterUrl } = useGlassFilter<HTMLElement>({
-    enabled: glassOn && inView,
-    bezel,
-    scale: tier.scale,
-    dispersion: tier.dispersion,
-  })
 
   const blurBase = blur != null ? `${blur}px` : 'var(--lk-glass-blur)'
   const blurCss = tier.blurScale === 1 ? blurBase : `calc(${blurBase} * ${tier.blurScale})`
   // Off-screen surfaces drop the whole backdrop-filter (freeing the GPU texture);
   // clearing to '' would fall back to the CSS blur and keep the texture alive.
   const backdrop = inView
-    ? [
-        filterUrl,
-        `blur(${blurCss})`,
-        'saturate(var(--lk-glass-saturate))',
-        'brightness(var(--lk-glass-brightness))',
-      ]
-        .filter(Boolean)
-        .join(' ')
+    ? `blur(${blurCss}) saturate(var(--lk-glass-saturate)) brightness(var(--lk-glass-brightness))`
     : 'none'
 
   // Memoised so the callback ref keeps ONE identity across renders. An inline `mergeRefs(...)` is a
   // new function every render, which makes React detach (ref(null)) and re-attach (ref(node)) on each
-  // one — tearing down and rebuilding the size ResizeObserver every time and re-measuring. Any
-  // re-render then feeds the next, which is how a glass surface could spin into "Maximum update depth
-  // exceeded" (e.g. opening a second Menu flyout, or a growing field inside a glass bar).
-  const setRefs = useMemo(
-    () => mergeRefs(forwardedRef, ref, inViewRef),
-    [forwardedRef, ref, inViewRef],
-  )
+  // one — tearing down and rebuilding the observer every time. Any re-render then feeds the next,
+  // which is how a glass surface could spin into "Maximum update depth exceeded" (e.g. opening a
+  // second Menu flyout, or a growing field inside a glass bar).
+  const setRefs = useMemo(() => mergeRefs(forwardedRef, inViewRef), [forwardedRef, inViewRef])
 
   return (
     <Comp
@@ -126,6 +111,7 @@ const LiquidGlassInner = forwardRef<HTMLElement, LiquidGlassProps>(function Liqu
       style={{ borderRadius: pill ? 999 : radius, ...style }}
       {...rest}
     >
+      {/* Class name kept for compatibility — it is the frost layer now. */}
       <span
         className="lk-glass__refraction"
         aria-hidden="true"
@@ -146,9 +132,9 @@ const LiquidGlassInner = forwardRef<HTMLElement, LiquidGlassProps>(function Liqu
 LiquidGlassInner.displayName = 'LiquidGlass'
 
 /**
- * The core Liquid Glass surface. Renders a translucent element that refracts
- * and disperses whatever is behind it, with a specular bevel and sheen. Every
- * other LiquidKit component composes this primitive.
+ * The core Liquid Glass surface: a translucent element that frosts whatever sits
+ * behind it, with a specular bevel and sheen. Every other LiquidKit component
+ * composes this primitive.
  *
  * Memoized so a parent re-render doesn't cascade into every glass surface on
  * the page (each one rebuilds a backdrop-filter — the expensive part).

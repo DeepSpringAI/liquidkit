@@ -8,7 +8,7 @@
 ![Types included](https://img.shields.io/badge/types-included-blue)
 ![Zero runtime deps](https://img.shields.io/badge/runtime%20deps-0-brightgreen)
 
-**A React + TypeScript _Liquid Glass_ UI library — real edge refraction, chromatic dispersion, and first-class light & dark themes.**
+**A React + TypeScript _Liquid Glass_ UI library — one frosted glass surface, and first-class light & dark themes.**
 
 [**Live demo ↗**](https://hamidrezazargham.github.io/liquidkit/) &nbsp;·&nbsp; [**Documentation**](https://hamidrezazargham.github.io/liquidkit/) &nbsp;·&nbsp; [**npm**](https://www.npmjs.com/package/@hamidrezazargham/liquidkit)
 
@@ -21,7 +21,7 @@
   </tr>
 </table>
 
-LiquidKit isn't "glassmorphism" (a blur and a border). Every surface runs a real-time **SVG displacement engine** that bends the content behind it like actual glass, with optional chromatic dispersion for that rainbow edge fringe. It gracefully degrades to a frosted blur where the engine isn't supported.
+Every surface is one primitive: a frosted `backdrop-filter` under a color tint, a lit bevel and a specular sheen. Because all 40+ components compose it, the whole kit reads as a single material — and re-themes from a handful of CSS variables.
 
 ```tsx
 import { ThemeProvider, Button, Card } from '@hamidrezazargham/liquidkit'
@@ -43,7 +43,7 @@ export default function App() {
 
 ## ✨ Features
 
-- 🔮 **True refraction, not a blur** — a real-time SVG `feDisplacementMap` bends the live backdrop at every edge, with optional **chromatic dispersion** for a rainbow fringe and specular bevels.
+- 🔮 **One coherent material** — frost, tint, lit bevel and specular sheen from a single primitive every component composes.
 - 🌗 **Light & dark, first-class** — both themes are designed and token-driven; flip the whole kit with one attribute.
 - 🎨 **6 preset palettes** — `aurora`, `indigo`, `orchid`, `amber`, `glacier`, `rose`, each with light _and_ dark. Palette and mode are **independent axes**.
 - 🧩 **35+ components** across seven categories, plus page templates and 45 icons — all composing one `<LiquidGlass>` primitive.
@@ -69,7 +69,7 @@ export default function App() {
   </tr>
 </table>
 
-> Explore it all live at **[hamidrezazargham.github.io/liquidkit](https://hamidrezazargham.github.io/liquidkit/)** — every component over a refractive backdrop, in both themes.
+> Explore it all live at **[hamidrezazargham.github.io/liquidkit](https://hamidrezazargham.github.io/liquidkit/)** — every component over a textured backdrop, in both themes.
 
 ## 🚀 Quick start
 
@@ -118,8 +118,6 @@ function ThemeName() {
   --lk-accent: #ff5a5f;
   --lk-radius-lg: 28px;
   --lk-glass-blur: 10px;
-  --lk-refract: 60; /* refraction strength */
-  --lk-dispersion: 8; /* chromatic split     */
 }
 ```
 
@@ -172,7 +170,7 @@ Swatches are grouped by palette and the palette name is never repeated, so `ambe
 Every component composes this primitive. Use it directly for custom surfaces.
 
 ```tsx
-<LiquidGlass radius={24} refraction={50} dispersion={6} elevation={2} interactive>
+<LiquidGlass radius={24} blur={14} tint="accent" elevation={2} interactive>
   …anything…
 </LiquidGlass>
 ```
@@ -180,16 +178,13 @@ Every component composes this primitive. Use it directly for custom surfaces.
 | Prop          | Type                                                   | Default | Description                                |
 | ------------- | ------------------------------------------------------ | ------- | ------------------------------------------ |
 | `as`          | `ElementType`                                          | `'div'` | Element/component to render as             |
-| `radius`      | `number`                                               | `22`    | Corner radius (px)                         |
+| `radius`      | `number`                                               | `28`    | Corner radius (px)                         |
 | `pill`        | `boolean`                                              | `false` | Fully rounded                              |
 | `blur`        | `number`                                               | token   | Backdrop blur (px)                         |
-| `refraction`  | `number`                                               | `46`    | Displacement strength                      |
-| `dispersion`  | `number`                                               | `5`     | Chromatic split (0 = off)                  |
-| `bezel`       | `number`                                               | `14`    | Width of the refracting edge band          |
+| `material`    | `'clear' \| 'ultraThin' \| 'thin' \| 'regular' \| 'thick'` | —   | Thickness: frost + auto-tint opacity  |
 | `tint`        | `'auto' \| 'light' \| 'dark' \| 'clear' \| 'accent'`   | `'auto'`| Surface tint                               |
 | `elevation`   | `0 \| 1 \| 2 \| 3`                                     | `2`     | Drop-shadow depth                          |
 | `sheen`       | `boolean`                                              | `true`  | Diagonal specular streak                   |
-| `glass`       | `boolean`                                              | `true`  | Enable refraction (false → frosted blur)   |
 | `interactive` | `boolean`                                              | `false` | Hover/press affordance                     |
 
 ## 🧩 Components
@@ -212,7 +207,7 @@ Every component composes this primitive. Use it directly for custom surfaces.
 
 `Button` and `IconButton` accept an `as` prop, so they render as a link (`as="a"`) or any element while keeping the glass styling. Every component forwards `ref` and arbitrary DOM props (`id`, `data-*`, `aria-*`, handlers) to its root element.
 
-**Icons** — 45 stroke icons (`HomeIcon`, `SearchIcon`, `PlayIcon`, …), the `createIcon()` factory, and `GlassIcon` (renders any icon inside a refractive glass tile).
+**Icons** — 45 stroke icons (`HomeIcon`, `SearchIcon`, `PlayIcon`, …), the `createIcon()` factory, and `GlassIcon` (renders any icon inside a frosted glass tile).
 
 **Templates** — full, prop-driven screens: `LandingHero`, `WaitlistPage`, `PricingPage`, `DashboardShell`, plus device frames `PhoneFrame` (iOS) and `MacWindow` (macOS) for mocking app screens.
 
@@ -237,24 +232,26 @@ import { PricingPage } from '@hamidrezazargham/liquidkit'
 
 ## 🌐 Browser support
 
-The refraction engine uses `backdrop-filter: url(#…)` with SVG `feDisplacementMap`.
+The glass surface is a plain `backdrop-filter`, supported by every current browser.
 
-| Browser                          | Refraction + dispersion | Fallback              |
-| -------------------------------- | ----------------------- | --------------------- |
-| Chrome / Edge / Brave (Chromium) | ✅ Full                 | —                     |
-| Safari                           | ⚠️ Partial              | Frosted blur + tint   |
-| Firefox                          | ⚠️ Partial              | Frosted blur + tint   |
+| Browser                          | Glass surface | Notes                               |
+| -------------------------------- | ------------- | ----------------------------------- |
+| Chrome / Edge / Brave (Chromium) | ✅            | —                                   |
+| Safari                           | ✅            | —                                   |
+| Firefox                          | ✅            | —                                   |
 
-Where the displacement filter isn't honored (Safari, Firefox), LiquidKit detects it and serves the frosted blur + tint directly — skipping the filter work those engines would only discard — so layouts never break, you just lose the lensing. Set `glass={false}` on `<LiquidGlass>` to opt out of refraction entirely.
+Anywhere `backdrop-filter` is missing entirely, surfaces fall back to a translucent tinted panel — layouts never break, you just lose the frost.
+
+> **Removed in 0.4.0:** earlier versions ran an SVG `feDisplacementMap` engine to bend the backdrop like a lens. It only rendered in Chromium, cost a GPU pass per surface, and didn't look convincing at real component sizes. The `refraction`, `dispersion`, `bezel` and `glass` props are still accepted (and ignored) for one deprecation cycle.
 
 ## ⚡ Performance
 
-The glass engine bounds its own cost automatically, with **no change to how anything looks**: surfaces scrolled out of view release their `backdrop-filter`, and filters are shared across similarly-sized surfaces. For constrained devices you can tune fidelity app-wide with an optional provider — the default is full fidelity:
+Glass bounds its own cost automatically, with **no change to how anything looks**: surfaces scrolled out of view release their `backdrop-filter`, and every surface is memoized so a parent re-render doesn't rebuild it. For constrained devices you can tune fidelity app-wide with an optional provider — the default is full fidelity:
 
 ```tsx
 import { GlassConfigProvider } from '@hamidrezazargham/liquidkit'
 
-// 'high' (default) keeps everything; 'balanced'/'low' trade the rainbow fringe
+// 'high' (default) keeps everything; 'low' trades some blur radius
 // (and, at 'low', some blur) for a cheaper composite. Nothing is removed unless you opt in.
 <GlassConfigProvider performance="balanced">
   <App />
@@ -276,7 +273,7 @@ npm run lint         # eslint (incl. react-hooks + jsx-a11y)
 npm run format       # prettier --write
 ```
 
-The docs site lives in `/docs` and dogfoods the library — it renders every component over a refractive backdrop in both themes, with live template previews at `#/preview/landing`, `#/preview/waitlist`, `#/preview/pricing`, `#/preview/dashboard`, `#/preview/ios-settings`, `#/preview/control-center`, `#/preview/lock-screen` and `#/preview/mac-settings`.
+The docs site lives in `/docs` and dogfoods the library — it renders every component over a textured backdrop in both themes, with live template previews at `#/preview/landing`, `#/preview/waitlist`, `#/preview/pricing`, `#/preview/dashboard`, `#/preview/ios-settings`, `#/preview/control-center`, `#/preview/lock-screen` and `#/preview/mac-settings`.
 
 ## 🤝 Contributing
 
