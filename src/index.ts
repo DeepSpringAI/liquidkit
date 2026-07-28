@@ -91,6 +91,10 @@ export { Table } from './components/Table/Table'
 export type { TableProps, TableColumn } from './components/Table/Table'
 export { Tile } from './components/Tile/Tile'
 export type { TileProps } from './components/Tile/Tile'
+export { CodeBlock } from './components/CodeBlock/CodeBlock'
+export type { CodeBlockProps } from './components/CodeBlock/CodeBlock'
+export { tokenize, normalizeLanguage } from './components/CodeBlock/highlight'
+export type { Token, TokenType } from './components/CodeBlock/highlight'
 
 // Flow (node-based workflow canvas)
 export * from './components/Flow'

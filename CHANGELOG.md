@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`CodeBlock`** — a read-only source block for rendering snippets, built for chat
+  transcripts and docs. Header carries the language (or a `title` filename) plus a
+  copy-to-clipboard button; `showLineNumbers` adds a gutter, `wrap` soft-wraps,
+  `maxLines` collapses long blocks behind a "Show all" toggle, and `hideHeader`
+  floats the copy button over a bare block.
+  Syntax highlighting is dependency-free (~2KB, no Prism/Shiki) so a transcript can
+  mount dozens of blocks cheaply, and it is **palette-derived** — tokens are an
+  accent→foreground scale, so code follows the active theme and palette instead of
+  fighting it with a fixed syntax theme. Grammars ship for the curly-brace family,
+  Python, Ruby, SQL, shell, JSON, YAML/TOML, CSS, HTML, Go and Rust; unknown
+  languages degrade to the curly-brace grammar and `text` disables highlighting.
+  The tokenizer is also exported directly as `tokenize` / `normalizeLanguage`.
+- `--lk-text-caption2` (11px), extending the type scale one step below `caption`
+  for dense chrome (badges, code headers).
+
 ## [0.3.3] - 2026-07-20
 
 ### Fixed

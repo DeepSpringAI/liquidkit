@@ -69,6 +69,7 @@
   --lk-text-subhead: 15px;
   --lk-text-footnote: 13px;
   --lk-text-caption: 12px;
+  --lk-text-caption2: 11px;
 
   /* ---- concentric / iOS radii (semantic aliases) ---- */
   --lk-radius-control: 12px;

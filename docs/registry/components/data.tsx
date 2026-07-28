@@ -13,6 +13,7 @@ import {
   List,
   ListRow,
   Switch,
+  CodeBlock,
   Table,
   Tile,
   HeartIcon,
@@ -769,5 +770,119 @@ export const tileDoc: ComponentDoc = {
     },
     { name: 'onClick', type: '() => void', description: 'Makes the tile a toggle button.' },
     { name: 'size', type: 'number', description: 'Square size in px.' },
+  ],
+}
+
+const CODE_TS = `import { CodeBlock } from '@hamidrezazargham/liquidkit'
+
+export function Answer({ snippet }: { snippet: string }) {
+  // Highlighting is dependency-free, so a transcript can mount dozens of these.
+  return <CodeBlock code={snippet} language="tsx" maxLines={20} />
+}`
+
+const CODE_SH = `# rebuild and reinstall the theme layer
+npm run build
+cp dist/theme.css ../app/public/theme.css`
+
+const CODE_SQL = `SELECT tenant_id, count(*) AS runs
+FROM   workflow_runs
+WHERE  created_at > now() - interval '7 days'
+GROUP  BY tenant_id
+ORDER  BY runs DESC
+LIMIT  10;`
+
+export const codeBlockDoc: ComponentDoc = {
+  slug: 'code-block',
+  name: 'CodeBlock',
+  category: 'Data Display',
+  summary:
+    'A read-only source block with a language/filename header, copy button, optional line numbers and collapsing — with dependency-free highlighting that follows the active palette rather than a fixed syntax theme.',
+  importLine: "import { CodeBlock } from '@hamidrezazargham/liquidkit'",
+  examples: [
+    {
+      title: 'Default',
+      description: 'Language label on the left, copy on the right.',
+      demo: <CodeBlock code={CODE_TS} language="tsx" />,
+      code: `<CodeBlock code={source} language="tsx" />`,
+      wide: true,
+    },
+    {
+      title: 'Filename, line numbers and wrapping',
+      description: 'A `title` replaces the language label — use it for a path.',
+      demo: (
+        <CodeBlock code={CODE_SQL} language="sql" title="queries/top-tenants.sql" showLineNumbers />
+      ),
+      code: `<CodeBlock
+  code={query}
+  language="sql"
+  title="queries/top-tenants.sql"
+  showLineNumbers
+/>`,
+      wide: true,
+    },
+    {
+      title: 'Collapsed',
+      description:
+        'Long blocks clip to `maxLines` behind a "Show all" toggle so one dump never buries the rest of a transcript.',
+      demo: <CodeBlock code={`${CODE_SH}\n${CODE_SQL}`} language="bash" maxLines={4} />,
+      code: `<CodeBlock code={log} language="bash" maxLines={4} />`,
+      wide: true,
+    },
+    {
+      title: 'Headerless',
+      description: 'No bar; the copy button floats in on hover or keyboard focus.',
+      demo: <CodeBlock code={CODE_SH} language="bash" hideHeader />,
+      code: `<CodeBlock code={script} language="bash" hideHeader />`,
+      wide: true,
+    },
+  ],
+  props: [
+    {
+      name: 'code',
+      type: 'string',
+      required: true,
+      description: 'Source to render. Trailing whitespace is trimmed.',
+    },
+    {
+      name: 'language',
+      type: 'string',
+      description:
+        'Fence language (`ts`, `python`, `sh`, `sql`, `json`, `go`, `rust`, `css`…). Drives highlighting and the header label; unknown values fall back to a curly-brace grammar, and `text` disables highlighting.',
+    },
+    {
+      name: 'title',
+      type: 'string',
+      description: 'Shown in place of the language — a filename or caption.',
+    },
+    {
+      name: 'copyable',
+      type: 'boolean',
+      default: 'true',
+      description: 'Show the copy-to-clipboard button.',
+    },
+    {
+      name: 'showLineNumbers',
+      type: 'boolean',
+      default: 'false',
+      description: 'Render a line-number gutter.',
+    },
+    {
+      name: 'wrap',
+      type: 'boolean',
+      default: 'false',
+      description: 'Soft-wrap long lines instead of scrolling.',
+    },
+    {
+      name: 'maxLines',
+      type: 'number',
+      description:
+        'Collapse to this many lines behind a "Show all" toggle. Omit to always render in full.',
+    },
+    {
+      name: 'hideHeader',
+      type: 'boolean',
+      default: 'false',
+      description: 'Drop the header bar; the copy button then floats over the code on hover.',
+    },
   ],
 }
