@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- **BREAKING — the SVG displacement (refraction) engine is gone.** Glass surfaces are
+  now a frosted `backdrop-filter` (`blur() saturate() brightness()`) plus the existing
+  tint, bevel and sheen layers. The lensing only ever rendered in Chromium, cost a GPU
+  pass per surface, and didn't read as convincing glass at the sizes real components
+  are, so it has been removed rather than kept on life support.
+
+  Deleted modules and exports: `displacementMapDataUri`, `glassFilterMarkup`,
+  `glassFilterKey`, `useGlassFilter`, `isGlassEngineSupported`, and the types
+  `GlassFilterParams`, `DisplacementMapOptions`, `UseGlassFilterOptions`,
+  `UseGlassFilterResult`. The `--lk-refract`, `--lk-refract-bezel` and `--lk-dispersion`
+  CSS custom properties are gone too.
+
+  **Kept as accepted-but-ignored for one deprecation cycle** (so existing apps still
+  compile): `refraction`, `dispersion`, `bezel` and `glass` on `LiquidGlass`;
+  `refraction` / `dispersion` on `Button` and `GlassIcon`; `glass` on
+  `GlassConfigProvider`. Each is marked `@deprecated` and warns once in development.
+  They will be deleted in the next major.
+
+### Changed
+
+- `GlassConfigProvider`'s `performance` tier now only scales the blur radius: `high`
+  and `balanced` render the full frost, `low` softens it. `resolveGlassTier()` takes
+  just the tier and returns `{ blurScale }`.
+- The docs playground is now a frost playground (blur / material / tint / radius), and
+  the "Glass Engine" guide documents the four layers that make up a surface.
+
+### Fixed
+
+- Glass surfaces render their frost again. `.lk-glass__sheen` carried
+  `mix-blend-mode: screen`, and a blended child turns `.lk-glass` into an isolated
+  group — which makes it a *backdrop root*, so every `backdrop-filter` inside it was
+  filtering an empty backdrop and silently doing nothing on every surface with `sheen`
+  (the default). The blend is gone; the rim is white-on-white, so it looks the same.
+
 ### Added
 
 - **`CodeBlock`** — a read-only source block for rendering snippets, built for chat

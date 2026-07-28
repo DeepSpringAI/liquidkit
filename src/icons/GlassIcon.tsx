@@ -19,13 +19,15 @@ export interface GlassIconProps {
   iconColor?: string
   /** @default 2 */
   elevation?: 0 | 1 | 2 | 3
+  /** @deprecated No longer does anything — the displacement engine was removed. */
   refraction?: number
+  /** @deprecated No longer does anything — the displacement engine was removed. */
   dispersion?: number
   className?: string
   style?: CSSProperties
 }
 
-/** Renders an icon inside a refractive glass tile — the "glass app icon" look. */
+/** Renders an icon inside a frosted glass tile — the "glass app icon" look. */
 export const GlassIcon = forwardRef<HTMLDivElement, GlassIconProps>(function GlassIcon(
   {
     children,
@@ -35,6 +37,8 @@ export const GlassIcon = forwardRef<HTMLDivElement, GlassIconProps>(function Gla
     tint = 'auto',
     iconColor,
     elevation = 2,
+    // Destructured only to keep them out of `...rest` (and off the DOM); see the
+    // deprecation note on the props.
     refraction,
     dispersion,
     className,
@@ -42,6 +46,8 @@ export const GlassIcon = forwardRef<HTMLDivElement, GlassIconProps>(function Gla
   },
   ref,
 ) {
+  void refraction
+  void dispersion
   return (
     <LiquidGlass
       ref={ref as never}
@@ -49,8 +55,6 @@ export const GlassIcon = forwardRef<HTMLDivElement, GlassIconProps>(function Gla
       pill={pill}
       tint={tint}
       elevation={elevation}
-      refraction={refraction}
-      dispersion={dispersion}
       className={cx('lk-glassicon', className)}
       style={{ width: size, height: size, ...style }}
     >

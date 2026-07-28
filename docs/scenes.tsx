@@ -82,8 +82,8 @@ export function LandingScene() {
         </>
       }
       eyebrow="Liquid glass, natively"
-      title="Build interfaces that bend light"
-      subtitle="A React component library with true refraction, chromatic dispersion, and first-class light & dark themes."
+      title="Build interfaces made of glass"
+      subtitle="A React component library built on one frosted glass surface, with first-class light & dark themes."
       primaryAction={
         <Button size="lg" variant="accent" pill rightIcon={<ArrowUpRightIcon />}>
           Get started
@@ -990,7 +990,7 @@ export const scenes: SceneMeta[] = [
     slug: 'landing',
     name: 'Landing Hero',
     description:
-      'A full landing hero with nav, eyebrow, headline and dual CTAs over a refractive background.',
+      'A full landing hero with nav, eyebrow, headline and dual CTAs over a glass background.',
     Component: LandingScene,
   },
   {

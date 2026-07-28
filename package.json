@@ -1,7 +1,7 @@
 {
   "name": "@hamidrezazargham/liquidkit",
   "version": "0.3.3",
-  "description": "Liquid Glass UI component library for React — true refraction, chromatic dispersion, light & dark.",
+  "description": "Liquid Glass UI component library for React — one frosted glass surface, light & dark.",
   "type": "module",
   "license": "MIT",
   "author": "Hamidreza Zargham",
@@ -21,7 +21,7 @@
     "glass",
     "components",
     "design-system",
-    "refraction"
+    "frosted-glass"
   ],
   "sideEffects": [
     "**/*.css"

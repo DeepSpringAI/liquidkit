@@ -62,16 +62,7 @@ export const ThemeToggle = forwardRef<HTMLButtonElement, ThemeToggleProps>(funct
       data-mode={dark ? 'dark' : 'light'}
       {...props}
     >
-      <LiquidGlass
-        pill
-        elevation={1}
-        tint="auto"
-        sheen={false}
-        refraction={22}
-        dispersion={2}
-        bezel={7}
-        className="lk-theme-toggle__track"
-      >
+      <LiquidGlass pill elevation={1} tint="auto" sheen={false} className="lk-theme-toggle__track">
         <span className="lk-theme-toggle__highlight" aria-hidden="true" />
         <span className="lk-theme-toggle__rail" aria-hidden="true">
           <span className="lk-theme-toggle__glyph lk-theme-toggle__glyph--sun">

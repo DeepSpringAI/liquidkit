@@ -78,9 +78,6 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
           material="ultraThin"
           tint="auto"
           sheen={false}
-          refraction={26}
-          dispersion={3}
-          bezel={8}
           className="lk-switch__track"
         />
         <LiquidGlass
@@ -88,9 +85,6 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
           elevation={2}
           material="clear"
           tint={value ? 'accent' : 'clear'}
-          refraction={64}
-          dispersion={22}
-          bezel={7}
           className={cx('lk-switch__thumb', glow && 'lk-switch__thumb--glow')}
         >
           <span className="lk-switch__thumb-glint" aria-hidden="true" />

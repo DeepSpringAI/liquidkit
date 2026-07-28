@@ -1,26 +1,36 @@
 import { LiquidGlass, Card, Button, ArrowRightIcon } from '@hamidrezazargham/liquidkit'
 import type { ComponentDoc } from '../types'
+import { GlassPlayground } from '../../ui/GlassPlayground'
 
 export const liquidGlassDoc: ComponentDoc = {
   slug: 'liquid-glass',
   name: 'LiquidGlass',
   category: 'Primitives',
   summary:
-    'The core surface every other component is built on. It refracts the live content behind it through an SVG displacement filter — real lensing at the edges, not just a blur.',
+    'The core surface every other component is built on: a frosted backdrop under a tint, a lit bevel and a specular sheen.',
   importLine: "import { LiquidGlass } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
+      title: 'Playground',
+      description:
+        'Drag the panel across the backdrop and move the sliders — blur sets the frost, material pairs it with a matching tint opacity, and tint gives the glass its color.',
+      demo: <GlassPlayground />,
+      code: '',
+      stage: false,
+      hideCode: true,
+    },
+    {
       title: 'A glass panel',
-      description: 'Drop anything inside. The panel bends whatever sits behind it.',
+      description: 'Drop anything inside. The panel frosts whatever sits behind it.',
       demo: (
         <LiquidGlass radius={24} style={{ padding: '28px 32px' }}>
           <strong style={{ fontSize: 18 }}>Liquid Glass</strong>
-          <p style={{ margin: '6px 0 0', opacity: 0.7 }}>Real refraction, light & dark.</p>
+          <p style={{ margin: '6px 0 0', opacity: 0.7 }}>Frosted glass, light & dark.</p>
         </LiquidGlass>
       ),
       code: `<LiquidGlass radius={24} style={{ padding: '28px 32px' }}>
   <strong>Liquid Glass</strong>
-  <p>Real refraction, light & dark.</p>
+  <p>Frosted glass, light & dark.</p>
 </LiquidGlass>`,
     },
     {
@@ -62,25 +72,25 @@ export const liquidGlassDoc: ComponentDoc = {
 <LiquidGlass tint="accent" />`,
     },
     {
-      title: 'Refraction & dispersion',
+      title: 'Frost depth',
       description:
-        'Crank refraction for a thicker lens; dispersion splits the light into a chromatic rim. Set dispersion to 0 for clean glass.',
+        'blur sets the frost radius directly. Reach for material when you want the matching tint opacity too.',
       demo: (
         <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
-          <LiquidGlass radius={20} refraction={20} dispersion={0} style={{ padding: '22px 24px' }}>
-            subtle
+          <LiquidGlass radius={20} blur={2} style={{ padding: '22px 24px' }}>
+            2px
           </LiquidGlass>
-          <LiquidGlass radius={20} refraction={60} dispersion={6} style={{ padding: '22px 24px' }}>
-            default
+          <LiquidGlass radius={20} blur={10} style={{ padding: '22px 24px' }}>
+            10px
           </LiquidGlass>
-          <LiquidGlass radius={20} refraction={90} dispersion={14} style={{ padding: '22px 24px' }}>
-            heavy
+          <LiquidGlass radius={20} blur={28} style={{ padding: '22px 24px' }}>
+            28px
           </LiquidGlass>
         </div>
       ),
-      code: `<LiquidGlass refraction={20} dispersion={0}>subtle</LiquidGlass>
-<LiquidGlass refraction={60} dispersion={6}>default</LiquidGlass>
-<LiquidGlass refraction={90} dispersion={14}>heavy</LiquidGlass>`,
+      code: `<LiquidGlass blur={2}>2px</LiquidGlass>
+<LiquidGlass blur={10}>10px</LiquidGlass>
+<LiquidGlass blur={28}>28px</LiquidGlass>`,
     },
     {
       title: 'Polymorphic & interactive',
@@ -137,24 +147,6 @@ export const liquidGlassDoc: ComponentDoc = {
       description: 'Backdrop blur in px.',
     },
     {
-      name: 'refraction',
-      type: 'number',
-      default: '46',
-      description: 'Refraction strength (displacement scale).',
-    },
-    {
-      name: 'dispersion',
-      type: 'number',
-      default: '2',
-      description: 'Chromatic split in px; 0 disables the rainbow fringe.',
-    },
-    {
-      name: 'bezel',
-      type: 'number',
-      default: '14',
-      description: 'Width of the refracting edge band in px.',
-    },
-    {
       name: 'tint',
       type: "'auto' | 'light' | 'dark' | 'clear' | 'accent'",
       default: "'auto'",
@@ -162,12 +154,6 @@ export const liquidGlassDoc: ComponentDoc = {
     },
     { name: 'elevation', type: '0 | 1 | 2 | 3', default: '2', description: 'Drop-shadow depth.' },
     { name: 'sheen', type: 'boolean', default: 'true', description: 'Diagonal specular sheen.' },
-    {
-      name: 'glass',
-      type: 'boolean',
-      default: 'true',
-      description: 'Enable true refraction. When false, falls back to a frosted blur.',
-    },
     {
       name: 'interactive',
       type: 'boolean',

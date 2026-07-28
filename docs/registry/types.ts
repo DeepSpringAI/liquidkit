@@ -15,12 +15,14 @@ export interface DocExample {
   demo: ReactNode
   /** The copy-paste source that produces the demo. */
   code: string
-  /** Place the demo on a textured backdrop so refraction is visible. @default true */
+  /** Place the demo on a textured backdrop so the frost is visible. @default true */
   stage?: boolean
   /** Stack the demo vertically with more room (forms, command bars). */
   wide?: boolean
   /** Let the demo overflow its stage — for anchored overlays (menus, popovers). */
   overflow?: boolean
+  /** Skip the source block — for demos that render their own (the playground). */
+  hideCode?: boolean
 }
 
 export interface ComponentDoc {

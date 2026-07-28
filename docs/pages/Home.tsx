@@ -32,11 +32,12 @@ export function Home() {
             v0.1 · React + TypeScript
           </Badge>
           <h1>
-            Interfaces that <span className="home-grad">bend light</span>
+            Interfaces made of <span className="home-grad">glass</span>
           </h1>
           <p className="home-hero__lead">
-            LiquidKit is a React component library built on a real liquid-glass surface — content is
-            refracted, not just blurred. Light &amp; dark, ~13&nbsp;kB, zero runtime dependencies.
+            LiquidKit is a React component library built on one frosted liquid-glass surface —
+            material, tint and depth from a single primitive. Light &amp; dark, ~13&nbsp;kB, zero
+            runtime dependencies.
           </p>
           <div className="home-hero__cta">
             <Button
@@ -63,12 +64,12 @@ export function Home() {
               <strong style={{ fontSize: 18 }}>Liquid Glass</strong>
             </div>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 16 }}>
-              <StatTile glow accent="var(--lk-accent)" label="Refraction" value="46" size={120} />
+              <StatTile glow accent="var(--lk-accent)" label="Components" value="40" size={120} />
               <StatTile
                 glow
                 accent="color-mix(in srgb, var(--lk-accent) 60%, var(--lk-fg))"
-                label="Dispersion"
-                value="5px"
+                label="Bundle"
+                value="13kB"
                 size={120}
               />
             </div>
@@ -85,8 +86,8 @@ export function Home() {
       <section className="home-features">
         <Feature
           icon={<CubeIcon />}
-          title="True refraction"
-          desc="SVG displacement bends the live page at every edge, with an optional chromatic fringe — not a flat blur."
+          title="One glass surface"
+          desc="Frost, tint, bevel and sheen from a single primitive — every component composes it, so the whole kit stays consistent."
         />
         <Feature
           icon={<SunIcon />}

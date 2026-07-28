@@ -4,9 +4,14 @@ Context and working rules for AI agents (Claude Code) developing on **liquidkit*
 
 ## What this is
 
-A React + TypeScript **Liquid Glass** UI component library. Every surface runs a real-time SVG
-displacement engine (true refraction + chromatic dispersion), degrading to a frosted blur where
-unsupported. Ships components, a theming system (palettes × light/dark), and page templates.
+A React + TypeScript **Liquid Glass** UI component library. Every surface is one primitive: a
+frosted `backdrop-filter` under a tint, a lit bevel and a specular sheen. Ships components, a
+theming system (palettes × light/dark), and page templates.
+
+> The SVG displacement/refraction engine was removed in 0.4.0 — it only ran on Chromium, cost a
+> GPU pass per surface, and didn't convince at real component sizes. `refraction`, `dispersion`,
+> `bezel` and `glass` remain as accepted-but-ignored props for one deprecation cycle. Don't
+> reintroduce them.
 
 - Published to npm as the **scoped** package `@hamidrezazargham/liquidkit` (the bare name
   `liquidkit` is owned by someone else — never rename to it).
@@ -38,7 +43,7 @@ unsupported. Ships components, a theming system (palettes × light/dark), and pa
 
 ## Repo layout
 
-- `src/core/` — the `<LiquidGlass>` displacement engine (the heart; touch carefully).
+- `src/core/` — the `<LiquidGlass>` surface + `GlassConfigProvider` (the heart; touch carefully).
 - `src/components/` — components, each in its own folder with `.tsx`, `.css`, and `*.test.tsx`.
 - `src/theme/` — `ThemeProvider`, palettes, presets. `src/styles/` — token/theme/palette CSS.
 - `src/templates/` — composed page templates. `src/icons/` — icon set.

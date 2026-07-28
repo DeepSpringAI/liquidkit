@@ -16,21 +16,21 @@ const introduction: GuideDoc = {
   slug: 'introduction',
   title: 'Introduction',
   summary:
-    'LiquidKit is a React component library built around a real liquid-glass surface — content is refracted, not just blurred.',
+    'LiquidKit is a React component library built around a single frosted liquid-glass surface.',
   content: (
     <>
       <p>
         <strong>LiquidKit</strong> is a set of React + TypeScript components built on a single idea:
-        a glass surface that <em>refracts</em> the live page behind it. Instead of a flat frosted
-        blur, every surface bends light at its edges through an SVG displacement filter, with an
-        optional chromatic fringe — the way real glass behaves.
+        one glass surface, composed everywhere. Every component frosts the live page behind it and
+        layers a tint, a lit bevel and a specular sheen on top, so the whole kit reads as one
+        material instead of a pile of unrelated effects.
       </p>
 
       <div className="doc-stage-inline">
         <LiquidGlass radius={22} interactive style={{ padding: '20px 26px' }}>
           <strong style={{ fontSize: 17 }}>Hello, glass</strong>
           <p style={{ margin: '4px 0 0', opacity: 0.7 }}>
-            Drag this site's slider behind a panel to see it bend.
+            Frost, tint, bevel and sheen — from one primitive.
           </p>
         </LiquidGlass>
       </div>
@@ -38,8 +38,8 @@ const introduction: GuideDoc = {
       <h2>Why LiquidKit</h2>
       <ul className="doc-list">
         <li>
-          <strong>True refraction</strong> — real edge lensing &amp; chromatic dispersion, not a
-          flat blur.
+          <strong>One coherent material</strong> — frost, tint, bevel and sheen from a single
+          primitive every component composes.
         </li>
         <li>
           <strong>Light &amp; dark, first-class</strong> — both themes are designed, not
@@ -52,27 +52,26 @@ const introduction: GuideDoc = {
           <strong>25 components + 4 page templates</strong> — buttons to dashboards.
         </li>
         <li>
-          <strong>Accessible &amp; graceful</strong> — keyboard-friendly, with a frosted fallback
-          where <code>backdrop-filter</code> is unsupported.
+          <strong>Accessible &amp; graceful</strong> — keyboard-friendly, and degrading to a plain
+          translucent panel where <code>backdrop-filter</code> is unsupported.
         </li>
       </ul>
 
       <h2>Browser support</h2>
       <p>
-        The refraction effect relies on <code>backdrop-filter</code> with an SVG filter reference.
-        It is fully supported in Chromium-based browsers. Safari and Firefox render a denser
-        frosted-glass fallback automatically — the layout and components are identical, only the
-        edge lensing differs.
+        The glass surface is a plain <code>backdrop-filter</code>, which every current browser
+        supports — Chromium, Safari and Firefox all render it identically. Anywhere it is missing,
+        surfaces fall back to a translucent tinted panel and the layout is unchanged.
       </p>
       <div className="doc-badges-row">
         <Badge variant="success" dot>
-          Chrome / Edge — full
+          Chrome / Edge
         </Badge>
-        <Badge variant="warning" dot>
-          Safari — frosted fallback
+        <Badge variant="success" dot>
+          Safari
         </Badge>
-        <Badge variant="warning" dot>
-          Firefox — frosted fallback
+        <Badge variant="success" dot>
+          Firefox
         </Badge>
       </div>
 
@@ -252,93 +251,89 @@ function Header() {
   ),
 }
 
-/* ----------------------------------------------------------- The engine */
+/* ----------------------------------------------------------- The surface */
 
 const engine: GuideDoc = {
   slug: 'glass-engine',
-  title: 'The Glass Engine',
-  summary: 'How LiquidKit bends light: an SVG displacement filter applied as a backdrop-filter.',
+  title: 'The Glass Surface',
+  summary: 'How a LiquidKit surface is built: a frosted backdrop plus four stacked layers.',
   content: (
     <>
+      <div className="doc-callout">
+        <strong>The SVG displacement engine has been removed.</strong> Earlier versions bent the
+        backdrop through an <code>feDisplacementMap</code> to fake refraction. It never looked
+        convincing at real component sizes, only ran on Chromium, and cost a GPU pass per surface —
+        so it is gone. Glass is now a frosted blur. The <code>refraction</code>,{' '}
+        <code>dispersion</code>, <code>bezel</code> and <code>glass</code> props are still accepted
+        so existing code compiles, but they do nothing and will be deleted in the next major.
+      </div>
+
       <p>
-        The effect that makes LiquidKit “liquid” is real refraction. Every surface is the{' '}
-        <a href="#/components/liquid-glass">LiquidGlass</a> primitive, which applies an SVG{' '}
-        <code>&lt;filter&gt;</code> to the content <em>behind</em> it via{' '}
-        <code>backdrop-filter</code>.
+        Every surface in the kit is the <a href="#/components/liquid-glass">LiquidGlass</a>{' '}
+        primitive. It stacks four absolutely-positioned layers under your content, so the material
+        reads as one piece of glass rather than a stack of effects.
       </p>
 
       <h2>How it works</h2>
       <ol className="doc-list">
         <li>
-          A <strong>displacement map</strong> is generated as an SVG image: a flat neutral interior
-          with gradient ramps in a band around the edges. Red encodes horizontal shift, green
-          vertical.
+          <strong>Frost</strong> — a <code>backdrop-filter</code> of{' '}
+          <code>blur() saturate() brightness()</code> over whatever sits behind the surface. This is
+          the entire optical effect; <code>blur</code> and <code>material</code> control it.
         </li>
         <li>
-          <code>feDisplacementMap</code> uses that map to push each backdrop pixel sideways —
-          strongly at the rim, not at all in the center. That is the convex-lens look.
+          <strong>Tint</strong> — a translucent color wash, from <code>tint</code> and{' '}
+          <code>material</code>, giving the glass its body.
         </li>
         <li>
-          For <strong>chromatic dispersion</strong>, the displacement runs three times at slightly
-          different scales for the R / G / B channels, then recombines — producing the rainbow
-          fringe at the edge.
+          <strong>Bevel</strong> — a border-only gradient that catches light along the rim.
         </li>
         <li>
-          Filters are de-duplicated in a reference-counted registry and sized to each element with a{' '}
-          <code>ResizeObserver</code>, so hundreds of glass surfaces share a handful of filter
-          definitions.
+          <strong>Sheen</strong> — a specular highlight riding the top and bottom edges. Turn it off
+          with <code>sheen={'{false}'}</code>.
         </li>
       </ol>
 
       <h2>The knobs</h2>
-      <p>Three props on any glass surface shape the material:</p>
       <PropsTable
         props={[
           {
-            name: 'refraction',
+            name: 'blur',
             type: 'number',
-            default: '46',
-            description: 'Displacement scale — how hard the edge bends light.',
+            default: '8',
+            description:
+              'Frost radius in px. Overrides material. Defaults to the --lk-glass-blur token.',
           },
           {
-            name: 'dispersion',
-            type: 'number',
-            default: '2',
-            description: 'Per-channel split in px. 0 = clean glass, no rainbow.',
+            name: 'material',
+            type: `'clear' | 'ultraThin' | 'thin' | 'regular' | 'thick'`,
+            description:
+              'Apple-style thickness — sets both the frost and the auto-tint opacity in one prop.',
           },
           {
-            name: 'bezel',
-            type: 'number',
-            default: '14',
-            description: 'Width of the refracting edge band. Larger = thicker rim.',
+            name: 'tint',
+            type: `'auto' | 'clear' | 'light' | 'dark' | 'accent'`,
+            default: `'auto'`,
+            description: 'Color of the wash. auto follows the theme; accent picks up your brand.',
           },
         ]}
       />
       <CodeBlock
-        code={`// clean, subtle glass
-<LiquidGlass refraction={20} dispersion={0} />
+        code={`// barely-there pane
+<LiquidGlass material="clear" tint="clear" />
 
-// thick, prismatic lens
-<LiquidGlass refraction={90} dispersion={14} bezel={22} />`}
+// heavy frosted panel
+<LiquidGlass material="thick" blur={28} />`}
       />
 
-      <h2>Graceful fallback</h2>
       <p>
-        Where <code>backdrop-filter</code> with SVG references is unavailable (Safari, Firefox), an{' '}
-        <code>@supports</code> query swaps in a denser frosted tint automatically. You can also opt
-        out of refraction per-surface — useful when nesting glass inside glass:
+        Try every combination on the <a href="#/playground">playground</a>.
       </p>
-      <CodeBlock
-        code={`<LiquidGlass glass={false}>
-  {/* frosted blur only — no displacement filter */}
-</LiquidGlass>`}
-      />
 
       <div className="doc-callout">
-        <strong>Performance tip.</strong> Avoid deeply nesting refractive surfaces — stacking
-        displacement filters is expensive and can balloon the filter region. Components like{' '}
-        <a href="#/components/dock">Dock</a> and <a href="#/components/toolbar">Toolbar</a> expose a{' '}
-        <code>glass={'{false}'}</code> prop for exactly this case.
+        <strong>Performance tip.</strong> Avoid deeply nesting glass surfaces — each one is its own{' '}
+        <code>backdrop-filter</code>, and stacking them multiplies GPU work for an effect you mostly
+        can&rsquo;t see. Prefer a plain container for the inner element.
       </div>
     </>
   ),
@@ -356,8 +351,8 @@ const performance: GuideDoc = {
       <p>
         A glass surface is a <code>backdrop-filter</code>, which the browser re-evaluates on the GPU
         whenever anything behind it moves. A page with many surfaces (a dashboard, a node graph) can
-        allocate a lot of GPU memory, so the engine bounds that cost automatically — no
-        configuration required.
+        allocate a lot of GPU memory, so LiquidKit bounds that cost automatically — no configuration
+        required.
       </p>
 
       <h2>Automatic, and invisible</h2>
@@ -369,15 +364,9 @@ const performance: GuideDoc = {
           so cost tracks what is actually on screen, not what exists in the DOM.
         </li>
         <li>
-          <strong>Filters are shared.</strong> The displacement <code>&lt;filter&gt;</code> is
-          cached by bucketed size, so many similarly-sized surfaces reference one definition instead
-          of minting their own.
-        </li>
-        <li>
-          <strong>The engine is skipped where it isn’t honored.</strong> Safari and Firefox don’t
-          render SVG <code>url()</code> references inside <code>backdrop-filter</code>, so LiquidKit
-          detects that and serves the frosted fallback directly instead of generating a filter they
-          would ignore. Chromium (and Electron) get the full effect.
+          <strong>Surfaces are memoized.</strong> Every glass component is wrapped in{' '}
+          <code>React.memo</code>, so a parent re-render doesn&rsquo;t cascade into rebuilding a
+          backdrop-filter on each surface underneath it.
         </li>
       </ul>
       <p>
@@ -387,8 +376,8 @@ const performance: GuideDoc = {
 
       <h2>Tuning it app-wide</h2>
       <p>
-        Wrap your app in an optional <code>GlassConfigProvider</code> to tune the engine everywhere
-        at once. It is entirely optional; without it, every surface runs at full fidelity.
+        Wrap your app in an optional <code>GlassConfigProvider</code> to tune glass everywhere at
+        once. It is entirely optional; without it, every surface runs at full fidelity.
       </p>
       <PropsTable
         props={[
@@ -397,19 +386,13 @@ const performance: GuideDoc = {
             type: `'high' | 'balanced' | 'low'`,
             default: `'high'`,
             description:
-              'Fidelity tier. high = full effect (unchanged). balanced = single displacement pass (drops only the rainbow fringe). low = also gentler blur & refraction.',
+              'Fidelity tier. high = full frost (unchanged). balanced = same as high today. low = a gentler blur radius, for weak hardware.',
           },
           {
             name: 'pauseOffscreen',
             type: 'boolean',
             default: 'true',
             description: 'Release the backdrop-filter on surfaces scrolled out of view.',
-          },
-          {
-            name: 'glass',
-            type: 'boolean',
-            default: 'undefined',
-            description: 'App-wide refraction override. undefined defers to each component’s prop.',
           },
         ]}
       />
@@ -425,10 +408,9 @@ const performance: GuideDoc = {
 </GlassConfigProvider>`}
       />
       <div className="doc-callout">
-        <strong>Nothing is removed unless you opt in.</strong> The default <code>high</code> tier is
-        byte-for-byte identical to setting no tier at all. <code>balanced</code>/<code>low</code>{' '}
-        are escape hatches for weak hardware — they trade the chromatic fringe (and, at{' '}
-        <code>low</code>, some blur) for a much cheaper composite.
+        <strong>Nothing changes unless you opt in.</strong> The default <code>high</code> tier is
+        byte-for-byte identical to setting no tier at all. <code>low</code> is an escape hatch for
+        weak hardware — it trades some blur radius for a much cheaper composite.
       </div>
     </>
   ),

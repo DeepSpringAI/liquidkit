@@ -75,7 +75,7 @@ export const dockDoc: ComponentDoc = {
     {
       title: 'Bare mode',
       description:
-        'Set glass={false} when nesting the dock inside another glass surface to avoid stacking refraction filters.',
+        'Nesting a dock inside another glass surface stacks two backdrop-filters; prefer a plain container for the inner one.',
       demo: (
         <Dock
           glass={false}

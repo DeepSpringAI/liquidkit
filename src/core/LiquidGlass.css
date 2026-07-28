@@ -121,7 +121,11 @@
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
   mask-composite: exclude;
-  mix-blend-mode: screen;
+  /* NO mix-blend-mode here. A blended child turns `.lk-glass` into an isolated
+     group, which makes it a *backdrop root* — and every `backdrop-filter` inside
+     it (the whole refraction + frost layer) then filters an empty backdrop and
+     silently does nothing. The rim is white-on-white either way, so `screen`
+     bought almost nothing and cost the entire glass effect. */
 }
 
 .lk-glass__content {

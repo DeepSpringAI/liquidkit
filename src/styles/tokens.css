@@ -44,11 +44,8 @@
   /* ---- glass material knobs (engine reads these) ---- */
   --lk-glass-blur: 8px; /* backdrop blur radius */
   --lk-glass-rim: 1.5px; /* width of the specular rim (border-only gradient) */
-  --lk-glass-saturate: 1.7; /* saturation boost on refracted content */
+  --lk-glass-saturate: 1.7; /* saturation boost on the frosted backdrop */
   --lk-glass-brightness: 1.05;
-  --lk-refract: 46; /* feDisplacementMap scale (refraction strength) */
-  --lk-refract-bezel: 14px; /* width of the refracting edge band */
-  --lk-dispersion: 2; /* chromatic aberration split (0 disables) — Apple-subtle */
 
   /* ============ LIGHT THEME (default) ============ */
   --lk-bg: #e9edf4;

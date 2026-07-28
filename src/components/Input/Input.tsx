@@ -28,8 +28,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       radius={pill ? 999 : 14}
       elevation={1}
       sheen={false}
-      refraction={30}
-      dispersion={3}
       className={cx('lk-input', `lk-input--${inputSize}`, disabled && 'is-disabled', className)}
       style={style}
     >
