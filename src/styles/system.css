@@ -71,6 +71,32 @@
   --lk-text-caption: 12px;
   --lk-text-caption2: 11px;
 
+  /* ---- tracking, paired to the scale above ----
+     Apple ships a tracking table, not one letter-spacing value: as type grows
+     the gaps grow with it and start to read as too loose, so large sizes need
+     negative tracking; small sizes need a touch of positive tracking to stay
+     legible. A single fixed letter-spacing is always wrong somewhere.
+     These are additive — nothing applies them for you. Pair each with its
+     matching --lk-text-* size. */
+  --lk-tracking-largetitle: -0.026em;
+  --lk-tracking-title1: -0.022em;
+  --lk-tracking-title2: -0.017em;
+  --lk-tracking-title3: -0.012em;
+  --lk-tracking-headline: -0.006em;
+  --lk-tracking-body: -0.004em;
+  --lk-tracking-callout: -0.002em;
+  --lk-tracking-subhead: 0em;
+  --lk-tracking-footnote: 0.006em;
+  --lk-tracking-caption: 0.01em;
+  --lk-tracking-caption2: 0.012em;
+
+  /* ---- leading, which tracks size inversely: tight on display type,
+     looser on body copy that has to be read in bulk. ---- */
+  --lk-leading-display: 1.05;
+  --lk-leading-title: 1.2;
+  --lk-leading-body: 1.5;
+  --lk-leading-dense: 1.3;
+
   /* ---- concentric / iOS radii (semantic aliases) ---- */
   --lk-radius-control: 12px;
   --lk-radius-field: 14px;

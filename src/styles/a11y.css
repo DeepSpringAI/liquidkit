@@ -1,0 +1,132 @@
+/* ============================================================================
+   LiquidKit — accessibility material layer
+
+   A glass library has to answer the OS accessibility settings that are *about*
+   glass. Three independent signals, each handled on its own (they compose):
+
+     prefers-reduced-transparency  →  drop the blur, make the surface opaque
+     prefers-contrast: more        →  near-solid surface + a defined border
+     prefers-reduced-motion        →  handled in motion.css / per component
+
+   Reduced transparency is not "reduced motion". A user can want a still,
+   translucent UI, or a moving, opaque one. Never fold them together.
+
+   ── Adding a new glass surface? ────────────────────────────────────────────
+   Any rule that sets `backdrop-filter` must be listed in the selector groups
+   below. `a11y.test.ts` walks every stylesheet in src/ and fails if a
+   `backdrop-filter` site is missing here, so this list cannot silently rot.
+   ========================================================================== */
+
+:root {
+  /* The opaque stand-in used when translucency is switched off. Points at the
+     elevated surface colour, so it follows light/dark like everything else. */
+  --lk-glass-solid: var(--lk-bg-elev);
+  /* Scrims stay dark, but go flat (no blur) rather than disappearing — the
+     dimming is what communicates modality, the blur was only decoration. */
+  --lk-scrim-solid: var(--lk-scrim);
+}
+
+/* -------------------------------------------------- reduced transparency -- */
+
+@media (prefers-reduced-transparency: reduce) {
+  /* Token-level: everything driven by --lk-glass-blur stops frosting, and the
+     tint becomes fully opaque so text keeps its contrast without the blur. */
+  :root,
+  [data-theme='light'],
+  [data-theme='dark'] {
+    --lk-glass-blur: 0px;
+    --lk-glass-saturate: 1;
+    --lk-glass-tint: var(--lk-glass-solid);
+    --lk-glass-tint-strong: var(--lk-glass-solid);
+  }
+
+  /* Every rule below is prefixed with `html` purely for specificity. Component
+     CSS is imported from the component modules, so it lands *after* this file
+     in the bundle; at equal specificity the component would win and the frost
+     would survive. The extra element adds 0-0-1 and settles it regardless of
+     bundle order. */
+
+  /* `blur(0px)` still promotes a compositing layer and still costs a backdrop
+     pass, so remove the filter outright rather than zeroing its radius. */
+  html .lk-glass__refraction,
+  html .lk-popover__arrow,
+  html .lk-badge--glass,
+  html .lk-tooltip,
+  html .lk-select__trigger,
+  html .lk-sheet__scrim,
+  html .lk-modal__scrim,
+  html .lk-code--bare .lk-code__copy {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* The tint layer carries the whole surface once the frost is gone. */
+  html .lk-glass__tint,
+  html .lk-glass[data-tint='clear'] .lk-glass__tint,
+  html .lk-glass[data-material='clear'][data-tint='auto'] .lk-glass__tint {
+    background: var(--lk-glass-solid);
+  }
+
+  /* The sheen is a specular highlight on a material that no longer reads as a
+     material — it just muddies the edge now. The bevel keeps the surface
+     delineated on its own. */
+  html .lk-glass__sheen {
+    display: none;
+  }
+
+  html .lk-sheet__scrim,
+  html .lk-modal__scrim {
+    background: var(--lk-scrim-solid);
+  }
+
+  html .lk-code--bare .lk-code__copy {
+    background: var(--lk-bg-elev);
+  }
+}
+
+/* ------------------------------------------------------------- contrast -- */
+
+@media (prefers-contrast: more) {
+  :root,
+  [data-theme='light'],
+  [data-theme='dark'] {
+    --lk-glass-blur: 0px;
+    --lk-glass-saturate: 1;
+    --lk-glass-tint: var(--lk-glass-solid);
+    --lk-glass-tint-strong: var(--lk-glass-solid);
+    /* A defined, contrasting edge instead of a soft light-catching hairline. */
+    --lk-glass-border: var(--lk-fg);
+    --lk-glass-border-soft: var(--lk-fg);
+    --lk-glass-highlight: transparent;
+    --lk-glass-inner-shadow: transparent;
+    --lk-fg-muted: var(--lk-fg);
+    --lk-fg-subtle: var(--lk-fg);
+  }
+
+  html .lk-glass__refraction,
+  html .lk-popover__arrow,
+  html .lk-badge--glass,
+  html .lk-tooltip,
+  html .lk-select__trigger,
+  html .lk-sheet__scrim,
+  html .lk-modal__scrim,
+  html .lk-code--bare .lk-code__copy {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  html .lk-glass__tint,
+  html .lk-glass[data-tint='clear'] .lk-glass__tint,
+  html .lk-glass[data-material='clear'][data-tint='auto'] .lk-glass__tint {
+    background: var(--lk-glass-solid);
+  }
+
+  html .lk-glass__sheen {
+    display: none;
+  }
+
+  /* Focus has to stay obvious against an opaque, high-contrast surface. */
+  html .lk-glass--interactive:focus-visible {
+    outline-width: 3px;
+  }
+}

@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Accessibility material layer (`src/styles/a11y.css`).** Glass surfaces now answer the two OS
+  settings that are actually about glass: `prefers-reduced-transparency: reduce` drops the blur and
+  makes surfaces opaque, and `prefers-contrast: more` additionally gives them a defined,
+  contrasting border. Previously both settings were ignored and users got the full frost regardless.
+  New tokens: `--lk-glass-solid`, `--lk-scrim-solid`.
+- **Gesture momentum primitives**, exported: `projectMomentum()`, `rubberband()`,
+  `VelocityTracker` and `DECELERATION`. Ports of Apple's *Designing Fluid Interfaces* reference
+  implementations, for building drag interactions that settle where the gesture was heading.
+- **Typography tracking and leading tokens** — `--lk-tracking-*` paired to each `--lk-text-*` size,
+  plus `--lk-leading-display|title|body|dense`. Tracking has to be size-specific; one fixed
+  `letter-spacing` is wrong at some size. Additive: nothing applies them automatically.
+- `Sheet` now has a test suite (13 cases) covering drag, dismissal, momentum and cancellation.
+
+### Changed
+
+- **`Sheet` drag now carries momentum.** On release the sheet settles at the detent nearest the
+  *projected* resting point rather than the release point, so a flick throws it the way it does on
+  iOS. At zero release velocity behaviour is unchanged — a slow drag lands exactly where it did
+  before. A drag past the tallest detent now rubber-bands instead of stopping dead, and a press
+  must travel 10px before it becomes a drag, so a tap on the grabber no longer nudges the sheet.
+
+### Fixed
+
+- **`Sheet` no longer jumps when grabbed mid-animation.** The drag start read the *target* height
+  rather than the on-screen one, so grabbing a sheet that was still springing between detents
+  snapped it to where it was heading before following the finger.
+- `Sheet` now ends its drag on `pointercancel` / lost pointer capture. Previously an interrupted
+  gesture (a system gesture, an incoming call) left the drag state armed.
+
 ## [0.4.0] - 2026-07-28
 
 ### Removed

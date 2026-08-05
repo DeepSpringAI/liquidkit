@@ -29,9 +29,9 @@ export default defineConfig({
         // Pure presentational icon set — exercised via the smoke suite.
         'src/icons/icons.tsx',
       ],
-      // Conservative floors (current: ~76% stmts / ~71% branches) so CI catches
+      // Conservative floors (current: ~84% stmts / ~80% branches) so CI catches
       // regressions without being flaky. Raise as the suite grows.
-      thresholds: { statements: 70, branches: 65, functions: 50, lines: 70 },
+      thresholds: { statements: 82, branches: 77, functions: 64, lines: 82 },
     },
   },
 })

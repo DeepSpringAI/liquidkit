@@ -9,6 +9,7 @@ import { createPortal } from 'react-dom'
 import { LiquidGlass } from '../../core/LiquidGlass'
 import { cx } from '../../utils/cx'
 import { mergeRefs } from '../../utils/mergeRefs'
+import { VelocityTracker, projectMomentum, rubberband } from '../../utils/momentum'
 import { useFocusTrap } from '../../utils/useFocusTrap'
 import { useThemedPortal } from '../../utils/useThemedPortal'
 import './Sheet.css'
@@ -37,6 +38,9 @@ function resolveDetent(d: Detent, vh: number): number {
   return d <= 1 ? vh * d : d
 }
 
+/** Movement required before a press becomes a drag, so a tap never nudges the sheet. */
+const DRAG_THRESHOLD = 10
+
 /** The iOS sheet: a bottom panel that springs up and snaps between detents. */
 export const Sheet = forwardRef<HTMLDivElement, SheetProps>(function Sheet(
   {
@@ -58,7 +62,8 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(function Sheet(
   const [vh, setVh] = useState(() => (typeof window !== 'undefined' ? window.innerHeight : 800))
   const [detentIdx, setDetentIdx] = useState(defaultDetent)
   const [dragH, setDragH] = useState<number | null>(null)
-  const drag = useRef<{ startY: number; startH: number } | null>(null)
+  const drag = useRef<{ startY: number; startH: number; moved: boolean } | null>(null)
+  const velocity = useRef(new VelocityTracker())
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
   const container = useThemedPortal()
@@ -91,28 +96,56 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(function Sheet(
 
   if (!open || !container) return null
 
+  const max = resolved[resolved.length - 1]
+
   const onPointerDown = (e: ReactPointerEvent) => {
-    drag.current = { startY: e.clientY, startH: height }
+    // Start from the *presentation* height, not the logical one. Grabbing a
+    // sheet that is still springing between detents must pick it up exactly
+    // where it is on screen — reading the target value makes it jump.
+    const measured = panelRef.current?.getBoundingClientRect().height
+    const live = measured != null && measured > 0 ? measured : height
+    drag.current = { startY: e.clientY, startH: live, moved: false }
+    velocity.current.reset()
+    velocity.current.add(live)
     ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
   }
+
   const onPointerMove = (e: ReactPointerEvent) => {
     if (!drag.current) return
-    const next = drag.current.startH + (drag.current.startY - e.clientY)
-    setDragH(Math.max(80, Math.min(resolved[resolved.length - 1] + 40, next)))
+    if (!drag.current.moved) {
+      if (Math.abs(e.clientY - drag.current.startY) < DRAG_THRESHOLD) return
+      drag.current.moved = true
+    }
+    const raw = drag.current.startH + (drag.current.startY - e.clientY)
+    // Past the tallest detent the sheet resists instead of stopping dead.
+    const next = raw > max ? max + rubberband(raw - max, max) : Math.max(80, raw)
+    velocity.current.add(next)
+    setDragH(next)
   }
-  const onPointerUp = () => {
+
+  const endDrag = () => {
     if (!drag.current) return
+    const moved = drag.current.moved
     const h = dragH ?? height
     drag.current = null
     setDragH(null)
-    if (h < resolved[0] * 0.6) {
+    if (!moved) return
+
+    // Settle where the gesture was heading, not where the finger left off.
+    const projected = h + projectMomentum(velocity.current.velocity())
+
+    // Dismissal stays a deliberate drag *below* the smallest detent; once
+    // there, momentum decides whether the sheet comes back or keeps going.
+    if (h < resolved[0] && projected < resolved[0] * 0.6) {
       onClose?.()
       return
     }
+
+    const target = Math.min(max, Math.max(resolved[0], projected))
     let nearest = 0
     let best = Infinity
     resolved.forEach((r, i) => {
-      const d = Math.abs(r - h)
+      const d = Math.abs(r - target)
       if (d < best) {
         best = d
         nearest = i
@@ -151,7 +184,9 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(function Sheet(
           className="lk-sheet__grabarea"
           onPointerDown={grabber ? onPointerDown : undefined}
           onPointerMove={grabber ? onPointerMove : undefined}
-          onPointerUp={grabber ? onPointerUp : undefined}
+          onPointerUp={grabber ? endDrag : undefined}
+          onPointerCancel={grabber ? endDrag : undefined}
+          onLostPointerCapture={grabber ? endDrag : undefined}
         >
           {grabber && <span className="lk-sheet__grabber" />}
           {title != null && (

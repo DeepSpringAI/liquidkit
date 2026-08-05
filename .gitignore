@@ -10,4 +10,7 @@ coverage
 .idea
 .vscode/*
 !.vscode/extensions.json
-.claude
+.claude/*
+# Project skills are shared working rules, not local machine state — CLAUDE.md
+# references them, so they travel with the repo.
+!.claude/skills

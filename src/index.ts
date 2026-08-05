@@ -2,6 +2,7 @@ import './styles/tokens.css'
 import './styles/system.css'
 import './styles/motion.css'
 import './styles/base.css'
+import './styles/a11y.css'
 
 // Core surface
 export { LiquidGlass } from './core/LiquidGlass'
@@ -119,6 +120,7 @@ export { mergeRefs } from './utils/mergeRefs'
 export { useSize } from './utils/useSize'
 export type { Size } from './utils/useSize'
 export { useReducedMotion } from './utils/useReducedMotion'
+export { projectMomentum, rubberband, VelocityTracker, DECELERATION } from './utils/momentum'
 export { useScrollDirection } from './utils/useScrollDirection'
 export type {
   ScrollDirection,

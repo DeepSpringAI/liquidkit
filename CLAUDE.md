@@ -61,6 +61,30 @@ theming system (palettes × light/dark), and page templates.
 - Style with existing design tokens/CSS custom properties — don't hardcode colors.
 - Respect `prefers-reduced-motion` (see `src/utils/useReducedMotion.ts`) and keep components
   accessible (roles, keyboard, focus).
+- **Any new `backdrop-filter` must be listed in `src/styles/a11y.css`** so it collapses under
+  `prefers-reduced-transparency` and `prefers-contrast: more`. `src/styles/a11y.test.ts` scans
+  every stylesheet and fails CI if a glass surface isn't covered.
+
+## The `apple-design` skill
+
+`.claude/skills/apple-design/SKILL.md` (from [emilkowalski/skills](https://github.com/emilkowalski/skills),
+MIT) is the house reference for motion, materials and typography. Follow it — with three
+project-specific overrides where its advice collides with decisions this repo has already made:
+
+1. **No new runtime dependencies.** The skill reaches for Motion / Framer Motion. liquidkit ships
+   with **zero** runtime deps (React is a peer) and that's deliberate — it's why the package drops
+   into any app without a version fight. Use the sampled spring curves in `src/styles/motion.css`
+   and the primitives in `src/utils/momentum.ts` instead. Adding a motion library is a decision to
+   escalate, not a refactor.
+2. **Never animate `backdrop-filter` blur radius.** The skill's "materialize, don't just fade"
+   advice costs a full backdrop re-composite per frame. The refraction engine was removed in 0.4.0
+   over exactly this kind of per-surface GPU cost — don't reintroduce it through the back door.
+   Animate `opacity` and `transform` on the surface instead; the frost can stay constant.
+3. **Tokens, not literal colors.** The skill's examples hardcode `rgba(...)`. This repo's rule wins.
+
+Where the skill and this file agree, the skill has the detail: springs settle from the *current*
+on-screen value (never the target), gestures hand their release velocity to the animation, and a
+flick lands where it was projected to land — not where the finger lifted.
 
 ## Testing & coverage
 

@@ -532,5 +532,73 @@ function Chrome() {
   ),
 }
 
-export const guides: GuideDoc[] = [introduction, installation, theming, engine, performance, motion]
+/* -------------------------------------------------------- Accessibility */
+
+const accessibility: GuideDoc = {
+  slug: 'accessibility',
+  title: 'Accessibility',
+  summary:
+    'Glass answers the OS settings that are about glass — reduced transparency, increased contrast and reduced motion.',
+  content: (
+    <>
+      <p>
+        Translucency is the whole point of LiquidKit, which is exactly why it has to be switchable.
+        Three OS-level preferences change how a glass surface renders, and they are{' '}
+        <em>independent</em> — someone can want a still, translucent interface, or a moving, opaque
+        one. LiquidKit handles each on its own; you don’t have to wire anything up.
+      </p>
+
+      <h2>Reduced transparency</h2>
+      <p>
+        Under <code>prefers-reduced-transparency: reduce</code> (macOS &amp; iOS{' '}
+        <em>Reduce Transparency</em>, Windows <em>Transparency effects</em> off) every surface drops
+        its <code>backdrop-filter</code> entirely and the tint becomes opaque, so text keeps its
+        contrast without the frost behind it. The specular sheen is hidden too — it reads as grime
+        on a surface that is no longer a material. The blur is removed rather than set to{' '}
+        <code>0px</code>, because a zero-radius filter still costs a compositing pass.
+      </p>
+
+      <h2>Increased contrast</h2>
+      <p>
+        <code>prefers-contrast: more</code> does everything reduced transparency does, and
+        additionally replaces the soft light-catching hairline with a solid, contrasting border,
+        collapses the muted text ramp onto the primary foreground colour, and widens the focus ring
+        to 3px.
+      </p>
+
+      <h2>Reduced motion</h2>
+      <p>
+        <code>prefers-reduced-motion: reduce</code> collapses springs, lifts and entrance animations
+        to instant state changes. Use <code>useReducedMotion()</code> to mirror that in your own JS
+        animation.
+      </p>
+
+      <h2>Overriding it</h2>
+      <p>Two tokens drive the opaque fallback, so you can point them somewhere else:</p>
+      <CodeBlock
+        lang="css"
+        code={`:root {
+  --lk-glass-solid: #ffffff;  /* surface used when translucency is off */
+  --lk-scrim-solid: rgba(0, 0, 0, 0.6);
+}`}
+      />
+
+      <div className="doc-callout">
+        <strong>Building your own glass surface?</strong> Any new <code>backdrop-filter</code> in
+        this repo must be listed in <code>src/styles/a11y.css</code>. A test walks every stylesheet
+        and fails the build if a surface isn’t covered, so these fallbacks can’t silently rot.
+      </div>
+    </>
+  ),
+}
+
+export const guides: GuideDoc[] = [
+  introduction,
+  installation,
+  theming,
+  engine,
+  performance,
+  motion,
+  accessibility,
+]
 export const guideMap = Object.fromEntries(guides.map((g) => [g.slug, g]))
