@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-08-05
+
 ### Added
 
 - **Accessibility material layer (`src/styles/a11y.css`).** Glass surfaces now answer the two OS

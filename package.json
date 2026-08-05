@@ -1,6 +1,6 @@
 {
   "name": "@hamidrezazargham/liquidkit",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Liquid Glass UI component library for React — one frosted glass surface, light & dark.",
   "type": "module",
   "license": "MIT",
