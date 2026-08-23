@@ -1,4 +1,8 @@
+/* Positioned so the fill can be taken out of flow — which is what an
+   indeterminate sweep is — without the rule that does it having to outrank
+   whatever the caller set on the bar itself. */
 .lk-progress {
+  position: relative;
   width: 220px;
   border-radius: var(--lk-radius-full);
   background: var(--lk-glass-tint-strong);
@@ -43,5 +47,65 @@
   .lk-progress__fill,
   .lk-progress-ring__fill {
     transition: none;
+  }
+}
+
+/* ------------------------------------------------------- indeterminate --- */
+
+/* Work whose end is not known: a segment sweeping the track, at the 1.15 s the
+   rest of the system uses for "something is happening, keep watching". */
+.lk-progress.is-indeterminate .lk-progress__fill {
+  position: absolute;
+  inset-block: 0;
+  width: 34%;
+  transition: none;
+  animation: lk-progress-sweep 1.15s var(--lk-ease) infinite;
+}
+
+@keyframes lk-progress-sweep {
+  from {
+    inset-inline-start: -34%;
+  }
+  to {
+    inset-inline-start: 100%;
+  }
+}
+
+.lk-progress-ring.is-indeterminate svg {
+  animation: lk-progress-spin 0.9s linear infinite;
+}
+.lk-progress-ring.is-indeterminate .lk-progress-ring__fill {
+  transition: none;
+}
+
+@keyframes lk-progress-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Neither can be stilled outright — a frozen "in progress" indicator is a lie
+   about whether anything is still happening — so they slow to a pulse instead. */
+@media (prefers-reduced-motion: reduce) {
+  .lk-progress.is-indeterminate .lk-progress__fill {
+    inset-inline: 0;
+    width: auto;
+    animation: lk-progress-pulse 1.8s var(--lk-ease) infinite;
+  }
+  .lk-progress-ring.is-indeterminate svg {
+    animation: none;
+  }
+  .lk-progress-ring.is-indeterminate .lk-progress-ring__fill {
+    animation: lk-progress-pulse 1.8s var(--lk-ease) infinite;
+  }
+}
+
+@keyframes lk-progress-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
   }
 }

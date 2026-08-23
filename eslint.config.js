@@ -28,6 +28,17 @@ export default tseslint.config(
     files: ['**/*.config.{ts,js}', 'scripts/**', '**/*.mjs'],
     languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
+  {
+    // A selectable, openable table is the ARIA `grid` pattern: the row is what
+    // carries selection, activation and the grid's one tab stop. Both rules
+    // judge a <tr> by its implicit `row` role, which they class as
+    // non-interactive — true of a static table, and wrong of a grid.
+    files: ['src/components/Table/Table.tsx'],
+    rules: {
+      'jsx-a11y/no-noninteractive-element-interactions': 'off',
+      'jsx-a11y/no-noninteractive-tabindex': 'off',
+    },
+  },
   { rules: { 'no-empty': ['error', { allowEmptyCatch: true }] } },
   prettier,
 )

@@ -32,6 +32,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   table. The wrapper switches from `overflow: hidden` to `overflow: clip` when it is on, because
   `hidden` makes the wrapper its own scrollport and a header stuck to a box that never scrolls
   looks exactly like no sticky header at all.
+- **`Table` as a desktop data grid.** The table was a web table — comfortable rows, a fixed set of
+  columns, no selection. It is now either, and the second half is what a file manager needs:
+  - `density="compact"` — a 31 px header over 32 px rows, 12 px/600 header cells at 8×10 padding,
+    13 px data cells at 7×10, single-line and ellipsised, with a 1 px rule between header columns.
+    Nine rows of it occupy about the space four comfortable ones do.
+  - `sort` / `onSortChange`, and `sortKey` per column — a sortable header becomes a button with an
+    accent caret on the active column, and the `th` carries `aria-sort`. Ordering stays the
+    caller's; the table only reports the click.
+  - `sizedColumns` + `resizable` per column — `table-layout: fixed` and a 7 px drag handle on the
+    header separator, with `ArrowLeft`/`ArrowRight` doing the same job from the keyboard.
+    `minWidth` is the floor; `onColumnResize` reports the result.
+  - `selectedKeys` + `onRowClick` / `onRowActivate` / `onRowContextMenu` — selection is a solid
+    accent row that takes the cells' own secondary colours with it, double-click and `Enter` open,
+    and right-click reports the point it happened at. With any of these the table becomes an ARIA
+    `grid`: rows carry `aria-selected`, one tab stop lands on the selected row, and Up/Down walk
+    the rows.
+  - `groupOf` — a run of rows sharing a group key is headed by a sticky heading with a count
+    ("Documents · 4 items"). Zebra striping is counted over the data rather than the rendered
+    lines, so a heading in the middle does not restart the alternation under it.
+  - `scroll` — the table owns its own scroll region inside a `radius` panel, so a list can be one
+    bordered object filling the space it was given instead of a block that grows.
+  - `loading` / `busyLabel` / `skeletonRows` / `emptyState` — a 3 px indeterminate bar riding the
+    panel's top edge inside its corners, a floating pill naming the operation, and skeleton rows
+    on a first load. A reload keeps the rows and reports over them; only a first load draws shape.
+  - `rowClassName` — one extra class per row, for a state only the caller knows about.
+
+  In `compact` the header carries no rule under it — the column separators do
+  the dividing, and a horizontal border as well costs the row the half-pixel
+  that keeps it at 31.
+- **`Progress` `indeterminate`** — work whose end is not known. The bar sweeps a segment across the
+  track (1.15 s), the ring spins an arc; both drop `aria-valuenow` entirely, which is what tells a
+  screen reader there is no percentage. Under `prefers-reduced-motion` neither stops outright — a
+  frozen progress indicator is a lie about whether anything is still happening — they slow to a
+  pulse instead.
 - Tokens: `--lk-tracking-micro` (0.04 em, for small uppercase labels — the optical tracking in the
   system scale is far too tight for them), `--lk-weight-strong` (650), `--lk-duration-panel`
   (340 ms, a frame column changing width).
