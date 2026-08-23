@@ -212,6 +212,9 @@
   text-transform: none;
   letter-spacing: normal;
   line-height: 15px;
+  /* The column separators do the dividing here; a rule under the header as
+     well would cost the row the half-pixel that keeps it at 31. */
+  border-bottom: 0;
   /* One vertical rule per column, so the header reads as a set of columns and
      the drag handle has something to sit on. */
   box-shadow: inset -1px 0 0 var(--lk-fill-quaternary);
@@ -228,7 +231,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* Block-level, so the button does not sit on the header's text baseline and
+   drag the line box down by its own descender. */
 .lk-table--compact .lk-table__sort {
+  display: flex;
   font-size: 12px;
 }
 .lk-table--compact .lk-table__group th {
@@ -241,8 +247,9 @@
 
 /* ------------------------------------------------------ loading & empty --- */
 
-/* Rides the panel's top edge, inside its rounded corners. */
-.lk-table__bar {
+/* Rides the panel's top edge, inside its rounded corners. Both class names,
+   so this outranks whatever `.lk-progress` sets for itself. */
+.lk-progress.lk-table__bar {
   position: absolute;
   top: 0;
   left: 0;

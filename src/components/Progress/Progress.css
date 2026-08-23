@@ -1,4 +1,8 @@
+/* Positioned so the fill can be taken out of flow — which is what an
+   indeterminate sweep is — without the rule that does it having to outrank
+   whatever the caller set on the bar itself. */
 .lk-progress {
+  position: relative;
   width: 220px;
   border-radius: var(--lk-radius-full);
   background: var(--lk-glass-tint-strong);
@@ -50,9 +54,6 @@
 
 /* Work whose end is not known: a segment sweeping the track, at the 1.15 s the
    rest of the system uses for "something is happening, keep watching". */
-.lk-progress.is-indeterminate {
-  position: relative;
-}
 .lk-progress.is-indeterminate .lk-progress__fill {
   position: absolute;
   inset-block: 0;

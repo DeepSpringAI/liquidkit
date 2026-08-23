@@ -57,6 +57,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     panel's top edge inside its corners, a floating pill naming the operation, and skeleton rows
     on a first load. A reload keeps the rows and reports over them; only a first load draws shape.
   - `rowClassName` — one extra class per row, for a state only the caller knows about.
+
+  In `compact` the header carries no rule under it — the column separators do
+  the dividing, and a horizontal border as well costs the row the half-pixel
+  that keeps it at 31.
 - **`Progress` `indeterminate`** — work whose end is not known. The bar sweeps a segment across the
   track (1.15 s), the ring spins an arc; both drop `aria-valuenow` entirely, which is what tells a
   screen reader there is no percentage. Under `prefers-reduced-motion` neither stops outright — a
