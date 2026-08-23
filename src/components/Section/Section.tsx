@@ -25,6 +25,17 @@ export interface SectionHeaderProps {
   style?: CSSProperties
 }
 
+export interface SectionToolbarProps {
+  /** Controls at the leading edge — a back/forward pair, typically. */
+  leading?: ReactNode
+  /** Where the reader is, as plain text. Not a heading: nothing is named twice. */
+  children?: ReactNode
+  /** The trailing edge: a field, then the one button everything else is behind. */
+  actions?: ReactNode
+  className?: string
+  style?: CSSProperties
+}
+
 export interface SectionBodyProps {
   children: ReactNode
   /**
@@ -85,6 +96,33 @@ export function SectionHeader({
           </>
         )}
       </div>
+      {actions != null && <div className="lk-section__actions">{actions}</div>}
+    </header>
+  )
+}
+
+/**
+ * The header row a *browser* wears: one slim line of chrome — where you are,
+ * how to get back, and one button holding everything you can do here.
+ *
+ * It is the same row as `SectionHeader`, minus the announcement. A screen whose
+ * content already names itself — a folder, a list, a search result — does not
+ * need a 22 px heading repeating that name, and the space a title and a lede
+ * take is space the content wanted. Actions collapse into an overflow menu
+ * rather than spreading across the corner, so the row stays the same shape no
+ * matter how many of them there are.
+ */
+export function SectionToolbar({
+  leading,
+  children,
+  actions,
+  className,
+  style,
+}: SectionToolbarProps) {
+  return (
+    <header className={cx('lk-section__toolbar', className)} style={style}>
+      {leading != null && <div className="lk-section__leading">{leading}</div>}
+      {children != null && <div className="lk-section__where">{children}</div>}
       {actions != null && <div className="lk-section__actions">{actions}</div>}
     </header>
   )

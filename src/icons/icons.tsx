@@ -133,6 +133,7 @@ export const ArrowUpRightIcon = createIcon(
 )
 export const ChevronDownIcon = createIcon(<path d="m6 9 6 6 6-6" />, 'ChevronDownIcon')
 export const ChevronRightIcon = createIcon(<path d="m9 6 6 6-6 6" />, 'ChevronRightIcon')
+export const ChevronLeftIcon = createIcon(<path d="m15 6-6 6 6 6" />, 'ChevronLeftIcon')
 export const CloseIcon = createIcon(<path d="M18 6 6 18M6 6l12 12" />, 'CloseIcon')
 
 // Content / media

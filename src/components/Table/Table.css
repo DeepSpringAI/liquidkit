@@ -12,9 +12,17 @@
 .lk-table-wrap--sticky {
   overflow: clip;
 }
+/*
+ * The opaque form: the elevated surface, flat. A table that fills a work area
+ * is not floating over anything — it *is* the stage — so it takes the surface
+ * colour that separates it from the page and no shadow pretending otherwise.
+ * It also has to lay itself out, because without the glass wrapper there is no
+ * `.lk-glass__content` for `--scroll` to make a column of.
+ */
 .lk-table-wrap--bare {
-  background: var(--lk-bg-grouped-secondary);
-  box-shadow: var(--lk-shadow-1);
+  display: flex;
+  flex-direction: column;
+  background: var(--lk-bg-elev);
 }
 
 /* The table as one object filling the space it was given: the panel is the
