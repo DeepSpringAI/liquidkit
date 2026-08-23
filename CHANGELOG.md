@@ -28,6 +28,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   9×12 padding, 23 px icons, 16 px apart) beside the existing `compact` default.
 - **`useSidebarState`** — width, collapsed, and the memory of both, handed back as a `props`
   bundle to spread onto `<Sidebar>`.
+- **`Table` `stickyHeader`** — pins the header row to the top of whatever region scrolls the
+  table. The wrapper switches from `overflow: hidden` to `overflow: clip` when it is on, because
+  `hidden` makes the wrapper its own scrollport and a header stuck to a box that never scrolls
+  looks exactly like no sticky header at all.
 - Tokens: `--lk-tracking-micro` (0.04 em, for small uppercase labels — the optical tracking in the
   system scale is far too tight for them), `--lk-weight-strong` (650), `--lk-duration-panel`
   (340 ms, a frame column changing width).

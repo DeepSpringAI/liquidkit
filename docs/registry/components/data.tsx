@@ -666,6 +666,12 @@ export const tableDoc: ComponentDoc = {
       description: 'Stable row key; defaults to the index.',
     },
     { name: 'striped', type: 'boolean', default: 'false', description: 'Zebra striping.' },
+    {
+      name: 'stickyHeader',
+      type: 'boolean',
+      default: 'false',
+      description: 'Pin the header row to the top of whatever region scrolls the table.',
+    },
     { name: 'hover', type: 'boolean', default: 'true', description: 'Highlight rows on hover.' },
     {
       name: 'glass',
