@@ -38,6 +38,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **A themed portal no longer resets an app's font.** Typography, spacing, motion and radius
+  tokens were declared under `[data-theme='light']` as well as `:root`; because liquidkit themes a
+  portal by putting `data-theme` on the portal element itself, every menu, toast and modal
+  re-declared them and silently undid an app's override inside itself. They now live on `:root`
+  alone, and `src/styles/tokens.test.ts` walks the stylesheets and fails if one moves back.
 - Test setup polyfills `PointerEvent` from `MouseEvent`, which jsdom does not implement — without
   it a fired pointer event arrives with no coordinates, which is the whole content of a drag.
 

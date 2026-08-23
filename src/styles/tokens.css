@@ -4,8 +4,13 @@
    data-theme is set we follow the OS via prefers-color-scheme.
    ========================================================================== */
 
-:root,
-[data-theme='light'] {
+/* Not a theme. Typography, radii, spacing and motion are the same in light and
+   dark, and they are declared on :root alone deliberately: liquidkit themes a
+   portal by putting `data-theme` on the portal element itself, so anything
+   listed under `[data-theme='…']` is re-declared inside that portal — which
+   would quietly reset an app's own font family for every menu, toast and modal
+   it renders. */
+:root {
   /* ---- typography ---- */
   --lk-font-sans:
     -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', system-ui, 'Segoe UI',
@@ -48,7 +53,10 @@
   --lk-duration-slow: 420ms;
   --lk-duration-panel: 340ms; /* a frame column changing width */
   --lk-theme-fade: 0.66s; /* soft cross-fade when the light/dark theme flips */
+}
 
+:root,
+[data-theme='light'] {
   /* ---- glass material knobs (engine reads these) ---- */
   --lk-glass-blur: 8px; /* backdrop blur radius */
   --lk-glass-rim: 1.5px; /* width of the specular rim (border-only gradient) */
