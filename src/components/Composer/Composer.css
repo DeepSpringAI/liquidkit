@@ -52,9 +52,11 @@
   min-height: var(--lk-composer-min, 34px);
   /* One line has to measure exactly the rest height, so that the field, the
      controls and the action are one row until the text genuinely needs two.
-     The padding is what is left of that height once the line box is drawn. */
-  line-height: 1.45;
-  padding-block: calc((var(--lk-composer-min, 34px) - 1.45em) / 2);
+     The padding is what is left of that height once the line box is drawn, and
+     the leading is a round 1.5 so the line box lands on a whole pixel — half of
+     one, rounded up, is a docked bar that misses its row by a pixel. */
+  line-height: 1.5;
+  padding-block: calc((var(--lk-composer-min, 34px) - 1.5em) / 2);
   padding-inline: 0;
   border: 0;
   outline: none;
