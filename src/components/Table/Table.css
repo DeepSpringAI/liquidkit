@@ -4,6 +4,7 @@
 }
 .lk-table-wrap .lk-glass__content {
   width: 100%;
+  min-width: 0;
 }
 /* `clip`, not `hidden`: hidden would make the wrapper its own scrollport, and a
    sticky header would then stick to a box that never scrolls — which looks
@@ -13,8 +14,43 @@
 }
 .lk-table-wrap--bare {
   background: var(--lk-bg-grouped-secondary);
-  border-radius: 18px;
   box-shadow: var(--lk-shadow-1);
+}
+
+/* The table as one object filling the space it was given: the panel is the
+   height it is handed, and the rows move inside it. */
+.lk-table-wrap--scroll {
+  height: 100%;
+  min-height: 0;
+  align-items: stretch;
+}
+.lk-table-wrap--scroll .lk-glass__content {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.lk-table__scroller {
+  min-width: 0;
+}
+.lk-table__scroller--own {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--lk-fill-secondary) transparent;
+}
+.lk-table__scroller--own::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+.lk-table__scroller--own::-webkit-scrollbar-track {
+  background: transparent;
+}
+.lk-table__scroller--own::-webkit-scrollbar-thumb {
+  background: var(--lk-fill-secondary);
+  border-radius: var(--lk-radius-full);
 }
 
 .lk-table {
@@ -22,6 +58,9 @@
   border-collapse: collapse;
   font-size: 14px;
   color: var(--lk-label);
+}
+.lk-table--sized {
+  table-layout: fixed;
 }
 .lk-table th {
   padding: 11px 16px;
@@ -46,15 +85,232 @@
 .lk-table--sticky thead th {
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   background: var(--lk-bg-elev);
 }
-.lk-table--striped tbody tr:nth-child(even) {
-  background: var(--lk-fill-quaternary);
+.lk-table--striped tbody tr.is-striped {
+  background: var(--lk-fill-tertiary);
 }
 .lk-table--hover tbody tr {
   transition: background var(--lk-duration-fast) var(--lk-ease);
 }
 .lk-table--hover tbody tr:hover {
-  background: var(--lk-fill-tertiary);
+  background: var(--lk-fill-secondary);
+}
+
+/* --------------------------------------------------------------- selection */
+
+/* A solid accent row. Everything in it — including the muted secondary text a
+   cell sets for itself — has to come with it, or half the row keeps a colour
+   chosen for a pale background and disappears. */
+.lk-table tbody tr.is-selected,
+.lk-table--striped tbody tr.is-selected,
+.lk-table--hover tbody tr.is-selected:hover {
+  background: var(--lk-accent);
+  color: var(--lk-accent-fg);
+}
+.lk-table tbody tr.is-selected td {
+  border-bottom-color: transparent;
+}
+.lk-table tbody tr.is-selected :where(a, button, span, div, p) {
+  color: inherit;
+}
+.lk-table tbody tr:focus-visible {
+  outline: 2px solid var(--lk-accent);
+  outline-offset: -2px;
+}
+
+/* ------------------------------------------------------- sorting & sizing */
+
+.lk-table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.lk-table__sort-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lk-table__sort.is-active {
+  color: var(--lk-label);
+}
+.lk-table__sort.is-active svg {
+  color: var(--lk-accent);
+}
+.lk-table__sort:focus-visible {
+  outline: 2px solid var(--lk-accent);
+  outline-offset: 2px;
+  border-radius: var(--lk-radius-xs);
+}
+
+/* The 7 px strip a column is dragged by, sitting on the separator it moves. */
+.lk-table--sized th {
+  position: relative;
+}
+.lk-table__handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-end: -3.5px;
+  width: 7px;
+  z-index: 1;
+  cursor: col-resize;
+  touch-action: none;
+}
+.lk-table__handle:hover::after,
+.lk-table__handle:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset-block: 4px;
+  inset-inline-start: 3px;
+  width: 1px;
+  background: var(--lk-accent);
+}
+
+/* ---------------------------------------------------------------- grouping */
+
+.lk-table__group th {
+  border-bottom: 0;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--lk-label);
+}
+.lk-table--sticky .lk-table__group th {
+  position: sticky;
+  z-index: 1;
+  background: var(--lk-bg-elev);
+}
+.lk-table__group-label {
+  font-weight: 700;
+}
+.lk-table__group-count {
+  margin-inline-start: 8px;
+  font-weight: 400;
+  color: var(--lk-label-tertiary);
+}
+
+/* ------------------------------------------------------------- compact --- */
+
+/* Desktop file-manager density: a whole folder on screen at once. */
+.lk-table--compact {
+  font-size: 13px;
+}
+.lk-table--compact th {
+  height: 31px;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
+  line-height: 15px;
+  /* One vertical rule per column, so the header reads as a set of columns and
+     the drag handle has something to sit on. */
+  box-shadow: inset -1px 0 0 var(--lk-fill-quaternary);
+}
+.lk-table--compact th:last-child {
+  box-shadow: none;
+}
+.lk-table--compact td {
+  height: 32px;
+  padding: 7px 10px;
+  border-bottom: 0;
+  line-height: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lk-table--compact .lk-table__sort {
+  font-size: 12px;
+}
+.lk-table--compact .lk-table__group th {
+  height: 26px;
+  padding: 5px 10px;
+  top: 31px;
+  font-size: 12px;
+  box-shadow: none;
+}
+
+/* ------------------------------------------------------ loading & empty --- */
+
+/* Rides the panel's top edge, inside its rounded corners. */
+.lk-table__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: auto;
+  z-index: 4;
+  border-radius: 0;
+  background: var(--lk-accent-soft);
+}
+
+/* Centred over the rows and impossible to look past, because a list that is
+   busy and a list that is empty look the same until something says which. */
+.lk-table__pill {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: var(--lk-radius-full);
+  background: var(--lk-bg-elev);
+  box-shadow: var(--lk-shadow-2);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--lk-label);
+  white-space: nowrap;
+}
+
+/* The list showing its own shape filling in, rather than a word about it. */
+.lk-table__skeleton td {
+  background: none;
+}
+.lk-table__shimmer {
+  display: block;
+  height: 10px;
+  border-radius: var(--lk-radius-full);
+  background: linear-gradient(
+    90deg,
+    var(--lk-fill-quaternary) 0%,
+    var(--lk-fill-secondary) 50%,
+    var(--lk-fill-quaternary) 100%
+  );
+  background-size: 200% 100%;
+  animation: lk-table-shimmer 1.4s linear infinite;
+}
+
+@keyframes lk-table-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.lk-table__empty td {
+  padding: 28px 16px;
+  border-bottom: 0;
+  text-align: center;
+  color: var(--lk-label-secondary);
+  white-space: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lk-table__shimmer {
+    animation: none;
+  }
+  .lk-table--hover tbody tr {
+    transition: none;
+  }
 }

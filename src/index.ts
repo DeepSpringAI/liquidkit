@@ -100,7 +100,13 @@ export type {
 export { NavigationBar } from './components/NavigationBar/NavigationBar'
 export type { NavigationBarProps } from './components/NavigationBar/NavigationBar'
 export { Table } from './components/Table/Table'
-export type { TableProps, TableColumn } from './components/Table/Table'
+export type {
+  TableProps,
+  TableColumn,
+  TableSort,
+  TableGroup,
+  TableDensity,
+} from './components/Table/Table'
 export { Tile } from './components/Tile/Tile'
 export type { TileProps } from './components/Tile/Tile'
 export { CodeBlock } from './components/CodeBlock/CodeBlock'
