@@ -92,10 +92,17 @@ export { useSidebarState } from './components/Sidebar/useSidebarState'
 export type { UseSidebarStateOptions, SidebarState } from './components/Sidebar/useSidebarState'
 export { AppFrame } from './components/AppFrame/AppFrame'
 export type { AppFrameProps } from './components/AppFrame/AppFrame'
-export { Section, SectionHeader, SectionBody, SectionFooter } from './components/Section/Section'
+export {
+  Section,
+  SectionHeader,
+  SectionToolbar,
+  SectionBody,
+  SectionFooter,
+} from './components/Section/Section'
 export type {
   SectionProps,
   SectionHeaderProps,
+  SectionToolbarProps,
   SectionBodyProps,
   SectionFooterProps,
 } from './components/Section/Section'

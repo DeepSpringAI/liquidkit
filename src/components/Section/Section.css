@@ -5,6 +5,7 @@
   --lk-section-title-tracking: -0.01em;
   --lk-section-subtitle-size: var(--lk-text-footnote);
   --lk-section-eyebrow-size: var(--lk-text-caption2);
+  --lk-section-where-size: var(--lk-text-callout);
   display: flex;
   flex-direction: column;
   gap: var(--lk-section-gap, 12px);
@@ -58,6 +59,45 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+/* ----------------------------------------------------------------- toolbar */
+
+/*
+ * The slim variant: one 54 px line of chrome instead of a title block. The
+ * height is set rather than grown, because the row's whole job is to be the
+ * same height on every screen that wears it — the list under it starts at the
+ * same y in Files as in anything else.
+ */
+.lk-section__toolbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 54px;
+  /* 2 above / 6 below, so a 44 px control centres in the row and the gap to
+     the body reads as the section's 12 rather than as 12 plus a stray. */
+  padding-block: 2px 6px;
+}
+.lk-section__leading {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* Where you are, said once, at body size. A location is not a headline. */
+.lk-section__where {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--lk-section-where-size);
+  color: var(--lk-label);
+}
+/* With no location between them the actions still belong at the far edge. */
+.lk-section__toolbar .lk-section__actions {
+  margin-inline-start: auto;
 }
 
 /* -------------------------------------------------------------------- body */

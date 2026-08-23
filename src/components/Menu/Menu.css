@@ -16,6 +16,18 @@
   z-index: 70;
   min-width: 200px;
   animation: lk-pop var(--lk-spring-duration-sm) var(--lk-spring-snappy);
+  /* Glass is for chrome that floats over content; a menu is chrome you have to
+     read. Frosted, it shows the rows sliding beneath its own labels, which is
+     the one thing a menu must never do — so it is the solid elevated surface,
+     and the blur behind it is removed rather than merely covered up. */
+  background: var(--lk-bg-elev);
+}
+.lk-menu__panel .lk-glass__refraction {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.lk-menu__panel .lk-glass__tint {
+  background: transparent;
 }
 .lk-menu__panel .lk-glass__content {
   display: flex;
