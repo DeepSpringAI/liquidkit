@@ -5,6 +5,10 @@
   height: 100%;
 }
 .lk-sidebar--bare {
+  /* Matches the glass wrapper, which is `position: relative` of its own: the
+     edge strip is absolute against the column, and without this it escapes to
+     the page. */
+  position: relative;
   display: flex;
   flex-direction: column;
   background: var(--lk-bg-grouped-secondary);

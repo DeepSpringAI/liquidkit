@@ -90,3 +90,14 @@
     transition: none;
   }
 }
+
+/* The field's focus ring is a box-shadow on the bar, and forced colours drop
+   box-shadows outright — leaving the one control on a chat screen with no
+   visible focus at all. An outline survives, and the system colour is the one
+   the user chose for exactly this. */
+@media (forced-colors: active) {
+  .lk-composer__bar:focus-within {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}

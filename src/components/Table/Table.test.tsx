@@ -115,6 +115,27 @@ describe('Table grouping', () => {
     expect(headings[1]).toHaveTextContent('Files1 item')
   })
 
+  it('heads each run, so an ordering that interleaves two groups gets both', () => {
+    const interleaved = [
+      { name: 'pricing.csv', kind: 'file', size: '2 KB' },
+      { name: 'Reports', kind: 'folder', size: '--' },
+      { name: 'notes.txt', kind: 'file', size: '1 KB' },
+    ]
+    const { container } = render(
+      <Table
+        columns={COLUMNS}
+        data={interleaved}
+        rowKey={byName}
+        groupOf={(row) => ({ key: row.kind, label: row.kind })}
+      />,
+    )
+
+    // Three runs, three headings — and three distinct React keys, or the rows
+    // between them get duplicated or dropped.
+    expect(container.querySelectorAll('.lk-table__group')).toHaveLength(3)
+    expect(container.querySelectorAll('tbody tr')).toHaveLength(6)
+  })
+
   it('counts the stripe over the data, so a heading does not restart it', () => {
     const { container } = render(
       <Table
@@ -163,6 +184,56 @@ describe('Table selection and activation', () => {
     // The same reach from the keyboard, which double-click has none of.
     fireEvent.keyDown(rows[2], { key: 'Enter' })
     expect(onRowActivate).toHaveBeenCalledTimes(2)
+  })
+
+  it('is one tab stop however many rows are selected', () => {
+    const { container } = render(
+      <Table
+        columns={COLUMNS}
+        data={FOLDER}
+        rowKey={byName}
+        selectedKeys={['Reports', 'Brand']}
+        onRowActivate={() => {}}
+      />,
+    )
+
+    const stops = [...container.querySelectorAll('tbody tr')].map((row) =>
+      row.getAttribute('tabindex'),
+    )
+    // The first selected row takes the stop; a grid with two is two stops, and
+    // then tabbing through the page walks the list instead of leaving it.
+    expect(stops).toEqual(['0', '-1', '-1'])
+  })
+
+  it('falls back to the first row when the selection is not on screen', () => {
+    const { container } = render(
+      <Table
+        columns={COLUMNS}
+        data={FOLDER}
+        rowKey={byName}
+        selectedKeys={['gone.pdf']}
+        onRowActivate={() => {}}
+      />,
+    )
+    expect(container.querySelector('tbody tr')).toHaveAttribute('tabindex', '0')
+  })
+
+  it('walks the rows with the arrow keys, which is how a grid is read', () => {
+    const { container } = render(
+      <Table columns={COLUMNS} data={FOLDER} rowKey={byName} onRowActivate={() => {}} />,
+    )
+
+    const rows = [...container.querySelectorAll<HTMLTableRowElement>('tbody tr')]
+    rows[0].focus()
+    fireEvent.keyDown(rows[0], { key: 'ArrowDown' })
+    expect(document.activeElement).toBe(rows[1])
+
+    fireEvent.keyDown(rows[1], { key: 'ArrowUp' })
+    expect(document.activeElement).toBe(rows[0])
+
+    // Nothing above the first row, so focus stays where it is.
+    fireEvent.keyDown(rows[0], { key: 'ArrowUp' })
+    expect(document.activeElement).toBe(rows[0])
   })
 })
 

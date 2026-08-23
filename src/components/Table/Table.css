@@ -20,6 +20,11 @@
  * `.lk-glass__content` for `--scroll` to make a column of.
  */
 .lk-table-wrap--bare {
+  /* The glass wrapper is `position: relative`; without it the loading bar and
+     the busy pill — both absolute, both sized to this panel — resolve against
+     whatever positioned ancestor the page happens to have, and report on a box
+     that is not the table. */
+  position: relative;
   display: flex;
   flex-direction: column;
   background: var(--lk-bg-elev);
