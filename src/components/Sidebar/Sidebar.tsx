@@ -11,11 +11,31 @@ export interface SidebarItem {
   badge?: ReactNode
   href?: string
   onClick?: () => void
+  /**
+   * An affordance beside the row — delete, pin, a menu trigger. It is revealed
+   * on hover and on keyboard focus, and it is a sibling of the row rather than
+   * a child of it, so it stays its own control and the row stays one target.
+   */
+  trailing?: ReactNode
+  /**
+   * Something is happening in this row's subject right now. The label reads as
+   * a shimmer while it is true, which is how a list says "that one is still
+   * working" without a spinner per row.
+   */
+  busy?: boolean
+  /** Something finished here while the reader was looking elsewhere. */
+  unread?: boolean
 }
 
 export interface SidebarSection {
   title?: ReactNode
   items: SidebarItem[]
+  /**
+   * A list of many like rows — conversations, files, tags — rather than a
+   * handful of destinations. It tightens the rows so a screenful of them is
+   * legible as a list instead of reading as navigation.
+   */
+  dense?: boolean
 }
 
 /** How much room a navigation row is given. */
@@ -77,7 +97,12 @@ function SidebarRow({
   active: boolean
   onSelect?: (id: string) => void
 }) {
-  const className = cx('lk-sidebar__item', active && 'is-active')
+  const className = cx(
+    'lk-sidebar__item',
+    active && 'is-active',
+    item.busy && 'is-busy',
+    item.trailing != null && 'has-trailing',
+  )
   const handle = () => {
     item.onClick?.()
     onSelect?.(item.id)
@@ -85,23 +110,25 @@ function SidebarRow({
   const inner = (
     <>
       {item.icon != null && <span className="lk-sidebar__icon">{item.icon}</span>}
-      <span className="lk-sidebar__label">{item.label}</span>
+      <span
+        className="lk-sidebar__label"
+        data-label={typeof item.label === 'string' ? item.label : undefined}
+      >
+        {item.label}
+      </span>
       {item.badge != null && <span className="lk-sidebar__badge">{item.badge}</span>}
     </>
   )
-  if (item.href) {
-    return (
-      <a
-        href={item.href}
-        className={className}
-        aria-current={active ? 'page' : undefined}
-        onClick={handle}
-      >
-        {inner}
-      </a>
-    )
-  }
-  return (
+  const row = item.href ? (
+    <a
+      href={item.href}
+      className={className}
+      aria-current={active ? 'page' : undefined}
+      onClick={handle}
+    >
+      {inner}
+    </a>
+  ) : (
     <button
       type="button"
       className={className}
@@ -110,6 +137,18 @@ function SidebarRow({
     >
       {inner}
     </button>
+  )
+
+  if (item.trailing == null && !item.unread) return row
+
+  // The affordance sits beside the row, not inside it: a control nested in a
+  // link or a button is neither valid nor reachable.
+  return (
+    <div className="lk-sidebar__rowgroup">
+      {row}
+      {item.unread && <span className="lk-sidebar__unread" aria-hidden="true" />}
+      {item.trailing != null && <span className="lk-sidebar__trailing">{item.trailing}</span>}
+    </div>
   )
 }
 
@@ -242,7 +281,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(function Sidebar
       {header != null && <div className="lk-sidebar__header">{header}</div>}
       <nav className="lk-sidebar__nav">
         {sections.map((s, i) => (
-          <div className="lk-sidebar__section" key={i}>
+          <div className={cx('lk-sidebar__section', s.dense && 'is-dense')} key={i}>
             {s.title != null && <div className="lk-sidebar__title">{s.title}</div>}
             {s.items.map((it) => (
               <SidebarRow key={it.id} item={it} active={it.id === activeId} onSelect={onSelect} />
