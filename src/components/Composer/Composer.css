@@ -6,6 +6,11 @@
   min-width: 0;
 }
 
+/* A slot that turned out to have nothing to say must not cost a row: an empty
+   notice would still spend the form's gap and push the bar off its dock. */
+.lk-composer__notice:empty {
+  display: none;
+}
 .lk-composer__notice {
   padding-inline: 4px;
   font-size: var(--lk-text-footnote);
@@ -56,7 +61,9 @@
   background: transparent;
   color: var(--lk-fg);
   font: inherit;
-  font-size: var(--lk-text-body);
+  /* A shade smaller than body: the composer is one line of chrome, and it sits
+     under prose set at the reading size. */
+  font-size: var(--lk-text-callout);
   resize: none;
   overflow-y: hidden;
 }
