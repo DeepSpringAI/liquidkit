@@ -1,0 +1,74 @@
+/* The document lock. Applied to <html> for as long as a locking AppFrame is
+   mounted, and taken off again when it unmounts, so an app that renders the
+   frame on some routes and a scrolling page on others does not have to
+   remember to undo it. */
+html.lk-frame-locked,
+html.lk-frame-locked body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.lk-frame {
+  /* φ, once. Frame padding · work-area gutter · sidebar-edge-to-content is
+     then 1 · φ · φ², which is what makes the empty space read as intentional
+     rather than as three unrelated paddings. */
+  --lk-frame-inset: calc(var(--lk-frame-gutter, 12px) * 1.618);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--lk-frame-gutter, 12px);
+  padding: var(--lk-frame-gutter, 12px);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.lk-frame__rail {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+}
+/* The furniture fills the column's full height whatever it is. */
+.lk-frame__rail > * {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.lk-frame__main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding-inline: var(--lk-frame-inset);
+}
+.lk-frame__main > * {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* -------------------------------------------------- below the minimum width */
+
+.lk-frame-notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+.lk-frame-notice__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 30rem;
+}
+.lk-frame-notice__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.lk-frame-notice__body {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  opacity: 0.75;
+}

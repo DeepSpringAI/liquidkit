@@ -4,14 +4,26 @@
    data-theme is set we follow the OS via prefers-color-scheme.
    ========================================================================== */
 
-:root,
-[data-theme='light'] {
+/* Not a theme. Typography, radii, spacing and motion are the same in light and
+   dark, and they are declared on :root alone deliberately: liquidkit themes a
+   portal by putting `data-theme` on the portal element itself, so anything
+   listed under `[data-theme='…']` is re-declared inside that portal — which
+   would quietly reset an app's own font family for every menu, toast and modal
+   it renders. */
+:root {
   /* ---- typography ---- */
   --lk-font-sans:
     -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', system-ui, 'Segoe UI',
     Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
   --lk-font-mono:
     ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  /* A small tracked uppercase label names a thing without shouting. The system
+     scale's own tracking is optical, and far too tight to do that job. */
+  --lk-tracking-micro: 0.04em;
+  /* The weight "semibold" wants to be in an interface face: heavier than 600,
+     short of the 700 that reads as an alert. */
+  --lk-weight-strong: 650;
 
   /* ---- radii ---- */
   --lk-radius-xs: 8px;
@@ -39,8 +51,12 @@
   --lk-duration-fast: 140ms;
   --lk-duration: 240ms;
   --lk-duration-slow: 420ms;
+  --lk-duration-panel: 340ms; /* a frame column changing width */
   --lk-theme-fade: 0.66s; /* soft cross-fade when the light/dark theme flips */
+}
 
+:root,
+[data-theme='light'] {
   /* ---- glass material knobs (engine reads these) ---- */
   --lk-glass-blur: 8px; /* backdrop blur radius */
   --lk-glass-rim: 1.5px; /* width of the specular rim (border-only gradient) */

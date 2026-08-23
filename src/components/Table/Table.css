@@ -5,6 +5,12 @@
 .lk-table-wrap .lk-glass__content {
   width: 100%;
 }
+/* `clip`, not `hidden`: hidden would make the wrapper its own scrollport, and a
+   sticky header would then stick to a box that never scrolls — which looks
+   exactly like no sticky header at all. */
+.lk-table-wrap--sticky {
+  overflow: clip;
+}
 .lk-table-wrap--bare {
   background: var(--lk-bg-grouped-secondary);
   border-radius: 18px;
@@ -34,6 +40,14 @@
 }
 .lk-table tbody tr:last-child td {
   border-bottom: 0;
+}
+/* Opaque, because a header read through the rows sliding under it is not read
+   at all. */
+.lk-table--sticky thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--lk-bg-elev);
 }
 .lk-table--striped tbody tr:nth-child(even) {
   background: var(--lk-fill-quaternary);

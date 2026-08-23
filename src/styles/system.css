@@ -57,7 +57,13 @@
   --lk-mat-thin-tint: rgba(255, 255, 255, 0.55);
   --lk-mat-regular-tint: rgba(255, 255, 255, 0.66);
   --lk-mat-thick-tint: rgba(255, 255, 255, 0.78);
+}
 
+/* Not a theme. The type scale, its tracking and leading, and the semantic radii
+   are the same in light and dark — and they are on :root alone so that a themed
+   portal (which carries its own `data-theme`) does not re-declare them and undo
+   an app's override inside every menu, toast and modal. */
+:root {
   /* ---- iOS type scale (px) ---- */
   --lk-text-largetitle: 34px;
   --lk-text-title1: 28px;

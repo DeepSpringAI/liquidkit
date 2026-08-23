@@ -80,7 +80,23 @@ export type { ListProps, ListRowProps } from './components/List/List'
 export { TabBar } from './components/TabBar/TabBar'
 export type { TabBarProps, TabBarItem } from './components/TabBar/TabBar'
 export { Sidebar } from './components/Sidebar/Sidebar'
-export type { SidebarProps, SidebarItem, SidebarSection } from './components/Sidebar/Sidebar'
+export type {
+  SidebarProps,
+  SidebarItem,
+  SidebarSection,
+  SidebarDensity,
+} from './components/Sidebar/Sidebar'
+export { useSidebarState } from './components/Sidebar/useSidebarState'
+export type { UseSidebarStateOptions, SidebarState } from './components/Sidebar/useSidebarState'
+export { AppFrame } from './components/AppFrame/AppFrame'
+export type { AppFrameProps } from './components/AppFrame/AppFrame'
+export { Section, SectionHeader, SectionBody, SectionFooter } from './components/Section/Section'
+export type {
+  SectionProps,
+  SectionHeaderProps,
+  SectionBodyProps,
+  SectionFooterProps,
+} from './components/Section/Section'
 export { NavigationBar } from './components/NavigationBar/NavigationBar'
 export type { NavigationBarProps } from './components/NavigationBar/NavigationBar'
 export { Table } from './components/Table/Table'

@@ -24,6 +24,12 @@ export interface TableProps<T> extends HTMLAttributes<HTMLDivElement> {
   striped?: boolean
   /** Highlight rows on hover. @default true */
   hover?: boolean
+  /**
+   * Pin the header row to the top of whatever region scrolls the table, so the
+   * columns stay named while their rows move under them.
+   * @default false
+   */
+  stickyHeader?: boolean
   /** @default 'auto' */
   tint?: GlassTint
 }
@@ -36,13 +42,21 @@ export function Table<T>({
   glass = true,
   striped = false,
   hover = true,
+  stickyHeader = false,
   tint = 'auto',
   className,
   style,
   ...rest
 }: TableProps<T>) {
   const table = (
-    <table className={cx('lk-table', striped && 'lk-table--striped', hover && 'lk-table--hover')}>
+    <table
+      className={cx(
+        'lk-table',
+        striped && 'lk-table--striped',
+        hover && 'lk-table--hover',
+        stickyHeader && 'lk-table--sticky',
+      )}
+    >
       <thead>
         <tr>
           {columns.map((c) => (
@@ -71,7 +85,12 @@ export function Table<T>({
   if (!glass) {
     return (
       <div
-        className={cx('lk-table-wrap', 'lk-table-wrap--bare', className)}
+        className={cx(
+          'lk-table-wrap',
+          'lk-table-wrap--bare',
+          stickyHeader && 'lk-table-wrap--sticky',
+          className,
+        )}
         style={style}
         {...rest}
       >
@@ -87,7 +106,7 @@ export function Table<T>({
       sheen={false}
       elevation={1}
       {...rest}
-      className={cx('lk-table-wrap', className)}
+      className={cx('lk-table-wrap', stickyHeader && 'lk-table-wrap--sticky', className)}
       style={style}
     >
       {table}

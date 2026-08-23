@@ -123,3 +123,114 @@
 .lk-sidebar__item.is-active .lk-sidebar__badge:has(.lk-badge) {
   background: transparent;
 }
+
+/* ======================================================= collapse & resize */
+
+/* The column width is the animated property, so expanded and collapsed are one
+   element changing size rather than two elements swapping places. */
+.lk-sidebar {
+  transition: width var(--lk-duration-panel) var(--lk-ease);
+}
+/* While the edge is under the pointer the column has to track it 1:1 — an
+   easing curve here would lag the cursor and read as a stuck drag. */
+.lk-sidebar.is-dragging {
+  transition: none;
+}
+.lk-sidebar.is-collapsed .lk-glass__content,
+.lk-sidebar.is-collapsed.lk-sidebar--bare {
+  overflow: hidden;
+}
+
+/* Hidden, not removed: the DOM is identical in both states, so the rail still
+   announces "Files" to a screen reader and nothing re-mounts on the way back. */
+.lk-sidebar.is-collapsed .lk-sidebar__label,
+.lk-sidebar.is-collapsed .lk-sidebar__badge,
+.lk-sidebar.is-collapsed .lk-sidebar__title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+  border: 0;
+}
+.lk-sidebar.is-collapsed .lk-sidebar__item {
+  justify-content: center;
+  padding-inline: 0;
+}
+.lk-sidebar.is-collapsed .lk-sidebar__header,
+.lk-sidebar.is-collapsed .lk-sidebar__footer {
+  padding-inline: 8px;
+}
+
+/* The edge strip: a 12 px hit area on the trailing edge carrying a 3 px rail
+   that only shows itself on hover or focus. */
+.lk-sidebar__edge {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: 2;
+  width: 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  touch-action: none;
+}
+.lk-sidebar__edge.is-draggable {
+  cursor: col-resize;
+}
+.lk-sidebar__rail {
+  position: absolute;
+  inset-block: 10px;
+  inset-inline-end: 3px;
+  width: 3px;
+  border-radius: var(--lk-radius-full);
+  background: var(--lk-accent);
+  opacity: 0;
+  transition: opacity 160ms var(--lk-ease);
+}
+.lk-sidebar__edge:hover .lk-sidebar__rail,
+.lk-sidebar__edge:focus-visible .lk-sidebar__rail,
+.lk-sidebar.is-dragging .lk-sidebar__rail {
+  opacity: 0.55;
+}
+.lk-sidebar__edge:focus-visible {
+  outline: 2px solid var(--lk-accent);
+  outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* End states are preserved; only the travel between them goes. */
+  .lk-sidebar,
+  .lk-sidebar__rail {
+    transition: none;
+  }
+}
+
+/* ============================================================ comfortable */
+/* The desktop-application ladder: taller rows, bigger icons, and real space
+   between them. `compact` stays the default so this is additive. */
+
+.lk-sidebar--comfortable .lk-sidebar__nav {
+  gap: 16px;
+  padding: 6px 8px;
+}
+.lk-sidebar--comfortable .lk-sidebar__section {
+  gap: 16px;
+}
+.lk-sidebar--comfortable .lk-sidebar__item {
+  padding: 9px 12px;
+  gap: 12px;
+}
+.lk-sidebar--comfortable .lk-sidebar__icon svg {
+  width: 23px;
+  height: 23px;
+}
+.lk-sidebar--comfortable .lk-sidebar__title {
+  padding: 0 12px;
+  font-size: var(--lk-text-caption2);
+  color: var(--lk-fg-subtle);
+}
