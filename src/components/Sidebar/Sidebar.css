@@ -234,3 +234,118 @@
   font-size: var(--lk-text-caption2);
   color: var(--lk-fg-subtle);
 }
+
+/* ============================================ a list of rows, not of places */
+/* A dense section is a screenful of like things — conversations, files. It is
+   tighter than navigation on purpose: navigation is a handful of destinations
+   a hand aims at, a list is something a reader scans. */
+
+.lk-sidebar__section.is-dense {
+  gap: 1px;
+}
+.lk-sidebar__section.is-dense .lk-sidebar__item {
+  padding: 8px 12px;
+  font-weight: 400;
+}
+/* In the rail there is no room for a list of titles, and an icon-less row
+   would be a blank strip. The group leaves with its labels. */
+.lk-sidebar.is-collapsed .lk-sidebar__section.is-dense {
+  display: none;
+}
+
+/* --------------------------------------------------- the trailing affordance */
+
+.lk-sidebar__rowgroup {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.lk-sidebar__rowgroup .lk-sidebar__item.has-trailing {
+  padding-inline-end: 30px;
+}
+.lk-sidebar__trailing {
+  position: absolute;
+  inset-inline-end: 6px;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity var(--lk-duration-fast) var(--lk-ease);
+}
+/* Revealed by the row, never permanent chrome; and never keyboard-invisible. */
+.lk-sidebar__rowgroup:hover .lk-sidebar__trailing,
+.lk-sidebar__rowgroup:focus-within .lk-sidebar__trailing {
+  opacity: 0.65;
+}
+.lk-sidebar__trailing:hover,
+.lk-sidebar__trailing:focus-within {
+  opacity: 1;
+}
+
+/* Something finished here while the reader was looking somewhere else. It
+   gives way to the affordance as soon as the row is under the pointer. */
+.lk-sidebar__unread {
+  position: absolute;
+  inset-inline-end: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--lk-radius-full);
+  background: var(--lk-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--lk-accent) 22%, transparent);
+  transition: opacity var(--lk-duration-fast) var(--lk-ease);
+}
+.lk-sidebar__rowgroup:hover .lk-sidebar__unread,
+.lk-sidebar__rowgroup:focus-within .lk-sidebar__unread {
+  opacity: 0;
+}
+
+/* ------------------------------------------------------------ the busy row */
+/* A light sweeping across the title, which says "still working" without
+   spending a spinner on every row of a list. */
+
+.lk-sidebar__item.is-busy .lk-sidebar__label {
+  --lk-shimmer-base: var(--lk-fg-muted);
+  --lk-shimmer-peak: var(--lk-fg);
+  background: linear-gradient(
+    90deg,
+    var(--lk-shimmer-base) 35%,
+    var(--lk-shimmer-peak) 50%,
+    var(--lk-shimmer-base) 65%
+  );
+  background-size: 260% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: lk-sidebar-shimmer 1.5s linear infinite;
+}
+.lk-sidebar__item.is-busy.is-active .lk-sidebar__label {
+  --lk-shimmer-base: color-mix(in srgb, var(--lk-accent-fg) 62%, transparent);
+  --lk-shimmer-peak: var(--lk-accent-fg);
+}
+
+@keyframes lk-sidebar-shimmer {
+  from {
+    background-position: 130% 0;
+  }
+  to {
+    background-position: -130% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lk-sidebar__trailing,
+  .lk-sidebar__unread {
+    transition: none;
+  }
+  /* A shimmer frozen mid-sweep is text painted through an arbitrary gradient —
+     at best odd, at worst unreadable. It rests as plain muted text instead,
+     which still reads differently from every other row. */
+  .lk-sidebar__item.is-busy .lk-sidebar__label {
+    animation: none;
+    background: none;
+    color: var(--lk-fg-muted);
+  }
+  .lk-sidebar__item.is-busy.is-active .lk-sidebar__label {
+    color: var(--lk-accent-fg);
+  }
+}

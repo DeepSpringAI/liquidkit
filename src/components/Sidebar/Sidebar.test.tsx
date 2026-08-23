@@ -132,3 +132,39 @@ describe('useSidebarState', () => {
     getItem.mockRestore()
   })
 })
+
+describe('a list of rows', () => {
+  const CONVERSATIONS = [
+    {
+      id: 'c-1',
+      label: 'What is our expense policy?',
+      busy: true,
+      trailing: (
+        <button type="button" aria-label="Delete this conversation">
+          ×
+        </button>
+      ),
+    },
+    { id: 'c-2', label: 'Q3 revenue by region', unread: true },
+  ]
+
+  it('keeps a row affordance out of the row it belongs to', () => {
+    render(<Sidebar sections={[{ title: 'Recents', items: CONVERSATIONS, dense: true }]} />)
+
+    const affordance = screen.getByRole('button', { name: 'Delete this conversation' })
+    const row = screen.getByRole('button', { name: 'What is our expense policy?' })
+    expect(row).not.toContainElement(affordance)
+  })
+
+  it('says which row is still working, and which finished unseen', () => {
+    const { container } = render(
+      <Sidebar sections={[{ title: 'Recents', items: CONVERSATIONS, dense: true }]} />,
+    )
+
+    expect(screen.getByRole('button', { name: 'What is our expense policy?' })).toHaveClass(
+      'is-busy',
+    )
+    expect(screen.getByRole('button', { name: 'Q3 revenue by region' })).not.toHaveClass('is-busy')
+    expect(container.querySelectorAll('.lk-sidebar__unread')).toHaveLength(1)
+  })
+})

@@ -1,0 +1,83 @@
+.lk-composer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.lk-composer__notice {
+  padding-inline: 4px;
+  font-size: var(--lk-text-footnote);
+  line-height: 1.4;
+  color: var(--lk-fg-muted);
+}
+
+/* Padding is asymmetric on purpose: the field needs a proper indent from the
+   leading edge, while the controls on the trailing edge bring their own. */
+.lk-composer__bar {
+  display: flex;
+  padding: 8px 8px 8px 18px;
+  transition:
+    box-shadow var(--lk-duration-fast) var(--lk-ease),
+    border-color var(--lk-duration-fast) var(--lk-ease);
+}
+.lk-composer__bar:focus-within {
+  box-shadow:
+    var(--lk-shadow-2),
+    0 0 0 3px color-mix(in srgb, var(--lk-accent) 16%, transparent);
+}
+.lk-composer__bar:focus-within .lk-glass__bevel {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--lk-accent) 55%, transparent);
+}
+
+/* Bottom-aligned so the controls stay level with the last line as the field
+   grows upward under them. */
+.lk-composer__row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+}
+
+.lk-composer__field {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: var(--lk-composer-min, 34px);
+  /* One line has to measure exactly the rest height, so that the field, the
+     controls and the action are one row until the text genuinely needs two.
+     The padding is what is left of that height once the line box is drawn. */
+  line-height: 1.45;
+  padding-block: calc((var(--lk-composer-min, 34px) - 1.45em) / 2);
+  padding-inline: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--lk-fg);
+  font: inherit;
+  font-size: var(--lk-text-body);
+  resize: none;
+  overflow-y: hidden;
+}
+.lk-composer__field::placeholder {
+  color: var(--lk-fg-subtle);
+}
+.lk-composer__field:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.lk-composer__controls,
+.lk-composer__action {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--lk-composer-min, 34px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lk-composer__bar {
+    transition: none;
+  }
+}
