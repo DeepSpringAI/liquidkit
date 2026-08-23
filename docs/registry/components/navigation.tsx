@@ -191,8 +191,7 @@ export const sidebarDoc: ComponentDoc = {
       name: 'sections',
       type: 'SidebarSection[]',
       required: true,
-      description:
-        '{ title?, items: SidebarItem[] }. Items: { id, label, icon?, badge?, href?, onClick? }.',
+      description: '{ title?, items: SidebarItem[], dense? } — see the two tables below.',
     },
     { name: 'activeId', type: 'string', description: 'Currently selected item id.' },
     {
@@ -248,6 +247,83 @@ export const sidebarDoc: ComponentDoc = {
       type: 'boolean',
       default: 'true',
       description: 'Glass surface; false for an opaque sidebar.',
+    },
+  ],
+  extraProps: [
+    {
+      title: 'SidebarSection',
+      props: [
+        { name: 'title', type: 'ReactNode', description: 'The section heading.' },
+        { name: 'items', type: 'SidebarItem[]', required: true, description: 'The rows.' },
+        {
+          name: 'dense',
+          type: 'boolean',
+          default: 'false',
+          description:
+            'A list of many like rows — conversations, files, tags — rather than a handful of destinations. Tighter than navigation on purpose: navigation is aimed at, a list is scanned. A dense section leaves with its labels when the sidebar collapses.',
+        },
+      ],
+    },
+    {
+      title: 'SidebarItem',
+      props: [
+        { name: 'id', type: 'string', required: true, description: 'Identifies the row.' },
+        { name: 'label', type: 'ReactNode', required: true, description: 'The row’s name.' },
+        { name: 'icon', type: 'ReactNode', description: 'Leading icon.' },
+        {
+          name: 'badge',
+          type: 'ReactNode',
+          description:
+            'A count pill on the trailing edge — or a real `<Badge>`, which replaces it.',
+        },
+        { name: 'href', type: 'string', description: 'Renders the row as a link.' },
+        { name: 'onClick', type: '() => void', description: 'Fires alongside `onSelect`.' },
+        {
+          name: 'trailing',
+          type: 'ReactNode',
+          description:
+            'An affordance beside the row — delete, pin, a menu trigger. Revealed on hover and on keyboard focus, and a sibling of the row rather than a child, so it stays its own control and the row stays one target.',
+        },
+        {
+          name: 'busy',
+          type: 'boolean',
+          default: 'false',
+          description:
+            'Something is happening in this row’s subject right now. The label reads as a shimmer, which is how a list says “that one is still working” without a spinner per row. Under reduced motion it rests as muted text instead.',
+        },
+        {
+          name: 'unread',
+          type: 'boolean',
+          default: 'false',
+          description:
+            'Something finished here while the reader was looking elsewhere. The dot gives way to `trailing` as soon as the row is under the pointer.',
+        },
+      ],
+    },
+    {
+      title: 'useSidebarState(options)',
+      props: [
+        {
+          name: 'storageKey',
+          type: 'string',
+          description: 'Where the width and the collapsed flag are remembered. Omit to forget.',
+        },
+        { name: 'defaultWidth', type: 'number', default: '272', description: 'Initial width.' },
+        { name: 'minWidth', type: 'number', default: '272', description: 'Floor for a drag.' },
+        { name: 'maxWidth', type: 'number', default: '460', description: 'Ceiling for a drag.' },
+        {
+          name: 'defaultCollapsed',
+          type: 'boolean',
+          default: 'false',
+          description: 'Start as a rail.',
+        },
+        {
+          name: '→ returns',
+          type: '{ width, collapsed, setWidth, setCollapsed, toggle, props }',
+          description:
+            'Spread `props` onto `<Sidebar>`. The rest is for the app around it — a brand mark that becomes an expander, a header that changes what it is for — which is why this is a hook rather than internal state.',
+        },
+      ],
     },
   ],
 }

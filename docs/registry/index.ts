@@ -9,7 +9,13 @@ import {
   tabsDoc,
   selectDoc,
 } from './components/actions'
-import { inputDoc, searchFieldDoc, stepperDoc, commandBarDoc } from './components/inputs'
+import {
+  inputDoc,
+  searchFieldDoc,
+  stepperDoc,
+  commandBarDoc,
+  composerDoc,
+} from './components/inputs'
 import {
   badgeDoc,
   avatarDoc,
@@ -62,6 +68,7 @@ export const componentDocs: ComponentDoc[] = [
   searchFieldDoc,
   stepperDoc,
   commandBarDoc,
+  composerDoc,
   // Data Display
   badgeDoc,
   avatarDoc,
