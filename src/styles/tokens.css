@@ -13,6 +13,13 @@
   --lk-font-mono:
     ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 
+  /* A small tracked uppercase label names a thing without shouting. The system
+     scale's own tracking is optical, and far too tight to do that job. */
+  --lk-tracking-micro: 0.04em;
+  /* The weight "semibold" wants to be in an interface face: heavier than 600,
+     short of the 700 that reads as an alert. */
+  --lk-weight-strong: 650;
+
   /* ---- radii ---- */
   --lk-radius-xs: 8px;
   --lk-radius-sm: 12px;
@@ -39,6 +46,7 @@
   --lk-duration-fast: 140ms;
   --lk-duration: 240ms;
   --lk-duration-slow: 420ms;
+  --lk-duration-panel: 340ms; /* a frame column changing width */
   --lk-theme-fade: 0.66s; /* soft cross-fade when the light/dark theme flips */
 
   /* ---- glass material knobs (engine reads these) ---- */

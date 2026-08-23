@@ -39,9 +39,13 @@ import {
   flowControlsDoc,
   flowMinimapDoc,
 } from './components/flow'
+import { appFrameDoc, sectionDoc } from './components/layout'
 import { guides } from './guides'
 
 export const componentDocs: ComponentDoc[] = [
+  // Layout
+  appFrameDoc,
+  sectionDoc,
   // Primitives
   liquidGlassDoc,
   cardDoc,
@@ -95,6 +99,7 @@ export const componentMap = Object.fromEntries(componentDocs.map((d) => [d.slug,
 
 /** Category order for the sidebar. */
 export const CATEGORY_ORDER = [
+  'Layout',
   'Primitives',
   'Actions',
   'Inputs',

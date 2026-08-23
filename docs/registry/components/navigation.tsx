@@ -203,6 +203,45 @@ export const sidebarDoc: ComponentDoc = {
     { name: 'header', type: 'ReactNode', description: 'Pinned above the nav.' },
     { name: 'footer', type: 'ReactNode', description: 'Pinned to the bottom.' },
     { name: 'width', type: 'number', default: '248', description: 'Sidebar width in px.' },
+    {
+      name: 'collapsed',
+      type: 'boolean',
+      default: 'false',
+      description:
+        'Collapse to an icon rail. Same element, same DOM — only the width and the labels change.',
+    },
+    { name: 'collapsedWidth', type: 'number', default: '68', description: 'Rail width.' },
+    {
+      name: 'onToggleCollapsed',
+      type: '() => void',
+      description: 'Providing it puts the 12 px edge strip on screen: click it to collapse.',
+    },
+    {
+      name: 'resizable',
+      type: 'boolean',
+      default: 'false',
+      description: 'Let the edge strip be dragged (or arrow-keyed) to change the width.',
+    },
+    { name: 'minWidth', type: 'number', default: '248', description: 'Floor for a drag.' },
+    { name: 'maxWidth', type: 'number', default: '460', description: 'Ceiling for a drag.' },
+    {
+      name: 'onResize',
+      type: '(width: number) => void',
+      description: 'The clamped width, while dragging.',
+    },
+    {
+      name: 'density',
+      type: "'compact' | 'comfortable'",
+      default: "'compact'",
+      description:
+        'Row density. `comfortable` is the desktop-app ladder: 41 px rows, 23 px icons, 16 px apart.',
+    },
+    {
+      name: 'edgeLabel',
+      type: 'string',
+      default: "'Resize sidebar'",
+      description: 'Accessible name for the edge strip.',
+    },
     { name: 'tint', type: 'GlassTint', default: "'auto'", description: 'Surface tint.' },
     {
       name: 'glass',

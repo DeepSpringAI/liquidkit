@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`AppFrame`** — the viewport-locked application frame. A fixed column of furniture beside a
+  work area, both on a golden-ratio spacing ladder (frame padding · gutter · content inset =
+  1 · φ · φ²), with the document itself held still for as long as it is mounted. Below
+  `minWidth` (820 px by default) it renders a notice instead of a squeezed frame.
+- **`Section` / `SectionHeader` / `SectionBody` / `SectionFooter`** — one work area, one layout:
+  a header row that never scrolls, exactly one body that does, and an optional footer docked to
+  the bottom of the frame. `SectionBody` reserves the scrollbar's width instead of letting it sit
+  on the content. `SectionHeader` carries the title / subtitle / eyebrow / actions pattern, and
+  its `children` replace the title block outright so a wordmark can be a section header.
+- **`Sidebar` collapse and resize.** A 12 px hit strip on the trailing edge: drag it to resize
+  (clamped, `col-resize`, the width transition suspended so the column tracks the pointer 1:1),
+  release without travelling to collapse to an icon rail. Arrow keys resize it from the keyboard.
+  Collapsed and expanded are the same element and the same DOM — labels are hidden visually, not
+  removed, so the rail still announces itself. New props: `collapsed`, `collapsedWidth`,
+  `onToggleCollapsed`, `resizable`, `minWidth`, `maxWidth`, `onResize`, `edgeLabel`.
+- **`Sidebar` `density`** — `comfortable` gives the desktop-application ladder (41 px rows,
+  9×12 padding, 23 px icons, 16 px apart) beside the existing `compact` default.
+- **`useSidebarState`** — width, collapsed, and the memory of both, handed back as a `props`
+  bundle to spread onto `<Sidebar>`.
+- Tokens: `--lk-tracking-micro` (0.04 em, for small uppercase labels — the optical tracking in the
+  system scale is far too tight for them), `--lk-weight-strong` (650), `--lk-duration-panel`
+  (340 ms, a frame column changing width).
+
+### Fixed
+
+- Test setup polyfills `PointerEvent` from `MouseEvent`, which jsdom does not implement — without
+  it a fired pointer event arrives with no coordinates, which is the whole content of a drag.
+
 ## [0.5.0] - 2026-08-05
 
 ### Added

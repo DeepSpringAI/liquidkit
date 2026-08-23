@@ -1,0 +1,106 @@
+.lk-section {
+  /* Section-scoped so a product can change the voice of every header it has
+     from one place, without touching the system-wide type scale. */
+  --lk-section-title-size: var(--lk-text-title2);
+  --lk-section-title-tracking: -0.01em;
+  --lk-section-subtitle-size: var(--lk-text-footnote);
+  --lk-section-eyebrow-size: var(--lk-text-caption2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-section-gap, 12px);
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* ------------------------------------------------------------------ header */
+
+.lk-section__header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  /* 14 above / 12 below: a 19px wordmark makes a 45px row, and a title makes a
+     taller one without either needing to know the other's size. */
+  padding-block: 14px 12px;
+}
+.lk-section__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.lk-section__title {
+  margin: 0;
+  font-size: var(--lk-section-title-size);
+  font-weight: var(--lk-weight-strong);
+  letter-spacing: var(--lk-section-title-tracking);
+  line-height: 1.2;
+}
+.lk-section__subtitle {
+  margin: 0;
+  font-size: var(--lk-section-subtitle-size);
+  line-height: 1.4;
+  color: var(--lk-fg-muted);
+}
+/* Names a thing without shouting: small, tracked, never at full contrast. */
+.lk-section__eyebrow {
+  margin: 0;
+  font-size: var(--lk-section-eyebrow-size);
+  font-weight: 600;
+  letter-spacing: var(--lk-tracking-micro);
+  text-transform: uppercase;
+  color: var(--lk-fg-subtle);
+}
+.lk-section__actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* -------------------------------------------------------------------- body */
+
+.lk-section__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+  /* Keeps the scrollbar off the content rather than on top of it. */
+  padding-inline-end: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--lk-fill-secondary) transparent;
+}
+.lk-section__body--clip {
+  overflow: hidden;
+  padding-inline-end: 0;
+}
+
+.lk-section__body::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+.lk-section__body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.lk-section__body::-webkit-scrollbar-thumb {
+  background: var(--lk-fill-secondary);
+  border-radius: var(--lk-radius-full);
+}
+.lk-section__body::-webkit-scrollbar-thumb:hover {
+  background: var(--lk-label-tertiary);
+}
+
+/* ------------------------------------------------------------------ footer */
+
+.lk-section__footer {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lk-section__body {
+    scroll-behavior: auto;
+  }
+}
