@@ -23,6 +23,7 @@ import {
   SparkleIcon,
   SendIcon,
 } from '@hamidrezazargham/liquidkit'
+import type { TableSort } from '@hamidrezazargham/liquidkit'
 import type { ComponentDoc } from '../types'
 
 /* ----------------------------------------------------------------- Badge */
@@ -173,10 +174,32 @@ export const progressDoc: ComponentDoc = {
 <Progress value={40} glow />
 <Progress variant="ring" value={60} showValue glow />`,
     },
+    {
+      title: 'Indeterminate',
+      description:
+        'Work whose end is not known: the bar sweeps a segment across the track and the ring spins an arc. Neither reports a percentage — `aria-valuenow` is left off entirely, which is what tells a screen reader there is none. Under reduced motion they slow to a pulse rather than stopping, because a frozen progress indicator is a lie about whether anything is still happening.',
+      demo: (
+        <div style={{ display: 'flex', gap: 40, alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{ width: 240 }}>
+            <Progress indeterminate aria-label="Working" />
+          </div>
+          <Progress variant="ring" indeterminate size={28} thickness={3} aria-label="Working" />
+        </div>
+      ),
+      code: `<Progress indeterminate aria-label="Working" />
+<Progress variant="ring" indeterminate size={28} thickness={3} aria-label="Working" />`,
+    },
   ],
   props: [
-    { name: 'value', type: 'number', required: true, description: 'Current value.' },
+    { name: 'value', type: 'number', default: '0', description: 'Current value.' },
     { name: 'max', type: 'number', default: '100', description: 'Maximum value.' },
+    {
+      name: 'indeterminate',
+      type: 'boolean',
+      default: 'false',
+      description:
+        'Work whose end is not known. The bar sweeps and the ring spins instead of filling, and no percentage is reported.',
+    },
     { name: 'variant', type: "'bar' | 'ring'", default: "'bar'", description: 'Shape.' },
     { name: 'size', type: 'number', description: 'Bar height or ring diameter in px.' },
     {
@@ -605,12 +628,83 @@ const TABLE_ROWS: Member[] = [
   { name: 'Chloe Diaz', role: 'Product', status: 'Away' },
 ]
 
+interface Doc {
+  id: string
+  name: string
+  kind: 'folder' | 'file'
+  size: string
+  modified: string
+}
+const GRID_ROWS: Doc[] = [
+  { id: 'f-1', name: 'Contracts', kind: 'folder', size: '—', modified: '12 Aug 2026' },
+  { id: 'f-2', name: 'Brand', kind: 'folder', size: '—', modified: '3 Aug 2026' },
+  { id: 'd-1', name: 'Board pack.pdf', kind: 'file', size: '1.4 MB', modified: '21 Aug 2026' },
+  { id: 'd-2', name: 'pricing.csv', kind: 'file', size: '2 KB', modified: '19 Aug 2026' },
+  { id: 'd-3', name: 'Handbook.docx', kind: 'file', size: '318 KB', modified: '4 Aug 2026' },
+]
+
+function GridDemo() {
+  const [sort, setSort] = useState<TableSort>({ key: 'name', direction: 'asc' })
+  const [selected, setSelected] = useState<string | null>('d-1')
+
+  // Folders first, then the column that was asked for — which is what keeps a
+  // group to one run of rows.
+  const rows = [...GRID_ROWS].sort((a, b) => {
+    if (a.kind !== b.kind) return a.kind === 'folder' ? -1 : 1
+    const way = sort.direction === 'asc' ? 1 : -1
+    return (
+      (sort.key === 'name' ? a.name.localeCompare(b.name) : a.modified.localeCompare(b.modified)) *
+      way
+    )
+  })
+
+  return (
+    <div style={{ height: 264, width: '100%' }}>
+      <Table
+        columns={[
+          { key: 'name', header: 'Name', sortKey: 'name', resizable: true, minWidth: 140 },
+          {
+            key: 'modified',
+            header: 'Date Modified',
+            sortKey: 'modified',
+            resizable: true,
+            width: 150,
+          },
+          { key: 'size', header: 'Size', align: 'right', width: 90 },
+        ]}
+        data={rows}
+        rowKey={(row: Doc) => row.id}
+        density="compact"
+        glass={false}
+        scroll
+        stickyHeader
+        striped
+        sizedColumns
+        radius={14}
+        sort={sort}
+        onSortChange={(key) =>
+          setSort((current) => ({
+            key,
+            direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc',
+          }))
+        }
+        groupOf={(row: Doc) => ({
+          key: row.kind,
+          label: row.kind === 'folder' ? 'Folders' : 'Documents',
+        })}
+        selectedKeys={selected ? [selected] : []}
+        onRowClick={(row: Doc) => setSelected(row.id)}
+      />
+    </div>
+  )
+}
+
 export const tableDoc: ComponentDoc = {
   slug: 'table',
   name: 'Table',
   category: 'Data Display',
   summary:
-    'A data table on a glass surface — custom cell renderers, per-column alignment, optional zebra striping and row hover.',
+    'A data table on a glass surface, or a desktop data grid — custom cell renderers, two densities, sorting, resizable columns, selection, grouping and its own loading and empty states.',
   importLine: "import { Table } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
@@ -651,13 +745,40 @@ export const tableDoc: ComponentDoc = {
   ]}
 />`,
     },
+    {
+      title: 'Desktop data grid',
+      wide: true,
+      stage: false,
+      description:
+        'The second half of the component: `density="compact"` at file-manager metrics, a sortable header, columns you can drag (or arrow-key) to width, grouped runs of rows with a count, and a selection that makes the table an ARIA grid — rows carry `aria-selected`, the whole grid is one tab stop, and Up/Down walk it.',
+      demo: <GridDemo />,
+      code: `<Table
+  columns={columns}
+  data={files}
+  rowKey={(f) => f.id}
+  density="compact"
+  glass={false}
+  scroll
+  stickyHeader
+  striped
+  sizedColumns
+  sort={sort}
+  onSortChange={onSort}
+  groupOf={(f) => ({ key: f.kind, label: f.kind === 'folder' ? 'Folders' : 'Documents' })}
+  selectedKeys={selected ? [selected] : []}
+  onRowClick={(f) => setSelected(f.id)}
+  onRowActivate={(f) => open(f)}
+  emptyState="Nothing here yet."
+/>`,
+    },
   ],
   props: [
     {
       name: 'columns',
       type: 'TableColumn<T>[]',
       required: true,
-      description: '{ key, header, align?, width?, render? }.',
+      description:
+        '{ key, header, align?, width?, minWidth?, sortKey?, resizable?, render? }. A column with a `sortKey` gets a sort button; one with `resizable` gets a drag handle (needs `sizedColumns`).',
     },
     { name: 'data', type: 'T[]', required: true, description: 'Row objects.' },
     {
@@ -674,10 +795,115 @@ export const tableDoc: ComponentDoc = {
     },
     { name: 'hover', type: 'boolean', default: 'true', description: 'Highlight rows on hover.' },
     {
+      name: 'density',
+      type: "'comfortable' | 'compact'",
+      default: "'comfortable'",
+      description:
+        'Row and cell metrics. `compact` is the desktop file-manager ladder: a 31 px header over 32 px rows, single-line and ellipsised.',
+    },
+    {
+      name: 'scroll',
+      type: 'boolean',
+      default: 'false',
+      description:
+        'Let the table own its own scroll region, so it fills the space it is given instead of growing.',
+    },
+    { name: 'radius', type: 'number', default: '18', description: 'Panel corner radius in px.' },
+    {
       name: 'glass',
       type: 'boolean',
       default: 'true',
-      description: 'Glass surface; false for an opaque card.',
+      description:
+        'Glass surface; false for the elevated surface, flat — for a table that is the stage rather than something floating over it.',
+    },
+    {
+      name: 'sort',
+      type: 'TableSort | null',
+      description: 'Which column is ordering the rows, and which way. `{ key, direction }`.',
+    },
+    {
+      name: 'onSortChange',
+      type: '(key: string) => void',
+      description: 'A sortable header was clicked. The ordering stays the caller’s.',
+    },
+    {
+      name: 'sizedColumns',
+      type: 'boolean',
+      default: 'false',
+      description:
+        '`table-layout: fixed`, which is what makes a column width — and a drag — mean anything.',
+    },
+    {
+      name: 'onColumnResize',
+      type: '(key: string, width: number) => void',
+      description: 'A column was dragged (or arrow-keyed) to a new width.',
+    },
+    {
+      name: 'resizeLabel',
+      type: 'string',
+      default: "'Resize column'",
+      description: 'Accessible name for a column’s drag handle.',
+    },
+    {
+      name: 'selectedKeys',
+      type: 'readonly string[]',
+      description:
+        'Row keys drawn as selected. Providing this — or any row handler — makes the table an ARIA grid.',
+    },
+    {
+      name: 'onRowClick',
+      type: '(row, i, event) => void',
+      description: 'A row was clicked.',
+    },
+    {
+      name: 'onRowActivate',
+      type: '(row, i) => void',
+      description: 'Double-click, or Enter on a focused row.',
+    },
+    {
+      name: 'onRowContextMenu',
+      type: '(row, i, event) => void',
+      description: 'Right-click, with the point it happened at.',
+    },
+    {
+      name: 'rowClassName',
+      type: '(row, i) => string | undefined',
+      description: 'One extra class per row, for a state only the caller knows about.',
+    },
+    {
+      name: 'groupOf',
+      type: '(row, i) => TableGroup | null',
+      description:
+        'The heading a row belongs under. A run of rows sharing a key gets one heading and a count.',
+    },
+    {
+      name: 'groupCountLabel',
+      type: '(count: number) => ReactNode',
+      default: 'n => `${n} item(s)`',
+      description: 'How the count beside a group heading is worded. The default counts in English.',
+    },
+    {
+      name: 'loading',
+      type: 'boolean',
+      default: 'false',
+      description:
+        'Work in flight: an indeterminate bar rides the panel’s top edge. A first load also draws skeleton rows; a reload keeps the rows and reports over them.',
+    },
+    {
+      name: 'busyLabel',
+      type: 'ReactNode',
+      description: 'Names the work, on a pill floating over the rows.',
+    },
+    {
+      name: 'skeletonRows',
+      type: 'number',
+      default: '8',
+      description: 'How much shape to draw while a first load has nothing to show.',
+    },
+    {
+      name: 'emptyState',
+      type: 'ReactNode',
+      description: 'Shown in place of the rows when there are none and nothing is loading.',
     },
   ],
 }

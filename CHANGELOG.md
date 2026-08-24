@@ -66,11 +66,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   screen reader there is no percentage. Under `prefers-reduced-motion` neither stops outright — a
   frozen progress indicator is a lie about whether anything is still happening — they slow to a
   pulse instead.
+- **`SectionToolbar`** — the header row a *browser* wears: one slim 54 px line of chrome carrying
+  `leading` controls, where the reader is as plain text, and a trailing group. The same row as
+  `SectionHeader` minus the announcement, for a screen whose content already names itself.
+- **`Table` `glass={false}`** now means the elevated surface, flat, and lays out its own column —
+  so `scroll` works without the glass wrapper that used to supply it. A table filling a work area
+  is the stage, not something floating over it.
+- **`Table` `resizeLabel`** (`'Resize column'`) and **`groupCountLabel`** (`n => '${n} items'`) —
+  the two strings the table used to bake in with no way to reword or translate them.
+- `ChevronLeftIcon`.
 - Tokens: `--lk-tracking-micro` (0.04 em, for small uppercase labels — the optical tracking in the
   system scale is far too tight for them), `--lk-weight-strong` (650), `--lk-duration-panel`
   (340 ms, a frame column changing width).
 
+### Changed
+
+- **A `Menu` panel is no longer glass.** A menu is chrome you have to read, and frosted it showed
+  the rows sliding beneath its own labels. The panel is the solid elevated surface, and the blur
+  behind it is removed outright rather than covered over.
+- The package builds on install (`prepare`), so a git dependency resolves to a built `dist/`.
+
 ### Fixed
+
+- **A group heading no longer collides with another run of the same group.** Headings were keyed by
+  the group key alone, so an ordering that interleaves two groups gave two headings the same React
+  key and had the rows between them duplicated or dropped. The key now carries where the run starts.
+- **`Table` is one tab stop again when more than one row is selected.** Every selected row carried
+  `tabIndex=0`, which makes a grid as many tab stops as it has selected rows; and a `selectedKeys`
+  naming a row that is not on screen left the grid with no tab stop at all. The stop is now the
+  first selected row, or the first row.
+- **The opaque `Table` and `Sidebar` position their own overlays.** `.lk-table-wrap--bare` and
+  `.lk-sidebar--bare` were missing the `position: relative` the glass wrapper has, so the loading
+  bar, the busy pill and the sidebar's edge strip resolved against whatever positioned ancestor the
+  page happened to have.
+- **`SectionHeader` and `SectionToolbar` size themselves outside a `<Section>`.** Their type scale
+  came from custom properties declared on `.lk-section` with no fallback, so a header rendered on
+  its own dropped the declaration and fell back to the UA's.
+- **The `Composer` keeps a visible focus indicator under forced colours**, where the bar's
+  `box-shadow` ring is dropped and the field sets `outline: none` of its own.
 
 - **A themed portal no longer resets an app's font.** Typography, spacing, motion and radius
   tokens were declared under `[data-theme='light']` as well as `:root`; because liquidkit themes a

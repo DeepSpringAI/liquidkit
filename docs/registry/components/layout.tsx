@@ -3,11 +3,17 @@ import {
   AppFrame,
   Button,
   ChatIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   FolderIcon,
+  IconButton,
+  EllipsisIcon,
+  SearchField,
   Section,
   SectionBody,
   SectionFooter,
   SectionHeader,
+  SectionToolbar,
   Sidebar,
   SettingsIcon,
 } from '@hamidrezazargham/liquidkit'
@@ -126,7 +132,7 @@ export const sectionDoc: ComponentDoc = {
   summary:
     'One work area, one layout: a header row that never scrolls, a body that does, and an optional footer docked to the bottom of the frame.',
   importLine:
-    "import { Section, SectionHeader, SectionBody, SectionFooter } from '@hamidrezazargham/liquidkit'",
+    "import { Section, SectionHeader, SectionToolbar, SectionBody, SectionFooter } from '@hamidrezazargham/liquidkit'",
   examples: [
     {
       title: 'Header · body · footer',
@@ -159,6 +165,57 @@ export const sectionDoc: ComponentDoc = {
   <SectionFooter>{composer}</SectionFooter>
 </Section>`,
     },
+    {
+      title: 'Toolbar instead of a header',
+      description:
+        'The header row a browser wears: one slim 54 px line of chrome — where you are, how to get back, and one button holding everything you can do here. A screen whose content already names itself does not need a 22 px heading repeating that name, so the location is plain text rather than an `h1`, and the space a title and a lede would take goes to the content.',
+      demo: (
+        <div style={{ height: 220, width: '100%' }}>
+          <Section>
+            <SectionToolbar
+              leading={
+                <>
+                  <IconButton size="sm" aria-label="Back">
+                    <ChevronLeftIcon />
+                  </IconButton>
+                  <IconButton size="sm" aria-label="Forward" disabled>
+                    <ChevronRightIcon />
+                  </IconButton>
+                </>
+              }
+              actions={
+                <>
+                  <SearchField placeholder="Search" />
+                  <IconButton size="sm" aria-label="More actions">
+                    <EllipsisIcon />
+                  </IconButton>
+                </>
+              }
+            >
+              Files / Contracts
+            </SectionToolbar>
+            <SectionBody>
+              <ul style={{ margin: 0, paddingInlineStart: 18, lineHeight: 2 }}>
+                {Array.from({ length: 8 }, (_, i) => (
+                  <li key={i}>Agreement {i + 1}.pdf</li>
+                ))}
+              </ul>
+            </SectionBody>
+          </Section>
+        </div>
+      ),
+      stage: false,
+      wide: true,
+      code: `<Section>
+  <SectionToolbar
+    leading={<><IconButton aria-label="Back"><ChevronLeftIcon /></IconButton></>}
+    actions={<IconButton aria-label="More actions"><EllipsisIcon /></IconButton>}
+  >
+    Files / Contracts
+  </SectionToolbar>
+  <SectionBody>{rows}</SectionBody>
+</Section>`,
+    },
   ],
   props: [
     { name: 'gap', type: 'number', default: '12', description: 'Space between the three rows.' },
@@ -179,6 +236,26 @@ export const sectionDoc: ComponentDoc = {
           name: 'children',
           type: 'ReactNode',
           description: 'Replaces the title block outright — this is where a wordmark goes.',
+        },
+      ],
+    },
+    {
+      title: 'SectionToolbar',
+      props: [
+        {
+          name: 'leading',
+          type: 'ReactNode',
+          description: 'Controls at the leading edge — a back/forward pair, typically.',
+        },
+        {
+          name: 'children',
+          type: 'ReactNode',
+          description: 'Where the reader is, as plain text. Not a heading: nothing is named twice.',
+        },
+        {
+          name: 'actions',
+          type: 'ReactNode',
+          description: 'The trailing edge: a field, then the one button everything else is behind.',
         },
       ],
     },

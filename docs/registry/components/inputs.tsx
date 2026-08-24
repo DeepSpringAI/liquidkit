@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {
   Input,
   CommandBar,
+  Composer,
   SearchField,
   Stepper,
   Button,
@@ -297,5 +298,122 @@ export const commandBarDoc: ComponentDoc = {
     { name: 'rows', type: 'number', default: '1', description: 'Initial row count.' },
     { name: 'radius', type: 'number', default: '24', description: 'Corner radius in px.' },
     { name: 'elevation', type: '0 | 1 | 2 | 3', default: '2', description: 'Drop-shadow depth.' },
+  ],
+}
+
+/* -------------------------------------------------------------- Composer */
+
+function ComposerDemo() {
+  const [value, setValue] = useState('')
+  const [sent, setSent] = useState<string | null>(null)
+  return (
+    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>
+      {sent && <p style={{ margin: 0, fontSize: 14, opacity: 0.7 }}>Sent: “{sent}”</p>}
+      <Composer
+        value={value}
+        onValueChange={setValue}
+        onSubmit={() => {
+          if (!value.trim()) return
+          setSent(value.trim())
+          setValue('')
+        }}
+        placeholder="Ask about the company documents…"
+        notice={value.length > 80 ? 'That is a long question — it may take a moment.' : null}
+        controls={
+          <Button size="sm" variant="ghost">
+            Codex
+          </Button>
+        }
+        action={
+          <IconButton type="submit" aria-label="Send" variant="accent">
+            <SendIcon />
+          </IconButton>
+        }
+      />
+    </div>
+  )
+}
+
+export const composerDoc: ComponentDoc = {
+  slug: 'composer',
+  name: 'Composer',
+  category: 'Inputs',
+  summary:
+    'The docked composer: one frosted bar carrying a field that grows with what is typed into it, whatever controls belong to the message, and one action.',
+  importLine: "import { Composer } from '@hamidrezazargham/liquidkit'",
+  examples: [
+    {
+      title: 'Docked in a chat',
+      wide: true,
+      description:
+        'One short row at rest, and one row until the text genuinely needs two — which is what keeps a chat screen’s only chrome from looking like a form. The controls stay pinned to the bottom as the field grows, so the send button never drifts away from the last line being written. Enter sends; Shift+Enter is a newline.',
+      demo: <ComposerDemo />,
+      code: `<Composer
+  value={value}
+  onValueChange={setValue}
+  onSubmit={send}
+  placeholder="Ask about the company documents…"
+  controls={<Button size="sm" variant="ghost">Codex</Button>}
+  action={<IconButton type="submit" aria-label="Send" variant="accent"><SendIcon /></IconButton>}
+/>`,
+    },
+  ],
+  props: [
+    { name: 'value', type: 'string', required: true, description: 'The field’s contents.' },
+    {
+      name: 'onValueChange',
+      type: '(value: string) => void',
+      required: true,
+      description: 'Fires on every keystroke.',
+    },
+    {
+      name: 'onSubmit',
+      type: '() => void',
+      required: true,
+      description: 'Enter, or a submit control inside `action`.',
+    },
+    { name: 'placeholder', type: 'string', description: 'Field placeholder.' },
+    {
+      name: 'label',
+      type: 'string',
+      default: "'Message'",
+      description: 'Accessible name for the field.',
+    },
+    {
+      name: 'controls',
+      type: 'ReactNode',
+      description:
+        'Controls riding directly on the glass beside the field — a model picker, a mode switch. They have no surface of their own: the bar is the surface.',
+    },
+    {
+      name: 'action',
+      type: 'ReactNode',
+      description: 'The send (or stop) control, pinned to the trailing edge.',
+    },
+    {
+      name: 'notice',
+      type: 'ReactNode',
+      description:
+        'Anything above the bar, inside the same measure. A notice with nothing in it costs no row.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      default: 'false',
+      description: 'Stops the field being typed in. The bar still renders.',
+    },
+    {
+      name: 'submitOnEnter',
+      type: 'boolean',
+      default: 'true',
+      description: 'Enter submits and Shift+Enter is a newline. Off where a newline is likelier.',
+    },
+    { name: 'minHeight', type: 'number', default: '34', description: 'Field height at rest, px.' },
+    {
+      name: 'maxHeight',
+      type: 'number',
+      default: '140',
+      description: 'Height the field grows to before it scrolls instead.',
+    },
   ],
 }

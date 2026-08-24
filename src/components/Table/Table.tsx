@@ -88,6 +88,8 @@ export interface TableProps<T> extends Omit<HTMLAttributes<HTMLDivElement>, 'onS
   sizedColumns?: boolean
   /** A column was dragged to a new width. */
   onColumnResize?: (key: string, width: number) => void
+  /** Accessible name for a column's drag handle. @default 'Resize column' */
+  resizeLabel?: string
   /** An extra class per row, for a state only the caller knows about. */
   rowClassName?: (row: T, index: number) => string | undefined
   /** Row keys drawn as selected. */
@@ -98,6 +100,11 @@ export interface TableProps<T> extends Omit<HTMLAttributes<HTMLDivElement>, 'onS
   onRowContextMenu?: (row: T, index: number, event: MouseEvent<HTMLTableRowElement>) => void
   /** The heading a row belongs under. A run of rows sharing a key gets one. */
   groupOf?: (row: T, index: number) => TableGroup | null
+  /**
+   * How the count beside a group heading is worded. The default counts in
+   * English; anything that ships in more than one language has to say so here.
+   */
+  groupCountLabel?: (count: number) => ReactNode
   /** Work is in flight: a bar rides the panel's top edge, inside its corners. */
   loading?: boolean
   /** Names that work on a pill floating over the rows. */
@@ -128,7 +135,11 @@ function toLines<T>(
     const group = groupOf?.(row, index) ?? null
     if (group && group.key !== openKey) {
       openKey = group.key
-      open = { kind: 'group', key: `group:${group.key}`, label: group.label, count: 0 }
+      // Keyed by where the run starts, not by the group alone: an ordering that
+      // interleaves two groups gives the same key more than one run, and two
+      // headings sharing a React key have rows duplicated or dropped between
+      // them.
+      open = { kind: 'group', key: `group:${group.key}:${index}`, label: group.label, count: 0 }
       lines.push(open)
     }
     if (open) open.count += 1
@@ -174,6 +185,9 @@ function SortButton({
 
 const RESIZE_STEP = 16
 
+/** The count beside a group heading, in English, until a caller says otherwise. */
+const defaultGroupCount = (count: number) => `${count} ${count === 1 ? 'item' : 'items'}`
+
 /** A data table on a glass surface, at web or desktop-file-manager density. */
 export function Table<T>({
   columns,
@@ -190,12 +204,14 @@ export function Table<T>({
   onSortChange,
   sizedColumns = false,
   onColumnResize,
+  resizeLabel = 'Resize column',
   rowClassName,
   selectedKeys,
   onRowClick,
   onRowActivate,
   onRowContextMenu,
   groupOf,
+  groupCountLabel = defaultGroupCount,
   loading = false,
   busyLabel,
   skeletonRows = 8,
@@ -280,6 +296,15 @@ export function Table<T>({
   // table: rows become reachable, and `aria-selected` means something.
   const grid = Boolean(selectedKeys || onRowClick || onRowActivate || onRowContextMenu)
 
+  // The grid is one tab stop, so exactly one row may carry tabIndex 0: the
+  // first selected row, or the first row when nothing is selected. Asking each
+  // row whether it is selected instead makes a multi-selection as many tab
+  // stops as it has rows, which is the thing the pattern exists to prevent.
+  const tabStopKey = useMemo(() => {
+    const rows = lines.filter((line) => line.kind === 'row')
+    return (rows.find((line) => selected.has(line.key)) ?? rows[0])?.key
+  }, [lines, selected])
+
   /** Up and down the rows, which is the only way a keyboard walks a grid. */
   const walk = useCallback((event: KeyboardEvent<HTMLTableRowElement>) => {
     const step = event.key === 'ArrowDown' ? 1 : event.key === 'ArrowUp' ? -1 : 0
@@ -338,10 +363,17 @@ export function Table<T>({
                 c.header
               )}
               {sizedColumns && c.resizable && (
+                // A focusable separator is a window splitter, which ARIA
+                // defines as a widget — it is meant to take focus and answer
+                // the arrow keys. Both rules read `separator` off their
+                // non-interactive list and stop there. Scoped to this element,
+                // so the rest of the table keeps both checks.
+                /* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */
                 <span
                   role="separator"
                   aria-orientation="vertical"
-                  aria-label="Resize column"
+                  aria-label={resizeLabel}
+                  /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
                   tabIndex={0}
                   className="lk-table__handle"
                   onPointerDown={(event) => startDrag(event, c)}
@@ -375,9 +407,7 @@ export function Table<T>({
             <tr key={line.key} className="lk-table__group">
               <th scope="colgroup" colSpan={columns.length}>
                 <span className="lk-table__group-label">{line.label}</span>
-                <span className="lk-table__group-count">
-                  {line.count} {line.count === 1 ? 'item' : 'items'}
-                </span>
+                <span className="lk-table__group-count">{groupCountLabel(line.count)}</span>
               </th>
             </tr>
           ) : (
@@ -391,15 +421,7 @@ export function Table<T>({
                 rowClassName?.(line.row, line.index),
               )}
               aria-selected={grid && selectedKeys ? selected.has(line.key) : undefined}
-              // One tab stop for the whole grid, as the pattern asks: it lands
-              // on the selected row, or on the first one when nothing is.
-              tabIndex={
-                grid
-                  ? (selected.size ? selected.has(line.key) : line.index === 0)
-                    ? 0
-                    : -1
-                  : undefined
-              }
+              tabIndex={grid ? (line.key === tabStopKey ? 0 : -1) : undefined}
               onClick={onRowClick && ((event) => onRowClick(line.row, line.index, event))}
               onDoubleClick={onRowActivate && (() => onRowActivate(line.row, line.index))}
               onContextMenu={
