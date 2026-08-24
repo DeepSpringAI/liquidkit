@@ -16,27 +16,34 @@ function readThemeSource(): Element | null {
  * overlays (modals, sheets, toasts, dropdowns) render with the *chosen* theme
  * rather than falling back to the OS preference once they escape the
  * ThemeProvider wrapper. Stays in sync if the theme changes while open.
- * Returns `null` during SSR (callers should render nothing until ready).
+ *
+ * Returns `null` on the server *and* on the first client render — callers
+ * render nothing until it is ready. The container is made in an effect rather
+ * than during render on purpose: a `typeof document` branch inside render
+ * hands the client a container the server never had, so a portal that is open
+ * during hydration puts a subtree in the client tree that isn't in the server
+ * HTML. React fails hydration for the whole document and re-renders it on the
+ * client — which, in a Next.js app, also means every `<script>` in `<head>`
+ * gets recreated and never runs. One commit later is soon enough.
  */
 export function useThemedPortal(): HTMLElement | null {
-  const [el] = useState<HTMLElement | null>(() =>
-    typeof document === 'undefined' ? null : document.createElement('div'),
-  )
+  const [el, setEl] = useState<HTMLElement | null>(null)
 
   useEffect(() => {
-    if (!el) return
-    el.className = 'lk-portal'
+    const node = document.createElement('div')
+    node.className = 'lk-portal'
 
     const sync = () => {
       const source = readThemeSource()
       for (const attr of MIRRORED_ATTRS) {
         const value = source?.getAttribute(attr)
-        if (value) el.setAttribute(attr, value)
-        else el.removeAttribute(attr)
+        if (value) node.setAttribute(attr, value)
+        else node.removeAttribute(attr)
       }
     }
     sync()
-    document.body.appendChild(el)
+    document.body.appendChild(node)
+    setEl(node)
 
     // Keep the portal's theme in sync if the app changes it while open.
     const source = readThemeSource() ?? document.documentElement
@@ -45,9 +52,10 @@ export function useThemedPortal(): HTMLElement | null {
 
     return () => {
       observer.disconnect()
-      el.remove()
+      node.remove()
+      setEl(null)
     }
-  }, [el])
+  }, [])
 
   return el
 }

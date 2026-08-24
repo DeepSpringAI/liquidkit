@@ -67,7 +67,10 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(function Sheet(
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
   const container = useThemedPortal()
-  useFocusTrap(panelRef, open)
+  // Gated on the container: the panel only exists once the portal does, and the
+  // portal arrives one commit after mount, so an already-open dialog would
+  // otherwise run the trap against an empty ref and never re-run it.
+  useFocusTrap(panelRef, open && container !== null)
 
   const resolved = useMemo(
     () => detents.map((d) => resolveDetent(d, vh)).sort((a, b) => a - b),

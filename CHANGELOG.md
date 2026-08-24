@@ -112,6 +112,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   alone, and `src/styles/tokens.test.ts` walks the stylesheets and fails if one moves back.
 - Test setup polyfills `PointerEvent` from `MouseEvent`, which jsdom does not implement — without
   it a fired pointer event arrives with no coordinates, which is the whole content of a drag.
+- **A portal no longer breaks hydration.** `useThemedPortal` made its container during render
+  behind a `typeof document` check, so the server rendered nothing where the client's very first
+  render already had a portal. Any provider that keeps a portal open — `ToastProvider` does, from
+  the moment it mounts — therefore handed React a client tree the server HTML did not contain, and
+  React discarded and re-rendered the whole document. In a Next.js app that also recreates every
+  `<script>` in `<head>`, and a script React creates on the client never runs. The container is now
+  made in an effect, so the first client render matches the server's and the overlay arrives one
+  commit later.
+- **`Modal` and `Sheet` still trap focus when they mount already open.** Their focus trap now
+  waits for the portal container, which is what puts the panel in the DOM; armed on `open` alone it
+  ran against an empty ref on the first commit and had no reason to run again.
 
 ## [0.5.0] - 2026-08-05
 
