@@ -114,6 +114,10 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(
   const panelRef = useRef<HTMLDivElement>(null)
   const subPanelRef = useRef<HTMLDivElement>(null)
   const container = useThemedPortal()
+  // The panel lives in the portal, so it is in the DOM only once the container
+  // is — one commit after mount. Anything that reaches into the panel keys off
+  // this, not off `open`, or it runs against an empty ref and never re-runs.
+  const panelMounted = open && container !== null
   // A pointer-anchored context menu positions against a virtual rect; otherwise
   // we anchor to the trigger element. The virtual ref's identity changes with the
   // rect so useAnchoredPosition re-measures.
@@ -124,7 +128,9 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(
         : null,
     [anchorRect],
   )
-  const posStyle = useAnchoredPosition(virtualAnchor ?? rootRef, panelRef, open, { placement })
+  const posStyle = useAnchoredPosition(virtualAnchor ?? rootRef, panelRef, panelMounted, {
+    placement,
+  })
 
   const close = useCallback(() => {
     setOpen(false)
@@ -161,11 +167,11 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(function Menu(
   // Move focus into the menu when it opens. `preventScroll` so focusing never scrolls an ancestor
   // (that scroll would re-run the flyout positioner — see the submenu effect below).
   useEffect(() => {
-    if (!open) return
+    if (!panelMounted) return
     panelRef.current
       ?.querySelector<HTMLElement>(`${ITEM_SELECTOR}:not([disabled])`)
       ?.focus({ preventScroll: true })
-  }, [open])
+  }, [panelMounted])
 
   // Position the submenu flyout beside its anchor row (open to the side, flip on overflow).
   useLayoutEffect(() => {

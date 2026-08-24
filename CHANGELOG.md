@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **The catalog is server-rendered and hydrated in CI.** `src/test/hydration.test.tsx` walks the
+  same docs registry the smoke suite does, `renderToString`s every documented example and hydrates
+  the result, and fails on any recoverable error. The smoke suite renders on the client only, into
+  an empty div, so it can never see a server/client divergence — which is how a `typeof document`
+  branch inside render reached a release. Against that implementation this lane fails 67 of its 68
+  cases; every consumer of this library runs in a browser and at least one server-renders.
 - **`AppFrame`** — the viewport-locked application frame. A fixed column of furniture beside a
   work area, both on a golden-ratio spacing ladder (frame padding · gutter · content inset =
   1 · φ · φ²), with the document itself held still for as long as it is mounted. Below
@@ -112,6 +118,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   alone, and `src/styles/tokens.test.ts` walks the stylesheets and fails if one moves back.
 - Test setup polyfills `PointerEvent` from `MouseEvent`, which jsdom does not implement — without
   it a fired pointer event arrives with no coordinates, which is the whole content of a drag.
+- **A portal no longer breaks hydration.** `useThemedPortal` made its container during render
+  behind a `typeof document` check, so the server rendered nothing where the client's very first
+  render already had a portal. Any provider that keeps a portal open — `ToastProvider` does, from
+  the moment it mounts — therefore handed React a client tree the server HTML did not contain, and
+  React discarded and re-rendered the whole document. In a Next.js app that also recreates every
+  `<script>` in `<head>`, and a script React creates on the client never runs. The container is now
+  made in an effect, so the first client render matches the server's and the overlay arrives one
+  commit later.
+- **A panel that mounts already open still measures, positions and takes focus.** Everything that
+  reaches into a portaled panel — `Menu` and `Select`'s positioner, `Modal` and `Sheet`'s focus
+  trap, the focus-the-first-item effects — now waits for the portal container rather than firing on
+  `open` alone. Keyed on `open` they ran one commit early, against an empty ref, and had no reason
+  to run again: a right-click `Menu` was left at its pre-measure `visibility: hidden`, and a dialog
+  that mounted open never trapped focus.
 
 ## [0.5.0] - 2026-08-05
 

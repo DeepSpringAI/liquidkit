@@ -42,7 +42,11 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
   const container = useThemedPortal()
-  useFocusTrap(panelRef, open)
+  // The panel lives in the portal, so it is in the DOM only once the container
+  // is — one commit after mount. Anything that reaches into the panel keys off
+  // this, not off `open`, or it runs against an empty ref and never re-runs.
+  const panelMounted = open && container !== null
+  useFocusTrap(panelRef, panelMounted)
 
   useEffect(() => {
     if (!open) return
