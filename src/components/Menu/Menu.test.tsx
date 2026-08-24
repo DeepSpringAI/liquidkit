@@ -62,3 +62,26 @@ describe('Menu flyouts', () => {
     expect(screen.getByText('High')).toBeTruthy()
   })
 })
+
+describe('Menu mounted already open', () => {
+  // Regression: the portal container arrives one commit after mount, so a menu
+  // rendered with `open` set (a right-click context menu) had its panel enter
+  // the DOM after the positioner had already run and bailed on a null ref. The
+  // panel stayed at its pre-measure `visibility: hidden` — present in the DOM,
+  // invisible on screen and absent from the accessibility tree.
+  it('measures and shows the panel that appears with the container', () => {
+    render(
+      <ThemeProvider>
+        <Menu
+          open
+          items={[{ id: 'plain', label: 'Plain' }]}
+          anchorRect={new DOMRect(10, 10, 0, 0)}
+        />
+      </ThemeProvider>,
+    )
+
+    const menu = screen.getByRole('menu')
+    expect(menu).toBeVisible()
+    expect(screen.getByRole('menuitem', { name: 'Plain' })).toBeInTheDocument()
+  })
+})

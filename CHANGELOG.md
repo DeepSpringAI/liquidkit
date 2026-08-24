@@ -120,9 +120,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `<script>` in `<head>`, and a script React creates on the client never runs. The container is now
   made in an effect, so the first client render matches the server's and the overlay arrives one
   commit later.
-- **`Modal` and `Sheet` still trap focus when they mount already open.** Their focus trap now
-  waits for the portal container, which is what puts the panel in the DOM; armed on `open` alone it
-  ran against an empty ref on the first commit and had no reason to run again.
+- **A panel that mounts already open still measures, positions and takes focus.** Everything that
+  reaches into a portaled panel — `Menu` and `Select`'s positioner, `Modal` and `Sheet`'s focus
+  trap, the focus-the-first-item effects — now waits for the portal container rather than firing on
+  `open` alone. Keyed on `open` they ran one commit early, against an empty ref, and had no reason
+  to run again: a right-click `Menu` was left at its pre-measure `visibility: hidden`, and a dialog
+  that mounted open never trapped focus.
 
 ## [0.5.0] - 2026-08-05
 

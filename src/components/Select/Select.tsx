@@ -50,7 +50,11 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(function Select(
   const listboxId = useId()
   const selected = options.find((o) => o.value === v)
   const container = useThemedPortal()
-  const posStyle = useAnchoredPosition(triggerRef, panelRef, open, {
+  // The panel lives in the portal, so it is in the DOM only once the container
+  // is — one commit after mount. Anything that reaches into the panel keys off
+  // this, not off `open`, or it runs against an empty ref and never re-runs.
+  const panelMounted = open && container !== null
+  const posStyle = useAnchoredPosition(triggerRef, panelRef, panelMounted, {
     placement: 'bottom-start',
     gap: 8,
     matchWidth: true,
@@ -85,14 +89,14 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(function Select(
 
   // Move focus into the listbox (selected option first) when it opens.
   useEffect(() => {
-    if (!open) return
+    if (!panelMounted) return
     const panel = panelRef.current
     if (!panel) return
     const target =
       panel.querySelector<HTMLElement>(`${OPTION_SELECTOR}[aria-selected="true"]`) ??
       panel.querySelector<HTMLElement>(OPTION_SELECTOR)
     target?.focus()
-  }, [open])
+  }, [panelMounted])
 
   const choose = (val: string) => {
     if (!controlled) setInternal(val)
