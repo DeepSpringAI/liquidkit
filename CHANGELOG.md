@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **The catalog is server-rendered and hydrated in CI.** `src/test/hydration.test.tsx` walks the
+  same docs registry the smoke suite does, `renderToString`s every documented example and hydrates
+  the result, and fails on any recoverable error. The smoke suite renders on the client only, into
+  an empty div, so it can never see a server/client divergence — which is how a `typeof document`
+  branch inside render reached a release. Against that implementation this lane fails 67 of its 68
+  cases; every consumer of this library runs in a browser and at least one server-renders.
 - **`AppFrame`** — the viewport-locked application frame. A fixed column of furniture beside a
   work area, both on a golden-ratio spacing ladder (frame padding · gutter · content inset =
   1 · φ · φ²), with the document itself held still for as long as it is mounted. Below
